@@ -6,11 +6,15 @@ function [cells, time_diff] = free_space(trajectory1, trajectory2)
     t2 = zeros(s, size(trajectory2,2));
     for t = start:stop
         if find(trajectory1(:,4) == t)
-             
-            t1(t - s,:) = trajectory1(find(trajectory1(:,4) == t),:);
+            disp('hi');
+            s
+            t
+             find(trajectory1(:,4) == t)
+             size(trajectory1)
+            t1(s - t,:) = trajectory1(find(trajectory1(:,4) == t),:);
         end
         if find(trajectory2(:,4) == t)
-            t2(t - s,:) = trajectory2(find(trajectory2(:,4) == t),:);
+            t2(s - t,:) = trajectory2(find(trajectory2(:,4) == t),:);
         end
 
     end
