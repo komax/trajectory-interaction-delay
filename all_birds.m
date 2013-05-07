@@ -1,11 +1,10 @@
 function stuff(birds)
-colors = 'bgrcmykw'
-subplot(1,2,2);
+%%%colors = 'bgrcmykw'
 for i = 1:16
     m = birds{i};
-    s = colors(mod(i,8) + 1);
+%%%    s = colors(mod(i,8) + 1);
     hold on
-    plot3(m(:,1), m(:,2), m(:,3),s)
+    scatter3(m(:,1), m(:,2), m(:,3),5,m(:,4))
 end
 
 end
