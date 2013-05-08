@@ -12,9 +12,15 @@ for f = start_frame:stop_frame
        if same_times
            num_points = size(same_times,1); % num of rows
            dupes = repmat(b_if, num_points,1);
-           distances = sqrt(sum((same_times - dupes).^2,2));
-           idx = find(distances == min(distances));
-           neighbour(end+1) = same_times(idx,5);
+           idx = 1:num_points;
+           distances = [ idx' sqrt(sum((same_times - dupes).^2,2)) ];
+           closest = sortrows(distances,[2]);
+           for n = 1:k
+               if n < length(closest)
+                   neighbour(end+1) = same_times(closest(n,1),5);
+               end
+           end
+
         end
     end
 end
