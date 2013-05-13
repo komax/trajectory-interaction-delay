@@ -36,6 +36,13 @@ function [path_exists] = dfs(terrain_matrix, cutoff)
                     continue;
 
                 %if the distance is too large
+                elseif terrain_matrix(curr_i, curr_j) == Inf
+                    % find an approximate distance somehow
+                    % maybe continue, maybe not
+                    if rand > 0.5
+                        continue;
+                    end
+%%%                    fprintf('oh no what to do?\n');
                 elseif terrain_matrix(curr_i, curr_j) > cutoff
                     continue;
                 end % end if

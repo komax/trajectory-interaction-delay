@@ -1,6 +1,12 @@
 function d = find_frechet(t1, t2);
 
 terrain = compute_distance_terrain(t1,t2);
+if terrain(end,1) == Inf
+    terrain(end, 1) = 0.1;
+end
+if terrain(1, end) == Inf
+    terrain(1, end) = 0.1;
+end
 lower_bound = max(terrain(end,1), terrain(1,end));
 
 % double and search
