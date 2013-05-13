@@ -15,7 +15,7 @@ for f1 = start_frame:stop_frame
             d = norm(p1 - p2, 2); % euclidean distance
             idx1 = f1 - start_frame;
             idx2 = f2 - start_frame;
-            cells(size_union - idx1 + 1,  idx2) = d;
+            cells(size_union - idx1 + 1,  idx2 + 1) = d;
         end
     end
 end
