@@ -5,6 +5,8 @@ function results =  stuff(birds)
         for j = i+1:16
             bird_j = birds(birds(:,5) == j,:);
             results(i,j) = find_frechet(bird_i, bird_j)
+
+            save results;
         end
     end
 end
