@@ -1,10 +1,10 @@
-function  delay(birds)
+function  delay()
 for i = 1:16
     figure
     hold on;
     for j = 1:16
         if i ~= j
-            [x, y] = closest_point(birds{i}, birds{j});
+            [x, y] = closest_point(get_bird(i), get_bird(j));
             plot(x,y,'.');
         end
     end
