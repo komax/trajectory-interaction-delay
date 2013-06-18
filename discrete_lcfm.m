@@ -6,7 +6,7 @@ function matching = compute_discrete_locally_correct_frechet(t1, t2)
 %%% two trajectories. E.g. frameID n1 of t1 should be matched with frameID 
 %%% m1 of t2.
 
-import frechet.LocallyCorrectFrechet;
+import frechet.*;
 
 grid = compute_distance_terrain(t1, t2);
 matching = LocallyCorrectFrechet.compute(grid, t1, t2);

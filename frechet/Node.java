@@ -4,6 +4,7 @@ import java.util.TreeSet;
 public class Node implements Comparable<Node> {
         int i, j;
         double value;
+        boolean dead;
         Node parent;
         Node north;
         Node east;
@@ -17,6 +18,7 @@ public class Node implements Comparable<Node> {
             this.north = null;
             this.east = null;
             this.northEast = null;
+            this.dead = false;
         }
 
 ///        public boolean isDead() {
@@ -30,12 +32,12 @@ public class Node implements Comparable<Node> {
 ///        }
 
         TreeSet<Node> pathToRoot() {
-            Node temp = this.parent;
+            Node temp = this;
             TreeSet<Node> path = new TreeSet<Node>();
-            while ((temp.i != 0) && (temp.j != 0)) {
+            while (temp != null) {
                 path.add(temp);
+                temp = temp.parent;
             }
-            path.add(temp); // should be root
             return path;
         }
 
