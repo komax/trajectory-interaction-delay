@@ -19,8 +19,15 @@ public class Node implements Comparable<Node> {
             this.northEast = null;
         }
 
+///        public boolean isDead() {
+///           if ((this.north == null) && (this.east == null) 
+///        }
+///        public boolean isGrowthNode() {
+///            if (this.north == null) {
+///                // if grid[i][j+1] is empty
+///            }
 
-
+///        }
 
         TreeSet<Node> pathToRoot() {
             Node temp = this.parent;
