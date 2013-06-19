@@ -38,10 +38,13 @@ class PathTree {
     }
 
     public boolean isDeadNode(Node n) {
+    	
         if (n.dead) {
             return true;
         }
+        System.out.printf("Performing DFS for growth nodes from (%d,%d)\n",n.i,n.j);
         // depth first search
+        
         Stack<Node> fringe = new Stack<Node>();
         
         fringe.add(n);
@@ -50,14 +53,17 @@ class PathTree {
             if (isGrowthNode(current)) {
                 return false;
             }
-            if (n.north != null) {
-                fringe.add(n.north);
+            if (current == null) {
+            	continue;
+			}
+            if (current.north != null) {
+                fringe.add(current.north);
             }
-            if (n.northEast != null) {
-                fringe.add(n.northEast);
+            if (current.northEast != null) {
+                fringe.add(current.northEast);
             }
-            if (n.east != null) {
-                fringe.add(n.northEast);
+            if (current.east != null) {
+                fringe.add(current.northEast);
             }
         }
         return true;
