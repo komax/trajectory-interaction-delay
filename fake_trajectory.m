@@ -17,11 +17,10 @@ for id = frameIDs
     x = x + speed * sin(direction(1)) * cos(direction(2));
     y = y + speed * sin(direction(1)) * sin(direction(2));
     z = z + speed * cos(direction(1));
+    z = 0;
 
     
 end
-size(coords)
-size(frameIDs)
 t = [coords' frameIDs'];
 
 

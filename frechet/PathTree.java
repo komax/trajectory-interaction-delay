@@ -42,7 +42,7 @@ class PathTree {
         if (n.dead) {
             return true;
         }
-        System.out.printf("Performing DFS for growth nodes from (%d,%d)\n",n.i,n.j);
+///        System.out.printf("Performing DFS for growth nodes from (%d,%d)\n",n.i,n.j);
         // depth first search
         
         Stack<Node> fringe = new Stack<Node>();
@@ -70,7 +70,7 @@ class PathTree {
     }
 
     protected void add(int i, int j) {
-        System.out.printf("Adding node: (%d, %d)\n",i,j);
+///        System.out.printf("Adding node: (%d, %d)\n",i,j);
         /* add grid[i][j] to the tree */
         // three pairs of candidate parents: N+E, NE+E, N+NE 
         Node parent = selectParent(i, j);
@@ -87,7 +87,7 @@ class PathTree {
         }
         if (((i != 0) && (j != 0)) && isDeadNode(grid[i-1][j-1])) {
             // remove dead path ending in grid[i-1][j-1]
-            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
+///            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
             Node current = grid[i-1][j-1];
             while (isDeadNode(current)) {
                 current.dead = true;
