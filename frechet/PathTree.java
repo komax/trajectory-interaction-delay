@@ -12,6 +12,7 @@ class PathTree {
 
 
     public PathTree(double[][] grid, int n, int m) {
+        
         this.grid = new Node[n+1][m+1];
         this.gridValues = grid;
         Node root = new Node(null, 0, 0, grid[0][0]);
@@ -63,6 +64,7 @@ class PathTree {
     }
 
     protected void add(int i, int j) {
+        System.out.printf("Adding node: (%d, %d)\n",i,j);
         /* add grid[i][j] to the tree */
         // three pairs of candidate parents: N+E, NE+E, N+NE 
         Node parent = selectParent(i, j);
