@@ -11,9 +11,9 @@ class PathTree {
     
 
 
-    public PathTree(double[][] grid, int n, int m) {
+    public PathTree(double[][] grid, int numRows, int numColumns) {
         
-        this.grid = new Node[n+1][m+1];
+        this.grid = new Node[numRows][numColumns];
         this.gridValues = grid;
         Node root = new Node(null, 0, 0, grid[0][0]);
         this.grid[0][0] = root;
@@ -21,6 +21,8 @@ class PathTree {
     }
 
     private boolean isEmpty(int i, int j) {
+        if (i >= grid.length) return false;
+        if (j >= grid[0].length) return false;
         if (grid[i][j] == null) 
             return true;
         return false;
@@ -38,7 +40,9 @@ class PathTree {
     }
 
     public boolean isDeadNode(Node n) {
-    	
+        if (n == null) {
+            return true;
+        }
         if (n.dead) {
             return true;
         }
@@ -74,6 +78,10 @@ class PathTree {
         /* add grid[i][j] to the tree */
         // three pairs of candidate parents: N+E, NE+E, N+NE 
         Node parent = selectParent(i, j);
+        
+///        System.out.printf("rows: %d columns: %d\n",gridValues.length,gridValues[0].length);
+///        System.out.println(gridValues[i]);
+///        System.out.println(gridValues[i][j]);
         Node newNode = new Node(parent, i, j, gridValues[i][j]);
         grid[i][j] = newNode;
         if ((parent.i < i) && (parent.j < j)) {
@@ -89,7 +97,7 @@ class PathTree {
             // remove dead path ending in grid[i-1][j-1]
 ///            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
             Node current = grid[i-1][j-1];
-            while (isDeadNode(current)) {
+            while ((current != null ) && isDeadNode(current)) {
                 current.dead = true;
                 current = current.parent;
             }
