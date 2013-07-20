@@ -1,7 +1,6 @@
 package frechet;
 import java.util.ArrayList;
 import java.util.Collections;
-import frechet.*;
 
 public class LocallyCorrectFrechet {
 
