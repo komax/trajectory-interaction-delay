@@ -4,22 +4,18 @@ import java.util.Set;
 import java.util.Stack;
 import java.lang.Math;
 import frechet.Node;
+import frechet.Node.NodeType;
 
 class PathTree {
     protected Node[][] grid;
     private double[][] gridValues;
 
-    
-
-
     public PathTree(double[][] grid, int numRows, int numColumns) {
-        
         this.grid = new Node[numRows][numColumns];
         this.gridValues = grid;
         Node root = new Node(null, 0, 0, grid[0][0]);
-        root.status = GROWTHNODE;
+        root.status = NodeType.GROWTHNODE;
         this.grid[0][0] = root;
-
     }
 
     private boolean isEmpty(int i, int j) {
@@ -128,7 +124,6 @@ class PathTree {
 
         for (int q = 0; q < 3; q++) {
             if ((candidates[(q) % 3] == null) && (candidates[(q+1) % 3] == null)) {
-
                 return candidates[(q+2) % 3];
             }
         }
@@ -196,10 +191,6 @@ class PathTree {
             return c;
         }
         return cPrime;
-
     }
-
-
-    
 
 }
