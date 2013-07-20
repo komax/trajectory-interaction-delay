@@ -1,5 +1,6 @@
 package frechet;
 import java.util.TreeSet;
+import java.util.Set;
 import java.util.Stack;
 import java.lang.Math;
 import frechet.Node;
@@ -16,6 +17,7 @@ class PathTree {
         this.grid = new Node[numRows][numColumns];
         this.gridValues = grid;
         Node root = new Node(null, 0, 0, grid[0][0]);
+        root.status = GROWTHNODE;
         this.grid[0][0] = root;
 
     }
@@ -83,6 +85,7 @@ class PathTree {
 ///        System.out.println(gridValues[i]);
 ///        System.out.println(gridValues[i][j]);
         Node newNode = new Node(parent, i, j, gridValues[i][j]);
+        
         grid[i][j] = newNode;
         if ((parent.i < i) && (parent.j < j)) {
             parent.northEast = newNode;
@@ -95,9 +98,10 @@ class PathTree {
         }
         if (((i != 0) && (j != 0)) && isDeadNode(grid[i-1][j-1])) {
             // remove dead path ending in grid[i-1][j-1]
-///            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
+            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
             Node current = grid[i-1][j-1];
             while ((current != null ) && isDeadNode(current)) {
+                System.out.printf("Current: (%d, %d)\n",current.i,current.j); 
                 current.dead = true;
                 current = current.parent;
             }
@@ -108,7 +112,7 @@ class PathTree {
 
 
     Node selectParent(int i,int j) {
-///        System.out.printf("Selecting parent of (%d, %d)\n",i, j);
+        System.out.printf("Selecting parent of (%d, %d)\n",i, j);
         Node[] candidates = new Node[3];
         if (i > 0)
             candidates[0] = grid[i-1][j]; // West
@@ -159,8 +163,8 @@ class PathTree {
         if (cPrime == null) return c;
         if (c == null) System.out.println("This shouldn't happen");
         Node nearestCommonAncestor = c.nearestCommonAncestor(cPrime);
-        TreeSet<Node> pathC = c.pathToRoot();
-        TreeSet<Node> pathCPrime = cPrime.pathToRoot();
+        Set<Node> pathC = c.pathToRoot();
+        Set<Node> pathCPrime = cPrime.pathToRoot();
 
 
         // dominant value on path from c to NCA of c and c'
