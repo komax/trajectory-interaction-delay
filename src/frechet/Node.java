@@ -27,7 +27,7 @@ public class Node implements Comparable<Node> {
 		this.east = null;
 		this.northEast = null;
 		this.dead = false;
-		this.status = NodeType.DEADNODE;
+		this.status = NodeType.GROWTHNODE;
 	}
 	
 	// / public boolean isDead() {

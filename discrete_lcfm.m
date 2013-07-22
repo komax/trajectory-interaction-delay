@@ -5,7 +5,7 @@ function matching = compute_discrete_locally_correct_frechet(t1, t2)
 %%% [ n1 m1; n2 m2; n3 m3; ... ] that represents a matching between the 
 %%% two trajectories. E.g. frameID n1 of t1 should be matched with frameID 
 %%% m1 of t2.
-javaaddpath .
+javaaddpath bin;
 import frechet.*;
 
 %%%grid = compute_distance_terrain(t1, t2);
