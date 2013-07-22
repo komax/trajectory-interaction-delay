@@ -1,4 +1,4 @@
-function stuff(i, j)
+function matching = stuff(i, j)
 % build filter
 [b, a] = butter(2,0.1);
 Hd = dfilt.df1(b,a);
@@ -11,4 +11,6 @@ bird_j = offset_filter(get_bird(j), Hd);
 
 matching = discrete_lcfm(bird_i,bird_j);
 input('plot? ');
-plot_matching(bird_i, bird_j, matching)
+[distances, delay] = plot_matching(bird_i, bird_j, [matching.i matching.j]);
+figure
+plot(matching.i, matching.j);

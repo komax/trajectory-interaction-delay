@@ -1,5 +1,6 @@
 
 .PHONY: stuff
 
-stuff: frechet/*.java
-	javac frechet/*.java
+stuff: src/frechet/*.java
+	javac src/frechet/*.java
+	mv src/frechet/*.class bin/frechet/
