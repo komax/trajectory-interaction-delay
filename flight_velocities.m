@@ -1,4 +1,6 @@
-function [x, y, z, frame_id] = flight_direction(trajectory)
+function [x, y, z, frame_id] = velocities(trajectory)
+%%%function [dx, dy, dz, frame_id] = velocities(trajectory)
+%%% velocities, measured in metres per frame
 num_frames = size(trajectory, 1);
 direction = zeros(num_frames - 1, 4);
 for i = 2:num_frames
