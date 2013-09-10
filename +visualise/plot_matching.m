@@ -1,6 +1,7 @@
-function [distances, delay] = plot_matching(t1,t2, matching)
-figure
+function [distances, delay] = plot_matching(t1,t2, matching_java_obj)
+clf;
 hold on;
+matching = [matching_java_obj.i matching_java_obj.j];
 plot3(t1(:,1),t1(:,2),t1(:,3),'k');
 plot3(t2(:,1),t2(:,2),t2(:,3),'k');
 distances = [];
