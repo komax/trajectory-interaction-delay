@@ -22,3 +22,6 @@ if size(t1,2) >= 4 && size(t2,2) >=4
     scatter3(t1(:,1),t1(:,2),t1(:,3),30,t1(:,4),'filled');
     scatter3(t2(:,1),t2(:,2),t2(:,3),30,t2(:,4),'filled');
 end
+
+grid on;
+%%%axis equal;

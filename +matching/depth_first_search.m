@@ -2,7 +2,7 @@ function [path_exists] = dfs(terrain_matrix, cutoff)
 %%% starting at the bottom left corner of the terrain_matrix (i.e. (1,end)),
 %%% find a path to the top right corner (end, 1), where each point on the
 %%% path is less than cutoff.
- 
+    fprintf(2,'searching terrain with cutoff: %f\n', cutoff);
     height = size(terrain_matrix,1);
     width = size(terrain_matrix,2);
 
