@@ -5,6 +5,7 @@ import java.util.Stack;
 import java.lang.Math;
 import frechet.Node;
 import frechet.Node.NodeType;
+///import frechet.Utils;
 
 class PathTree {
 	protected Node[][] grid;
@@ -73,9 +74,11 @@ class PathTree {
 		}
 		else if (parent.i == i) {
 			parent.north = newNode;
+			Utils.check((parent.j + 1) == j);
 		}
 		else {
 			parent.east = newNode;
+			Utils.check(parent.j == j && (parent.i + 1) == i);
 		}
 		//        if (((i != 0) && (j != 0)) && isDeadNode(grid[i-1][j-1])) {
 			//            // remove dead path ending in grid[i-1][j-1]

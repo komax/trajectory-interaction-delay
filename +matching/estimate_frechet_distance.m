@@ -23,7 +23,7 @@ function hi = bsearch(lo, hi, terrain)
     while (lo < hi - EPS);
         count = count + 1;
         mid = (lo + hi) / 2.0;
-        if depth_first_search(terrain, mid)
+        if matching.depth_first_search(terrain, mid)
             hi = mid;
         else
             lo = mid;
