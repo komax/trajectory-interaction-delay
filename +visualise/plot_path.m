@@ -25,5 +25,34 @@ for row = 1:size(idx,1)
     x(row) = idx(row, 2) + 1; % how far along bird j we are
     y(row) = size(t1,1) - idx(row, 1); % how far along bird i we are
 end
+show_equal_times(t1,t2,matching_java_obj);
 plot(x, y,'r');
 
+
+end
+
+function show_equal_times(t1, t2, matching_java_obj)
+    start_frame = min([t1(:,4); t2(:,4)]);
+    stop_frame = max([t1(:,4); t2(:,4)]);
+    results = matching_java_obj.getMatchedPoints();
+    x = [];
+    y = [];
+    row = 1;
+    for frame = start_frame:stop_frame
+        index_t1 = find(results(results(:,4) == frame)); 
+        index_t2 = find(results(results(:,9) == frame));
+        if size(index_t1,1) > 0 && size(index_t2,1) > 0
+            for i = index_t1'
+                
+                for j = index_t2'
+                    fprintf(1,'(%d, %d)\n',i,j)
+                    x(row) = j + 1;
+                    y(row) = size(t1,1) - i;
+                    row = row + 1;
+                end
+            end
+        end
+
+    end
+    plot(x, y,'w')
+end
