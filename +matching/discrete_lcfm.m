@@ -8,7 +8,9 @@ function result = compute_discrete_locally_correct_frechet(t1, t2)
 javaaddpath bin;
 import frechet.*;
 
-grid = matching.compute_distance_terrain(t1,t2);
+grid = flipdim(matching.compute_distance_terrain(t1,t2),1);
+
+figure; imagesc(grid);
 rows = length(t1);
 cols = length(t2);
 

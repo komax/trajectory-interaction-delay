@@ -16,6 +16,7 @@ for n = 1:length(matching)
     if size(t1, 2) >= 4 && size(t2, 2) >= 4
         delay(n) = t1(i,4) - t2(j,4);
     end
+
     distances(n) = d;
 end
 if size(t1,2) >= 4 && size(t2,2) >=4
@@ -24,4 +25,4 @@ if size(t1,2) >= 4 && size(t2,2) >=4
 end
 
 grid on;
-%%%axis equal;
+axis equal;

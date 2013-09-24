@@ -15,6 +15,8 @@ public class Node implements Comparable<Node> {
 	Node north;
 	Node east;
 	Node northEast;
+	Node leftShortcut;
+	Node rightShortcut;
 	NodeType status;
 	boolean dead;
 
@@ -23,6 +25,8 @@ public class Node implements Comparable<Node> {
 		this.i = i;
 		this.j = j;
 		this.value = value;
+		this.leftShortcut = null;
+		this.rightShortcut = null;
 		this.north = null;
 		this.east = null;
 		this.northEast = null;

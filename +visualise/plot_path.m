@@ -2,12 +2,14 @@ function plot_path(t1, t2, matching_java_obj)
 clf;
 terrain = matching.compute_distance_terrain(t1, t2);
 imagesc(terrain);
+axis equal;
 hold on;
 
 idx = [matching_java_obj.i matching_java_obj.j];
 
 results = matching_java_obj.getMatchedPoints();
-
+x = [];
+y = [];
 for row = 1:length(results)
     p = results(row,1:3);
     frame_1 = results(row,4);
@@ -15,7 +17,9 @@ for row = 1:length(results)
     q = results(row,6:8);
     frame_2 = results(row,9);
     bird_id2 = results(row,10);
-
+    x(row) = frame_1 - results(1,4) + 1;
+    y(row) = frame_2 - results(1, 9) + 1;
     fprintf(1,'(%d, %d)\n',frame_1, frame_2);
 end
-plot
+plot(x, y);
+
