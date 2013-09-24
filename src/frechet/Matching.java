@@ -2,6 +2,7 @@ package frechet;
 
 import frechet.*;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class Matching {
     public int[] i;
@@ -17,7 +18,14 @@ public class Matching {
 
         for (int p = 0; p < path.size(); p++) {
             Node node = path.get(p);
-///            System.out.printf("(%d, %d)\n",node.i, node.j);
+            double x1 = this.t1[node.i][0];
+            double y1 = this.t1[node.i][1];
+            double z1 = this.t1[node.i][2];
+            double x2 = this.t2[node.j][0];
+            double y2 = this.t2[node.j][1];
+            double z2 = this.t2[node.j][2];
+            double distance = Math.pow(Math.pow((x1 - x2),2) + Math.pow((y1 - y2),2) + Math.pow((z1 - z2),2),0.5);
+///            System.out.printf("(%d, %d): %f\n",node.i, node.j, distance);
             i[p] = node.i;
             j[p] = node.j;
         } 

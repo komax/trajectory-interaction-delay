@@ -10,14 +10,15 @@ function [cells] = compute_distance_terrain(t1, t2, varargin)
 %%% cells is a n x m grid where n is length of t1 and m is length of t2
 if nargin == 2 
     cells = zeros(length(t1),length(t2));
-    for i = 1:length(t1)
-        for j = 1:length(t2)
-            p = t1(length(t1) - i + 1,1:3);
+    for i = 1:size(t1,1)
+        for j = 1:size(t2,1)
+            p = t1(i,1:3);
             q = t2(j,1:3);
             d = norm(p - q,2);
             cells(i,j) = d;
         end
     end
+    cells = flipdim(cells,1);
     return;
 elseif nargin >= 3 && strcmp(varargin{1},'square')
     start_frame = min([t1(:,4); t2(:,4)]);
