@@ -5,7 +5,7 @@ function bird = get_bird(i, varargin)
 %%%  matrix has five columns: x, y, z, frame_id, bird_id
 if nargin == 1
     if i > 16
-        load data_from_anael/traj18.mat;
+        load data_from_anael/traj18_better.mat;
         i = i - 16;
     else
         load data_from_anael/traj16.mat;
