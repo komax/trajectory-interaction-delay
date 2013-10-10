@@ -5,7 +5,7 @@
 order = 2;
 cutoff = 0.1;
 for i = 1:18
-    bird_i = interpolate(get_bird(i + 16));
+    bird_i = interpolate(get_bird(i + 16),i,'pchip');
     for j = i+1:18
         bird_j = interpolate(get_bird(j + 16));
         [common_i, common_j] = matching.compute_overlap(bird_i, bird_j);
