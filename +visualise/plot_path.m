@@ -1,13 +1,11 @@
 function plot_path(t1, t2, matching_java_obj, name1, name2)
 clf;
-terrain = matching.compute_distance_terrain(t1, t2);
-imagesc(terrain);
-axis equal;
-ylabel(name1)
 xlabel(name2)
+ylabel(name1)
 hold on;
 
 idx = [matching_java_obj.i matching_java_obj.j];
+idx = [ 1 1; 2 2; 2 3; 3 4; 4 5; 5 5; 6 5;];
 
 %%%results = matching_java_obj.getMatchedPoints();
 x = [];
@@ -35,12 +33,11 @@ function show_equal_times(t1, t2, matching_java_obj)
     
     start_frame = min([t1(:,4); t2(:,4)]);
     stop_frame = max([t1(:,4); t2(:,4)]);
-    results = matching_java_obj.getMatchedPoints();
     
     y = [];
     for col = 1:size(t2,1)
-        time_est = results(col, 9);
-        position = find(t1(:,4) == time_est);
+        time_est = col + start_frame;
+        position = time_est - start_frame;
         if position
             y(col) = size(t1,1) - position;
         else
@@ -48,7 +45,7 @@ function show_equal_times(t1, t2, matching_java_obj)
         end
 
     end
-    plot(y,'w')
+    plot(y,'k')
 %%%    for frame = start_frame:stop_frame
 %%%        index_t1 = find(results(results(:,4) == frame)); 
 %%%        index_t2 = find(results(results(:,9) == frame));
