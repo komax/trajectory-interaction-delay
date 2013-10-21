@@ -1,5 +1,7 @@
-function nearest_neighbour(k, i, bird_matrix)
-
+function neighbour = k_nearest_neighbour(k, i, bird_matrix)
+%%%function nearest_neighbour(k, i, bird_matrix)
+%%%plot a histogram
+max_birds = max(bird_matrix(:,5));
 bird_i = bird_matrix(bird_matrix(:,5) == i, :);
 start_frame = min(bird_i(:,4));
 stop_frame = max(bird_i(:,4));
@@ -24,8 +26,8 @@ for f = start_frame:stop_frame
         end
     end
 end
-N = histc(neighbour, 1:16);
-bar(1:16,N, 'histc');
+N = histc(neighbour, 1:max_birds);
+bar(1:max_birds,N, 'histc');
 
 
 
