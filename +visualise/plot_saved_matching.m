@@ -1,26 +1,26 @@
 function [distances, delay] = plot_matching(i,j)
-t1 = get_bird(i);
-t2 = get_bird(j);
-load(['precomputed/filtered_matching',int2str(i),'-',int2str(j),'.mat']);
+load(['precomputed/matching',int2str(i),'_',int2str(j),'.mat']);
+% loads results, i, j, smoothed_i, smoothed_j
+t1 = smoothed_i;
+t2 = smoothed_j;
 figure
+grid on;
+axis equal;
 hold on;
+
 plot3(t1(:,1),t1(:,2),t1(:,3),'k');
 plot3(t2(:,1),t2(:,2),t2(:,3),'k');
 distances = [];
 delay = [];
-for n = 1:length(matching)
-    i = matching(n,1) + 1;
-    j = matching(n,2) + 1;
-    plot3([t1(i,1); t2(j,1)],[t1(i,2); t2(j,2)],[t1(i,3); t2(j,3)],'-')
-    p1 = t1(i,1:3);
-    p2 = t2(j,1:3);
+for n = 1:length(results)
+    plot3([results(n,1); results(n,6)],[results(n,2); results(n,7)],[results(n,3); results(n,8)],'-')
+    p1 = results(n, 1:3);
+    p2 = results(n, 6:8);
     d = norm(p1 - p2, 2);
-    if size(t1, 2) >= 4 && size(t2, 2) >= 4
-        delay(n) = t1(i,4) - t2(j,4);
-    end
+    delay(n) = results(n,4) - results(n,9);
     distances(n) = d;
 end
 if size(t1,2) >= 4 && size(t2,2) >=4
-    scatter3(t1(:,1),t1(:,2),t1(:,3),30,t1(:,4),'filled');
-    scatter3(t2(:,1),t2(:,2),t2(:,3),30,t2(:,4),'filled');
+    scatter3(results(:,1),results(:,2),results(:,3),30,results(:,4),'filled');
+    scatter3(results(:,6),results(:,7),results(:,8),30,results(:,9),'filled');
 end
