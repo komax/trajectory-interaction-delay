@@ -1,6 +1,6 @@
 function plot_saved_distance(bird_id1, bird_id2)
 
-load(['precomputed/matching',num2str(bird_id1), '_', num2str(bird_id2),'.mat']);
+results = get_saved_matching(bird_id1, bird_id2);
 
 figure;
 subplot(2,1,1);
