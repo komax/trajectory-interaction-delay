@@ -1,12 +1,19 @@
-function [dx, dy, dz, frame_id] = velocities(trajectory)
+function [velocities, frame_ids] = velocities(trajectory)
 %%%function [dx, dy, dz, frame_id] = velocities(trajectory)
 %%% velocities, measured in metres per frame
-num_frames = size(trajectory, 1);
-dX1 = trajectory(2:end-1,1:3) - trajectory(1:end-2,1:3);
-dX2 = trajectory(3:end,1:3) - trajectory(2:end-1,1:3);
-dX = dX1 + dX2;
-dx = dX(:,1);
-dy = dX(:,2);
-dz = dX(:,3);
-frame_id = trajectory(2:end-1,4);
+A = trajectory(1:end-1, 1:3);
+B = trajectory(2:end, 1:3);
+%%%dX1 = pointwise_distances(A, B);
+%%%dX2 = pointwise_distances(B, C);
+
+dT = trajectory(2:end, 4) - trajectory(1:end-1, 4);
+%%%velocities = (dX1 + dX2) ./ dT;
+velocities = (B - A) ./ repmat(dT, 1, 3);
+frame_ids = trajectory(2:end-1,4);
+
 end
+
+function distances = pointwise_distances(a,b)
+    distances = sqrt(sum(power(b - a,2),2));
+end
+

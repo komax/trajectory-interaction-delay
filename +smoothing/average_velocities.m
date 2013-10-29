@@ -1,4 +1,5 @@
 function velocities = average_velocities(varargin)
+%%% DEPRECATED
 %%% TODO should I smooth then average or average then smooth?
 num_birds = nargin;
 birds = {};
@@ -33,9 +34,11 @@ for frame = start_frame:stop_frame
     count = sum(dX(:,4) == frame);
     if count > 0
         idx = find(velocities(:,4) == frame);
+        if any(isnan(velocities(idx,1:3)))
+            velocities(idx,1:3)
+        end
         velocities(idx,1:3) = velocities(idx, 1:3) ./ count;
     end
 end
-%%%    [dx, dy, dz, frame_id] = smoothing.flight_velocities();
 
 end
