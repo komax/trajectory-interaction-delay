@@ -15,7 +15,7 @@ for i = birds
     for j = i+1:birds(end)
         id_i = i;
         id_j = j;
-        if i > 16 or j > 16
+        if i > 16 || j > 16
             id_i = i - 16;
             id_j = j - 16;
         end
