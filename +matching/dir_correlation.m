@@ -29,8 +29,8 @@ end
 
 frames = union(frame_ids_i,frame_ids_j); 
 
-norm_v_i = normalise_velocity(dX);
-norm_v_j = normalise_velocity(dY);
+norm_v_i = matching.normalise_velocity(dX);
+norm_v_j = matching.normalise_velocity(dY);
 
 sum_dots = 0;
 count = 0;
@@ -50,8 +50,4 @@ end
 C_tau = sum_dots / length(frames);
 end
 
-function dV = normalise_velocity(dVin)
-%%% function dV = normalise_velocity(dVin)
-%%% Convert all velocity measures to vectors of length 1
-    dV = dVin ./ repmat(sqrt(sum(dVin .* dVin,2)), 1, 3);
-end
+
