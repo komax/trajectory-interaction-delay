@@ -1,10 +1,21 @@
-function c = lcfm_correlations(i,j)
+function c = lcfm_correlations(varargin)
 % given a matching, compute the directional correlation between the velocities at the matched points
+if nargin == 1
+    results = varargin{1};
+    bird_i = unique(results(:,1:4), 'stable', 'rows');
+    bird_j = unique(results(:,6:9), 'stable', 'rows');
+    [velocities_i, frames_i] = smoothing.flight_velocities(bird_i);
+    [velocities_j, frames_j] = smoothing.flight_velocities(bird_j);
 
-[results, i, j, smoothed_i, smoothed_j] = get_saved_matching(i,j);
+elseif nargin == 2
+    i = varargin{1};
+    j = varargin{2};
+    [results, i, j, smoothed_i, smoothed_j] = get_saved_matching(i,j);
 
-[velocities_i, frames_i] = smoothing.flight_velocities(smoothed_i);
-[velocities_j, frames_j] = smoothing.flight_velocities(smoothed_j);
+    [velocities_i, frames_i] = smoothing.flight_velocities(smoothed_i);
+    [velocities_j, frames_j] = smoothing.flight_velocities(smoothed_j);
+end
+
 
 sum_dots = 0;
 count = 0;
