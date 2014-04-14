@@ -1,7 +1,7 @@
 package frechet;
 
-import java.util.ArrayList;
 import java.lang.Math;
+import java.util.List;
 
 public class Matching {
     public int[] i;
@@ -9,7 +9,7 @@ public class Matching {
     public double[][] t1;
     public double[][] t2;
 
-    public Matching(ArrayList<Node> path, double[][] t1, double[][] t2) {
+    public Matching(List<Node> path, double[][] t1, double[][] t2) {
         i = new int[path.size()];
         j = new int[path.size()];
         this.t1 = t1;
@@ -23,7 +23,11 @@ public class Matching {
             double x2 = this.t2[node.j][0];
             double y2 = this.t2[node.j][1];
             double z2 = this.t2[node.j][2];
-            double distance = Math.pow(Math.pow((x1 - x2),2) + Math.pow((y1 - y2),2) + Math.pow((z1 - z2),2),0.5);
+            double xDelta = x1 - x2;
+            double yDelta = y1 - y2;
+            double zDelta = z1 - z2;
+            // FIXME Why is distance not stored?
+            double distance = Math.sqrt(xDelta * xDelta + yDelta * yDelta + zDelta * zDelta);
 ///            System.out.printf("(%d, %d): %f\n",node.i, node.j, distance);
             i[p] = node.i;
             j[p] = node.j;
@@ -31,6 +35,7 @@ public class Matching {
     }
 
 
+    // FIXME method is erroneous
     public double[][] getMatchedPoints() {
         double[][] results = new double[i.length][10];
         int idx1;
