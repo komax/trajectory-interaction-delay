@@ -1,9 +1,6 @@
 package frechet;
 
 public class Utils {
-    public PrintStream bugs;
-    public PrintStream progress;
-
     public static void check(boolean statement) {
         check(statement, "");
     }
