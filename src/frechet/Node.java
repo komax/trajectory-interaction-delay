@@ -68,8 +68,11 @@ public class Node implements Comparable<Node> {
 		// if this < obj return -1
 		if (rhs == this) {
 			return 0;
-		}
-		return Integer.valueOf(i + j).compareTo(Integer.valueOf(rhs.i + rhs.j));
+		} else if (rhs == null) {
+            throw new NullPointerException("Node is null: "+rhs);
+        } else {
+            return Integer.valueOf(i + j).compareTo(Integer.valueOf(rhs.i + rhs.j));
+        }
 	}
 
 	@Override
