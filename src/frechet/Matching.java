@@ -59,6 +59,21 @@ public class Matching {
         return results;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Matching(\ni <-> j");
+        assert i.length == j.length;
+        int length = i.length;
+        for (int k=0; k<length; k++) {
+            builder.append('\n');
+            builder.append(i[k]);
+            builder.append(" <-> ");
+            builder.append(j[k]);
+        }
+        builder.append("\n)");
+        return builder.toString();
+    }
+
 ///    /*
 ///     * return a matrix with a row for each match, of the form:
 ///     * x1 y1 z1 frame_id1 bird_id1 x2 y2 z2 frame_id2 bird_id2
