@@ -1,6 +1,9 @@
 
-.PHONY: stuff
+.PHONY: build
+CLASSFILES_DIR := bin/frechet
 
-stuff: src/frechet/*.java
+build: src/frechet/*.java
 	javac src/frechet/*.java
-	mv src/frechet/*.class bin/frechet/
+	test -d $(CLASSFILES_DIR) || (mkdir bin && mkdir bin/frechet)
+	mv src/frechet/*.class $(CLASSFILES_DIR)
+
