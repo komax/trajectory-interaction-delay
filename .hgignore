@@ -1,6 +1,2 @@
-syntax: glob
-*.class
-*.swp
-
-syntax: regexp
-precomputed/
+.idea/workspace.xml
+out
