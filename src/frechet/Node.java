@@ -33,16 +33,7 @@ public class Node implements Comparable<Node> {
 		this.dead = false;
 		this.status = NodeType.GROWTHNODE;
 	}
-	
-	// / public boolean isDead() {
-	// / if ((this.north == null) && (this.east == null)
-	// / }
-	// / public boolean isGrowthNode() {
-	// / if (this.north == null) {
-	// / // if grid[i][j+1] is empty
-	// / }
 
-	// / }
 
 	LinkedHashSet<Node> pathToRoot() {
 		Node temp = this;
@@ -83,6 +74,6 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public int hashCode() {
-		return 10000 * i + j;
+		return 31 * i + j;
 	}
 }

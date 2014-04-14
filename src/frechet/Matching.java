@@ -1,6 +1,5 @@
 package frechet;
 
-import frechet.*;
 import java.util.ArrayList;
 import java.lang.Math;
 
