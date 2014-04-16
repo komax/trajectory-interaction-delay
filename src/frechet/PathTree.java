@@ -46,14 +46,10 @@ class PathTree {
 	}
 
 	protected void add(int i, int j) {
-		///        System.out.printf("Adding node: (%d, %d)\n",i,j);
 		/* add grid[i][j] to the tree */
 		// three pairs of candidate parents: N+E, NE+E, N+NE 
 		Node parent = selectParent(i, j);
 
-		///        System.out.printf("rows: %d columns: %d\n",gridValues.length,gridValues[0].length);
-		///        System.out.println(gridValues[i]);
-		///        System.out.println(gridValues[i][j]);
 		parent.status = NodeType.LIVINGNODE;
 
 		// is [i-1][j-1] dead?
@@ -64,7 +60,6 @@ class PathTree {
 			}
 		}
 		Node newNode = new Node(parent, i, j, gridValues[i][j]);
-///		System.out.printf("Joining nodes: (%d, %d) and (%d, %d)\n",parent.i, parent.j, i, j);
 
 		grid[i][j] = newNode;
 		if ((parent.i < i) && (parent.j < j)) {
@@ -78,7 +73,6 @@ class PathTree {
 			parent.east = newNode;
 			assert parent.j == j && (parent.i + 1) == i;
 		}
-///		System.out.printf("Adding node (%d, %d): %f with parent (%d, %d)\n",i,j, newNode.value, parent.i, parent.j);
 		//        if (((i != 0) && (j != 0)) && isDeadNode(grid[i-1][j-1])) {
 			//            // remove dead path ending in grid[i-1][j-1]
 		//            System.out.printf("(%d, %d) is dead\n",i-1, j-1);
@@ -98,14 +92,12 @@ class PathTree {
         Node candidateWest = grid[i-1][j-1];
         
         Node currentCandidate = candidateSouth;
-///        if (
-// Need to add shortcuts. To start with, a shortcut is just a link to the
-// parent. 
+        // Need to add shortcuts. To start with, a shortcut is just a link to the
+        // parent.
         return null;        
     }
 
 	Node selectParent(int i,int j) {
-		//System.out.printf("Selecting parent of (%d, %d)\n",i, j);
 		Node[] candidates = new Node[3];
 		if (i > 0)
 			candidates[0] = grid[i-1][j]; // West
@@ -113,13 +105,6 @@ class PathTree {
 			candidates[1] = grid[i-1][j-1]; // South West
 		if (j > 0)
 			candidates[2] = grid[i][j-1]; // South
-
-///        System.out.printf("Candidates for parent of (%d, %d): ", i, j);
-///        for (int q = 0; q < 3; q++) {
-///            if (candidates[q] != null)
-///                System.out.printf("(%d, %d) ",candidates[q].i, candidates[q].j);
-///        }
-///        System.out.println();
 
 		for (int q = 0; q < 3; q++) {
 			if ((candidates[(q) % 3] == null) && (candidates[(q+1) % 3] == null)) {
@@ -135,7 +120,6 @@ class PathTree {
 			boolean satisfies = true;
 			for (int y = x+1; y < 3; y++) {
 				Node cPrime = candidates[y];
-///				System.out.printf("Comparing c: (%d, %d) and cPrime: (%d, %d)\n", c.i, c.j, cPrime.i, cPrime.j);
 				Node result = compareParent(c, cPrime);
                 
 				if (result == null) {
@@ -151,17 +135,14 @@ class PathTree {
 				return c;
 			}
 		}
-		System.out.printf("Error: no candidates satisfy.\n");
 		return null;
 	}
 
 	Node compareParent(Node c, Node cPrime) {
-///	    lol c always wins
-///        System.out.printf("Comparing c: (%d, %d) and cPrime: (%d, %d)\n", c.i, c.j, cPrime.i, cPrime.j);
+        // lol c always wins
 		if (cPrime == null) return c;
 		if (c == null) System.out.println("This shouldn't happen");
 		Node nearestCommonAncestor = c.nearestCommonAncestor(cPrime);
-///		System.err.printf("NCA of %s and %s is (%d, %d)\n", c, cPrime, nearestCommonAncestor.i, nearestCommonAncestor.j);
 		Set<Node> pathC = c.pathToRoot();
 		Set<Node> pathCPrime = cPrime.pathToRoot();
 
@@ -170,43 +151,30 @@ class PathTree {
 		double dominantC = 0;
 
 		pathC.removeAll(cPrime.pathToRoot());
-
-///        System.out.println("pathC: ");
         
 		for (Node n: pathC) {
-///            System.out.printf("(%d, %d) ", n.i, n.j);
 			double value = grid[n.i][n.j].value;
 			if (dominantC < value) {
 				dominantC = value;
 			}
 		}
-///		System.out.println();
-///		System.err.printf("dominantC: %f\n",dominantC);
 
 		// dominant value on path from c' to NCA of c and c'
 		double dominantCPrime = 0;
-
-///        System.out.println("pathCPrime: ");
 		pathCPrime.removeAll(c.pathToRoot());
 		for (Node n: pathCPrime) {
-		    
-///            System.out.printf("(%d, %d) ", n.i, n.j);
 			double value = grid[n.i][n.j].value;
 			if (dominantCPrime < value) {
 				dominantCPrime = value;
 			}
 		}
-///		System.out.println();
-///		System.err.printf("dominantCPrime: %f\n",dominantCPrime);
 		if (dominantCPrime == dominantC) {
 			// Oh no! We need to break ties. Ummm. shit.
 			return null;
 		}
 		if (dominantC < dominantCPrime) {
-///		    System.out.println("c wins");
 			return c;
 		}
-///		System.out.println("cPrime wins");
 		return cPrime;
 	}
 
