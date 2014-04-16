@@ -141,7 +141,9 @@ class PathTree {
 	Node compareParent(Node c, Node cPrime) {
         // lol c always wins
 		if (cPrime == null) return c;
-		if (c == null) System.out.println("This shouldn't happen");
+		if (c == null) {
+         throw new NullPointerException("c should not be null");
+        }
 		Node nearestCommonAncestor = c.nearestCommonAncestor(cPrime);
 		Set<Node> pathC = c.pathToRoot();
 		Set<Node> pathCPrime = cPrime.pathToRoot();
