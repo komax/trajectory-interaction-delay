@@ -28,7 +28,6 @@ public class Matching {
             double zDelta = z1 - z2;
             // FIXME Why is distance not stored?
             double distance = Math.sqrt(xDelta * xDelta + yDelta * yDelta + zDelta * zDelta);
-///            System.out.printf("(%d, %d): %f\n",node.i, node.j, distance);
             i[p] = node.i;
             j[p] = node.j;
         } 
