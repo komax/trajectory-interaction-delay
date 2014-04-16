@@ -1,11 +1,7 @@
 package frechet;
-import java.util.TreeSet;
+
 import java.util.Set;
-import java.util.Stack;
-import java.lang.Math;
-import frechet.Node;
 import frechet.Node.NodeType;
-///import frechet.Utils;
 
 class PathTree {
 	protected Node[][] grid;
@@ -76,11 +72,11 @@ class PathTree {
 		}
 		else if (parent.i == i) {
 			parent.north = newNode;
-			Utils.check((parent.j + 1) == j);
+			assert (parent.j + 1) == j;
 		}
 		else {
 			parent.east = newNode;
-			Utils.check(parent.j == j && (parent.i + 1) == i);
+			assert parent.j == j && (parent.i + 1) == i;
 		}
 ///		System.out.printf("Adding node (%d, %d): %f with parent (%d, %d)\n",i,j, newNode.value, parent.i, parent.j);
 		//        if (((i != 0) && (j != 0)) && isDeadNode(grid[i-1][j-1])) {
