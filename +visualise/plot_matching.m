@@ -4,13 +4,13 @@ clf;
 hold on;
 matching = javamatching2matlab(matching_java_obj);
 plot3(t1(:,1),t1(:,2),t1(:,3),'k');
-plot3(t2(:,1),t2(:,2),t2(:,3),'k');
+plot3(t2(:,1),t2(:,2),t2(:,3),'b');
 distances = [];
 delay = [];
 for n = 1:length(matching)
     i = matching(n,1) + 1;
     j = matching(n,2) + 1;
-    plot3([t1(i,1); t2(j,1)],[t1(i,2); t2(j,2)],[t1(i,3); t2(j,3)],'-')
+    plot3([t1(i,1); t2(j,1)],[t1(i,2); t2(j,2)],[t1(i,3); t2(j,3)],'r-')
     p1 = t1(i,1:3);
     p2 = t2(j,1:3);
     d = norm(p1 - p2, 2);
