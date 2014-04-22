@@ -14,12 +14,15 @@ if nargin == 2
         for j = 1:size(t2,1)
             p = t1(i,1:3);
             q = t2(j,1:3);
+            % Compute distance between p and q using the Euclidean
+            % distance.
             d = norm(p - q,2);
             cells(i,j) = d;
         end
     end
     cells = flipdim(cells,1);
     return;
+    % TODO Unclear when the following branch applies.
 elseif nargin >= 3 && strcmp(varargin{1},'square')
     start_frame = min([t1(:,4); t2(:,4)]);
     stop_frame = max([t1(:,4); t2(:,4)]);
@@ -57,5 +60,7 @@ end % end if
 end % end function
 
 function [f] = get_frame(traj, i)
+% FIXME Specific to the bird data?
+% Return that frame that has i as in the fourth column.
     f = traj(traj(:,4) == i,:);
 end

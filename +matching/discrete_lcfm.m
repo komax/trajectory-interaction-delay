@@ -5,13 +5,15 @@ function result = compute_discrete_locally_correct_frechet(t1, t2)
 %%% [ n1 m1; n2 m2; n3 m3; ... ] that represents a matching between the 
 %%% two trajectories. E.g. frameID n1 of t1 should be matched with frameID 
 %%% m1 of t2.
+% import java classes
 javaaddpath bin;
 import frechet.*;
 
-grid = flipdim(matching.compute_distance_terrain(t1,t2),1);
+% FIXME fliping a matrix two times is obsolete
+distance_terrain = flipdim(matching.compute_distance_terrain(t1,t2),1);
 
-figure; imagesc(grid);
+figure; imagesc(distance_terrain);
 rows = length(t1);
 cols = length(t2);
 
-result = LocallyCorrectFrechet.compute(grid, t1, t2, rows, cols);
+result = LocallyCorrectFrechet.compute(distance_terrain, t1, t2, rows, cols);
