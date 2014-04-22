@@ -1,4 +1,4 @@
-function stuff()
+function plot_all_birds()
 %%%colors = 'bgrcmykw'
 for i = 1:16
 %%%for i = [11 12 15]

@@ -1,5 +1,6 @@
 example_smoothing(5);
 
+% FIXME throws index error
 % given two trajectories, smooth and then compute the distance terrain
 example_frechet(1, 2);
 

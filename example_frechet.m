@@ -1,5 +1,6 @@
 function example_frechet(bird_id1, bird_id2)
 
+% FIXME index out of bounds
 bird_i = smoothing.apply_butterworth(get_bird(i), 2, 0.1);
 bird_j = smoothing.apply_butterworth(get_bird(j), 2, 0.1);
 figure; hold on;
