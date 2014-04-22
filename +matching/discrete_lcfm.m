@@ -12,7 +12,7 @@ import frechet.*;
 % FIXME fliping a matrix two times is obsolete
 distance_terrain = flipdim(matching.compute_distance_terrain(t1,t2),1);
 
-figure; imagesc(distance_terrain);
+visualise.plotDistanceTerrain(distance_terrain);
 rows = length(t1);
 cols = length(t2);
 
