@@ -1,6 +1,6 @@
 function [distances, delay] = plot_matching(t1,t2,matching_java_obj)
 % 3D plot for the matching between the trajectories t1 and t2
-clf;
+figure;
 hold on;
 matching = javamatching2matlab(matching_java_obj);
 plot3(t1(:,1),t1(:,2),t1(:,3),'k');
