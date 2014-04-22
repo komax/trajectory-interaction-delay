@@ -3,5 +3,6 @@ function plotDistanceTerrain(distanceTerrain)
 figure;
 hold on;
 imagesc(distanceTerrain);
+axis tight;
 end
 
