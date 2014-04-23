@@ -17,17 +17,17 @@ public class Matching {
 
         for (int p = 0; p < path.size(); p++) {
             Node node = path.get(p);
-            double x1 = this.t1[node.i][0];
-            double y1 = this.t1[node.i][1];
-            double z1 = this.t1[node.i][2];
-            double x2 = this.t2[node.j][0];
-            double y2 = this.t2[node.j][1];
-            double z2 = this.t2[node.j][2];
-            double xDelta = x1 - x2;
-            double yDelta = y1 - y2;
-            double zDelta = z1 - z2;
-            // FIXME Why is distance not stored?
-            double distance = Math.sqrt(xDelta * xDelta + yDelta * yDelta + zDelta * zDelta);
+//            double x1 = this.t1[node.i][0];
+//            double y1 = this.t1[node.i][1];
+//            double z1 = this.t1[node.i][2];
+//            double x2 = this.t2[node.j][0];
+//            double y2 = this.t2[node.j][1];
+//            double z2 = this.t2[node.j][2];
+//            double xDelta = x1 - x2;
+//            double yDelta = y1 - y2;
+//            double zDelta = z1 - z2;
+//            // FIXME Why is distance not stored?
+//            double distance = Math.sqrt(xDelta * xDelta + yDelta * yDelta + zDelta * zDelta);
             i[p] = node.i;
             j[p] = node.j;
         } 
