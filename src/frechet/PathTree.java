@@ -7,10 +7,10 @@ class PathTree {
 	protected Node[][] grid;
 	private double[][] gridValues;
 
-	public PathTree(double[][] grid, int numRows, int numColumns) {
+	public PathTree(double[][] distanceTerrain, int numRows, int numColumns) {
 		this.grid = new Node[numRows][numColumns];
-		this.gridValues = grid;
-		Node root = new Node(null, 0, 0, grid[0][0]);
+		this.gridValues = distanceTerrain;
+		Node root = new Node(null, 0, 0, distanceTerrain[0][0]);
 		root.status = NodeType.GROWTHNODE;
 		this.grid[0][0] = root;
 	}

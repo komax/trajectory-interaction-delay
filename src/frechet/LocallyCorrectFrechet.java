@@ -5,11 +5,12 @@ import java.util.List;
 
 public class LocallyCorrectFrechet {
 
-    public static Matching compute(double[][] grid, double[][] t1, double[][] t2, int numRows, int numColumns) {
-        if ((grid[0].length != numColumns) || (grid.length != numRows)) {
+    public static Matching compute(double[][] distanceTerrain, double[][] traject1, double[][] traject2,
+                                   int numRows, int numColumns) {
+        if ((distanceTerrain[0].length != numColumns) || (distanceTerrain.length != numRows)) {
             throw new RuntimeException("Size of grid and size of trajectories disagree\n");
         }
-        PathTree tree = new PathTree(grid, numRows, numColumns);
+        PathTree tree = new PathTree(distanceTerrain, numRows, numColumns);
 
         
         for (int i = 1; i < numRows ; i++ ) {
@@ -32,7 +33,7 @@ public class LocallyCorrectFrechet {
             node = node.parent;
         }
         Collections.reverse(path);
-        return new Matching(path, t1, t2);
+        return new Matching(path, traject1, traject2);
     }
 
 }
