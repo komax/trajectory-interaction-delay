@@ -1,5 +1,6 @@
 % Load data for the bats from file.
-if ~exist('readData','var')
+readData = 0;
+if ~readData
     [trajA, trajB, timeIndices] = loadBatData();
 
     % Pad the 2D trajectories to 3D ones.
