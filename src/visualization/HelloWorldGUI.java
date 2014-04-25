@@ -23,8 +23,7 @@ public class HelloWorldGUI extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //createAndShowGUI();
-                MatchingPlot plot = new MatchingPlot();
+                createAndShowGUI();
             }
         });
     }
