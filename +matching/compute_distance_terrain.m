@@ -53,6 +53,8 @@ elseif nargin >= 3 && strcmp(varargin{1},'square')
             end
         end
     end
+    % TODO flips matrix mxn matrix
+    cells = flipdim(cells,1);
 else
     fprintf(2,'Invalid call to matching.compute_distance_terrain\n');
 end % end if
