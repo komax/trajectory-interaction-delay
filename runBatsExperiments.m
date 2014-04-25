@@ -18,3 +18,5 @@ visualise.plotDistanceTerrain(distanceTerrain);
 lcfMatching = matching.discrete_lcfm(trajA,trajB);
 % Plot the trajectories with its lcf matching.
 visualise.plot_matching(trajA,trajB,lcfMatching);
+% Plot free space with its matching
+visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
