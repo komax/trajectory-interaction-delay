@@ -30,7 +30,7 @@ public class HelloWorldGUI extends JPanel implements ActionListener {
 
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Hello World GUI");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JComponent newContentPane = new HelloWorldGUI();
         newContentPane.setOpaque(true);
