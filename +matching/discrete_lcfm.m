@@ -9,10 +9,6 @@ function result = compute_discrete_locally_correct_frechet(t1, t2)
 javaaddpath bin;
 import frechet.*;
 
-% FIXME fliping a matrix two times is obsolete
-distance_terrain = flipdim(matching.compute_distance_terrain(t1,t2),1);
-
-%visualise.plotDistanceTerrain(distance_terrain);
 rows = length(t1);
 cols = length(t2);
 
