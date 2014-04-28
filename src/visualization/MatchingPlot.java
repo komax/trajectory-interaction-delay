@@ -24,4 +24,14 @@ public class MatchingPlot extends JPanel {
         // TODO plot them
         // TODO Add panel to plot by calling add()
     }
+
+    public Dimension getPreferredSize() {
+        return new Dimension(250, 200);
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.drawString(matching.toString(), 10, 20);
+    }
 }
