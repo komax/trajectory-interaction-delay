@@ -21,7 +21,7 @@ public class MatchingReader {
     }
 
     public static void main(String[] args) {
-        Matching matching = readMatching("/tmp/foo.tmp");
+        Matching matching = readMatching("bar.matching");
         System.out.println(matching);
         System.out.println(matching.getTrajectory1()[0][1]);
     }
