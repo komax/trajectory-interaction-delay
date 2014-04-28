@@ -16,7 +16,9 @@ visualise.plotDistanceTerrain(distanceTerrain);
 
 % Compute a Locally Correct Frechet Matchting.
 lcfMatching = matching.discrete_lcfm(trajA,trajB);
+% Save matching on disk.
+matching.writeMatching(lcfMatching,'batsMatching.dump');
 % Plot the trajectories with its lcf matching.
 visualise.plot_matching(trajA,trajB,lcfMatching);
-% Plot free space with its matching
+% Plot free space with its matching.
 visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
