@@ -6,9 +6,7 @@ function result = compute_discrete_locally_correct_frechet(t1, t2)
 %%% two trajectories. E.g. frameID n1 of t1 should be matched with frameID 
 %%% m1 of t2.
 % import java classes
-if isempty(javaclasspath('-dynamic'))
-    javaaddpath bin;
-end
+includeJavaLibaries;
 import frechet.*;
 
 % FIXME fliping a matrix two times is obsolete
