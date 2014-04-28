@@ -1,8 +1,9 @@
 package frechet;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Matching {
+public class Matching implements Serializable {
     public int[] i;
     public int[] j;
     private double[][] trajectory1;
