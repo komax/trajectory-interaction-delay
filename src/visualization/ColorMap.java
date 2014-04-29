@@ -7,7 +7,6 @@
 package visualization;
 
 import java.awt.Color;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,12 +18,18 @@ public class ColorMap {
     private final double maxValue;
     private final List<Color> colorSpectrum;
     
+    public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
+        // TODO create colorSpectrum
+        List<Color> heatedColorMap = null;
+        return new ColorMap(minValue, maxValue, heatedColorMap);
+    }
+
     public ColorMap(double minValue, double maxValue, List<Color> colorSpectrum) {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.colorSpectrum = colorSpectrum;
     }
-    
+
     private double valuesRange() {
         return maxValue - minValue;
     }
