@@ -6,17 +6,40 @@
 
 package visualization;
 
+import frechet.Matching;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import matlabconversion.MatchingReader;
+
 /**
  *
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
+    private Matching matching = null;
+    private BufferedImage freeSpaceImage = null;
 
     /**
      * Creates new form AnalyticsDelayUI
      */
     public AnalyticsDelayUI() {
         initComponents();
+        this.matching = MatchingReader.readMatching("batsMatching.dump");
+        try {
+            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
+            JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
+            // TODO This needs a fix to make the image of the free space visible
+            // It is an issue with the grouplayout
+            this.delaySpacePanel.add(freeSpaceLabel);
+        } catch (IOException ex) {
+            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
