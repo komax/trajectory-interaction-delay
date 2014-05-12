@@ -3,11 +3,17 @@ package visualization;
 import frechet.Matching;
 
 import javax.swing.*;
+import matlabconversion.MatchingReader;
 
 /**
  * Created by max on 28-4-14.
  */
 public class VisualizationLauncher {
+    
+    public static void main(String[] args) {
+        Matching matching = MatchingReader.readMatching("batsMatching.dump");
+        launchMatchingPlot(matching);
+    }
 
     public static void launchMatchingPlot(final Matching matching) {
         SwingUtilities.invokeLater(new Runnable() {
