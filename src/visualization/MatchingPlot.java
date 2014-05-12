@@ -164,13 +164,30 @@ public class MatchingPlot extends JPanel {
             int currentIndexTraject2 = matching.j[k];
             if (startIndexTraject1 == endIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
                 // 1. ribbon case
+                endIndexTraject2 = currentIndexTraject2;
             } else if (startIndexTraject2 == endIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
                 // 2. the other way round
+                endIndexTraject1 = currentIndexTraject1;
             } else {
-                // 3. Draw a simple line
+                // 3. Build the polygon.
+                Polygon ribbon = new Polygon();
+                for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
+                    Point2D point = trajectory1.get(l);
+                    Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
+                    ribbon.addPoint((int) convertedPoint.x, (int) convertedPoint.y);
+                }
+                for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
+                    Point2D point = trajectory2.get(l);
+                    Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
+                    ribbon.addPoint((int) convertedPoint.x, (int) convertedPoint.y);
+                }
+                // Draw the polygon.
+                g.fillPolygon(ribbon);
+                // Reset the indices.
+                startIndexTraject1 = endIndexTraject1 = currentIndexTraject1;
+                startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
             }
         }
-        return;
     }
     
 }
