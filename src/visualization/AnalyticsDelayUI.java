@@ -34,8 +34,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         try {
             this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
             JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
-            // TODO This needs a fix to make the image of the free space visible
-            // It is an issue with the grouplayout
             this.delaySpacePanel.add(freeSpaceLabel);
         } catch (IOException ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -160,17 +158,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         );
 
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
-
-        javax.swing.GroupLayout delaySpacePanelLayout = new javax.swing.GroupLayout(delaySpacePanel);
-        delaySpacePanel.setLayout(delaySpacePanelLayout);
-        delaySpacePanelLayout.setHorizontalGroup(
-            delaySpacePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        delaySpacePanelLayout.setVerticalGroup(
-            delaySpacePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 275, Short.MAX_VALUE)
-        );
+        delaySpacePanel.setLayout(new java.awt.BorderLayout());
 
         delayInNormPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Norm)"));
 
