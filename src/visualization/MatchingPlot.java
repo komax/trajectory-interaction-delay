@@ -124,17 +124,30 @@ public class MatchingPlot extends JPanel {
         int width = paintDimension.width;
         int height = paintDimension.height;
         
-        paintTrajectories(width, height);
+        paintTrajectories(g, width, height);
         drawMatching(width, height);
         
     }
-
-    private void paintTrajectories(int width, int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    private void paintTrajectories(Graphics g, int width, int height) {
+        Point2D previousPoint = trajectory1.get(0);
+        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint, width, height);
+        for (int i=1; i<trajectory1.size(); i++) {
+            Point2D currentPoint = trajectory1.get(i);
+            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint, width, height);
+            int fromX = (int) transformedPreviousPoint.x;
+            int fromY = (int) transformedPreviousPoint.y;
+            int toX = (int) transformedCurrentPoint.x;
+            int toY = (int) transformedCurrentPoint.y;
+            g.drawLine(fromX, fromY, toX, toY);
+            
+            transformedPreviousPoint = transformedCurrentPoint;
+        }
     }
 
     private void drawMatching(int width, int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO ribbon drawing of the matching
+        return;
     }
     
 }
