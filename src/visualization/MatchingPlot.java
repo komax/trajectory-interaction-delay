@@ -113,10 +113,12 @@ public class MatchingPlot extends JPanel {
         }
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(600, 300);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
@@ -130,10 +132,15 @@ public class MatchingPlot extends JPanel {
     }
     
     private void paintTrajectories(Graphics g, int width, int height) {
-        Point2D previousPoint = trajectory1.get(0);
+        drawTrajectory(trajectory1, g, width, height);
+        drawTrajectory(trajectory2, g, width, height);
+    }
+
+    private void drawTrajectory(List<Point2D> trajectory, Graphics g, int width, int height) {
+        Point2D previousPoint = trajectory.get(0);
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint, width, height);
-        for (int i=1; i<trajectory1.size(); i++) {
-            Point2D currentPoint = trajectory1.get(i);
+        for (int i=1; i<trajectory.size(); i++) {
+            Point2D currentPoint = trajectory.get(i);
             Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint, width, height);
             int fromX = (int) transformedPreviousPoint.x;
             int fromY = (int) transformedPreviousPoint.y;
