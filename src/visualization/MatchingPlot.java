@@ -66,6 +66,11 @@ public class MatchingPlot extends JPanel {
         makeTrajectoriesNullbased();
         this.minX = 0.0;
         this.minY = 0.0;
+        
+        this.maxX = Double.MIN_VALUE;
+        this.maxY = Double.MIN_VALUE;
+        findMaxOn(trajectory1);
+        findMaxOn(trajectory2);
 
         // TODO plot them
         // TODO Add panel to plot by calling add()
@@ -93,6 +98,17 @@ public class MatchingPlot extends JPanel {
             double yValue = trajectory[i][1];
             if (minY > yValue) {
                 minY = yValue;
+            }
+        }
+    }
+    
+    private void findMaxOn(ArrayList<Point2D> trajectory) {
+        for (Point2D point : trajectory) {
+            if (point.x > maxX) {
+                maxX = point.x;
+            }
+            if (point.y > maxY) {
+                maxY = point.y;
             }
         }
     }
