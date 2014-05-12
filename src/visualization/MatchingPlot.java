@@ -127,7 +127,7 @@ public class MatchingPlot extends JPanel {
         int height = paintDimension.height;
         
         paintTrajectories(g, width, height);
-        drawMatching(width, height);
+        drawMatching(g, width, height);
         
     }
     
@@ -152,8 +152,24 @@ public class MatchingPlot extends JPanel {
         }
     }
 
-    private void drawMatching(int width, int height) {
+    private void drawMatching(Graphics g, int width, int height) {
         // TODO ribbon drawing of the matching
+        int lengthMatching = matching.i.length;
+        int startIndexTraject1 = matching.i[0];
+        int startIndexTraject2 = matching.j[0];
+        int endIndexTraject1 = startIndexTraject1;
+        int endIndexTraject2 = startIndexTraject2;
+        for (int k=1; k < lengthMatching; k++) {
+            int currentIndexTraject1 = matching.i[k];
+            int currentIndexTraject2 = matching.j[k];
+            if (startIndexTraject1 == endIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
+                // 1. ribbon case
+            } else if (startIndexTraject2 == endIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
+                // 2. the other way round
+            } else {
+                // 3. Draw a simple line
+            }
+        }
         return;
     }
     
