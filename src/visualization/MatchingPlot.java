@@ -57,12 +57,27 @@ public class MatchingPlot extends JPanel {
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(250, 200);
+        return new Dimension(600, 300);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        g.drawString(matching.toString(), 10, 20);
+        
+        Dimension paintDimension = getSize();
+        int width = paintDimension.width;
+        int height = paintDimension.height;
+        
+        paintTrajectories(width, height);
+        drawMatching(width, height);
+        
     }
+
+    private void paintTrajectories(int width, int height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void drawMatching(int width, int height) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
