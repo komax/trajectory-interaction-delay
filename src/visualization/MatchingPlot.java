@@ -28,6 +28,18 @@ public class MatchingPlot extends JPanel {
         }
     }
     
+    private Point2D cartesianToPanelPoint(Point2D cartesianPoint, int width, int height) {
+        double panelX = width - cartesianPoint.x / maxX * width;
+        double panelY = height - cartesianPoint.y / maxY * height;
+        return new Point2D(panelX, panelY);
+    }
+    
+    private Point2D panelToCartesianPoint(Point2D panelPoint, int width, int height) {
+        double cartesianX = panelPoint.x / width * maxX;
+        double cartesianY = panelPoint.y / height * maxY;
+        return new Point2D(cartesianX, cartesianY);
+    }
+    
     private final Matching matching;
     private final double[][] trajectory1;
     private final double[][] trajectory2;
