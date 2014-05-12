@@ -31,6 +31,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatching.dump");
+        initDelaySpace();
+    }
+
+    private void initDelaySpace() {
         try {
             this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
             JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
