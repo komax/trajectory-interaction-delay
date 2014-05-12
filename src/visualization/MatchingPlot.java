@@ -31,7 +31,7 @@ public class MatchingPlot extends JPanel {
     }
     
     private Point2D cartesianToPanelPoint(Point2D cartesianPoint, int width, int height) {
-        double panelX = width - cartesianPoint.x / maxX * width;
+        double panelX = cartesianPoint.x / maxX * width;
         double panelY = height - cartesianPoint.y / maxY * height;
         return new Point2D(panelX, panelY);
     }
