@@ -24,6 +24,7 @@ import matlabconversion.MatchingReader;
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
     private BufferedImage freeSpaceImage = null;
+    private MatchingPlot matchingPlot;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -32,6 +33,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatching.dump");
         initDelaySpace();
+        initMatchingPlot();
     }
 
     private void initDelaySpace() {
@@ -42,6 +44,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void initMatchingPlot() {
+        this.matchingPlot = new MatchingPlot(matching);
+        this.trajectoryPlotPanel.add(matchingPlot);
     }
 
     /**
@@ -149,17 +156,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         trajectoryPlotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Trajectory Plot"));
         trajectoryPlotPanel.setPreferredSize(new java.awt.Dimension(626, 300));
-
-        javax.swing.GroupLayout trajectoryPlotPanelLayout = new javax.swing.GroupLayout(trajectoryPlotPanel);
-        trajectoryPlotPanel.setLayout(trajectoryPlotPanelLayout);
-        trajectoryPlotPanelLayout.setHorizontalGroup(
-            trajectoryPlotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
-        );
-        trajectoryPlotPanelLayout.setVerticalGroup(
-            trajectoryPlotPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        trajectoryPlotPanel.setLayout(new java.awt.BorderLayout());
 
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
