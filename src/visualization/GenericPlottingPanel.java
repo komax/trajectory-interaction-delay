@@ -39,13 +39,17 @@ public abstract class GenericPlottingPanel extends JPanel {
         setBackground(Color.WHITE);
     }
 
-    protected Point2D cartesianToPanelPoint(Point2D cartesianPoint, int width, int height) {
+    protected Point2D cartesianToPanelPoint(Point2D cartesianPoint) {
+        int width = getWidth();
+        int height = getHeight();
         double panelX = cartesianPoint.x / maxX() * width;
         double panelY = height - cartesianPoint.y / maxY() * height;
         return new Point2D(panelX, panelY);
     }
 
-    protected Point2D panelToCartesianPoint(Point2D panelPoint, int width, int height) {
+    protected Point2D panelToCartesianPoint(Point2D panelPoint) {
+        int width = getWidth();
+        int height = getHeight();
         double cartesianX = panelPoint.x / width * maxX();
         double cartesianY = panelPoint.y / height * maxY();
         return new Point2D(cartesianX, cartesianY);
