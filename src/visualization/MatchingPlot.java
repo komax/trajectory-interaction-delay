@@ -11,6 +11,10 @@ import java.util.List;
  * Created by max on 25-4-14.
  */
 public class MatchingPlot extends JPanel {
+    
+    private static int roundDouble(double number) {
+        return (int) Math.round(number);
+    }
 
     private static class Point2D {
 
@@ -74,8 +78,6 @@ public class MatchingPlot extends JPanel {
         findMaxOn(trajectory1);
         findMaxOn(trajectory2);
 
-        // TODO plot them
-        // TODO Add panel to plot by calling add()
     }
 
     private void makeTrajectoriesNullbased() {
@@ -144,10 +146,10 @@ public class MatchingPlot extends JPanel {
         for (int i = 1; i < trajectory.size(); i++) {
             Point2D currentPoint = trajectory.get(i);
             Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint, width, height);
-            int fromX = (int) transformedPreviousPoint.x;
-            int fromY = (int) transformedPreviousPoint.y;
-            int toX = (int) transformedCurrentPoint.x;
-            int toY = (int) transformedCurrentPoint.y;
+            int fromX = roundDouble(transformedPreviousPoint.x);
+            int fromY = roundDouble(transformedPreviousPoint.y);
+            int toX = roundDouble(transformedCurrentPoint.x);
+            int toY = roundDouble(transformedCurrentPoint.y);
             g.drawLine(fromX, fromY, toX, toY);
 
             transformedPreviousPoint = transformedCurrentPoint;
@@ -155,7 +157,6 @@ public class MatchingPlot extends JPanel {
     }
 
     private void drawMatching(Graphics g, int width, int height) {
-        // TODO ribbon drawing of the matching
         int lengthMatching = matching.i.length;
         int startIndexTraject1 = matching.i[0];
         int startIndexTraject2 = matching.j[0];
@@ -164,32 +165,35 @@ public class MatchingPlot extends JPanel {
         for (int k = 1; k < lengthMatching; k++) {
             int currentIndexTraject1 = matching.i[k];
             int currentIndexTraject2 = matching.j[k];
-            if (startIndexTraject1 == endIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
+            final boolean singleIndexTraject1 = startIndexTraject1 == endIndexTraject1;
+            final boolean singleIndexTraject2 = startIndexTraject2 == endIndexTraject2;
+            if (singleIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
                 // 1. ribbon case
                 endIndexTraject2 = currentIndexTraject2;
-            } else if (startIndexTraject2 == endIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
+            } else if (singleIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
                 // 2. the other way round
                 endIndexTraject1 = currentIndexTraject1;
             } else {
-                if (startIndexTraject1 == endIndexTraject1 && startIndexTraject2 == endIndexTraject2) {
-                    // 3a. Simple line
+                if (singleIndexTraject1 && singleIndexTraject2) {
+                    // 3a. Draw a simple line.
                     Point2D pointTraj1 = trajectory1.get(startIndexTraject1);
                     Point2D convPointTraj1 = cartesianToPanelPoint(pointTraj1, width, height);
                     Point2D pointTraj2 = trajectory2.get(startIndexTraject2);
                     Point2D convPointTraj2 = cartesianToPanelPoint(pointTraj2, width, height);
-                    g.drawLine((int) Math.round(convPointTraj1.x), (int) Math.round(convPointTraj1.y), (int) Math.round(convPointTraj2.x), (int) Math.round(convPointTraj2.y));
+                    g.drawLine(roundDouble(convPointTraj1.x), roundDouble(convPointTraj1.y),
+                            roundDouble(convPointTraj2.x), roundDouble(convPointTraj2.y));
                 } else {
                     // 3b. Build the polygon.
                     Polygon ribbon = new Polygon();
                     for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
                         Point2D point = trajectory1.get(l);
                         Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
-                        ribbon.addPoint((int) convertedPoint.x, (int) convertedPoint.y);
+                        ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
                     }
                     for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
                         Point2D point = trajectory2.get(l);
                         Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
-                        ribbon.addPoint((int) convertedPoint.x, (int) convertedPoint.y);
+                        ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
                     }
                     // Draw the polygon.
                     g.fillPolygon(ribbon);
