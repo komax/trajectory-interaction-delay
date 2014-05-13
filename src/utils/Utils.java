@@ -13,6 +13,21 @@ import frechet.Matching;
  * @author max
  */
 public class Utils {
+    public static double[] normalizedDelay(double[] delays) {
+        double maxDelay = Double.MIN_VALUE;
+        double[] normalizedDelays = new double[delays.length];
+        for (double delay : delays) {
+            if (delay > maxDelay) {
+                maxDelay = delay;
+            }
+        }
+        
+        for (int i=0; i<delays.length; i++) {
+            normalizedDelays[i] = delays[i] / maxDelay;
+        }
+        return normalizedDelays;
+    }
+    
     public static double[] delayWithEuclideanNorm(Matching matching) {
         double[] delay = new double[matching.i.length];
         for (int k=0; k<delay.length; k++) {
