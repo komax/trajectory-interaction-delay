@@ -1,7 +1,6 @@
 package matlabconversion;
 
 import frechet.Matching;
-import visualization.VisualizationLauncher;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -23,7 +22,6 @@ public class MatchingReader {
 
     public static void main(String[] args) {
         Matching matching = readMatching("batsMatching.dump");
-        VisualizationLauncher.launchMatchingPlot(matching);
         System.out.println(matching);
         System.out.println(matching.getTrajectory1()[0][1]);
     }
