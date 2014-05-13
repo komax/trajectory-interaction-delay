@@ -174,6 +174,8 @@ public class MatchingPlot extends JPanel {
                 // 2. the other way round
                 endIndexTraject1 = currentIndexTraject1;
             } else {
+                // 3. Drawing part.
+                g.setColor(Color.blue);
                 if (singleIndexTraject1 && singleIndexTraject2) {
                     // 3a. Draw a simple line.
                     Point2D pointTraj1 = trajectory1.get(startIndexTraject1);
