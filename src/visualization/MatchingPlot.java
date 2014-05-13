@@ -19,7 +19,6 @@ public class MatchingPlot extends GenericPlottingPanel {
     private double maxY;
 
     public MatchingPlot(Matching matching) {
-
         // Store data to plot
         this.matching = matching;
 
@@ -85,27 +84,22 @@ public class MatchingPlot extends GenericPlottingPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        Dimension paintDimension = getSize();
-        int width = paintDimension.width;
-        int height = paintDimension.height;
-
-        paintTrajectories(g, width, height);
-        drawMatching(g, width, height);
+        paintTrajectories(g);
+        drawMatching(g);
 
     }
 
-    private void paintTrajectories(Graphics g, int width, int height) {
-        drawTrajectory(trajectory1, g, width, height);
-        drawTrajectory(trajectory2, g, width, height);
+    private void paintTrajectories(Graphics g) {
+        drawTrajectory(trajectory1, g);
+        drawTrajectory(trajectory2, g);
     }
 
-    private void drawTrajectory(List<Point2D> trajectory, Graphics g, int width, int height) {
+    private void drawTrajectory(List<Point2D> trajectory, Graphics g) {
         Point2D previousPoint = trajectory.get(0);
-        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint, width, height);
+        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i = 1; i < trajectory.size(); i++) {
             Point2D currentPoint = trajectory.get(i);
-            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint, width, height);
+            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = roundDouble(transformedPreviousPoint.x);
             int fromY = roundDouble(transformedPreviousPoint.y);
             int toX = roundDouble(transformedCurrentPoint.x);
@@ -116,7 +110,7 @@ public class MatchingPlot extends GenericPlottingPanel {
         }
     }
 
-    private void drawMatching(Graphics g, int width, int height) {
+    private void drawMatching(Graphics g) {
         int lengthMatching = matching.i.length;
         int startIndexTraject1 = matching.i[0];
         int startIndexTraject2 = matching.j[0];
@@ -139,9 +133,9 @@ public class MatchingPlot extends GenericPlottingPanel {
                 if (singleIndexTraject1 && singleIndexTraject2) {
                     // 3a. Draw a simple line.
                     Point2D pointTraj1 = trajectory1.get(startIndexTraject1);
-                    Point2D convPointTraj1 = cartesianToPanelPoint(pointTraj1, width, height);
+                    Point2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
                     Point2D pointTraj2 = trajectory2.get(startIndexTraject2);
-                    Point2D convPointTraj2 = cartesianToPanelPoint(pointTraj2, width, height);
+                    Point2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
                     g.drawLine(roundDouble(convPointTraj1.x), roundDouble(convPointTraj1.y),
                             roundDouble(convPointTraj2.x), roundDouble(convPointTraj2.y));
                 } else {
@@ -149,12 +143,12 @@ public class MatchingPlot extends GenericPlottingPanel {
                     Polygon ribbon = new Polygon();
                     for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
                         Point2D point = trajectory1.get(l);
-                        Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
+                        Point2D convertedPoint = cartesianToPanelPoint(point);
                         ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
                     }
                     for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
                         Point2D point = trajectory2.get(l);
-                        Point2D convertedPoint = cartesianToPanelPoint(point, width, height);
+                        Point2D convertedPoint = cartesianToPanelPoint(point);
                         ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
                     }
                     // Draw the polygon.
