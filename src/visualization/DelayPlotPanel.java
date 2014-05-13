@@ -7,6 +7,8 @@
 package visualization;
 
 import frechet.Matching;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import utils.Utils;
 
 /**
@@ -20,15 +22,38 @@ public class DelayPlotPanel extends GenericPlottingPanel {
         double[] delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
         this.normalizedDelay = Utils.normalizedDelay(delaysWithEuclideanNorm);
     }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(600, 300);
+    }
 
     @Override
     public double maxX() {
-        return 1.0;
+        return normalizedDelay.length;
     }
 
     @Override
     public double maxY() {
-        return normalizedDelay.length;
+        return 1.0;
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Point2D previousPoint = new Point2D(0, normalizedDelay[0]);
+        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+        for (int i=1; i<maxX(); i++) {
+            Point2D currentPoint = new Point2D(i, normalizedDelay[i]);
+            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+            int fromX = roundDouble(transformedPreviousPoint.x);
+            int fromY = roundDouble(transformedPreviousPoint.y);
+            int toX = roundDouble(transformedCurrentPoint.x);
+            int toY = roundDouble(transformedCurrentPoint.y);
+            g.drawLine(fromX, fromY, toX, toY);
+            
+            transformedPreviousPoint = transformedCurrentPoint;
+        }
     }
     
 }
