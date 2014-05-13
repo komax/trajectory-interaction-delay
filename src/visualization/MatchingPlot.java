@@ -128,6 +128,9 @@ public class MatchingPlot extends JPanel {
         
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(2));
+        g2.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON);
 
         Dimension paintDimension = getSize();
         int width = paintDimension.width;
