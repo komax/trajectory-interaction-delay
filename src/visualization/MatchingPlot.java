@@ -1,8 +1,6 @@
 package visualization;
 
 import frechet.Matching;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,43 +8,7 @@ import java.util.List;
 /**
  * Created by max on 25-4-14.
  */
-public class MatchingPlot extends JPanel {
-    
-    private static int roundDouble(double number) {
-        return (int) Math.round(number);
-    }
-
-    private static class Point2D {
-
-        private final double x;
-        private final double y;
-
-        public Point2D(double x, double y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public double getX() {
-            return x;
-        }
-
-        public double getY() {
-            return y;
-        }
-    }
-
-    private Point2D cartesianToPanelPoint(Point2D cartesianPoint, int width, int height) {
-        double panelX = cartesianPoint.x / maxX * width;
-        double panelY = height - cartesianPoint.y / maxY * height;
-        return new Point2D(panelX, panelY);
-    }
-
-    private Point2D panelToCartesianPoint(Point2D panelPoint, int width, int height) {
-        double cartesianX = panelPoint.x / width * maxX;
-        double cartesianY = panelPoint.y / height * maxY;
-        return new Point2D(cartesianX, cartesianY);
-    }
-
+public class MatchingPlot extends GenericPlottingPanel {
     private final Matching matching;
     private ArrayList<Point2D> trajectory1;
     private ArrayList<Point2D> trajectory2;
@@ -57,8 +19,6 @@ public class MatchingPlot extends JPanel {
     private double maxY;
 
     public MatchingPlot(Matching matching) {
-        super(new BorderLayout());
-        setBackground(Color.WHITE);
 
         // Store data to plot
         this.matching = matching;
@@ -125,12 +85,6 @@ public class MatchingPlot extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(2));
-        g2.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
 
         Dimension paintDimension = getSize();
         int width = paintDimension.width;
@@ -211,6 +165,16 @@ public class MatchingPlot extends JPanel {
                 startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
             }
         }
+    }
+
+    @Override
+    public double maxX() {
+        return this.maxX;
+    }
+
+    @Override
+    public double maxY() {
+        return this.maxY;
     }
 
 }
