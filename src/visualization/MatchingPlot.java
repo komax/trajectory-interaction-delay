@@ -17,10 +17,12 @@ public class MatchingPlot extends GenericPlottingPanel {
     private double maxX;
     private double minY;
     private double maxY;
+    private int selectedIndex;
 
     public MatchingPlot(Matching matching) {
         // Store data to plot
         this.matching = matching;
+        this.selectedIndex = -1;
 
         this.minX = Double.MAX_VALUE;
         this.minY = Double.MAX_VALUE;
@@ -74,6 +76,10 @@ public class MatchingPlot extends GenericPlottingPanel {
                 maxY = point.y;
             }
         }
+    }
+    
+    public void setSelectedIndex(int newIndex) {
+        this.selectedIndex = newIndex;
     }
 
     @Override
@@ -159,6 +165,24 @@ public class MatchingPlot extends GenericPlottingPanel {
                 startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
             }
         }
+        if (selectedIndex >= 0) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(5));
+            g.setColor(Color.red);
+            drawPoints(g, selectedIndex);
+        }
+    }
+    
+    private void drawPoints(Graphics g, int index) {
+        int diameter = 6;
+        int radius = diameter / 2;
+        Point2D pointTraject1 = trajectory1.get(matching.i[index]);
+        Point2D panelPoint = cartesianToPanelPoint(pointTraject1);
+        g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        
+        Point2D pointTraject2 = trajectory2.get(matching.j[index]);
+        panelPoint = cartesianToPanelPoint(pointTraject2);
+        g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
     }
 
     @Override

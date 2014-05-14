@@ -246,6 +246,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                normalizedDelayPlot.setSelectedDelay(newValue);
                normalizedDelayPanel.repaint();
            }
+           if (matchingPlot != null) {
+               matchingPlot.setSelectedIndex(newValue);
+               trajectoryPlotPanel.repaint();
+           }
        }
     }//GEN-LAST:event_matchingSliderStateChanged
 
