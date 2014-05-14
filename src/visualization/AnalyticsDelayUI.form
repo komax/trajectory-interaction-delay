@@ -72,17 +72,25 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSlider1" alignment="0" max="32767" attributes="0"/>
+              <Component id="matchingSlider" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jSlider1" alignment="1" pref="77" max="32767" attributes="0"/>
+              <Component id="matchingSlider" alignment="1" pref="77" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JSlider" name="jSlider1">
+        <Component class="javax.swing.JSlider" name="matchingSlider">
+          <Properties>
+            <Property name="majorTickSpacing" type="int" value="50"/>
+            <Property name="minorTickSpacing" type="int" value="25"/>
+            <Property name="paintLabels" type="boolean" value="true"/>
+            <Property name="paintTicks" type="boolean" value="true"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="value" type="int" value="0"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

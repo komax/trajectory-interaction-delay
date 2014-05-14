@@ -33,9 +33,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatching.dump");
+        initSlider();
         initDelaySpace();
         initMatchingPlot();
         initDelayPlot();
+    }
+    
+    private void initSlider() {
+        this.matchingSlider.setMinimum(0);
+        this.matchingSlider.setMaximum(this.matching.i.length - 1);
     }
 
     private void initDelaySpace() {
@@ -68,7 +74,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void initComponents() {
 
         sliderPanel = new javax.swing.JPanel();
-        jSlider1 = new javax.swing.JSlider();
+        matchingSlider = new javax.swing.JSlider();
         settingsPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         distanceComboBox = new javax.swing.JComboBox();
@@ -89,15 +95,22 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         sliderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matching"));
 
+        matchingSlider.setMajorTickSpacing(50);
+        matchingSlider.setMinorTickSpacing(25);
+        matchingSlider.setPaintLabels(true);
+        matchingSlider.setPaintTicks(true);
+        matchingSlider.setToolTipText("");
+        matchingSlider.setValue(0);
+
         javax.swing.GroupLayout sliderPanelLayout = new javax.swing.GroupLayout(sliderPanel);
         sliderPanel.setLayout(sliderPanelLayout);
         sliderPanelLayout.setHorizontalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         sliderPanelLayout.setVerticalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSlider1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
         );
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
@@ -263,7 +276,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider matchingSlider;
     private javax.swing.JPanel normalizedDelayPanel;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel sliderPanel;
