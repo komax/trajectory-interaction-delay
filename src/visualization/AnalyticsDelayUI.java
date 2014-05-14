@@ -7,14 +7,6 @@
 package visualization;
 
 import frechet.Matching;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import matlabconversion.MatchingReader;
 
 /**
@@ -23,9 +15,9 @@ import matlabconversion.MatchingReader;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
-    private BufferedImage freeSpaceImage = null;
     private MatchingPlot matchingPlot;
     private DelayPlotPanel normalizedDelayPlot;
+    private DelaySpacePanel delaySpacePlot;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -45,13 +37,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        try {
-            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
-            JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
-            this.delaySpacePanel.add(freeSpaceLabel);
-        } catch (IOException ex) {
-            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.delaySpacePlot  = new DelaySpacePanel();
+        this.delaySpacePanel.add(delaySpacePlot);
     }
     
     private void initMatchingPlot() {
