@@ -25,6 +25,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
     private BufferedImage freeSpaceImage = null;
     private MatchingPlot matchingPlot;
+    private DelayPlotPanel normalizedDelayPlot;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -34,6 +35,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.matching = MatchingReader.readMatching("batsMatching.dump");
         initDelaySpace();
         initMatchingPlot();
+        initDelayPlot();
     }
 
     private void initDelaySpace() {
@@ -49,6 +51,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void initMatchingPlot() {
         this.matchingPlot = new MatchingPlot(matching);
         this.trajectoryPlotPanel.add(matchingPlot);
+    }
+    
+    private void initDelayPlot() {
+        this.normalizedDelayPlot = new DelayPlotPanel(matching);
+        this.normalizedDelayPanel.add(normalizedDelayPlot);
     }
 
     /**
@@ -74,7 +81,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         thresholdSpinner = new javax.swing.JSpinner();
         trajectoryPlotPanel = new javax.swing.JPanel();
         delaySpacePanel = new javax.swing.JPanel();
-        delayInNormPanel = new javax.swing.JPanel();
+        normalizedDelayPanel = new javax.swing.JPanel();
         delayInUnitPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -161,18 +168,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
 
-        delayInNormPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Norm)"));
-
-        javax.swing.GroupLayout delayInNormPanelLayout = new javax.swing.GroupLayout(delayInNormPanel);
-        delayInNormPanel.setLayout(delayInNormPanelLayout);
-        delayInNormPanelLayout.setHorizontalGroup(
-            delayInNormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        delayInNormPanelLayout.setVerticalGroup(
-            delayInNormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
-        );
+        normalizedDelayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (Normalized)"));
+        normalizedDelayPanel.setLayout(new java.awt.BorderLayout());
 
         delayInUnitPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Unit)"));
 
@@ -199,15 +196,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(delayInNormPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(normalizedDelayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(delayInUnitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(delayInNormPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(normalizedDelayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(delayInUnitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
@@ -258,7 +255,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel delayInNormPanel;
     private javax.swing.JPanel delayInUnitPanel;
     private javax.swing.JPanel delaySpacePanel;
     private javax.swing.JComboBox distanceComboBox;
@@ -267,6 +263,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSlider jSlider1;
+    private javax.swing.JPanel normalizedDelayPanel;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel sliderPanel;
     private javax.swing.JSpinner thresholdSpinner;

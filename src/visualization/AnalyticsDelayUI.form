@@ -32,7 +32,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="trajectoryPlotPanel" max="32767" attributes="0"/>
-                  <Component id="delayInNormPanel" max="32767" attributes="0"/>
+                  <Component id="normalizedDelayPanel" max="32767" attributes="0"/>
                   <Component id="delayInUnitPanel" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -41,9 +41,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <Component id="trajectoryPlotPanel" pref="230" max="32767" attributes="0"/>
+              <Component id="trajectoryPlotPanel" pref="377" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="delayInNormPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="normalizedDelayPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="delayInUnitPanel" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -235,27 +235,16 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
-    <Container class="javax.swing.JPanel" name="delayInNormPanel">
+    <Container class="javax.swing.JPanel" name="normalizedDelayPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Delay Plot (in Norm)"/>
+            <TitledBorder title="Delay Plot (Normalized)"/>
           </Border>
         </Property>
       </Properties>
 
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="147" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
     <Container class="javax.swing.JPanel" name="delayInUnitPanel">
       <Properties>
