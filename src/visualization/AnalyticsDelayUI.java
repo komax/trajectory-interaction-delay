@@ -85,6 +85,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delayInUnitPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Visualization of Delays in Trajectories");
 
         sliderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matching"));
 
