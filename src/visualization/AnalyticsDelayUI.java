@@ -101,6 +101,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         matchingSlider.setPaintTicks(true);
         matchingSlider.setToolTipText("");
         matchingSlider.setValue(0);
+        matchingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                matchingSliderStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout sliderPanelLayout = new javax.swing.GroupLayout(sliderPanel);
         sliderPanel.setLayout(sliderPanelLayout);
@@ -183,6 +188,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
 
         normalizedDelayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (Normalized)"));
+        normalizedDelayPanel.setPreferredSize(new java.awt.Dimension(30, 170));
         normalizedDelayPanel.setLayout(new java.awt.BorderLayout());
 
         delayInUnitPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Unit)"));
@@ -216,7 +222,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(normalizedDelayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -232,6 +238,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
+        
+    }//GEN-LAST:event_matchingSliderStateChanged
 
     /**
      * @param args the command line arguments
