@@ -240,7 +240,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
-        
+       if (!matchingSlider.getValueIsAdjusting()) {
+           int newValue = matchingSlider.getValue();
+           if (normalizedDelayPlot != null) {
+               normalizedDelayPlot.setSelectedDelay(newValue);
+               normalizedDelayPanel.repaint();
+           }
+       }
     }//GEN-LAST:event_matchingSliderStateChanged
 
     /**
