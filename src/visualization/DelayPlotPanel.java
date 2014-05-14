@@ -7,8 +7,10 @@
 package visualization;
 
 import frechet.Matching;
+import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import utils.Utils;
 
 /**
@@ -17,10 +19,16 @@ import utils.Utils;
  */
 public class DelayPlotPanel extends GenericPlottingPanel {
     private final double[] normalizedDelay;
+    private int selectedIndex;
     
     public DelayPlotPanel(Matching matching) {
+        this.selectedIndex = -1;
         double[] delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
         this.normalizedDelay = Utils.normalizedDelay(delaysWithEuclideanNorm);
+    }
+    
+    public void setSelectedDelay(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
     }
     
     @Override
@@ -41,6 +49,21 @@ public class DelayPlotPanel extends GenericPlottingPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        if (selectedIndex >= 0) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(1));
+            Point2D selectedPoint = new Point2D(selectedIndex, normalizedDelay[selectedIndex]);
+            Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            
+            g.drawLine(0, roundDouble(drawablePoint.y),
+                    roundDouble(drawablePoint.x), roundDouble(drawablePoint.y));
+            g.drawLine(roundDouble(drawablePoint.x), 0,
+                    roundDouble(drawablePoint.x), getHeight());
+            
+            g2.setStroke(new BasicStroke(2));
+        }
+        
         Point2D previousPoint = new Point2D(0, normalizedDelay[0]);
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
