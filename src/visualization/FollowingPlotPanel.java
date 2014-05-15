@@ -23,10 +23,12 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
     private final int lengthMatching;
     private int maxDelay;
     private final Matching matching;
+    private int selectedIndex;
     
     public FollowingPlotPanel(Matching matching) {
         this.matching = matching;
         this.lengthMatching = matching.i.length;
+        this.selectedIndex = -1;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
         this.maxDelay = Integer.MIN_VALUE;
         for (int delay: delaysInTimestamps) {
@@ -34,6 +36,10 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
+    }
+    
+    public void setSelectedIndex(int newIndex) {
+        this.selectedIndex = newIndex;
     }
     
     @Override
@@ -74,6 +80,10 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
         // Restore old stroke style.
         g2.setStroke(oldStroke);
         
+        if (selectedIndex >= 0) {
+            // TODO Draw selected delay in the plot.
+        }
+        
         for (int k=0; k<lengthMatching; k++) {
             boolean traj1IsAhead = matching.i[k] > matching.j[k];
             boolean traj2IsAhead = matching.j[k] > matching.i[k];
@@ -97,6 +107,5 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
             int y = roundDouble(drawablePoint.y);
             g.drawLine(x, y, x, y);
         }
-    }
-    
+    }  
 }
