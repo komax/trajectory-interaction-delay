@@ -38,6 +38,15 @@ public class Utils {
         return delay;
     }
     
+    public static int[] delayInTimestamps(Matching matching) {
+        int[] delays = new int[matching.i.length];
+        for (int k=0; k<delays.length; k++) {
+            int diff = Math.abs(matching.i[k] - matching.j[k]);
+            delays[k] = diff;
+        }
+        return delays;
+    }
+
     private static double euclideanDistance(double[] pointA, double[] pointB) {
         double summedDistance = 0.0;
         for (int i=0; i<pointA.length; i++) {
