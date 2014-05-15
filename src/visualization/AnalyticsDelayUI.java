@@ -37,7 +37,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot  = new DelaySpacePanel(matching);
+        this.delaySpacePlot  = new DelaySpacePanel(matching.i.length);
         this.delaySpacePanel.add(delaySpacePlot);
     }
     
