@@ -18,6 +18,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private MatchingPlot matchingPlot;
     private DelayPlotPanel normalizedDelayPlot;
     private DelaySpacePanel delaySpacePlot;
+    private FollowingPlotPanel followingDelayPlot;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -29,6 +30,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initDelaySpace();
         initMatchingPlot();
         initDelayPlot();
+        initFollowingPlot();
     }
     
     private void initSlider() {
@@ -49,6 +51,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void initDelayPlot() {
         this.normalizedDelayPlot = new DelayPlotPanel(matching);
         this.normalizedDelayPanel.add(normalizedDelayPlot);
+    }
+    
+    private void initFollowingPlot() {
+        this.followingDelayPlot = new FollowingPlotPanel(matching);
+        this.delayInUnitPanel.add(followingDelayPlot);
     }
 
     /**
