@@ -186,17 +186,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         normalizedDelayPanel.setLayout(new java.awt.BorderLayout());
 
         delayInUnitPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Unit)"));
-
-        javax.swing.GroupLayout delayInUnitPanelLayout = new javax.swing.GroupLayout(delayInUnitPanel);
-        delayInUnitPanel.setLayout(delayInUnitPanelLayout);
-        delayInUnitPanelLayout.setHorizontalGroup(
-            delayInUnitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        delayInUnitPanelLayout.setVerticalGroup(
-            delayInUnitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 159, Short.MAX_VALUE)
-        );
+        delayInUnitPanel.setPreferredSize(new java.awt.Dimension(30, 170));
+        delayInUnitPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

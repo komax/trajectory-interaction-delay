@@ -62,7 +62,7 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                         BasicStroke.JOIN_MITER,
                         10.0f, dash1, 0.0f);
         g2.setStroke(dashed);
-        g.drawLine(0, maxDelay, lengthMatching, maxDelay);
+        g.drawLine(0, maxDelay, getWidth(), maxDelay);
         
         // Restore old stroke style.
         g2.setStroke(oldStroke);
