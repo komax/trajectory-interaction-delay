@@ -6,6 +6,7 @@
 
 package visualization;
 
+import frechet.Matching;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -27,10 +28,12 @@ public class DelaySpacePanel extends GenericPlottingPanel {
     private BufferedImage freeSpaceImage;
     private int selectedIndexTraject1;
     private int selectedIndexTraject2;
+    private final Matching matching;
     
-    public DelaySpacePanel() {
+    public DelaySpacePanel(Matching matching) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
+        this.matching = matching;
         try {
             this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
             JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
@@ -47,12 +50,12 @@ public class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return freeSpaceImage.getWidth();
+        return matching.i.length;
     }
 
     @Override
     public double maxY() {
-        return freeSpaceImage.getHeight();
+        return matching.j.length;
     }
     
     @Override
@@ -64,6 +67,15 @@ public class DelaySpacePanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
             // TODO draw axis on top of the loaded image.
+            Point2D pointOfMatching = new Point2D(selectedIndexTraject1, selectedIndexTraject2);
+            Point2D pointInPanel = cartesianToPanelPoint(pointOfMatching);
+            int xPoint = roundDouble(pointInPanel.x);
+            int yPoint = roundDouble(pointInPanel.y);
+            // Drawing the horizontial line.
+            g.drawLine(0, yPoint, xPoint, yPoint);
+            // Drawing the vertical line.
+            g.drawLine(xPoint, getHeight(), xPoint, yPoint);
+            
         }
     }
     
