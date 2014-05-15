@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
@@ -52,17 +53,26 @@ public class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return freeSpaceImage.getWidth();
+        return getWidth();
     }
 
     @Override
     public double maxY() {
-        return freeSpaceImage.getHeight();
+        return getHeight();
+    }
+    
+    public static BufferedImage resize(BufferedImage image, int width, int height) {
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
+        Graphics2D g2d = (Graphics2D) bi.createGraphics();
+        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+        g2d.drawImage(image, 0, 0, width, height, null);
+        g2d.dispose();
+        return bi;
     }
     
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension((int) maxX(), (int) maxY());
+        return new Dimension(delaySpaceIcon.getIconWidth(), delaySpaceIcon.getIconHeight());
     }
     
     @Override
@@ -71,7 +81,8 @@ public class DelaySpacePanel extends GenericPlottingPanel {
         
         Image img = delaySpaceIcon.getImage();
         ImageObserver imgObserver = delaySpaceIcon.getImageObserver();
-        g.drawImage(img, 0, 0, imgObserver);
+        BufferedImage scaledImage = resize(freeSpaceImage, getWidth(), getHeight());
+        g.drawImage(scaledImage, 0, 0, null);
         
         if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
             Graphics2D g2 = (Graphics2D) g;
