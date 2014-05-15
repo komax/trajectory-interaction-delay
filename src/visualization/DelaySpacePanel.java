@@ -30,14 +30,14 @@ import javax.swing.ImageIcon;
 public class DelaySpacePanel extends GenericPlottingPanel {
     private int selectedIndexTraject1;
     private int selectedIndexTraject2;
-    private final Matching matching;
     private ImageIcon delaySpaceIcon;
     private BufferedImage freeSpaceImage;
+    private final int lengthMatching;
     
-    public DelaySpacePanel(Matching matching) {
+    public DelaySpacePanel(int lengthMatching) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
-        this.matching = matching;
+        this.lengthMatching = lengthMatching;
         try {
             this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
             this.delaySpaceIcon = new ImageIcon(freeSpaceImage);
@@ -72,7 +72,7 @@ public class DelaySpacePanel extends GenericPlottingPanel {
     
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(delaySpaceIcon.getIconWidth(), delaySpaceIcon.getIconHeight());
+        return new Dimension(lengthMatching, lengthMatching);
     }
     
     @Override
@@ -88,13 +88,14 @@ public class DelaySpacePanel extends GenericPlottingPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            int lengthMatching = matching.i.length;
             double scaledPixelTraject1 = maxY() / lengthMatching * selectedIndexTraject1;
             double scaledPixelTraject2 = maxX() / lengthMatching * selectedIndexTraject2;
-            Point2D pointOfMatching = new Point2D(scaledPixelTraject2, scaledPixelTraject1);
+            Point2D pointOfMatching = new Point2D(selectedIndexTraject2, selectedIndexTraject1);
             Point2D pointInPanel = cartesianToPanelPoint(pointOfMatching);
             int xPoint = roundDouble(pointInPanel.x);
+            //xPoint = selectedIndexTraject2;
             int yPoint = roundDouble(pointInPanel.y);
+            //yPoint = selectedIndexTraject1;
             // Drawing the horizontial line.
             g.drawLine(0, yPoint, xPoint, yPoint);
             // Drawing the vertical line.
