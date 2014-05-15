@@ -7,7 +7,11 @@
 package visualization;
 
 import frechet.Matching;
+import java.awt.BasicStroke;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 /**
  *
@@ -41,8 +45,27 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
     }
     
     @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(600, 300);
+    }
+    
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        Graphics2D g2 = (Graphics2D) g;
+        // Draw zero-axis.
+        Stroke oldStroke = g2.getStroke();
+        float dash1[] = {10.0f};
+        BasicStroke dashed = new BasicStroke(1.0f,
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_MITER,
+                        10.0f, dash1, 0.0f);
+        g2.setStroke(dashed);
+        g.drawLine(0, maxDelay, lengthMatching, maxDelay);
+        
+        // Restore old stroke style.
+        g2.setStroke(oldStroke);
     }
     
 }
