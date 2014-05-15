@@ -55,11 +55,11 @@ public class DelayPlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(1));
             Point2D selectedPoint = new Point2D(selectedIndex, normalizedDelay[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            int xCoord = roundDouble(drawablePoint.x);
+            int yCoord = roundDouble(drawablePoint.y);
             
-            g.drawLine(0, roundDouble(drawablePoint.y),
-                    roundDouble(drawablePoint.x), roundDouble(drawablePoint.y));
-            g.drawLine(roundDouble(drawablePoint.x), 0,
-                    roundDouble(drawablePoint.x), getHeight());
+            g.drawLine(0, yCoord,xCoord, yCoord);
+            g.drawLine(xCoord, 0, xCoord, getHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
