@@ -65,7 +65,11 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                         BasicStroke.JOIN_MITER,
                         10.0f, dash1, 0.0f);
         g2.setStroke(dashed);
-        g.drawLine(0, maxDelay, getWidth(), maxDelay);
+        Point2D origin = new Point2D(0, maxDelay);
+        Point2D drawableOrigin = cartesianToPanelPoint(origin);
+        int xCoord = roundDouble(drawableOrigin.x);
+        int yCoord = roundDouble(drawableOrigin.y);
+        g.drawLine(xCoord, yCoord, getWidth(), yCoord);
         
         // Restore old stroke style.
         g2.setStroke(oldStroke);
@@ -73,21 +77,25 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
         for (int k=0; k<lengthMatching; k++) {
             boolean traj1IsAhead = matching.i[k] > matching.j[k];
             boolean traj2IsAhead = matching.j[k] > matching.i[k];
-            int yCoord = maxDelay;
+            Point2D dataPoint = null;
             if (traj1IsAhead) {
                 // Color that trajectory 1 is ahead.
                 g.setColor(Color.blue);
-                yCoord += delaysInTimestamps[k];
+                dataPoint = new Point2D(k, maxDelay + delaysInTimestamps[k]);
             } else if (traj2IsAhead) {
                 // Color that trajectory 2 is ahead.
                 g.setColor(Color.red);
-                yCoord -= delaysInTimestamps[k];
+                dataPoint = new Point2D(k, maxDelay - delaysInTimestamps[k]);
             } else {
                 // No delay is detected.
                 g.setColor(Color.gray);
+                dataPoint = new Point2D(k, maxDelay);
             }
             // Draw data point into the plot.
-            g.drawLine(k, yCoord, k, yCoord);
+            Point2D drawablePoint = cartesianToPanelPoint(dataPoint);
+            int x = roundDouble(drawablePoint.x);
+            int y = roundDouble(drawablePoint.y);
+            g.drawLine(x, y, x, y);
         }
     }
     
