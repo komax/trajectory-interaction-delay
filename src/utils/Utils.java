@@ -46,7 +46,7 @@ public class Utils {
         }
         return delays;
     }
-
+    
     private static double euclideanDistance(double[] pointA, double[] pointB) {
         double summedDistance = 0.0;
         for (int i=0; i<pointA.length; i++) {
