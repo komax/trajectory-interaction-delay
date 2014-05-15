@@ -9,6 +9,7 @@ package visualization;
 import frechet.Matching;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -30,13 +31,14 @@ public class DelaySpacePanel extends GenericPlottingPanel {
     private int selectedIndexTraject2;
     private final Matching matching;
     private ImageIcon delaySpaceIcon;
+    private BufferedImage freeSpaceImage;
     
     public DelaySpacePanel(Matching matching) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
         this.matching = matching;
         try {
-            BufferedImage freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
+            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
             this.delaySpaceIcon = new ImageIcon(freeSpaceImage);
         } catch (IOException ex) {
             Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,12 +52,17 @@ public class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return matching.i.length;
+        return freeSpaceImage.getWidth();
     }
 
     @Override
     public double maxY() {
-        return matching.j.length;
+        return freeSpaceImage.getHeight();
+    }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension((int) maxX(), (int) maxY());
     }
     
     @Override
@@ -70,7 +77,10 @@ public class DelaySpacePanel extends GenericPlottingPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            Point2D pointOfMatching = new Point2D(selectedIndexTraject1, selectedIndexTraject2);
+            int lengthMatching = matching.i.length;
+            double scaledPixelTraject1 = maxY() / lengthMatching * selectedIndexTraject1;
+            double scaledPixelTraject2 = maxX() / lengthMatching * selectedIndexTraject2;
+            Point2D pointOfMatching = new Point2D(scaledPixelTraject2, scaledPixelTraject1);
             Point2D pointInPanel = cartesianToPanelPoint(pointOfMatching);
             int xPoint = roundDouble(pointInPanel.x);
             int yPoint = roundDouble(pointInPanel.y);
