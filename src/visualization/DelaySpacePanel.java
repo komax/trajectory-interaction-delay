@@ -11,7 +11,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,19 +27,18 @@ import javax.swing.JLabel;
  * @author max
  */
 public class DelaySpacePanel extends GenericPlottingPanel {
-    private BufferedImage freeSpaceImage;
     private int selectedIndexTraject1;
     private int selectedIndexTraject2;
     private final Matching matching;
+    private ImageIcon delaySpaceIcon;
     
     public DelaySpacePanel(Matching matching) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
         this.matching = matching;
         try {
-            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
-            JLabel freeSpaceLabel = new JLabel(new ImageIcon(freeSpaceImage));
-            add(freeSpaceLabel);
+            BufferedImage freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
+            this.delaySpaceIcon = new ImageIcon(freeSpaceImage);
         } catch (IOException ex) {
             Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,11 +63,14 @@ public class DelaySpacePanel extends GenericPlottingPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
+        Image img = delaySpaceIcon.getImage();
+        ImageObserver imgObserver = delaySpaceIcon.getImageObserver();
+        g.drawImage(img, 0, 0, imgObserver);
+        
         if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            // TODO draw axis on top of the loaded image.
             Point2D pointOfMatching = new Point2D(selectedIndexTraject1, selectedIndexTraject2);
             Point2D pointInPanel = cartesianToPanelPoint(pointOfMatching);
             int xPoint = roundDouble(pointInPanel.x);
