@@ -8,6 +8,7 @@ package visualization;
 
 import frechet.Matching;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,8 +22,10 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
     private final int[] delaysInTimestamps;
     private final int lengthMatching;
     private int maxDelay;
+    private final Matching matching;
     
     public FollowingPlotPanel(Matching matching) {
+        this.matching = matching;
         this.lengthMatching = matching.i.length;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
         this.maxDelay = Integer.MIN_VALUE;
@@ -66,6 +69,26 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
         
         // Restore old stroke style.
         g2.setStroke(oldStroke);
+        
+        for (int k=0; k<lengthMatching; k++) {
+            boolean traj1IsAhead = matching.i[k] > matching.j[k];
+            boolean traj2IsAhead = matching.j[k] > matching.i[k];
+            int yCoord = maxDelay;
+            if (traj1IsAhead) {
+                // Color that trajectory 1 is ahead.
+                g.setColor(Color.blue);
+                yCoord += delaysInTimestamps[k];
+            } else if (traj2IsAhead) {
+                // Color that trajectory 2 is ahead.
+                g.setColor(Color.red);
+                yCoord -= delaysInTimestamps[k];
+            } else {
+                // No delay is detected.
+                g.setColor(Color.gray);
+            }
+            // Draw data point into the plot.
+            g.drawLine(k, yCoord, k, yCoord);
+        }
     }
     
 }
