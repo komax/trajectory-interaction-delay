@@ -81,7 +81,23 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
         g2.setStroke(oldStroke);
         
         if (selectedIndex >= 0) {
-            // TODO Draw selected delay in the plot.
+            // Draw selected delay in the plot.
+            g2.setStroke(new BasicStroke(1));
+            double delay = maxDelay;
+            if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
+                delay += delaysInTimestamps[selectedIndex];
+            } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
+                delay -= delaysInTimestamps[selectedIndex];
+            }
+            Point2D selectedPoint = new Point2D(selectedIndex, delay);
+            Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            xCoord = roundDouble(drawablePoint.x);
+            yCoord = roundDouble(drawablePoint.y);
+            
+            g.drawLine(0, yCoord,xCoord, yCoord);
+            g.drawLine(xCoord, 0, xCoord, getHeight());
+            
+            g2.setStroke(new BasicStroke(2));
         }
         
         for (int k=0; k<lengthMatching; k++) {
