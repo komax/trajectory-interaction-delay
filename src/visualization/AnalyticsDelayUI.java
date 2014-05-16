@@ -19,6 +19,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DelayPlotPanel normalizedDelayPlot;
     private DelaySpacePanel delaySpacePlot;
     private FollowingPlotPanel followingDelayPlot;
+    private double[] delays;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -26,6 +27,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatching.dump");
+        this.delays = utils.Utils.delayWithEuclideanNorm(matching);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -244,6 +246,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
                delaySpacePanel.repaint();
            }
+           double delay = delays[newValue];
+           distanceField.setText(String.format("%.3f", delay));
        }
     }//GEN-LAST:event_matchingSliderStateChanged
 
