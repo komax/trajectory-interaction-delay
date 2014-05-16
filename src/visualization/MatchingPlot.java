@@ -122,9 +122,16 @@ public class MatchingPlot extends GenericPlottingPanel {
         int startIndexTraject2 = matching.j[0];
         int endIndexTraject1 = startIndexTraject1;
         int endIndexTraject2 = startIndexTraject2;
-        for (int k = 1; k < lengthMatching; k++) {
-            int currentIndexTraject1 = matching.i[k];
-            int currentIndexTraject2 = matching.j[k];
+        for (int k = 1; k <= lengthMatching; k++) {
+            int currentIndexTraject1;
+            int currentIndexTraject2;
+            if (k == lengthMatching) {
+                currentIndexTraject1 = -1;
+                currentIndexTraject2 = -1;
+            } else {
+                currentIndexTraject1 = matching.i[k];
+                currentIndexTraject2 = matching.j[k];
+            }
             final boolean singleIndexTraject1 = startIndexTraject1 == endIndexTraject1;
             final boolean singleIndexTraject2 = startIndexTraject2 == endIndexTraject2;
             if (singleIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
