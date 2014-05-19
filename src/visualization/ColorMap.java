@@ -56,6 +56,20 @@ public class ColorMap {
         colors.add(getColorFromRGB(103, 0, 13));
         return new ColorMap(minValue, maxValue, colors);
     }
+    
+    public static ColorMap createGreenColormap(double minValue, double maxValue) {
+        List<Color> colors = new ArrayList<>();
+        colors.add(getColorFromRGB(247, 252, 253));
+        colors.add(getColorFromRGB(229, 245, 249));
+        colors.add(getColorFromRGB(204, 236, 230));
+        colors.add(getColorFromRGB(153, 216, 201));
+        colors.add(getColorFromRGB(102, 194, 164));
+        colors.add(getColorFromRGB(65, 174, 118));
+        colors.add(getColorFromRGB(35, 139, 69));
+        colors.add(getColorFromRGB(0, 109, 44));
+        colors.add(getColorFromRGB(0, 68, 27));
+        return new ColorMap(minValue, maxValue, colors);
+    }
   
     public ColorMap(double minValue, double maxValue, List<Color> colorSpectrum) {
         this.minValue = minValue;
