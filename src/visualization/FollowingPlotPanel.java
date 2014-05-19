@@ -39,7 +39,7 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
             }
         }
         this.positiveColors = ColorMap.createBlueColormap(0.0, maxDelay);
-        this.negativeColors = ColorMap.createRedColormap(0.0, maxDelay);
+        this.negativeColors = ColorMap.createGrayToRedColormap(0.0, maxDelay);
     }
     
     public void setSelectedIndex(int newIndex) {
