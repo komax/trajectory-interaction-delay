@@ -8,6 +8,7 @@ package visualization;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +22,10 @@ public class ColorMap {
     
     public static Color getColorFromRGB(int red, int green, int blue) {
         return new Color(red, green, blue);
+    }
+    
+    public static Color getColorFromRGB(int colorValue) {
+        return new Color(colorValue);
     }
     
     public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
@@ -68,6 +73,37 @@ public class ColorMap {
         colors.add(getColorFromRGB(35, 139, 69));
         colors.add(getColorFromRGB(0, 109, 44));
         colors.add(getColorFromRGB(0, 68, 27));
+        return new ColorMap(minValue, maxValue, colors);
+    }
+    
+    public static ColorMap createGrayToRedColormap(double minValue, double maxValue) {
+        List<Color> colors = new ArrayList<>();
+        int[] colorValues = new int[] {
+          0x67000D,
+ 	  0x680613,
+ 	  0x6A0D18,
+ 	  0x6B131E,
+ 	  0x6C1A24,
+ 	  0x6D202A,
+ 	  0x6E2630,
+ 	  0x702D35,
+ 	  0x71333B,
+ 	  0x723A41,
+ 	  0x744046,
+ 	  0x75464C,
+ 	  0x764D52,
+ 	  0x775358,
+ 	  0x785A5E,
+ 	  0x7A6063,
+ 	  0x7B6669,
+ 	  0x7C6D6F,
+ 	  0x7E7374,
+ 	  0x7F7A7A,
+          0x808080
+        };
+        for (int i=colorValues.length-1; i>= 0; i--) {
+            colors.add(getColorFromRGB(colorValues[i]));
+        }
         return new ColorMap(minValue, maxValue, colors);
     }
   
