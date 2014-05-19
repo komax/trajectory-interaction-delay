@@ -38,7 +38,7 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createBlueColormap(0.0, maxDelay);
+        this.positiveColors = ColorMap.createGrayToBlueColormap(0.0, maxDelay);
         this.negativeColors = ColorMap.createGrayToRedColormap(0.0, maxDelay);
     }
     
