@@ -24,6 +24,8 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
     private int maxDelay;
     private final Matching matching;
     private int selectedIndex;
+    private final ColorMap positiveColors;
+    private final ColorMap negativeColors;
     
     public FollowingPlotPanel(Matching matching) {
         this.matching = matching;
@@ -36,6 +38,8 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
+        this.positiveColors = ColorMap.createBlueColormap(0.0, maxDelay);
+        this.negativeColors = ColorMap.createRedColormap(0.0, maxDelay);
     }
     
     public void setSelectedIndex(int newIndex) {
@@ -103,15 +107,18 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
         for (int k=0; k<lengthMatching; k++) {
             boolean traj1IsAhead = matching.i[k] > matching.j[k];
             boolean traj2IsAhead = matching.j[k] > matching.i[k];
+            int currentDelay = delaysInTimestamps[k];
             Point2D dataPoint = null;
             if (traj1IsAhead) {
                 // Color that trajectory 1 is ahead.
-                g.setColor(Color.blue);
-                dataPoint = new Point2D(k, maxDelay + delaysInTimestamps[k]);
+                Color color = positiveColors.getColor(currentDelay);
+                g.setColor(color);
+                dataPoint = new Point2D(k, maxDelay + currentDelay);
             } else if (traj2IsAhead) {
                 // Color that trajectory 2 is ahead.
-                g.setColor(Color.red);
-                dataPoint = new Point2D(k, maxDelay - delaysInTimestamps[k]);
+                Color color = negativeColors.getColor(currentDelay);
+                g.setColor(color);
+                dataPoint = new Point2D(k, maxDelay - currentDelay);
             } else {
                 // No delay is detected.
                 g.setColor(Color.gray);
