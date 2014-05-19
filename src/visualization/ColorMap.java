@@ -106,6 +106,37 @@ public class ColorMap {
         }
         return new ColorMap(minValue, maxValue, colors);
     }
+    
+        public static ColorMap createGrayToBlueColormap(double minValue, double maxValue) {
+        List<Color> colors = new ArrayList<>();
+        int[] colorValues = new int[] {
+          0x023858,
+ 	  0x083C5A,
+ 	  0x0F3F5C,
+ 	  0x15435E,
+ 	  0x1B4660,
+ 	  0x224A62,
+ 	  0x284E64,
+ 	  0x2E5166,
+ 	  0x345568,
+ 	  0x3B586A,
+ 	  0x415C6C,
+ 	  0x47606E,
+ 	  0x4E6370,
+ 	  0x546772,
+ 	  0x5A6A74,
+ 	  0x606E76,
+ 	  0x677278,
+ 	  0x6D757A,
+ 	  0x73797C,
+ 	  0x7A7C7E,
+          0x808080
+        };
+        for (int i=colorValues.length-1; i>= 0; i--) {
+            colors.add(getColorFromRGB(colorValues[i]));
+        }
+        return new ColorMap(minValue, maxValue, colors);
+    }
   
     public ColorMap(double minValue, double maxValue, List<Color> colorSpectrum) {
         this.minValue = minValue;
