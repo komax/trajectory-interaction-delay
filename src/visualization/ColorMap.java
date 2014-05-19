@@ -93,6 +93,9 @@ public class ColorMap {
         double nullBasedValue = value - minValue;
         Double expectedIndex = nullBasedValue * numberOfColors / valuesRange();
         int index = expectedIndex.intValue();
+        if (index >= numberOfColors) {
+            index = numberOfColors - 1;
+        }
         return colorSpectrum.get(index);
     }
     
