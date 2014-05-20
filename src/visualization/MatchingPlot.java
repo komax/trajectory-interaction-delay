@@ -4,6 +4,7 @@ import frechet.Matching;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import utils.Utils;
 
 /**
  * Created by max on 25-4-14.
@@ -18,6 +19,10 @@ public class MatchingPlot extends GenericPlottingPanel {
     private double minY;
     private double maxY;
     private int selectedIndex;
+    private final int[] delaysInTimestamps;
+    private int maxDelay;
+    private final ColorMap positiveColors;
+    private final ColorMap negativeColors;
 
     public MatchingPlot(Matching matching) {
         // Store data to plot
@@ -38,6 +43,22 @@ public class MatchingPlot extends GenericPlottingPanel {
         this.maxY = Double.MIN_VALUE;
         findMaxOn(trajectory1);
         findMaxOn(trajectory2);
+        
+        this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
+        this.maxDelay = Integer.MIN_VALUE;
+        for (int delay: delaysInTimestamps) {
+            if (delay > maxDelay) {
+                maxDelay = delay;
+            }
+        }
+        this.positiveColors = ColorMap.createGrayToBlueColormap(0.0, maxDelay);
+        this.positiveColors.halfColorSpectrum();
+        this.positiveColors.halfColorSpectrum();
+        this.positiveColors.halfColorSpectrum();
+        this.negativeColors = ColorMap.createGrayToRedColormap(0.0, maxDelay);
+        this.negativeColors.halfColorSpectrum();
+        this.negativeColors.halfColorSpectrum();
+        this.negativeColors.halfColorSpectrum();
 
     }
 
@@ -122,6 +143,8 @@ public class MatchingPlot extends GenericPlottingPanel {
         int startIndexTraject2 = matching.j[0];
         int endIndexTraject1 = startIndexTraject1;
         int endIndexTraject2 = startIndexTraject2;
+        boolean[] isTraject1Ahead = Utils.trajectroy1IsAhead(matching);
+        boolean[] isTraject2Ahead = Utils.trajectroy2IsAhead(matching);
         for (int k = 1; k <= lengthMatching; k++) {
             int currentIndexTraject1;
             int currentIndexTraject2;
@@ -144,6 +167,17 @@ public class MatchingPlot extends GenericPlottingPanel {
                 // 3. Drawing part.
                 g.setColor(Color.blue);
                 if (singleIndexTraject1 && singleIndexTraject2) {
+                    // Choose correct color from the colormaps
+                    Color chosenColor;
+                    int delay = delaysInTimestamps[k-1];
+                    if (isTraject1Ahead[k-1]) {
+                        chosenColor = positiveColors.getColor(delay);
+                    } else if (isTraject2Ahead[k-1]) {
+                        chosenColor = negativeColors.getColor(delay);
+                    } else {
+                        chosenColor = Color.GRAY;
+                    }
+                    g.setColor(chosenColor);
                     // 3a. Draw a simple line.
                     Point2D pointTraj1 = trajectory1.get(startIndexTraject1);
                     Point2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
