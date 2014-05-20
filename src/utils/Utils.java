@@ -13,6 +13,15 @@ import frechet.Matching;
  * @author max
  */
 public class Utils {
+    public static int findMatchingIndex(Matching matching, int i, int j) {
+        for (int k=0; k<matching.i.length; k++) {
+            if (matching.i[k] == i && matching.j[k] == j) {
+                return k;
+            }
+        }
+        return -1;
+    }
+    
     public static double[] normalizedDelay(double[] delays) {
         double maxDelay = Double.MIN_VALUE;
         double[] normalizedDelays = new double[delays.length];
