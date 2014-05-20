@@ -18,7 +18,7 @@ import java.util.List;
 public class ColorMap {
     private final double minValue;
     private final double maxValue;
-    private final List<Color> colorSpectrum;
+    private List<Color> colorSpectrum;
     
     public static Color getColorFromRGB(int red, int green, int blue) {
         return new Color(red, green, blue);
@@ -107,7 +107,7 @@ public class ColorMap {
         return new ColorMap(minValue, maxValue, colors);
     }
     
-        public static ColorMap createGrayToBlueColormap(double minValue, double maxValue) {
+    public static ColorMap createGrayToBlueColormap(double minValue, double maxValue) {
         List<Color> colors = new ArrayList<>();
         int[] colorValues = new int[] {
           0x023858,
@@ -164,6 +164,17 @@ public class ColorMap {
             index = numberOfColors - 1;
         }
         return colorSpectrum.get(index);
+    }
+    
+    public void halfColorSpectrum() {
+        List<Color> newColorSpectrum = new ArrayList<>();
+        newColorSpectrum.add(colorSpectrum.get(0));
+        for (int i=1; i<colorSpectrum.size(); i++) {
+            if (i % 2 != 0) {
+                newColorSpectrum.add(colorSpectrum.get(i));
+            }
+        }
+        colorSpectrum = newColorSpectrum;
     }
     
 }
