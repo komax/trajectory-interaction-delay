@@ -267,37 +267,41 @@ public class MatchingPlot extends GenericPlottingPanel {
         
         Point2D pointTraject1 = trajectory1.get(matching.i[index]);
         Point2D panelPoint = cartesianToPanelPoint(pointTraject1);
+        int panelX = roundDouble(panelPoint.x);
+        int panelY = roundDouble(panelPoint.y);
         if (isTraject1Ahead[index]) {
             int delay = delaysInTimestamps[index];
             Color color = positiveColors.getColor(delay);
             g2.setStroke(new BasicStroke(5));
             g.setColor(color);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
             g.setColor(Color.GRAY);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
-            g2.setStroke(new BasicStroke(2));
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         }
         
         
         Point2D pointTraject2 = trajectory2.get(matching.j[index]);
         panelPoint = cartesianToPanelPoint(pointTraject2);
+        panelX = roundDouble(panelPoint.x);
+        panelY = roundDouble(panelPoint.y);
         if (isTraject2Ahead[index]) {
             int delay = delaysInTimestamps[index];
             Color chosenColor = negativeColors.getColor(delay);
             g2.setStroke(new BasicStroke(5));
             g.setColor(chosenColor);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
             g.setColor(Color.GRAY);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
-            g2.setStroke(new BasicStroke(2));
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
-            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         }
     }
 
