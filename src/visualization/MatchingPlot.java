@@ -167,7 +167,7 @@ public class MatchingPlot extends GenericPlottingPanel {
                 // 3. Drawing part.
                 g.setColor(Color.blue);
                 if (singleIndexTraject1 && singleIndexTraject2) {
-                    // Choose correct color from the colormaps
+                    // Choose correct color from the colormaps.
                     Color chosenColor;
                     int delay = delaysInTimestamps[k-1];
                     if (isTraject1Ahead[k-1]) {
@@ -186,6 +186,52 @@ public class MatchingPlot extends GenericPlottingPanel {
                     g.drawLine(roundDouble(convPointTraj1.x), roundDouble(convPointTraj1.y),
                             roundDouble(convPointTraj2.x), roundDouble(convPointTraj2.y));
                 } else {
+                    // Compute the color interpolation of the patch.
+                    if (startIndexTraject1 == endIndexTraject1) {
+                        Point2D pointTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
+                        int traject1PointX = roundDouble(pointTraject1.x);
+                        int traject1PointY = roundDouble(pointTraject1.y);
+           
+                        Point2D startTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
+                        int startTraject2X = roundDouble(startTraject2.x);
+                        int startTraject2Y = roundDouble(startTraject2.y);
+                        int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
+                        int startDelay = delaysInTimestamps[startIndex];
+                        Color beginColor = negativeColors.getColor(startDelay);
+                        
+                        Point2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
+                        int endTraject2X = roundDouble(endTraject2.x);
+                        int endTraject2Y = roundDouble(endTraject2.y);
+                        int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
+                        int endDelay = delaysInTimestamps[endIndex];
+                        Color endColor = negativeColors.getColor(endDelay);
+                        
+                        GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setPaint(gradientPaint);
+                    } else {
+                        Point2D pointTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
+                        int traject2PointX = roundDouble(pointTraject2.x);
+                        int traject2PointY = roundDouble(pointTraject2.y);
+           
+                        Point2D startTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
+                        int startTraject1X = roundDouble(startTraject1.x);
+                        int startTraject1Y = roundDouble(startTraject1.y);
+                        int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
+                        int startDelay = delaysInTimestamps[startIndex];
+                        Color beginColor = positiveColors.getColor(startDelay);
+                        
+                        Point2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
+                        int endTraject1X = roundDouble(endTraject1.x);
+                        int endTraject1Y = roundDouble(endTraject1.y);
+                        int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
+                        int endDelay = delaysInTimestamps[endIndex];
+                        Color endColor = positiveColors.getColor(endDelay);
+                        
+                        GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setPaint(gradientPaint);
+                    }
                     // 3b. Build the polygon.
                     Polygon ribbon = new Polygon();
                     for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
