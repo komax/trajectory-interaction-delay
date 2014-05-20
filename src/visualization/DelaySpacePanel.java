@@ -34,7 +34,7 @@ public class DelaySpacePanel extends GenericPlottingPanel {
         this.selectedIndexTraject2 = -1;
         this.lengthMatching = lengthTrajectory;
         try {
-            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats.png"));
+            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats_8colors.png"));
         } catch (IOException ex) {
             Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
