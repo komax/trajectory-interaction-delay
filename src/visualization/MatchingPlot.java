@@ -23,6 +23,8 @@ public class MatchingPlot extends GenericPlottingPanel {
     private int maxDelay;
     private final ColorMap positiveColors;
     private final ColorMap negativeColors;
+    private final boolean[] isTraject1Ahead;
+    private final boolean[] isTraject2Ahead;
 
     public MatchingPlot(Matching matching) {
         // Store data to plot
@@ -45,6 +47,8 @@ public class MatchingPlot extends GenericPlottingPanel {
         findMaxOn(trajectory2);
         
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
+        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching);
+        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching);
         this.maxDelay = Integer.MIN_VALUE;
         for (int delay: delaysInTimestamps) {
             if (delay > maxDelay) {
@@ -143,8 +147,7 @@ public class MatchingPlot extends GenericPlottingPanel {
         int startIndexTraject2 = matching.j[0];
         int endIndexTraject1 = startIndexTraject1;
         int endIndexTraject2 = startIndexTraject2;
-        boolean[] isTraject1Ahead = Utils.trajectroy1IsAhead(matching);
-        boolean[] isTraject2Ahead = Utils.trajectroy2IsAhead(matching);
+
         for (int k = 1; k <= lengthMatching; k++) {
             int currentIndexTraject1;
             int currentIndexTraject2;
@@ -253,23 +256,49 @@ public class MatchingPlot extends GenericPlottingPanel {
             }
         }
         if (selectedIndex >= 0) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(5));
-            g.setColor(Color.red);
             drawPoints(g, selectedIndex);
         }
     }
     
     private void drawPoints(Graphics g, int index) {
+        Graphics2D g2 = (Graphics2D) g;
         int diameter = 6;
         int radius = diameter / 2;
+        
         Point2D pointTraject1 = trajectory1.get(matching.i[index]);
         Point2D panelPoint = cartesianToPanelPoint(pointTraject1);
-        g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        if (isTraject1Ahead[index]) {
+            int delay = delaysInTimestamps[index];
+            Color color = positiveColors.getColor(delay);
+            g2.setStroke(new BasicStroke(5));
+            g.setColor(color);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        } else {
+            g2.setStroke(new BasicStroke(5));
+            g.setColor(Color.GRAY);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g2.setStroke(new BasicStroke(2));
+            g.setColor(Color.white);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        }
+        
         
         Point2D pointTraject2 = trajectory2.get(matching.j[index]);
         panelPoint = cartesianToPanelPoint(pointTraject2);
-        g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        if (isTraject2Ahead[index]) {
+            int delay = delaysInTimestamps[index];
+            Color chosenColor = negativeColors.getColor(delay);
+            g2.setStroke(new BasicStroke(5));
+            g.setColor(chosenColor);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        } else {
+            g2.setStroke(new BasicStroke(5));
+            g.setColor(Color.GRAY);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+            g2.setStroke(new BasicStroke(2));
+            g.setColor(Color.white);
+            g.drawOval(roundDouble(panelPoint.x) - radius, roundDouble(panelPoint.y) - radius, diameter, diameter);
+        }
     }
 
     @Override
