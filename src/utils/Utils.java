@@ -28,6 +28,22 @@ public class Utils {
         return normalizedDelays;
     }
     
+    public static boolean[] trajectroy1IsAhead(Matching matching) {
+        boolean[] traject1IsAhead = new boolean[matching.i.length];
+        for (int k=0; k<traject1IsAhead.length; k++) {
+            traject1IsAhead[k] = matching.i[k] > matching.j[k];
+        }
+        return traject1IsAhead;
+    }
+    
+    public static boolean[] trajectroy2IsAhead(Matching matching) {
+        boolean[] traject2IsAhead = new boolean[matching.i.length];
+        for (int k=0; k<traject2IsAhead.length; k++) {
+            traject2IsAhead[k] = matching.i[k] < matching.j[k];
+        }
+        return traject2IsAhead;
+    }
+    
     public static double[] delayWithEuclideanNorm(Matching matching) {
         double[] delay = new double[matching.i.length];
         for (int k=0; k<delay.length; k++) {
