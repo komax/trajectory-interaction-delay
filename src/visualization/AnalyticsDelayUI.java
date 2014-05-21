@@ -69,8 +69,12 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jSplitPane2 = new javax.swing.JSplitPane();
         sliderPanel = new javax.swing.JPanel();
         matchingSlider = new javax.swing.JSlider();
+        jSplitPane5 = new javax.swing.JSplitPane();
+        delaySpacePanel = new javax.swing.JPanel();
         settingsPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         distanceComboBox = new javax.swing.JComboBox();
@@ -81,14 +85,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         thresholdUnitComboBox = new javax.swing.JComboBox();
         thresholdSpinner = new javax.swing.JSpinner();
+        jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
-        delaySpacePanel = new javax.swing.JPanel();
+        jSplitPane4 = new javax.swing.JSplitPane();
         distancePanel = new javax.swing.JPanel();
         delayPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visualization of Delays in Trajectories");
         setPreferredSize(new java.awt.Dimension(1103, 800));
+
+        jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         sliderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matching"));
 
@@ -108,12 +115,20 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         sliderPanel.setLayout(sliderPanelLayout);
         sliderPanelLayout.setHorizontalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
         );
         sliderPanelLayout.setVerticalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
         );
+
+        jSplitPane2.setTopComponent(sliderPanel);
+
+        jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
+        delaySpacePanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane5.setBottomComponent(delaySpacePanel);
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
 
@@ -177,51 +192,44 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        jSplitPane5.setLeftComponent(settingsPanel);
+
+        jSplitPane2.setRightComponent(jSplitPane5);
+
+        jSplitPane1.setLeftComponent(jSplitPane2);
+
+        jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
         trajectoryPlotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Trajectory Plot"));
         trajectoryPlotPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         trajectoryPlotPanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane3.setTopComponent(trajectoryPlotPanel);
 
-        delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
-        delaySpacePanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         distancePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Distance Plot"));
         distancePanel.setPreferredSize(new java.awt.Dimension(30, 170));
         distancePanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane4.setTopComponent(distancePanel);
 
         delayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot"));
         delayPanel.setPreferredSize(new java.awt.Dimension(30, 170));
         delayPanel.setLayout(new java.awt.BorderLayout());
+        jSplitPane4.setBottomComponent(delayPanel);
+
+        jSplitPane3.setRightComponent(jSplitPane4);
+
+        jSplitPane1.setRightComponent(jSplitPane3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sliderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(delaySpacePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
-                    .addComponent(distancePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(delayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1103, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(distancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(delayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(sliderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(delaySpacePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
 
         pack();
@@ -295,6 +303,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JSplitPane jSplitPane4;
+    private javax.swing.JSplitPane jSplitPane5;
     private javax.swing.JSlider matchingSlider;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel sliderPanel;
