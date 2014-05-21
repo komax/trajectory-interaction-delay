@@ -45,7 +45,7 @@ public class VisualizationLauncher {
     private static void createAndShowDelayPlot(Matching matching) {
         JFrame frame = new JFrame("Plotting Normalized Delays");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new DelayPlotPanel(matching));
+        frame.add(new DistancePlotPanel(matching));
         frame.pack();
         frame.setVisible(true);
     }

@@ -16,7 +16,7 @@ import matlabconversion.MatchingReader;
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
     private MatchingPlot matchingPlot;
-    private DelayPlotPanel normalizedDelayPlot;
+    private DistancePlotPanel normalizedDelayPlot;
     private DelaySpacePanel delaySpacePlot;
     private FollowingPlotPanel followingDelayPlot;
     private final double[] delays;
@@ -51,13 +51,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void initDelayPlot() {
-        this.normalizedDelayPlot = new DelayPlotPanel(matching);
-        this.normalizedDelayPanel.add(normalizedDelayPlot);
+        this.normalizedDelayPlot = new DistancePlotPanel(matching);
+        this.distancePanel.add(normalizedDelayPlot);
     }
     
     private void initFollowingPlot() {
         this.followingDelayPlot = new FollowingPlotPanel(matching);
-        this.delayInUnitPanel.add(followingDelayPlot);
+        this.delayPanel.add(followingDelayPlot);
     }
 
     /**
@@ -83,8 +83,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         thresholdSpinner = new javax.swing.JSpinner();
         trajectoryPlotPanel = new javax.swing.JPanel();
         delaySpacePanel = new javax.swing.JPanel();
-        normalizedDelayPanel = new javax.swing.JPanel();
-        delayInUnitPanel = new javax.swing.JPanel();
+        distancePanel = new javax.swing.JPanel();
+        delayPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visualization of Delays in Trajectories");
@@ -184,13 +184,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
 
-        normalizedDelayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (Normalized)"));
-        normalizedDelayPanel.setPreferredSize(new java.awt.Dimension(30, 170));
-        normalizedDelayPanel.setLayout(new java.awt.BorderLayout());
+        distancePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Distance Plot"));
+        distancePanel.setPreferredSize(new java.awt.Dimension(30, 170));
+        distancePanel.setLayout(new java.awt.BorderLayout());
 
-        delayInUnitPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot (in Unit)"));
-        delayInUnitPanel.setPreferredSize(new java.awt.Dimension(30, 170));
-        delayInUnitPanel.setLayout(new java.awt.BorderLayout());
+        delayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot"));
+        delayPanel.setPreferredSize(new java.awt.Dimension(30, 170));
+        delayPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,17 +204,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
-                    .addComponent(normalizedDelayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(delayInUnitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(distancePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(delayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(trajectoryPlotPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(normalizedDelayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(distancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(delayInUnitPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(delayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(sliderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -232,7 +232,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
            int newValue = matchingSlider.getValue();
            if (normalizedDelayPlot != null) {
                normalizedDelayPlot.setSelectedDelay(newValue);
-               normalizedDelayPanel.repaint();
+               distancePanel.repaint();
            }
            if (matchingPlot != null) {
                matchingPlot.setSelectedIndex(newValue);
@@ -240,7 +240,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
            }
            if (followingDelayPlot != null) {
                followingDelayPlot.setSelectedIndex(newValue);
-               delayInUnitPanel.repaint();
+               delayPanel.repaint();
            }
            if (delaySpacePlot != null) {
                delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
@@ -287,15 +287,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel delayInUnitPanel;
+    private javax.swing.JPanel delayPanel;
     private javax.swing.JPanel delaySpacePanel;
     private javax.swing.JComboBox distanceComboBox;
     private javax.swing.JTextField distanceField;
+    private javax.swing.JPanel distancePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSlider matchingSlider;
-    private javax.swing.JPanel normalizedDelayPanel;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel sliderPanel;
     private javax.swing.JSpinner thresholdSpinner;

@@ -17,11 +17,11 @@ import utils.Utils;
  *
  * @author max
  */
-public class DelayPlotPanel extends GenericPlottingPanel {
+public class DistancePlotPanel extends GenericPlottingPanel {
     private final double[] normalizedDelay;
     private int selectedIndex;
     
-    public DelayPlotPanel(Matching matching) {
+    public DistancePlotPanel(Matching matching) {
         this.selectedIndex = -1;
         double[] delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
         this.normalizedDelay = Utils.normalizedDelay(delaysWithEuclideanNorm);
