@@ -239,6 +239,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
        if (!matchingSlider.getValueIsAdjusting()) {
            int newValue = matchingSlider.getValue();
+           matchingSlider.setToolTipText(Integer.toString(newValue));
            if (normalizedDelayPlot != null) {
                normalizedDelayPlot.setSelectedDelay(newValue);
                distancePanel.repaint();
