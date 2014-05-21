@@ -93,7 +93,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visualization of Delays in Trajectories");
-        setPreferredSize(new java.awt.Dimension(1103, 800));
 
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -127,6 +126,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
+        delaySpacePanel.setPreferredSize(new java.awt.Dimension(560, 420));
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
         jSplitPane5.setBottomComponent(delaySpacePanel);
 
@@ -201,7 +201,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
         trajectoryPlotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Trajectory Plot"));
-        trajectoryPlotPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        trajectoryPlotPanel.setPreferredSize(new java.awt.Dimension(500, 400));
+        trajectoryPlotPanel.setRequestFocusEnabled(false);
         trajectoryPlotPanel.setLayout(new java.awt.BorderLayout());
         jSplitPane3.setTopComponent(trajectoryPlotPanel);
 
@@ -225,7 +226,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1103, Short.MAX_VALUE)
+            .addComponent(jSplitPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
