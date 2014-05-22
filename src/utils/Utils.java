@@ -55,9 +55,11 @@ public class Utils {
     
     public static double[] delayWithEuclideanNorm(Matching matching) {
         double[] delay = new double[matching.i.length];
+        double[][] traject1 = matching.getTrajectory1();
+        double[][] traject2 = matching.getTrajectory2();
         for (int k=0; k<delay.length; k++) {
-            double[] pointI = matching.getTrajectory1()[matching.i[k]];
-            double[] pointJ = matching.getTrajectory2()[matching.j[k]];
+            double[] pointI = traject1[matching.i[k]];
+            double[] pointJ = traject2[matching.j[k]];
             delay[k] = euclideanDistance(pointI, pointJ);
         }
         return delay;
@@ -75,7 +77,8 @@ public class Utils {
     private static double euclideanDistance(double[] pointA, double[] pointB) {
         double summedDistance = 0.0;
         for (int i=0; i<pointA.length; i++) {
-            summedDistance += pointA[i] * pointB[i];
+            double diff = pointA[i] - pointB[i];
+            summedDistance += diff * diff;
         }
         return Math.sqrt(summedDistance);
     }

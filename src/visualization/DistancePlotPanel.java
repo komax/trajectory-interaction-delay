@@ -20,11 +20,20 @@ import utils.Utils;
 public class DistancePlotPanel extends GenericPlottingPanel {
     private final double[] normalizedDelay;
     private int selectedIndex;
+    private double maxDelay;
+    private final double[] delaysWithEuclideanNorm;
     
     public DistancePlotPanel(Matching matching) {
         this.selectedIndex = -1;
-        double[] delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
+        this.delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
         this.normalizedDelay = Utils.normalizedDelay(delaysWithEuclideanNorm);
+        this.maxDelay = Double.MIN_VALUE;
+        
+        for (double delay : normalizedDelay) {
+            if (delay > maxDelay) {
+                maxDelay = delay;
+            }
+        }
     }
     
     public void setSelectedDelay(int selectedIndex) {
@@ -43,7 +52,7 @@ public class DistancePlotPanel extends GenericPlottingPanel {
 
     @Override
     public double maxY() {
-        return 1.0;
+        return maxDelay;
     }
     
     @Override
