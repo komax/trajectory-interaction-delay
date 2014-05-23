@@ -125,7 +125,7 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                 dataPoint = new Point2D(k, maxDelay - currentDelay);
             } else {
                 // No delay is detected.
-                g.setColor(Color.gray);
+                g.setColor(Color.lightGray);
                 dataPoint = new Point2D(k, maxDelay);
             }
             // Draw data point into the plot.
