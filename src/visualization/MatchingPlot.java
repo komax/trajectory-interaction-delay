@@ -178,7 +178,7 @@ public class MatchingPlot extends GenericPlottingPanel {
                     } else if (isTraject2Ahead[k-1]) {
                         chosenColor = negativeColors.getColor(delay);
                     } else {
-                        chosenColor = Color.GRAY;
+                        chosenColor = Color.lightGray;
                     }
                     g.setColor(chosenColor);
                     // 3a. Draw a simple line.
@@ -277,7 +277,7 @@ public class MatchingPlot extends GenericPlottingPanel {
             g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
-            g.setColor(Color.GRAY);
+            g.setColor(Color.lightGray);
             g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
             g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
@@ -297,7 +297,7 @@ public class MatchingPlot extends GenericPlottingPanel {
             g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
-            g.setColor(Color.GRAY);
+            g.setColor(Color.lightGray);
             g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
             g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
