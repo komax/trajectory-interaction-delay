@@ -26,7 +26,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        this.matching = MatchingReader.readMatching("batsMatching.result");
+        this.matching = MatchingReader.readMatching("batsMatching.dump");
         this.delays = utils.Utils.delayWithEuclideanNorm(matching);
         initSlider();
         initDelaySpace();
@@ -41,7 +41,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot  = new DelaySpacePanel(matching.getTrajectory1().length);
+        this.delaySpacePlot  = new DelaySpacePanel("heading_space.png", matching.getTrajectory1().length);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
     
