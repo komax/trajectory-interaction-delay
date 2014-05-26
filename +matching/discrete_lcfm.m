@@ -1,4 +1,4 @@
-function result = compute_discrete_locally_correct_frechet(t1, t2)
+function result = compute_discrete_locally_correct_frechet(t1, t2, distance_terrain)
 %%%function matching = compute_discrete_locally_correct_frechet(t1, t2)
 %%% given two trajectories t1 and t2, parameterised by t1(:,4) and
 %%% t2(:,4) respectively (frame IDs), return an array of grid points
@@ -10,7 +10,7 @@ includeJavaLibaries;
 import frechet.*;
 
 % FIXME fliping a matrix two times is obsolete
-distance_terrain = flipdim(matching.compute_distance_terrain(t1,t2),1);
+distance_terrain = flipdim(distance_terrain,1);
 
 %visualise.plotDistanceTerrain(distance_terrain);
 rows = length(t1);
