@@ -10,6 +10,8 @@ for i = 1:length(traject1)
     end
 end
 headingMatrix = flipdim(headingMatrix, 1);
+max(max(headingMatrix))
+min(min(headingMatrix))
 end
 
 function [angle] = computeAngle(vectorA, vectorB)
@@ -18,12 +20,8 @@ end
 
 function [headingValue] = headingAngle(p, successorP)
 projectedPoint = [successorP(1), p(2:end)];
-projectedPoint
-% TODO compute heading value among these points
 vectorA = projectedPoint - p;
-vectorA
 vectorB = successorP - p;
-vectorB
 headingValue = computeAngle(vectorA,vectorB);
 end
 
@@ -31,7 +29,7 @@ function [headingValue] = headingOnTrajectory(traject, timestamp)
 if timestamp == length(traject)
     headingValue = inf;
 else
-    headingValue = headingAngle(traject(timestamp), traject(timestamp + 1));
+    headingValue = headingAngle(traject(timestamp, :), traject(timestamp + 1, :));
 end
 end
 
