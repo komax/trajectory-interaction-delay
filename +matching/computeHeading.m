@@ -1,6 +1,4 @@
 function [headingMatrix] = computeHeading(traject1,traject2)
-heading = headingAngle([1., 2., 0.],[2., 4., 0.]);
-heading
 headingMatrix = zeros(length(traject1),length(traject2));
 for i = 1:length(traject1)
     for j = 1:length(traject2)
@@ -10,8 +8,6 @@ for i = 1:length(traject1)
     end
 end
 headingMatrix = flipdim(headingMatrix, 1);
-max(max(headingMatrix))
-min(min(headingMatrix))
 end
 
 function [angle] = computeAngle(vectorA, vectorB)
@@ -36,7 +32,6 @@ else
         headingValue = pi + angle;
     end
 end
-headingValue
 end
 
 function [headingValue] = headingOnTrajectory(traject, timestamp)
