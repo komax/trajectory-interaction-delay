@@ -1,4 +1,6 @@
 function [headingMatrix] = computeHeading(traject1,traject2)
+heading = headingAngle([1., 2., 0.],[2., 4., 0.]);
+heading
 headingMatrix = zeros(length(traject1),length(traject2));
 for i = 1:length(traject1)
     for j = 1:length(traject2)
@@ -11,20 +13,25 @@ headingMatrix = flipdim(headingMatrix, 1);
 end
 
 function [angle] = computeAngle(vectorA, vectorB)
-angle = atan2(norm(vectorA,vectorB), dot(vectorA,vectorB));
+angle = atan2(norm(cross(vectorA,vectorB)), dot(vectorA,vectorB));
 end
 
 function [headingValue] = headingAngle(p, successorP)
-projectedPoint = [p(1), successorP(2:)];
+projectedPoint = [successorP(1), p(2:end)];
+projectedPoint
 % TODO compute heading value among these points
-headingValue = 0;
+vectorA = projectedPoint - p;
+vectorA
+vectorB = successorP - p;
+vectorB
+headingValue = computeAngle(vectorA,vectorB);
 end
 
 function [headingValue] = headingOnTrajectory(traject, timestamp)
 if timestamp == length(traject)
     headingValue = inf;
 else
-    headingValue = headingAngle(traject(timestamp), traject(timestamp));
+    headingValue = headingAngle(traject(timestamp), traject(timestamp + 1));
 end
 end
 
@@ -39,4 +46,5 @@ elseif headingB == inf
     attractionValue = 0;
 else
     attractionValue = cos(headingA - headingB);
+end
 end
