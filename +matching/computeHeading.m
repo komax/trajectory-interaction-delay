@@ -22,7 +22,21 @@ function [headingValue] = headingAngle(p, successorP)
 projectedPoint = [successorP(1), p(2:end)];
 vectorA = projectedPoint - p;
 vectorB = successorP - p;
-headingValue = computeAngle(vectorA,vectorB);
+angle = computeAngle(vectorA,vectorB);
+if (successorP(1) - p(1)) > 0
+    if (successorP(2) - p(2)) > 0
+        headingValue = angle;
+    else
+        headingValue = -angle;
+    end
+else
+    if (successorP(2) - p(2)) > 0
+        headingValue = pi - angle;
+    else
+        headingValue = pi + angle;
+    end
+end
+headingValue
 end
 
 function [headingValue] = headingOnTrajectory(traject, timestamp)
