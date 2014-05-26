@@ -26,7 +26,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        this.matching = MatchingReader.readMatching("batsMatching.dump");
+        this.matching = MatchingReader.readMatching("batsMatchingOnDirectionalDistance.dump");
         this.delays = utils.Utils.delayWithEuclideanNorm(matching);
         initSlider();
         initDelaySpace();
