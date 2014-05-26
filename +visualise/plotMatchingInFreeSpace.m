@@ -6,7 +6,7 @@ hold on;
 distanceTerrain = flipdim(distanceTerrain,1);
 imagesc(distanceTerrain);
 heatedColorMap = colormap(hot);
-myHeatedColorMap = halfColorSpectrum(halfColorSpectrum(heatedColorMap));
+myHeatedColorMap = halfColorSpectrum(halfColorSpectrum(halfColorSpectrum(heatedColorMap)));
 colormap(myHeatedColorMap);
 plot(javaMatchingObj.j,javaMatchingObj.i,'g');
 set(gca,'position',[0 0 1 1],'units','normalized');
