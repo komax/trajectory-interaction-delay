@@ -29,12 +29,12 @@ public class DelaySpacePanel extends GenericPlottingPanel {
     private BufferedImage freeSpaceImage;
     private final int lengthMatching;
     
-    public DelaySpacePanel(int lengthTrajectory) {
+    public DelaySpacePanel(String fileName, int lengthTrajectory) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
         this.lengthMatching = lengthTrajectory;
         try {
-            this.freeSpaceImage = ImageIO.read(new File("delay_space_bats_8colors.png"));
+            this.freeSpaceImage = ImageIO.read(new File(fileName));
         } catch (IOException ex) {
             Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
