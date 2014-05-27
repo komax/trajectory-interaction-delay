@@ -1,4 +1,4 @@
-function plotDistanceTerrain(distanceTerrain, javaMatchingObj)
+function [delayPlot] = plotDistanceTerrain(distanceTerrain, javaMatchingObj)
 % Plots a heated body map of the distance terrain of the trajectories with the
 % LCF matching.
 figure;
@@ -8,9 +8,9 @@ imagesc(distanceTerrain);
 heatedColorMap = colormap(hot);
 myHeatedColorMap = halfColorSpectrum(halfColorSpectrum(halfColorSpectrum(heatedColorMap)));
 colormap(myHeatedColorMap);
-plot(javaMatchingObj.j,javaMatchingObj.i,'g');
 set(gca,'position',[0 0 1 1],'units','normalized');
 axis tight;
 axis off;
+delayPlot = plot(javaMatchingObj.j,javaMatchingObj.i,'g');
 end
 
