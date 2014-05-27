@@ -36,6 +36,6 @@ lcfMatching = matching.discrete_lcfm(trajA,trajB,distanceTerrain);
 % Save matching on disk.
 matching.writeMatching(lcfMatching,matchingName);
 % Plot the trajectories with its lcf matching.
-visualise.plot_matching(trajA,trajB,lcfMatching);
+visualise.plotMatching(lcfMatching);
 % Plot free space with its matching.
 visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
