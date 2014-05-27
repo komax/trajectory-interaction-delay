@@ -11,23 +11,25 @@ end
 
 typeDistanceTerrain = 'directionalDistance';
 chosenNorm = 1;
-matchingName = ['batsMatching', 'Norm', num2str(chosenNorm)];
+experimentExtension = ['Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
 switch typeDistanceTerrain
     case 'normal'
         distanceTerrain = matching.compute_distance_terrain(trajA,trajB,chosenNorm);
-        matchingName = [matchingName, '.dump'];
     case 'directionalDistance'
         distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
-        matchingName = [matchingName, 'DirectionalDistance', '.dump'];
+        experimentExtension = [experimentExtension, 'DirectionalDistance'];
     case 'dynamicIteraction'
         alpha = 2;
         distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
-        matchingName = [matchingName, 'DynamicIteraction', '.dump'];
+        experimentExtension = [experimentExtension, 'DynamicIteraction'];
     otherwise
         error('Cannot handle this choice');
 end
+% Generate file names.
+matchingName = ['batsMatching', experimentExtension, '.dump'];
+delayPlotName = ['delaySpace', experimentExtension, '.png'];
 % Plot the distance terrain.
 visualise.plotDistanceTerrain(distanceTerrain);
 
@@ -38,4 +40,5 @@ matching.writeMatching(lcfMatching,matchingName);
 % Plot the trajectories with its lcf matching.
 visualise.plotMatching(lcfMatching);
 % Plot free space with its matching.
-visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
+delayPlot = visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
+saveas(delayPlot,delayPlotName);
