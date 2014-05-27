@@ -9,8 +9,10 @@ if ~readData
     readData = 1;
 end
 
-typeDistanceTerrain = 'directionalDistance';
-chosenNorm = 1;
+%typeDistanceTerrain = 'normal';
+%typeDistanceTerrain = 'directionalDistance';
+typeDistanceTerrain = 'dynamicIteraction';
+chosenNorm = Inf;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
@@ -31,7 +33,7 @@ end
 matchingName = ['batsMatching', experimentExtension, '.dump'];
 delayPlotName = ['delaySpace', experimentExtension, '.png'];
 % Plot the distance terrain.
-visualise.plotDistanceTerrain(distanceTerrain);
+%visualise.plotDistanceTerrain(distanceTerrain);
 
 % Compute a Locally Correct Frechet Matchting.
 lcfMatching = matching.discrete_lcfm(trajA,trajB,distanceTerrain);
