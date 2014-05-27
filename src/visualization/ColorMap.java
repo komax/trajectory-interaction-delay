@@ -124,6 +124,18 @@ public class ColorMap {
         return new Color(colorValue);
     }
     
+    public static Color getColorFromRGB(int red, int green, int blue, int alpha) {
+        return new Color(red, green, blue, alpha);
+    }
+    
+    public static Color getColorFromRGB(int colorValue, int alpha) {
+        Color colorWithoutAlpha = getColorFromRGB(colorValue);
+        int red = colorWithoutAlpha.getRed();
+        int green = colorWithoutAlpha.getGreen();
+        int blue = colorWithoutAlpha.getBlue();
+        return getColorFromRGB(red, green, blue, alpha);
+    }
+    
     public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
         // TODO create colorSpectrum
         List<Color> heatedColorMap = null;
@@ -186,6 +198,26 @@ public class ColorMap {
         int[] colorValues = LIGHT_GRAY_TO_PURE_BLUE_COLOR_CODES;
         for (int i=colorValues.length-1; i>= 0; i--) {
             colors.add(getColorFromRGB(colorValues[i]));
+        }
+        return new ColorMap(minValue, maxValue, colors);
+    }
+    
+    public static ColorMap createGrayToRedTransparentColormap(double minValue, double maxValue) {
+        List<Color> colors = new ArrayList<>();
+        int[] colorValues = LIGHT_GRAY_TO_PURE_RED_COLOR_CODES;
+        for (int i=colorValues.length-1; i>= 0; i--) {
+            int alphaValue = 180 - colorValues.length + 1;
+            colors.add(getColorFromRGB(colorValues[i], alphaValue + i));
+        }
+        return new ColorMap(minValue, maxValue, colors);
+    }
+    
+    public static ColorMap createGrayToBlueTransparentColormap(double minValue, double maxValue) {
+        List<Color> colors = new ArrayList<>();
+        int[] colorValues = LIGHT_GRAY_TO_PURE_BLUE_COLOR_CODES;
+        for (int i=colorValues.length-1; i>= 0; i--) {
+            int alphaValue = 180 - colorValues.length + 1;
+            colors.add(getColorFromRGB(colorValues[i], alphaValue + i));
         }
         return new ColorMap(minValue, maxValue, colors);
     }
