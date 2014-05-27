@@ -2,5 +2,5 @@ function [distanceTerrain] = directionalDistanceTerrain(traject1,traject2,normNu
 distanceTerrain = matching.compute_distance_terrain(traject1,traject2,normNumber);
 attract = matching.computeHeading(traject1,traject2);
 visualise.plotDistanceTerrain(attract);
-distanceTerrain = distanceTerrain * (1 - attract);
+distanceTerrain = distanceTerrain.*(2 - attract);
 end
