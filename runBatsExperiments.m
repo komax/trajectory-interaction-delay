@@ -12,7 +12,7 @@ end
 %typeDistanceTerrain = 'normal';
 %typeDistanceTerrain = 'directionalDistance';
 typeDistanceTerrain = 'dynamicIteraction';
-chosenNorm = Inf;
+chosenNorm = 1;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
