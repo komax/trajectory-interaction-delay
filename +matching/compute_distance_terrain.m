@@ -1,4 +1,4 @@
-function [cells] = compute_distance_terrain(t1, t2, varargin)
+function [cells] = compute_distance_terrain(t1, t2, normNumber, varargin)
 %%%function [cells] = compute_distance_terrain(t1, t2, 'square')
 %%% Given two trajectories, builds the matrix which plots
 %%% the distance between the two for all pairs of points on
@@ -8,7 +8,7 @@ function [cells] = compute_distance_terrain(t1, t2, varargin)
 %%% trajectories.
 %%%function [cells] = compute_distance_terrain(t1, t2)
 %%% cells is a n x m grid where n is length of t1 and m is length of t2
-if nargin == 2 
+if nargin == 3 
     cells = zeros(length(t1),length(t2));
     for i = 1:size(t1,1)
         for j = 1:size(t2,1)
@@ -16,14 +16,14 @@ if nargin == 2
             q = t2(j,1:3);
             % Compute distance between p and q using the Euclidean
             % distance.
-            d = norm(p - q,2);
+            d = norm(p - q,normNumber);
             cells(i,j) = d;
         end
     end
     cells = flipdim(cells,1);
     return;
     % TODO Unclear when the following branch applies.
-elseif nargin >= 3 && strcmp(varargin{1},'square')
+elseif nargin >= 4 && strcmp(varargin{1},'square')
     start_frame = min([t1(:,4); t2(:,4)]);
     stop_frame = max([t1(:,4); t2(:,4)]);
     size_union = stop_frame - start_frame + 1;

@@ -10,19 +10,21 @@ if ~readData
 end
 
 typeDistanceTerrain = 'directionalDistance';
+chosenNorm = 1;
+matchingName = ['batsMatching', 'Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
 switch typeDistanceTerrain
     case 'normal'
-        distanceTerrain = matching.compute_distance_terrain(trajA,trajB);
-        matchingName = 'batsMatching.dump';
+        distanceTerrain = matching.compute_distance_terrain(trajA,trajB,chosenNorm);
+        matchingName = [matchingName, '.dump'];
     case 'directionalDistance'
-        distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB);
-        matchingName = 'batsMatchingdirectionalDistance.dump';
+        distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
+        matchingName = [matchingName, 'DirectionalDistance', '.dump'];
     case 'dynamicIteraction'
         alpha = 2;
-        distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,alpha);
-        matchingName = 'batsMatchingDynamicIteraction.dump';
+        distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
+        matchingName = [matchingName, 'DynamicIteraction', '.dump'];
     otherwise
         error('Cannot handle this choice');
 end
