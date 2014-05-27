@@ -1,22 +1,22 @@
-function [displacementMatrix] = computeDisplacement(traject1,traject2,alpha)
+function [displacementMatrix] = computeDisplacement(traject1,traject2,normNumber,alpha)
 displacementMatrix = zeros(length(traject1),length(traject2));
 for i = 1:length(traject1)
     for j = 1:length(traject2)
-        distanceI = computeDistance(traject1,i);
-        distanceJ = computeDistance(traject2,j);
+        distanceI = computeDistance(traject1,i,normNumber);
+        distanceJ = computeDistance(traject2,j,normNumber);
         displacementMatrix(i,j) = displacement(distanceI,distanceJ,alpha);
     end
 end
 displacementMatrix = flipdim(displacementMatrix, 1);
 end
 
-function [distanceValue] = computeDistance(trajectory, timestamp)
+function [distanceValue] = computeDistance(trajectory,timestamp,normNumber)
 if timestamp == length(trajectory)
     distanceValue = 0.0;
 else
     point = trajectory(timestamp, :);
     successorPoint = trajectory(timestamp + 1, :);
-    distanceValue = norm(point - successorPoint, 2);
+    distanceValue = norm(point - successorPoint, normNumber);
 end
 end
 
