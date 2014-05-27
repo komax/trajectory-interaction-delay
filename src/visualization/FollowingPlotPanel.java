@@ -38,10 +38,10 @@ public class FollowingPlotPanel extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueColormap(0.0, maxDelay);
+        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(0.0, maxDelay);
         this.positiveColors.halfColorSpectrum();
         this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedColormap(0.0, maxDelay);
+        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(0.0, maxDelay);
         this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
     }
