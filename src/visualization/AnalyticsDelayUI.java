@@ -77,13 +77,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delaySpacePanel = new javax.swing.JPanel();
         settingsPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        distanceComboBox = new javax.swing.JComboBox();
+        distanceNormComboBox = new javax.swing.JComboBox();
         distanceField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        unitComboBox = new javax.swing.JComboBox();
-        unitDelayField = new javax.swing.JTextField();
+        samplingRateComboBox = new javax.swing.JComboBox();
+        samplingRateField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        thresholdUnitComboBox = new javax.swing.JComboBox();
+        thresholdComboBox = new javax.swing.JComboBox();
         thresholdSpinner = new javax.swing.JSpinner();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
@@ -134,19 +134,19 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jLabel1.setText("Distance Norm");
 
-        distanceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Euclidean", "Absolute Value", "Infinity Norm" }));
+        distanceNormComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Euclidean", "Absolute Value", "Infinity Norm" }));
 
         distanceField.setText("5.78");
 
-        jLabel2.setText("Type Delay Space");
+        jLabel2.setText("Sampling Rate");
 
-        unitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "meters", "seconds" }));
+        samplingRateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seconds", "milliseconds" }));
 
-        unitDelayField.setText("1.35");
+        samplingRateField.setText("1.35");
 
         jLabel3.setText("Delay Threshold");
 
-        thresholdUnitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "meters", "seconds" }));
+        thresholdComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "timestamps", "seconds", "milliseconds" }));
 
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
@@ -155,7 +155,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thresholdUnitComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
@@ -165,11 +165,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(unitComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(unitDelayField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(distanceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(distanceNormComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -178,17 +178,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             .addGroup(settingsPanelLayout.createSequentialGroup()
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(distanceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(distanceNormComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(unitComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(unitDelayField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(thresholdUnitComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -299,8 +299,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel delayPanel;
     private javax.swing.JPanel delaySpacePanel;
-    private javax.swing.JComboBox distanceComboBox;
     private javax.swing.JTextField distanceField;
+    private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -311,12 +311,12 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
     private javax.swing.JSlider matchingSlider;
+    private javax.swing.JComboBox samplingRateComboBox;
+    private javax.swing.JTextField samplingRateField;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JPanel sliderPanel;
+    private javax.swing.JComboBox thresholdComboBox;
     private javax.swing.JSpinner thresholdSpinner;
-    private javax.swing.JComboBox thresholdUnitComboBox;
     private javax.swing.JPanel trajectoryPlotPanel;
-    private javax.swing.JComboBox unitComboBox;
-    private javax.swing.JTextField unitDelayField;
     // End of variables declaration//GEN-END:variables
 }

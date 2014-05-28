@@ -143,7 +143,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="thresholdUnitComboBox" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="thresholdComboBox" min="-2" pref="129" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="thresholdSpinner" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
@@ -155,12 +155,12 @@
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="unitComboBox" min="-2" pref="129" max="-2" attributes="0"/>
+                                      <Component id="samplingRateComboBox" min="-2" pref="129" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="unitDelayField" min="-2" max="-2" attributes="0"/>
+                                      <Component id="samplingRateField" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="distanceComboBox" min="-2" max="-2" attributes="0"/>
+                                      <Component id="distanceNormComboBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="distanceField" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -173,19 +173,19 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="distanceComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="distanceNormComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="distanceField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="unitComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="unitDelayField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="samplingRateComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="samplingRateField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="thresholdUnitComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="thresholdComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="thresholdSpinner" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -198,7 +198,7 @@
                         <Property name="text" type="java.lang.String" value="Distance Norm"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="distanceComboBox">
+                    <Component class="javax.swing.JComboBox" name="distanceNormComboBox">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="3">
@@ -216,20 +216,20 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Type Delay Space"/>
+                        <Property name="text" type="java.lang.String" value="Sampling Rate"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="unitComboBox">
+                    <Component class="javax.swing.JComboBox" name="samplingRateComboBox">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="2">
-                            <StringItem index="0" value="meters"/>
-                            <StringItem index="1" value="seconds"/>
+                            <StringItem index="0" value="seconds"/>
+                            <StringItem index="1" value="milliseconds"/>
                           </StringArray>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="unitDelayField">
+                    <Component class="javax.swing.JTextField" name="samplingRateField">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="1.35"/>
                       </Properties>
@@ -239,12 +239,13 @@
                         <Property name="text" type="java.lang.String" value="Delay Threshold"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="thresholdUnitComboBox">
+                    <Component class="javax.swing.JComboBox" name="thresholdComboBox">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="2">
-                            <StringItem index="0" value="meters"/>
+                          <StringArray count="3">
+                            <StringItem index="0" value="timestamps"/>
                             <StringItem index="1" value="seconds"/>
+                            <StringItem index="2" value="milliseconds"/>
                           </StringArray>
                         </Property>
                       </Properties>
