@@ -28,13 +28,13 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     private ColorMap negativeColors;
     
     public FollowingPlotPanel(Matching matching) {
+        this.selectedIndex = -1;
         updateMatching(matching);
     }
     
     public void updateMatching(Matching matching) {
         this.matching = matching;
         this.lengthMatching = matching.i.length;
-        this.selectedIndex = -1;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
         this.maxDelay = Integer.MIN_VALUE;
         for (int delay: delaysInTimestamps) {
