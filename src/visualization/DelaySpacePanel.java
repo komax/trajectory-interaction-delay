@@ -23,7 +23,7 @@ import javax.imageio.ImageIO;
  *
  * @author max
  */
-public class DelaySpacePanel extends GenericPlottingPanel {
+public final class DelaySpacePanel extends GenericPlottingPanel {
     private int selectedIndexTraject1;
     private int selectedIndexTraject2;
     private BufferedImage freeSpaceImage;
@@ -33,11 +33,15 @@ public class DelaySpacePanel extends GenericPlottingPanel {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
         this.lengthMatching = lengthTrajectory;
+        updateImage(fileName);
+    }
+    
+    public void updateImage(String fileName) {
         try {
             this.freeSpaceImage = ImageIO.read(new File(fileName));
         } catch (IOException ex) {
             Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }        
     }
     
     public void setSelectedIndices(int indexTraject1, int indexTraject2) {
