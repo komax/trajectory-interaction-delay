@@ -13,6 +13,14 @@ import frechet.Matching;
  * @author max
  */
 public class Utils {
+    public static final DistanceNorm EuclideanDistance = new AbstractPNorm() {
+
+        @Override
+        public int getOrder() {
+            return 2;
+        }
+    };
+    
     public static int findMatchingIndex(Matching matching, int i, int j) {
         for (int k=0; k<matching.i.length; k++) {
             if (matching.i[k] == i && matching.j[k] == j) {
@@ -60,7 +68,7 @@ public class Utils {
         for (int k=0; k<delay.length; k++) {
             double[] pointI = traject1[matching.i[k]];
             double[] pointJ = traject2[matching.j[k]];
-            delay[k] = euclideanDistance(pointI, pointJ);
+            delay[k] = EuclideanDistance.distance(pointI, pointJ);
         }
         return delay;
     }
@@ -72,15 +80,6 @@ public class Utils {
             delays[k] = diff;
         }
         return delays;
-    }
-    
-    private static double euclideanDistance(double[] pointA, double[] pointB) {
-        double summedDistance = 0.0;
-        for (int i=0; i<pointA.length; i++) {
-            double diff = pointA[i] - pointB[i];
-            summedDistance += diff * diff;
-        }
-        return Math.sqrt(summedDistance);
     }
     
 }
