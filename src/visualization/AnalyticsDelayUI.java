@@ -18,7 +18,7 @@ import utils.Utils;
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
     private MatchingPlot matchingPlot;
-    private DistancePlotPanel normalizedDelayPlot;
+    private DistancePlotPanel distancePlot;
     private DelaySpacePanel delaySpacePlot;
     private FollowingPlotPanel followingDelayPlot;
     private double[] distancesOnMatching;
@@ -55,8 +55,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     
     private void initDelayPlot() {
         // TODO read selected distance norm and pass to plot
-        this.normalizedDelayPlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
-        this.distancePanel.add(normalizedDelayPlot);
+        this.distancePlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
+        this.distancePanel.add(distancePlot);
     }
     
     private void initFollowingPlot() {
@@ -75,9 +75,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void updateAndRepaintPlots() {
+        this.matchingSlider.setMaximum(this.matching.i.length - 1);
         if (followingDelayPlot != null) {
             followingDelayPlot.updateMatching(matching);
             followingDelayPlot.repaint();
+        }
+        if (distancePlot != null) {
+            distancePlot.updateMatching(matching, currentDistance);
+            distancePlot.repaint();
+        }
+        if (matchingPlot != null) {
+            matchingPlot.updateMatching(matching);
+            matchingPlot.repaint();
         }
     }
 
@@ -268,8 +277,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
        if (!matchingSlider.getValueIsAdjusting()) {
            int newValue = matchingSlider.getValue();
            matchingSlider.setToolTipText(Integer.toString(newValue));
-           if (normalizedDelayPlot != null) {
-               normalizedDelayPlot.setSelectedDelay(newValue);
+           if (distancePlot != null) {
+               distancePlot.setSelectedDelay(newValue);
                distancePanel.repaint();
            }
            if (matchingPlot != null) {
