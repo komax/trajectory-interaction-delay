@@ -10,7 +10,7 @@ import utils.Utils;
  * Created by max on 25-4-14.
  */
 public class MatchingPlot extends GenericPlottingPanel {
-    private final Matching matching;
+    private Matching matching;
     private ArrayList<Point2D> trajectory1;
     private ArrayList<Point2D> trajectory2;
 
@@ -19,18 +19,21 @@ public class MatchingPlot extends GenericPlottingPanel {
     private double minY;
     private double maxY;
     private int selectedIndex;
-    private final int[] delaysInTimestamps;
+    private int[] delaysInTimestamps;
     private int maxDelay;
-    private final ColorMap positiveColors;
-    private final ColorMap negativeColors;
-    private final boolean[] isTraject1Ahead;
-    private final boolean[] isTraject2Ahead;
+    private ColorMap positiveColors;
+    private ColorMap negativeColors;
+    private boolean[] isTraject1Ahead;
+    private boolean[] isTraject2Ahead;
 
     public MatchingPlot(Matching matching) {
         // Store data to plot
-        this.matching = matching;
         this.selectedIndex = -1;
-
+        updateMatching(matching);
+    }
+    
+    public void updateMatching(Matching matching) {
+        this.matching = matching;
         this.minX = Double.MAX_VALUE;
         this.minY = Double.MAX_VALUE;
 
@@ -63,7 +66,6 @@ public class MatchingPlot extends GenericPlottingPanel {
         this.negativeColors.halfColorSpectrum();
        // this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
-
     }
 
     private void makeTrajectoriesNullbased() {

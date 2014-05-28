@@ -18,14 +18,18 @@ import utils.Utils;
  *
  * @author max
  */
-public class DistancePlotPanel extends GenericPlottingPanel {
-    private final double[] normalizedDelay;
+public final class DistancePlotPanel extends GenericPlottingPanel {
+    private double[] normalizedDelay;
     private int selectedIndex;
     private double maxDelay;
-    private final double[] distancesOnMatching;
+    private double[] distancesOnMatching;
     
     public DistancePlotPanel(Matching matching, DistanceNorm distance) {
         this.selectedIndex = -1;
+        updateMatching(matching, distance);
+    }
+    
+    public void updateMatching(Matching matching, DistanceNorm distance) {
         this.distancesOnMatching = Utils.distancesOnMatching(matching, distance);
         this.normalizedDelay = Utils.normalizedDelay(distancesOnMatching);
         this.maxDelay = Double.MIN_VALUE;
@@ -34,7 +38,7 @@ public class DistancePlotPanel extends GenericPlottingPanel {
             if (delay > maxDelay) {
                 maxDelay = delay;
             }
-        }
+        }        
     }
     
     public void setSelectedDelay(int selectedIndex) {
