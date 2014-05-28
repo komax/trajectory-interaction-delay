@@ -18,7 +18,7 @@ public abstract class AbstractPNorm implements DistanceNorm {
         double summedDistance = 0.0;
         int order = getOrder();
         for (int i = 0; i < pointP.length; i++) {
-            double diff = pointP[i] - pointQ[i];
+            double diff = Math.abs(pointP[i] - pointQ[i]);
             double summand = 1;
             for (int j=0; j<order; j++) {
                 summand = summand * diff;

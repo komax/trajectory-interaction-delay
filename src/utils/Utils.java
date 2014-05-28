@@ -21,6 +21,27 @@ public class Utils {
         }
     };
     
+    public static final DistanceNorm L1Distance = new AbstractPNorm() {
+        
+        @Override
+        public int getOrder() {
+            return 1;
+        }
+    };
+    
+    public static final DistanceNorm LInfDistance = new DistanceNorm() {
+
+        @Override
+        public double distance(double[] pointP, double[] pointQ) {
+            double maxDistance = Double.MIN_VALUE;
+            for (int i = 0; i < pointP.length; i++) {
+                double diff = Math.abs(pointP[i] - pointQ[i]);
+                maxDistance = Math.max(maxDistance, diff);
+            }
+            return maxDistance;
+        }
+    };
+    
     public static int findMatchingIndex(Matching matching, int i, int j) {
         for (int k=0; k<matching.i.length; k++) {
             if (matching.i[k] == i && matching.j[k] == j) {
