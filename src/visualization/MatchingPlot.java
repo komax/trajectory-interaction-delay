@@ -9,7 +9,7 @@ import utils.Utils;
 /**
  * Created by max on 25-4-14.
  */
-public class MatchingPlot extends GenericPlottingPanel {
+public final class MatchingPlot extends GenericPlottingPanel {
     private Matching matching;
     private ArrayList<Point2D> trajectory1;
     private ArrayList<Point2D> trajectory2;

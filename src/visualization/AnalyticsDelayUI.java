@@ -23,6 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private FollowingPlotPanel followingDelayPlot;
     private double[] distancesOnMatching;
     private DistanceNorm currentDistance;
+    private String imageName;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -69,6 +70,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.currentDistance = distance;
         String normString = distance.toString();
         this.matching = MatchingReader.readMatching("batsMatching" + normString + "DirectionalDistance.dump");
+        this.imageName = "delaySpace" + normString + "DirectionalDistance.png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
         updateAndRepaintPlots();
 
@@ -86,6 +88,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         if (matchingPlot != null) {
             matchingPlot.updateMatching(matching);
+            matchingPlot.repaint();
+        }
+        if (delaySpacePlot != null) {
+            delaySpacePlot.updateImage(imageName);
             matchingPlot.repaint();
         }
     }
