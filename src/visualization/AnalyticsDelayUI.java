@@ -16,6 +16,13 @@ import utils.Utils;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
+    private DelaySpaceType delaySpaceType;
+    public enum DelaySpaceType {
+        USUAL,
+        DIRECTIONAL_DISTANCE,
+        DYNAMIC_INTERACTION
+    };
+    
     private Matching matching = null;
     private MatchingPlot matchingPlot;
     private DistancePlotPanel distancePlot;
@@ -31,7 +38,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatchingNorm2DirectionalDistance.dump");
-        updateDistanceAndMatching(Utils.EuclideanDistance);
+        this.delaySpaceType = DelaySpaceType.USUAL;
+        updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -66,11 +74,25 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     // TODO Consider the selection of distance terrain type as well.
-    private void updateDistanceAndMatching(DistanceNorm distance) {
+    private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace) {
         this.currentDistance = distance;
+        this.delaySpaceType = delaySpace;
         String normString = distance.toString();
-        this.matching = MatchingReader.readMatching("batsMatching" + normString + "DirectionalDistance.dump");
-        this.imageName = "delaySpace" + normString + "DirectionalDistance.png";
+        String delaySpaceSuffix = "";
+        switch(delaySpace) {
+            case USUAL:
+                delaySpaceSuffix = "";
+                break;
+            case DYNAMIC_INTERACTION:
+                delaySpaceSuffix = "DynamicInteraction";
+                break;
+            case DIRECTIONAL_DISTANCE:
+                delaySpaceSuffix = "DirectionalDistance";
+                break;
+        }
+        String combinedSuffix = normString + delaySpaceSuffix;
+        this.matching = MatchingReader.readMatching("batsMatching" + combinedSuffix + ".dump");
+        this.imageName = "delaySpace" + combinedSuffix + "DirectionalDistance.png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
     
@@ -119,6 +141,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         thresholdComboBox = new javax.swing.JComboBox();
         thresholdSpinner = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        delaySpaceComboBox = new javax.swing.JComboBox();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -148,11 +172,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         sliderPanel.setLayout(sliderPanelLayout);
         sliderPanelLayout.setHorizontalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
         );
         sliderPanelLayout.setVerticalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
         );
 
         jSplitPane2.setTopComponent(sliderPanel);
@@ -189,30 +213,47 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         thresholdComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "timestamps", "seconds", "milliseconds" }));
 
+        jLabel4.setText("Delay Space");
+
+        delaySpaceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usual Distance", "Directional Distance", "Dynamic Interaction" }));
+        delaySpaceComboBox.setToolTipText("");
+        delaySpaceComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                delaySpaceComboBoxItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsPanelLayout.createSequentialGroup()
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addGroup(settingsPanelLayout.createSequentialGroup()
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(6, 6, 6)
+                        .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(distanceNormComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(distanceNormComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +261,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(distanceNormComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(distanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -306,12 +350,28 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() -1 ;
         if (selectedIndex == lastElement) {
-            updateDistanceAndMatching(Utils.LInfDistance);
+            updateDistanceAndMatching(Utils.LInfDistance, this.delaySpaceType);
         } else {
-            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1));
+            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType);
         }
         updateAndRepaintPlots();
     }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
+
+    private void delaySpaceComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_delaySpaceComboBoxItemStateChanged
+        int selectedIndex = delaySpaceComboBox.getSelectedIndex();
+        switch(selectedIndex) {
+            case 0:
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.USUAL);
+                break;
+            case 1:
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.DIRECTIONAL_DISTANCE);
+                break;
+            case 2:
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.DYNAMIC_INTERACTION);
+                break;
+        }
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_delaySpaceComboBoxItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -350,6 +410,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel delayPanel;
+    private javax.swing.JComboBox delaySpaceComboBox;
     private javax.swing.JPanel delaySpacePanel;
     private javax.swing.JTextField distanceField;
     private javax.swing.JComboBox distanceNormComboBox;
@@ -357,6 +418,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;

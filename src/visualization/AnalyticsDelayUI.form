@@ -67,12 +67,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="matchingSlider" alignment="0" pref="285" max="32767" attributes="0"/>
+                      <Component id="matchingSlider" alignment="0" pref="572" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="matchingSlider" alignment="1" pref="66" max="32767" attributes="0"/>
+                      <Component id="matchingSlider" alignment="1" pref="65" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -140,29 +140,40 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="thresholdComboBox" min="-2" pref="129" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="thresholdSpinner" min="-2" pref="38" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="samplingRateComboBox" min="-2" pref="129" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="samplingRateField" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                      <Component id="thresholdComboBox" min="-2" pref="129" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="distanceNormComboBox" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="samplingRateComboBox" min="-2" pref="129" max="-2" attributes="0"/>
+                                          <Component id="distanceNormComboBox" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="distanceField" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                                      <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="samplingRateField" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="thresholdSpinner" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -175,6 +186,10 @@
                                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="distanceNormComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="distanceField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="delaySpaceComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -256,6 +271,26 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="thresholdSpinner">
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel4">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Delay Space"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="delaySpaceComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="3">
+                            <StringItem index="0" value="Usual Distance"/>
+                            <StringItem index="1" value="Directional Distance"/>
+                            <StringItem index="2" value="Dynamic Interaction"/>
+                          </StringArray>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value=""/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="delaySpaceComboBoxItemStateChanged"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
