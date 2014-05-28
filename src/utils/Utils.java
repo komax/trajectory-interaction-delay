@@ -82,14 +82,14 @@ public class Utils {
         return traject2IsAhead;
     }
     
-    public static double[] delayWithEuclideanNorm(Matching matching) {
+    public static double[] distancesOnMatching(Matching matching, DistanceNorm distance) {
         double[] delay = new double[matching.i.length];
         double[][] traject1 = matching.getTrajectory1();
         double[][] traject2 = matching.getTrajectory2();
         for (int k=0; k<delay.length; k++) {
             double[] pointI = traject1[matching.i[k]];
             double[] pointJ = traject2[matching.j[k]];
-            delay[k] = EuclideanDistance.distance(pointI, pointJ);
+            delay[k] = distance.distance(pointI, pointJ);
         }
         return delay;
     }
