@@ -11,6 +11,7 @@ import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import utils.DistanceNorm;
 import utils.Utils;
 
 /**
@@ -21,12 +22,12 @@ public class DistancePlotPanel extends GenericPlottingPanel {
     private final double[] normalizedDelay;
     private int selectedIndex;
     private double maxDelay;
-    private final double[] delaysWithEuclideanNorm;
+    private final double[] distancesOnMatching;
     
-    public DistancePlotPanel(Matching matching) {
+    public DistancePlotPanel(Matching matching, DistanceNorm distance) {
         this.selectedIndex = -1;
-        this.delaysWithEuclideanNorm = Utils.delayWithEuclideanNorm(matching);
-        this.normalizedDelay = Utils.normalizedDelay(delaysWithEuclideanNorm);
+        this.distancesOnMatching = Utils.distancesOnMatching(matching, distance);
+        this.normalizedDelay = Utils.normalizedDelay(distancesOnMatching);
         this.maxDelay = Double.MIN_VALUE;
         
         for (double delay : normalizedDelay) {

@@ -8,6 +8,7 @@ package visualization;
 
 import frechet.Matching;
 import matlabconversion.MatchingReader;
+import utils.Utils;
 
 /**
  *
@@ -19,7 +20,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DistancePlotPanel normalizedDelayPlot;
     private DelaySpacePanel delaySpacePlot;
     private FollowingPlotPanel followingDelayPlot;
-    private final double[] delays;
+    private final double[] distancesOnMatching;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -27,7 +28,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatchingNorm2DirectionalDistance.dump");
-        this.delays = utils.Utils.delayWithEuclideanNorm(matching);
+        // TODO Set default distances to Euclidean
+        this.distancesOnMatching = utils.Utils.distancesOnMatching(matching, Utils.EuclideanDistance);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -51,7 +53,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void initDelayPlot() {
-        this.normalizedDelayPlot = new DistancePlotPanel(matching);
+        // TODO read selected distance norm and pass to plot
+        this.normalizedDelayPlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
         this.distancePanel.add(normalizedDelayPlot);
     }
     
@@ -256,7 +259,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
                delaySpacePanel.repaint();
            }
-           double delay = delays[newValue];
+           double delay = distancesOnMatching[newValue];
            distanceField.setText(String.format("%.3f", delay));
        }
     }//GEN-LAST:event_matchingSliderStateChanged
