@@ -72,8 +72,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.matching = MatchingReader.readMatching("batsMatching" + normString + "DirectionalDistance.dump");
         this.imageName = "delaySpace" + normString + "DirectionalDistance.png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
-        updateAndRepaintPlots();
-
     }
     
     private void updateAndRepaintPlots() {
