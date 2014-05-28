@@ -40,6 +40,11 @@ public class Utils {
             }
             return maxDistance;
         }
+        
+        @Override
+        public String toString() {
+            return "NormInf";
+        }
     };
 
     public static DistanceNorm selectDistanceNorm(int order) {

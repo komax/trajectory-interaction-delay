@@ -27,5 +27,10 @@ public abstract class AbstractPNorm implements DistanceNorm {
         }
         return Math.pow(summedDistance, 1.0/order);
     }
+    
+    @Override
+    public String toString() {
+        return "Norm" + getOrder();
+    }
 
 }
