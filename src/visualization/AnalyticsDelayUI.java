@@ -132,13 +132,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
 
-        jLabel1.setText("Delay in");
+        jLabel1.setText("Distance Norm");
 
         distanceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Euclidean", "Absolute Value", "Infinity Norm" }));
 
         distanceField.setText("5.78");
 
-        jLabel2.setText("Delay in Unit");
+        jLabel2.setText("Type Delay Space");
 
         unitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "meters", "seconds" }));
 
