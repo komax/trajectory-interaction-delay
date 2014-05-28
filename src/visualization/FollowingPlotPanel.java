@@ -18,16 +18,20 @@ import java.awt.Stroke;
  *
  * @author max
  */
-public class FollowingPlotPanel extends GenericPlottingPanel {
-    private final int[] delaysInTimestamps;
-    private final int lengthMatching;
+public final class FollowingPlotPanel extends GenericPlottingPanel {
+    private int[] delaysInTimestamps;
+    private int lengthMatching;
     private int maxDelay;
-    private final Matching matching;
+    private Matching matching;
     private int selectedIndex;
-    private final ColorMap positiveColors;
-    private final ColorMap negativeColors;
+    private ColorMap positiveColors;
+    private ColorMap negativeColors;
     
     public FollowingPlotPanel(Matching matching) {
+        updateMatching(matching);
+    }
+    
+    public void updateMatching(Matching matching) {
         this.matching = matching;
         this.lengthMatching = matching.i.length;
         this.selectedIndex = -1;

@@ -202,12 +202,16 @@
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="3">
-                            <StringItem index="0" value="Euclidean"/>
-                            <StringItem index="1" value="Absolute Value"/>
+                            <StringItem index="0" value="Absolute Value"/>
+                            <StringItem index="1" value="Euclidean"/>
                             <StringItem index="2" value="Infinity Norm"/>
                           </StringArray>
                         </Property>
+                        <Property name="selectedIndex" type="int" value="1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="distanceNormComboBoxItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="distanceField">
                       <Properties>
