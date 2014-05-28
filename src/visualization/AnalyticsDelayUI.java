@@ -8,6 +8,7 @@ package visualization;
 
 import frechet.Matching;
 import matlabconversion.MatchingReader;
+import utils.DistanceNorm;
 import utils.Utils;
 
 /**
@@ -20,7 +21,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DistancePlotPanel normalizedDelayPlot;
     private DelaySpacePanel delaySpacePlot;
     private FollowingPlotPanel followingDelayPlot;
-    private final double[] distancesOnMatching;
+    private double[] distancesOnMatching;
+    private DistanceNorm currentDistance;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -28,8 +30,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatchingNorm2DirectionalDistance.dump");
-        // TODO Set default distances to Euclidean
-        this.distancesOnMatching = utils.Utils.distancesOnMatching(matching, Utils.EuclideanDistance);
+        updateDistanceAndMatching(Utils.EuclideanDistance);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -61,6 +62,23 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void initFollowingPlot() {
         this.followingDelayPlot = new FollowingPlotPanel(matching);
         this.delayPanel.add(followingDelayPlot);
+    }
+    
+    // TODO Consider the selection of distance terrain type as well.
+    private void updateDistanceAndMatching(DistanceNorm distance) {
+        this.currentDistance = distance;
+        String normString = distance.toString();
+        this.matching = MatchingReader.readMatching("batsMatching" + normString + "DirectionalDistance.dump");
+        this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
+        updateAndRepaintPlots();
+
+    }
+    
+    private void updateAndRepaintPlots() {
+        if (followingDelayPlot != null) {
+            followingDelayPlot.updateMatching(matching);
+            followingDelayPlot.repaint();
+        }
     }
 
     /**
@@ -137,7 +155,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jLabel1.setText("Distance Norm");
 
-        distanceNormComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Euclidean", "Absolute Value", "Infinity Norm" }));
+        distanceNormComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Absolute Value", "Euclidean", "Infinity Norm" }));
+        distanceNormComboBox.setSelectedIndex(1);
+        distanceNormComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                distanceNormComboBoxItemStateChanged(evt);
+            }
+        });
 
         distanceField.setText("5.78");
 
@@ -263,6 +287,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
            distanceField.setText(String.format("%.3f", delay));
        }
     }//GEN-LAST:event_matchingSliderStateChanged
+
+    private void distanceNormComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_distanceNormComboBoxItemStateChanged
+        int selectedIndex = distanceNormComboBox.getSelectedIndex();
+        int lastElement = distanceNormComboBox.getItemCount() -1 ;
+        if (selectedIndex == lastElement) {
+            updateDistanceAndMatching(Utils.LInfDistance);
+        } else {
+            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1));
+        }
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
 
     /**
      * @param args the command line arguments
