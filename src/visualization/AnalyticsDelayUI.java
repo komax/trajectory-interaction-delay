@@ -157,6 +157,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         distanceNormComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Absolute Value", "Euclidean", "Infinity Norm" }));
         distanceNormComboBox.setSelectedIndex(1);
+        distanceNormComboBox.setToolTipText("");
         distanceNormComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 distanceNormComboBoxItemStateChanged(evt);
