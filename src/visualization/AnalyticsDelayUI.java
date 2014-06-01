@@ -92,7 +92,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         String combinedSuffix = normString + delaySpaceSuffix;
         this.matching = MatchingReader.readMatching("batsMatching" + combinedSuffix + ".dump");
-        this.imageName = "delaySpace" + combinedSuffix + "DirectionalDistance.png";
+        this.imageName = "delaySpace" + combinedSuffix + ".png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
     
