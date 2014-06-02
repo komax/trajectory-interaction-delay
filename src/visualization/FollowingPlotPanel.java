@@ -26,26 +26,27 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     private int selectedIndex;
     private ColorMap positiveColors;
     private ColorMap negativeColors;
+    private int threshold;
     
-    public FollowingPlotPanel(Matching matching) {
+    public FollowingPlotPanel(Matching matching, int threshold) {
         this.selectedIndex = -1;
-        updateMatching(matching);
+        updateMatching(matching, threshold);
     }
     
-    public void updateMatching(Matching matching) {
+    public void updateMatching(Matching matching, int threshold) {
         this.matching = matching;
         this.lengthMatching = matching.i.length;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
-        this.maxDelay = Integer.MIN_VALUE;
+        this.threshold = threshold;
         for (int delay: delaysInTimestamps) {
             if (delay > maxDelay) {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(0.0, maxDelay);
+        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(threshold, maxDelay);
         this.positiveColors.halfColorSpectrum();
         this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(0.0, maxDelay);
+        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
         this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
     }
@@ -116,17 +117,20 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             boolean traj1IsAhead = matching.i[k] > matching.j[k];
             boolean traj2IsAhead = matching.j[k] > matching.i[k];
             int currentDelay = delaysInTimestamps[k];
+            boolean delaySucceedsThreshold = currentDelay >= threshold;
             Point2D dataPoint = null;
-            if (traj1IsAhead) {
-                // Color that trajectory 1 is ahead.
-                Color color = positiveColors.getColor(currentDelay);
-                g.setColor(color);
-                dataPoint = new Point2D(k, maxDelay + currentDelay);
-            } else if (traj2IsAhead) {
-                // Color that trajectory 2 is ahead.
-                Color color = negativeColors.getColor(currentDelay);
-                g.setColor(color);
-                dataPoint = new Point2D(k, maxDelay - currentDelay);
+            if (delaySucceedsThreshold) {
+                if (traj1IsAhead) {
+                    // Color that trajectory 1 is ahead.
+                    Color color = positiveColors.getColor(currentDelay);
+                    g.setColor(color);
+                    dataPoint = new Point2D(k, maxDelay + currentDelay);
+                } else if (traj2IsAhead) {
+                    // Color that trajectory 2 is ahead.
+                    Color color = negativeColors.getColor(currentDelay);
+                    g.setColor(color);
+                    dataPoint = new Point2D(k, maxDelay - currentDelay);
+                }
             } else {
                 // No delay is detected.
                 g.setColor(Color.lightGray);
