@@ -75,7 +75,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.delayPanel.add(followingDelayPlot);
     }
     
-    // TODO Consider the selection of distance terrain type as well.
     private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace) {
         this.currentDistance = distance;
         this.delaySpaceType = delaySpace;
@@ -214,6 +213,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel3.setText("Delay Threshold");
 
         thresholdComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "timestamps", "seconds", "milliseconds" }));
+
+        thresholdSpinner.setValue(1);
+        thresholdSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                thresholdSpinnerStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("Delay Space");
 
@@ -375,6 +381,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         updateAndRepaintPlots();
     }//GEN-LAST:event_delaySpaceComboBoxItemStateChanged
+
+    private void thresholdSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_thresholdSpinnerStateChanged
+        int newThreshold = (int) thresholdSpinner.getValue();
+        if (newThreshold > 0) {
+            threshold = newThreshold;
+            updateAndRepaintPlots();
+        }
+    }//GEN-LAST:event_thresholdSpinnerStateChanged
 
     /**
      * @param args the command line arguments
