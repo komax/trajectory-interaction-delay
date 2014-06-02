@@ -16,7 +16,6 @@ import utils.Utils;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
-    private DelaySpaceType delaySpaceType;
     public enum DelaySpaceType {
         USUAL,
         DIRECTIONAL_DISTANCE,
@@ -31,6 +30,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private double[] distancesOnMatching;
     private DistanceNorm currentDistance;
     private String imageName;
+    private DelaySpaceType delaySpaceType;
+    private int threshold;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -39,6 +40,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initComponents();
         this.matching = MatchingReader.readMatching("batsMatchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
+        this.threshold = 1;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
         initSlider();
         initDelaySpace();
@@ -58,7 +60,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void initMatchingPlot() {
-        this.matchingPlot = new MatchingPlot(matching);
+        this.matchingPlot = new MatchingPlot(matching, threshold);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
     
@@ -69,7 +71,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void initFollowingPlot() {
-        this.followingDelayPlot = new FollowingPlotPanel(matching);
+        this.followingDelayPlot = new FollowingPlotPanel(matching, threshold);
         this.delayPanel.add(followingDelayPlot);
     }
     
@@ -99,7 +101,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.i.length - 1);
         if (followingDelayPlot != null) {
-            followingDelayPlot.updateMatching(matching);
+            followingDelayPlot.updateMatching(matching, threshold);
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
@@ -107,7 +109,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-            matchingPlot.updateMatching(matching);
+            matchingPlot.updateMatching(matching, threshold);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {

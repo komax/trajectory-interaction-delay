@@ -39,7 +39,7 @@ public class VisualizationLauncher {
     private static void createAndShowMatchingPlot(Matching matching) {
         JFrame frame = new JFrame("Plotting Locally Correct Frechet Matching");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(new MatchingPlot(matching));
+        frame.add(new MatchingPlot(matching, 1));
         frame.pack();
         frame.setVisible(true);
     }

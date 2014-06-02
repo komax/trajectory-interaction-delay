@@ -84,18 +84,28 @@ public class Utils {
         return normalizedDelays;
     }
 
-    public static boolean[] trajectroy1IsAhead(Matching matching) {
+    public static boolean[] trajectroy1IsAhead(Matching matching, int threshold) {
         boolean[] traject1IsAhead = new boolean[matching.i.length];
         for (int k = 0; k < traject1IsAhead.length; k++) {
-            traject1IsAhead[k] = matching.i[k] > matching.j[k];
+            if (matching.i[k] > matching.j[k]) {
+                int diff = Math.abs(matching.i[k] - matching.j[k]);
+                traject1IsAhead[k] = diff >= threshold;
+            } else {
+                traject1IsAhead[k] = false;
+            }
         }
         return traject1IsAhead;
     }
 
-    public static boolean[] trajectroy2IsAhead(Matching matching) {
+    public static boolean[] trajectroy2IsAhead(Matching matching, int threshold) {
         boolean[] traject2IsAhead = new boolean[matching.i.length];
         for (int k = 0; k < traject2IsAhead.length; k++) {
-            traject2IsAhead[k] = matching.i[k] < matching.j[k];
+            if (matching.i[k] < matching.j[k]) {
+                int diff = Math.abs(matching.i[k] - matching.j[k]);
+                traject2IsAhead[k] = diff >= threshold;
+            } else {
+                traject2IsAhead[k] = false;
+            }
         }
         return traject2IsAhead;
     }

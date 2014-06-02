@@ -25,15 +25,17 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private ColorMap negativeColors;
     private boolean[] isTraject1Ahead;
     private boolean[] isTraject2Ahead;
+    private int threshold;
 
-    public MatchingPlot(Matching matching) {
+    public MatchingPlot(Matching matching, int threshold) {
         // Store data to plot
         this.selectedIndex = -1;
-        updateMatching(matching);
+        updateMatching(matching, threshold);
     }
     
-    public void updateMatching(Matching matching) {
+    public void updateMatching(Matching matching, int threshold) {
         this.matching = matching;
+        this.threshold = threshold;
         this.minX = Double.MAX_VALUE;
         this.minY = Double.MAX_VALUE;
 
@@ -50,19 +52,19 @@ public final class MatchingPlot extends GenericPlottingPanel {
         findMaxOn(trajectory2);
         
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
-        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching);
-        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching);
+        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, threshold);
+        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching, threshold);
         this.maxDelay = Integer.MIN_VALUE;
         for (int delay: delaysInTimestamps) {
             if (delay > maxDelay) {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(0.0, maxDelay);
+        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(threshold, maxDelay);
         this.positiveColors.halfColorSpectrum();
         this.positiveColors.halfColorSpectrum();
       //  this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(0.0, maxDelay);
+        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
         this.negativeColors.halfColorSpectrum();
        // this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
@@ -202,14 +204,24 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startTraject2Y = roundDouble(startTraject2.y);
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
-                        Color beginColor = negativeColors.getColor(startDelay);
+                        Color beginColor;
+                        if (startDelay < threshold) {
+                            beginColor = Color.lightGray;
+                        } else {
+                            beginColor = negativeColors.getColor(startDelay);
+                        }
                         
                         Point2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
                         int endTraject2X = roundDouble(endTraject2.x);
                         int endTraject2Y = roundDouble(endTraject2.y);
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
-                        Color endColor = negativeColors.getColor(endDelay);
+                        Color endColor;
+                        if (endDelay < threshold) {
+                            endColor = Color.lightGray;
+                        } else {
+                            endColor = negativeColors.getColor(endDelay);
+                        }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
                         Graphics2D g2 = (Graphics2D) g;
@@ -224,14 +236,24 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startTraject1Y = roundDouble(startTraject1.y);
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
-                        Color beginColor = positiveColors.getColor(startDelay);
+                        Color beginColor;
+                        if (startDelay < threshold) {
+                            beginColor = Color.lightGray;
+                        } else {
+                            beginColor = positiveColors.getColor(startDelay);
+                        }
                         
                         Point2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
                         int endTraject1X = roundDouble(endTraject1.x);
                         int endTraject1Y = roundDouble(endTraject1.y);
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
-                        Color endColor = positiveColors.getColor(endDelay);
+                        Color endColor;
+                        if (endDelay < threshold) {
+                            endColor = Color.lightGray;
+                        } else {
+                            endColor = positiveColors.getColor(endDelay);
+                        }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
                         Graphics2D g2 = (Graphics2D) g;
