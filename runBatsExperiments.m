@@ -10,8 +10,8 @@ if ~readData
 end
 
 %typeDistanceTerrain = 'normal';
-%typeDistanceTerrain = 'directionalDistance';
-typeDistanceTerrain = 'dynamicIteraction';
+typeDistanceTerrain = 'directionalDistance';
+%typeDistanceTerrain = 'dynamicInteraction';
 chosenNorm = 1;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
@@ -22,10 +22,10 @@ switch typeDistanceTerrain
     case 'directionalDistance'
         distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
         experimentExtension = [experimentExtension, 'DirectionalDistance'];
-    case 'dynamicIteraction'
+    case 'dynamicInteraction'
         alpha = 2;
         distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
-        experimentExtension = [experimentExtension, 'DynamicIteraction'];
+        experimentExtension = [experimentExtension, 'DynamicInteraction'];
     otherwise
         error('Cannot handle this choice');
 end
