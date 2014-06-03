@@ -7,7 +7,7 @@ import java.util.Set;
 public class Node implements Comparable<Node> {
 
     public enum NodeType {
-
+        
         GROWTHNODE, LIVINGNODE, DEADNODE
     };
 
@@ -17,8 +17,6 @@ public class Node implements Comparable<Node> {
     Node north;
     Node east;
     Node northEast;
-//	Node leftShortcut;
-//	Node rightShortcut;
     NodeType status;
 
     public Node(Node parent, int i, int j, double value) {
@@ -26,16 +24,13 @@ public class Node implements Comparable<Node> {
         this.i = i;
         this.j = j;
         this.value = value;
-        // FIXME Shortcuts are not used
-//		this.leftShortcut = null;
-//		this.rightShortcut = null;
         this.north = null;
         this.east = null;
         this.northEast = null;
         this.status = NodeType.GROWTHNODE;
     }
 
-    LinkedHashSet<Node> pathToRoot() {
+    public LinkedHashSet<Node> pathToRoot() {
         Node temp = this;
         LinkedHashSet<Node> path = new LinkedHashSet<Node>();
         while (temp != null) {
@@ -44,8 +39,31 @@ public class Node implements Comparable<Node> {
         }
         return path;
     }
+    
+    public LinkedHashSet<Node> pathTo(Node ancestor) {
+        Node currentNode = this;
+        LinkedHashSet<Node> path = new LinkedHashSet<>();
+        while (currentNode != null) {
+            path.add(currentNode);
+            if (currentNode == ancestor) {
+                break;
+            }
+            currentNode = currentNode.parent;
+        }
+        return path;
+    }
+    
+    public double maxValueOnPathTo(Node ancestor) {
+        double maxVal = Double.MIN_VALUE;
+        for (Node currentNode : pathTo(ancestor)) {
+            if (currentNode.value > maxVal) {
+                maxVal = currentNode.value;
+            }
+        }
+        return maxVal;
+    }
 
-    Node nearestCommonAncestor(Node other) {
+    public Node nearestCommonAncestor(Node other) {
         LinkedHashSet<Node> path1 = this.pathToRoot();
         Set<Node> path2 = other.pathToRoot();
         path1.retainAll(path2);
