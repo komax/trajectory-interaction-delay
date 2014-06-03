@@ -44,7 +44,7 @@ public class Node implements Comparable<Node> {
         Node currentNode = this;
         LinkedHashSet<Node> path = new LinkedHashSet<>();
         while (currentNode != null) {
-            if (currentNode == ancestor) {
+            if (currentNode.equals(ancestor)) {
                 break;
             }
             path.add(currentNode);
