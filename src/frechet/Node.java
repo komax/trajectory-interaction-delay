@@ -44,10 +44,10 @@ public class Node implements Comparable<Node> {
         Node currentNode = this;
         LinkedHashSet<Node> path = new LinkedHashSet<>();
         while (currentNode != null) {
-            path.add(currentNode);
             if (currentNode == ancestor) {
                 break;
             }
+            path.add(currentNode);
             currentNode = currentNode.parent;
         }
         return path;
