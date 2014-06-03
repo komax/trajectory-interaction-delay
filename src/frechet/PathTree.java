@@ -109,38 +109,45 @@ class PathTree {
             throw new NullPointerException("c should not be null");
         }
         Node nearestCommonAncestor = c.nearestCommonAncestor(cPrime);
-        Set<Node> pathC = c.pathToRoot();
-        Set<Node> pathCPrime = cPrime.pathToRoot();
-
-        // dominant value on path from c to NCA of c and c'
-        double dominantC = 0;
-
-        pathC.removeAll(cPrime.pathToRoot());
-
-        for (Node n : pathC) {
-            double value = grid[n.i][n.j].value;
-            if (dominantC < value) {
-                dominantC = value;
-            }
-        }
-
-        // dominant value on path from c' to NCA of c and c'
-        double dominantCPrime = 0;
-        pathCPrime.removeAll(c.pathToRoot());
-        for (Node n : pathCPrime) {
-            double value = grid[n.i][n.j].value;
-            if (dominantCPrime < value) {
-                dominantCPrime = value;
-            }
-        }
-        if (dominantCPrime == dominantC) {
-            // Oh no! We need to break ties. Ummm. shit.
-            return null;
-        }
-        if (dominantC < dominantCPrime) {
+        double maxValueOfCToNCA = c.maxValueOnPathTo(nearestCommonAncestor);
+        double maxValueOfCPrimeToNCA = cPrime.maxValueOnPathTo(nearestCommonAncestor);
+        if (maxValueOfCToNCA < maxValueOfCPrimeToNCA) {
             return c;
+        } else {
+            return cPrime;
         }
-        return cPrime;
+//        Set<Node> pathC = c.pathToRoot();
+//        Set<Node> pathCPrime = cPrime.pathToRoot();
+//
+//        // dominant value on path from c to NCA of c and c'
+//        double dominantC = 0;
+//
+//        pathC.removeAll(cPrime.pathToRoot());
+//
+//        for (Node n : pathC) {
+//            double value = grid[n.i][n.j].value;
+//            if (dominantC < value) {
+//                dominantC = value;
+//            }
+//        }
+//
+//        // dominant value on path from c' to NCA of c and c'
+//        double dominantCPrime = 0;
+//        pathCPrime.removeAll(c.pathToRoot());
+//        for (Node n : pathCPrime) {
+//            double value = grid[n.i][n.j].value;
+//            if (dominantCPrime < value) {
+//                dominantCPrime = value;
+//            }
+//        }
+//        if (dominantCPrime == dominantC) {
+//            // Oh no! We need to break ties. Ummm. shit.
+//            return null;
+//        }
+//        if (dominantC < dominantCPrime) {
+//            return c;
+//        }
+//        return cPrime;
     }
 
 }
