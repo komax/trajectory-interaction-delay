@@ -5,78 +5,80 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Node implements Comparable<Node> {
-	public enum NodeType {
-		GROWTHNODE, LIVINGNODE, DEADNODE
-	};
 
-	int i, j;
-	double value;
-	Node parent;
-	Node north;
-	Node east;
-	Node northEast;
-	Node leftShortcut;
-	Node rightShortcut;
-	NodeType status;
-	boolean dead;
+    public enum NodeType {
 
-	public Node(Node parent, int i, int j, double value) {
-		this.parent = parent;
-		this.i = i;
-		this.j = j;
-		this.value = value;
-		this.leftShortcut = null;
-		this.rightShortcut = null;
-		this.north = null;
-		this.east = null;
-		this.northEast = null;
-		this.dead = false;
-		this.status = NodeType.GROWTHNODE;
-	}
+        GROWTHNODE, LIVINGNODE, DEADNODE
+    };
 
+    int i, j;
+    double value;
+    Node parent;
+    Node north;
+    Node east;
+    Node northEast;
+//	Node leftShortcut;
+//	Node rightShortcut;
+    NodeType status;
 
-	LinkedHashSet<Node> pathToRoot() {
-		Node temp = this;
-		LinkedHashSet<Node> path = new LinkedHashSet<Node>();
-		while (temp != null) {
-			path.add(temp);
-			temp = temp.parent;
-		}
-		return path;
-	}
+    public Node(Node parent, int i, int j, double value) {
+        this.parent = parent;
+        this.i = i;
+        this.j = j;
+        this.value = value;
+        // FIXME Shortcuts are not used
+//		this.leftShortcut = null;
+//		this.rightShortcut = null;
+        this.north = null;
+        this.east = null;
+        this.northEast = null;
+        this.status = NodeType.GROWTHNODE;
+    }
 
-	Node nearestCommonAncestor(Node other) {
-		LinkedHashSet<Node> path1 = this.pathToRoot();
-		Set<Node> path2 = other.pathToRoot();
-		path1.retainAll(path2);
-		Iterator<Node> it = path1.iterator();
-		return it.next();
-	}
+    LinkedHashSet<Node> pathToRoot() {
+        Node temp = this;
+        LinkedHashSet<Node> path = new LinkedHashSet<Node>();
+        while (temp != null) {
+            path.add(temp);
+            temp = temp.parent;
+        }
+        return path;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof Node))
-			return false;
+    Node nearestCommonAncestor(Node other) {
+        LinkedHashSet<Node> path1 = this.pathToRoot();
+        Set<Node> path2 = other.pathToRoot();
+        path1.retainAll(path2);
+        Iterator<Node> it = path1.iterator();
+        return it.next();
+    }
 
-		Node rhs = (Node) obj;
-		return (this.i == rhs.i) && (this.j == rhs.j);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Node)) {
+            return false;
+        }
 
-	public int compareTo(Node rhs) {
-		// if this < obj return -1
-		if (rhs == this) {
-			return 0;
-		} else if (rhs == null) {
-            throw new NullPointerException("Node is null: "+rhs);
+        Node rhs = (Node) obj;
+        return (this.i == rhs.i) && (this.j == rhs.j);
+    }
+
+    public int compareTo(Node rhs) {
+        // if this < obj return -1
+        if (rhs == this) {
+            return 0;
+        } else if (rhs == null) {
+            throw new NullPointerException("Node is null: " + rhs);
         } else {
             return Integer.valueOf(i + j).compareTo(Integer.valueOf(rhs.i + rhs.j));
         }
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		return 31 * i + j;
-	}
+    @Override
+    public int hashCode() {
+        return 31 * i + j;
+    }
 }
