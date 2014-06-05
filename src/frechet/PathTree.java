@@ -5,7 +5,7 @@ import frechet.Node.NodeType;
 class PathTree {
 
     protected Node[][] grid;
-    private double[][] gridValues;
+    private final double[][] gridValues;
 
     public PathTree(double[][] distanceTerrain, int numRows, int numColumns) {
         this.grid = new Node[numRows][numColumns];
@@ -57,7 +57,6 @@ class PathTree {
     }
 
     Node selectParent(int i, int j) {
-//        Node[] candidates = new Node[3];
         boolean hasWestNeighbor = i > 0;
         boolean hasSouthNeighbor = j > 0;
         Node parent = null;
@@ -79,49 +78,9 @@ class PathTree {
             }
         }
         return parent;
-//        if (i > 0) {
-//            candidates[0] = grid[i - 1][j]; // West
-//        }
-//        if (i > 0 && j > 0) {
-//            candidates[1] = grid[i - 1][j - 1]; // South West
-//        }
-//        if (j > 0) {
-//            candidates[2] = grid[i][j - 1]; // South
-//        }
-//        for (int q = 0; q < 3; q++) {
-//            if ((candidates[(q) % 3] == null) && (candidates[(q + 1) % 3] == null)) {
-//                return candidates[(q + 2) % 3];
-//            }
-//        }
-//
-//        for (int x = 0; x < 3; x++) {
-//            Node c = candidates[x];
-//            if (c == null) {
-//                continue;
-//            }
-//            boolean satisfies = true;
-//            for (int y = x + 1; y < 3; y++) {
-//                Node cPrime = candidates[y];
-//                Node result = compareParent(c, cPrime);
-//
-//                if (result == null) {
-//					// need to break ties. Use ordering 0 < 1 < 2
-//                    // x will always be less than y
-//                    satisfies = false;
-//                }
-//                if (!c.equals(result)) {
-//                    satisfies = false;
-//                }
-//            }
-//            if (satisfies) {
-//                return c;
-//            }
-//        }
-//        return null;
     }
 
     Node compareParent(Node c, Node cPrime) {
-        // lol c always wins
         if (cPrime == null) {
             return c;
         }
@@ -136,38 +95,6 @@ class PathTree {
         } else {
             return cPrime;
         }
-//        Set<Node> pathC = c.pathToRoot();
-//        Set<Node> pathCPrime = cPrime.pathToRoot();
-//
-//        // dominant value on path from c to NCA of c and c'
-//        double dominantC = 0;
-//
-//        pathC.removeAll(cPrime.pathToRoot());
-//
-//        for (Node n : pathC) {
-//            double value = grid[n.i][n.j].value;
-//            if (dominantC < value) {
-//                dominantC = value;
-//            }
-//        }
-//
-//        // dominant value on path from c' to NCA of c and c'
-//        double dominantCPrime = 0;
-//        pathCPrime.removeAll(c.pathToRoot());
-//        for (Node n : pathCPrime) {
-//            double value = grid[n.i][n.j].value;
-//            if (dominantCPrime < value) {
-//                dominantCPrime = value;
-//            }
-//        }
-//        if (dominantCPrime == dominantC) {
-//            // Oh no! We need to break ties. Ummm. shit.
-//            return null;
-//        }
-//        if (dominantC < dominantCPrime) {
-//            return c;
-//        }
-//        return cPrime;
     }
 
 }

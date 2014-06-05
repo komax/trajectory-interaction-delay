@@ -64,6 +64,7 @@ public class Node implements Comparable<Node> {
     }
 
     public Node nearestCommonAncestor(Node other) {
+        // FIXME more efficient implementation.
         LinkedHashSet<Node> path1 = this.pathToRoot();
         Set<Node> path2 = other.pathToRoot();
         path1.retainAll(path2);
