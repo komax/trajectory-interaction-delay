@@ -65,7 +65,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void initDelayPlot() {
-        // TODO read selected distance norm and pass to plot
         this.distancePlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
         this.distancePanel.add(distancePlot);
     }
