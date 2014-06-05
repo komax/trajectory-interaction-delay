@@ -10,9 +10,9 @@ if ~readData
 end
 
 %typeDistanceTerrain = 'normal';
-typeDistanceTerrain = 'directionalDistance';
-%typeDistanceTerrain = 'dynamicInteraction';
-chosenNorm = 2;
+%typeDistanceTerrain = 'directionalDistance';
+typeDistanceTerrain = 'dynamicInteraction';
+chosenNorm = Inf;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
@@ -21,10 +21,16 @@ switch typeDistanceTerrain
         distanceTerrain = matching.compute_distance_terrain(trajA,trajB,chosenNorm);
     case 'directionalDistance'
         distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
+        distanceTerrain = distanceTerrain(1:end-1, 1:end-1);
+        trajA = trajA(1:end-1, :);
+        trajB = trajB(1:end-1, :);
         experimentExtension = [experimentExtension, 'DirectionalDistance'];
     case 'dynamicInteraction'
         alpha = 2;
         distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
+        distanceTerrain = distanceTerrain(1:end-1, 1:end-1);
+        trajA = trajA(1:end-1, :);
+        trajB = trajB(1:end-1, :);
         experimentExtension = [experimentExtension, 'DynamicInteraction'];
     otherwise
         error('Cannot handle this choice');
