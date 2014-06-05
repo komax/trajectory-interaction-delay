@@ -162,10 +162,8 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="distanceField" pref="57" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="samplingRateField" pref="57" max="32767" attributes="0"/>
-                                      <Component id="thresholdSpinner" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="samplingRateField" alignment="1" pref="57" max="32767" attributes="0"/>
+                                  <Component id="thresholdSpinner" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="24" max="32767" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
