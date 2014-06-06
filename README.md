@@ -60,7 +60,8 @@ A short summary how the implementation is roughly structured
   plot.
 
 #Conduct New Experiments
-Have look into runBatsExperiments.m
+Have look into runBatsExperiments.m:
+
 1. Write your own data loading mechanism for the trajectories
 2. Do not forget to padding 2D trajectories to 3D
 3. Compute a distance terrain (for methods using heading: trim off last row and
