@@ -47,10 +47,24 @@ A short summary how the implementation is roughly structured
 = matlab =
 - project level: generic functions to load data, pad 2D trajectories to 3D
   and conduct experiments
-- 
-
+- matching: discrete_lcfm.m returns a matching on the trajectories.
+  compute<method>.m computes a terrain as a 2D matrix
+  from two trajectories. A method can be heading, displacement or distance
+  terrain. directionalDistance.m and dynamicInteraction.m combine heading
+  information and a distance terrain or vector length respectively.
+  writeMatching.m enables serializing the java matching object.
+- visualise: plotMatchingInFreeSpace.m generates a plot using 8-color heated
+  body color map for the distance terrain and plots the matching as well.
+  plotDistanceTerrain.m plots the distance terrain with a full heated body
+  color map. plotMatching.m wraps a call to the java visualization trajectory
+  plot.
 
 == Conduct New Experiments ==
-
-
+Have look into runBatsExperiments.m
+1. Write your own data loading mechanism for the trajectories
+2. Do not forget to padding 2D trajectories to 3D
+3. Compute a distance terrain (for methods using heading: trim off last row and
+column to avoid undefined results)
+4. Compute a matching given the trajectories and a distance terrain
+5. Visualize or store the matching.
 
