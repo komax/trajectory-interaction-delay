@@ -1,12 +1,12 @@
-== Build ==
+#Build
 1. Run
-    $ make (or $ make clean && make)
+    `$ make (or $ make clean && make)`
 2. To wipe out old class files, use 
-    $ make clean
+    `$ make clean`
 (Or compile src directory with an IDE and put the class files into bin
 directory)
 
-== Run ==
+#Run
 The current pipeline is the following:
 
 1. Matlab code reads trajectories into matrices
@@ -20,19 +20,19 @@ The current pipeline is the following:
 *.png
 5. Launch analytics GUI (java) using *.dump and *.png to visualize matchings
    
-= Java-only =
+##Java-only
 Launch analytics GUI by
-   $ java -cp bin visualization.AnalyticsDelayUI
+   `$ java -cp bin visualization.AnalyticsDelayUI`
 (If your IDE compiles your class files into a different directory replace bin
 by that directory)
 
-= Matlab =
+##Matlab
 - Execute runBatsExperiment.m to conduct an experiment on the bats data
 - You need to adjust the path (pathToBatData) to the data within loadBatData.m
 
-== Package Structure ==
+#Package Structure
 A short summary how the implementation is roughly structured
-= java =
+##java
 - frechet: LocallyCorrectFrechet is the main class that returns a matching
   object. Details are in the other classes. Mainly used in matlab code (step
   3.)
@@ -44,7 +44,7 @@ A short summary how the implementation is roughly structured
   matchings, delays, ... ColorMap is a simple implementation to use custom
   color mapping. All panels can be used within matlab by calling methods on
   VisualizerLauncher.java
-= matlab =
+##matlab
 - project level: generic functions to load data, pad 2D trajectories to 3D
   and conduct experiments
 - matching: discrete_lcfm.m returns a matching on the trajectories.
@@ -59,7 +59,7 @@ A short summary how the implementation is roughly structured
   color map. plotMatching.m wraps a call to the java visualization trajectory
   plot.
 
-== Conduct New Experiments ==
+#Conduct New Experiments
 Have look into runBatsExperiments.m
 1. Write your own data loading mechanism for the trajectories
 2. Do not forget to padding 2D trajectories to 3D
