@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package visualization;
 
 import frechet.Matching;
@@ -16,12 +15,14 @@ import utils.Utils;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
+
     public enum DelaySpaceType {
+
         USUAL,
         DIRECTIONAL_DISTANCE,
         DYNAMIC_INTERACTION
     };
-    
+
     private Matching matching = null;
     private MatchingPlot matchingPlot;
     private DistancePlotPanel distancePlot;
@@ -48,38 +49,38 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initDelayPlot();
         initFollowingPlot();
     }
-    
+
     private void initSlider() {
         this.matchingSlider.setMinimum(0);
         this.matchingSlider.setMaximum(this.matching.i.length - 1);
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot  = new DelaySpacePanel("delaySpaceNorm2.png", matching.getTrajectory1().length);
+        this.delaySpacePlot = new DelaySpacePanel("delaySpaceNorm2.png", matching.getTrajectory1().length);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
-    
+
     private void initMatchingPlot() {
         this.matchingPlot = new MatchingPlot(matching, threshold);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
-    
+
     private void initDelayPlot() {
         this.distancePlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
         this.distancePanel.add(distancePlot);
     }
-    
+
     private void initFollowingPlot() {
         this.followingDelayPlot = new FollowingPlotPanel(matching, threshold);
         this.delayPanel.add(followingDelayPlot);
     }
-    
+
     private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace) {
         this.currentDistance = distance;
         this.delaySpaceType = delaySpace;
         String normString = distance.toString();
         String delaySpaceSuffix = "";
-        switch(delaySpace) {
+        switch (delaySpace) {
             case USUAL:
                 delaySpaceSuffix = "";
                 break;
@@ -95,7 +96,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.imageName = "delaySpace" + combinedSuffix + ".png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
-    
+
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.i.length - 1);
         if (followingDelayPlot != null) {
@@ -327,33 +328,33 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
-       if (!matchingSlider.getValueIsAdjusting()) {
-           int newValue = matchingSlider.getValue();
-           matchingSlider.setToolTipText(Integer.toString(newValue));
-           if (distancePlot != null) {
-               distancePlot.setSelectedDelay(newValue);
-               distancePanel.repaint();
-           }
-           if (matchingPlot != null) {
-               matchingPlot.setSelectedIndex(newValue);
-               trajectoryPlotPanel.repaint();
-           }
-           if (followingDelayPlot != null) {
-               followingDelayPlot.setSelectedIndex(newValue);
-               delayPanel.repaint();
-           }
-           if (delaySpacePlot != null) {
-               delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
-               delaySpacePanel.repaint();
-           }
-           double delay = distancesOnMatching[newValue];
-           distanceField.setText(String.format("%.3f", delay));
-       }
+        if (!matchingSlider.getValueIsAdjusting()) {
+            int newValue = matchingSlider.getValue();
+            matchingSlider.setToolTipText(Integer.toString(newValue));
+            if (distancePlot != null) {
+                distancePlot.setSelectedDelay(newValue);
+                distancePanel.repaint();
+            }
+            if (matchingPlot != null) {
+                matchingPlot.setSelectedIndex(newValue);
+                trajectoryPlotPanel.repaint();
+            }
+            if (followingDelayPlot != null) {
+                followingDelayPlot.setSelectedIndex(newValue);
+                delayPanel.repaint();
+            }
+            if (delaySpacePlot != null) {
+                delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
+                delaySpacePanel.repaint();
+            }
+            double delay = distancesOnMatching[newValue];
+            distanceField.setText(String.format("%.3f", delay));
+        }
     }//GEN-LAST:event_matchingSliderStateChanged
 
     private void distanceNormComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_distanceNormComboBoxItemStateChanged
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
-        int lastElement = distanceNormComboBox.getItemCount() -1 ;
+        int lastElement = distanceNormComboBox.getItemCount() - 1;
         if (selectedIndex == lastElement) {
             updateDistanceAndMatching(Utils.LInfDistance, this.delaySpaceType);
         } else {
@@ -364,7 +365,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
     private void delaySpaceComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_delaySpaceComboBoxItemStateChanged
         int selectedIndex = delaySpaceComboBox.getSelectedIndex();
-        switch(selectedIndex) {
+        switch (selectedIndex) {
             case 0:
                 updateDistanceAndMatching(currentDistance, DelaySpaceType.USUAL);
                 break;
