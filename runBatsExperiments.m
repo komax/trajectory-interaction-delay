@@ -11,7 +11,8 @@ end
 
 %typeDistanceTerrain = 'normal';
 %typeDistanceTerrain = 'directionalDistance';
-typeDistanceTerrain = 'dynamicInteraction';
+%typeDistanceTerrain = 'dynamicInteraction';
+typeDistanceTerrain = 'dynamicDistance';
 chosenNorm = 2;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
@@ -32,6 +33,13 @@ switch typeDistanceTerrain
         trajA = trajA(1:end-1, :);
         trajB = trajB(1:end-1, :);
         experimentExtension = [experimentExtension, 'DynamicInteraction'];
+    case 'dynamicDistance'
+        alpha = 2;
+        distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
+        distanceTerrain = distanceTerrain(1:end-1, 1:end-1);
+        trajA = trajA(1:end-1, :);
+        trajB = trajB(1:end-1, :);
+        experimentExtension = [experimentExtension, 'DynamicDistance'];
     otherwise
         error('Cannot handle this choice');
 end
