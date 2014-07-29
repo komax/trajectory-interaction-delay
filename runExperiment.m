@@ -1,4 +1,4 @@
-function runExperiment(dataType,distanceType,chosenNorm)
+function [trajA, trajB, distanceTerrain, lcfMatching] = runExperiment(dataType,distanceType,chosenNorm)
 [trajA, trajB] = generateArtificialData(dataType);
 trajA = pad2DTrajectoryTo3D(trajA);
 trajB = pad2DTrajectoryTo3D(trajB);
