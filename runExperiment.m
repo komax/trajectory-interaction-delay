@@ -8,6 +8,20 @@ experimentExtension = [dataType, 'Norm', num2str(chosenNorm)];
 switch distanceType
     case 'normal'
         distanceTerrain = matching.compute_distance_terrain(trajA,trajB,chosenNorm);
+    case 'directionalDistance'
+        distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
+        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
+        experimentExtension = [experimentExtension, 'DirectionalDistance'];
+    case 'dynamicInteraction'
+        alpha = 2;
+        distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
+        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
+        experimentExtension = [experimentExtension, 'DynamicInteraction'];
+    case 'dynamicDistance'
+        alpha = 2;
+        distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
+        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
+        experimentExtension = [experimentExtension, 'DynamicDistance'];
     otherwise
         error('Cannot handle this choice');
 end
@@ -18,4 +32,10 @@ matching.writeMatching(lcfMatching,matchingName);
 visualise.plotMatching(lcfMatching);
 delayPlot = visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
 saveas(delayPlot,delayPlotName);
+end
 
+function [trajA,trajB,distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain)
+trajA = trajA(1:end-1,:);
+trajB = trajB(1:end-1,:);
+distanceTerrain = distanceTerrain(1:end-1,1:end-1);
+end
