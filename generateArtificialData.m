@@ -28,6 +28,25 @@ switch dataType
         for i = 7:10
             trajectoryB(i,:) = trajectoryA(i,:) + [3 -3];
         end
+    case 'separating'
+        pointA = [1 0];
+        pointB = [0 1];
+        for i = 1:lengthTrajectories
+            trajectoryA(i,:) = pointA;
+            trajectoryB(i,:) = pointB;
+            pointA = pointA + [1 1];
+            pointB = pointB + [1 1];
+        end
+        trajectoryA(6,:) = trajectoryA(5,:) + [1 0];
+        trajettoryB(5,:) = trajectoryB(4,:) + [-1 0];
+        pointA = trajectoryA(6,:) + [2 0];
+        pointB = trajectoryB(5,:) + [-2 0];
+        for i = 7:10
+            trajectoryA(i,:) = pointA;
+            trajectoryB(i-1,:) = pointB;
+            pointA = pointA + [1 1];
+            pointB = pointB + [1 1];
+        end
     otherwise
         error('Cannot handle this choice');
 end
