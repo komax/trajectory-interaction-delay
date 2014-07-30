@@ -22,6 +22,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         DIRECTIONAL_DISTANCE,
         DYNAMIC_INTERACTION
     };
+    
+    public static final String PATH_TO_DATA = "results/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -39,7 +41,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        this.matching = MatchingReader.readMatching("batsMatchingNorm2.dump");
+        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "batsMatchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
         this.threshold = 1;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
@@ -56,7 +58,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot = new DelaySpacePanel("delaySpaceNorm2.png", matching.getTrajectory1().length);
+        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + "delaySpaceNorm2.png", matching.getTrajectory1().length);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
@@ -92,8 +94,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
         }
         String combinedSuffix = normString + delaySpaceSuffix;
-        this.matching = MatchingReader.readMatching("batsMatching" + combinedSuffix + ".dump");
-        this.imageName = "delaySpace" + combinedSuffix + ".png";
+        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "batsMatching" + combinedSuffix + ".dump");
+        this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + ".png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
 
