@@ -47,6 +47,28 @@ switch dataType
             pointA = pointA + [1 1];
             pointB = pointB + [1 1];
         end
+    case 'smalldistance'
+        pointA = [1 0];
+        pointB = [0 1];
+        for i = 1:lengthTrajectories
+            trajectoryA(i,:) = pointA;
+            trajectoryB(i,:) = pointB;
+            pointA = pointA + [1 1];
+            pointB = pointB + [1 1];
+        end
+        commonPoint = trajectoryB(5,:);
+        trajectoryB(5,:) = commonPoint + [-0.1 0];
+        trajectoryA(5,:) = commonPoint + [+0.1 0];
+        trajectoryA(6,:) = commonPoint + [3 0];
+        trajettoryB(6,:) = commonPoint + [-10 5];
+        pointA = trajectoryA(6,:);
+        pointB = trajectoryB(6,:);
+        for i = 6:10
+            trajectoryA(i,:) = pointA;
+            trajectoryB(i,:) = pointB;
+            pointA = pointA + [1 1];
+            pointB = pointB + [1 1];
+        end
     otherwise
         error('Cannot handle this choice');
 end
