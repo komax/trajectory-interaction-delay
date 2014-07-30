@@ -9,10 +9,10 @@ if ~readData
     readData = 1;
 end
 
-typeDistanceTerrain = 'normal';
+%typeDistanceTerrain = 'normal';
 %typeDistanceTerrain = 'directionalDistance';
 %typeDistanceTerrain = 'dynamicInteraction';
-%typeDistanceTerrain = 'dynamicDistance';
+typeDistanceTerrain = 'dynamicDistance';
 chosenNorm = 2;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
@@ -38,8 +38,9 @@ switch typeDistanceTerrain
         error('Cannot handle this choice');
 end
 % Generate file names.
-matchingName = ['batsMatching', experimentExtension, '.dump'];
-delayPlotName = ['delaySpace', experimentExtension, '.png'];
+pathToResults = 'results/';
+matchingName = [pathToResults, 'batsMatching', experimentExtension, '.dump'];
+delayPlotName = [pathToResults, 'delaySpace', experimentExtension, '.png'];
 % Plot the distance terrain.
 %visualise.plotDistanceTerrain(distanceTerrain);
 
