@@ -16,6 +16,18 @@ switch dataType
         trajectoryB(9,:) = trajectoryB(8,:);
         trajectoryB(8,:) = trajectoryB(7,:);
         trajectoryB(7,:) = trajectoryB(6,:) + [-1 0];
+    case 'crossing'
+        pointA = [1 0];
+        pointB = [0 1];
+        for i = 1:lengthTrajectories
+            trajectoryA(i,:) = pointA;
+            trajectoryB(i,:) = pointB;
+            pointA = pointA + [1 1];
+            pointB = pointB + [1 1];
+        end
+        for i = 7:10
+            trajectoryB(i,:) = trajectoryA(i,:) + [3 -3];
+        end
     otherwise
         error('Cannot handle this choice');
 end
