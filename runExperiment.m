@@ -33,9 +33,3 @@ visualise.plotMatching(lcfMatching);
 delayPlot = visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
 saveas(delayPlot,delayPlotName);
 end
-
-function [trajA,trajB,distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain)
-trajA = trajA(1:end-1,:);
-trajB = trajB(1:end-1,:);
-distanceTerrain = distanceTerrain(1:end-1,1:end-1);
-end
