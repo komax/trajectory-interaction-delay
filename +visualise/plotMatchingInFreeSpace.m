@@ -11,6 +11,8 @@ colormap(myHeatedColorMap);
 set(gca,'position',[0 0 1 1],'units','normalized');
 axis tight;
 axis off;
-delayPlot = plot(javaMatchingObj.j,javaMatchingObj.i,'g');
+iValues = [0; (javaMatchingObj.i + 1)];
+jValues = [0; (javaMatchingObj.j + 1)];
+delayPlot = plot(jValues,iValues,'g');
 end
 

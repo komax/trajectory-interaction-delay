@@ -9,10 +9,10 @@ if ~readData
     readData = 1;
 end
 
-%typeDistanceTerrain = 'normal';
+typeDistanceTerrain = 'normal';
 %typeDistanceTerrain = 'directionalDistance';
 %typeDistanceTerrain = 'dynamicInteraction';
-typeDistanceTerrain = 'dynamicDistance';
+%typeDistanceTerrain = 'dynamicDistance';
 chosenNorm = 2;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
