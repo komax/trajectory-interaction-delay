@@ -38,7 +38,7 @@ switch dataType
             pointB = pointB + [1 1];
         end
         trajectoryA(6,:) = trajectoryA(5,:) + [1 0];
-        trajettoryB(5,:) = trajectoryB(4,:) + [-1 0];
+        trajectoryB(5,:) = trajectoryB(4,:) + [-1 0];
         pointA = trajectoryA(6,:) + [2 0];
         pointB = trajectoryB(5,:) + [-2 0];
         for i = 7:10
@@ -60,7 +60,7 @@ switch dataType
         trajectoryB(5,:) = commonPoint + [-0.1 0];
         trajectoryA(5,:) = commonPoint + [+0.1 0];
         trajectoryA(6,:) = commonPoint + [3 0];
-        trajettoryB(6,:) = commonPoint + [-10 5];
+        trajectoryB(6,:) = commonPoint + [-10 5];
         pointA = trajectoryA(6,:);
         pointB = trajectoryB(6,:);
         for i = 6:10
