@@ -1,3 +1,4 @@
+function runBatsExperiment(typeDistanceTerrain,chosenNorm)
 % Load data for the bats from file.
 readData = 0;
 if ~readData
@@ -12,8 +13,8 @@ end
 %typeDistanceTerrain = 'normal';
 %typeDistanceTerrain = 'directionalDistance';
 %typeDistanceTerrain = 'dynamicInteraction';
-typeDistanceTerrain = 'dynamicDistance';
-chosenNorm = 2;
+%typeDistanceTerrain = 'dynamicDistance';
+%chosenNorm = 2;
 experimentExtension = ['Norm', num2str(chosenNorm)];
 
 % Compute the distance terrain.
@@ -22,24 +23,28 @@ switch typeDistanceTerrain
         distanceTerrain = matching.compute_distance_terrain(trajA,trajB,chosenNorm);
     case 'directionalDistance'
         distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
-        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
         experimentExtension = [experimentExtension, 'DirectionalDistance'];
     case 'dynamicInteraction'
         alpha = 2;
         distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
-        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
         experimentExtension = [experimentExtension, 'DynamicInteraction'];
     case 'dynamicDistance'
         alpha = 2;
         distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
-        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
         experimentExtension = [experimentExtension, 'DynamicDistance'];
     otherwise
         error('Cannot handle this choice');
 end
+
+% Trim off last point from distance terrain if the terrain is direction
+% sensitive.
+if ~strcmp('normal',typeDistanceTerrain)
+    [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
+end
+
 % Generate file names.
-pathToResults = 'results/';
-matchingName = [pathToResults, 'batsMatching', experimentExtension, '.dump'];
+pathToResults = 'results/bats/';
+matchingName = [pathToResults, 'matching', experimentExtension, '.dump'];
 delayPlotName = [pathToResults, 'delaySpace', experimentExtension, '.png'];
 % Plot the distance terrain.
 %visualise.plotDistanceTerrain(distanceTerrain);
