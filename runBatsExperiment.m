@@ -32,6 +32,9 @@ switch typeDistanceTerrain
         alpha = 2;
         distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
         experimentExtension = [experimentExtension, 'DynamicDistance'];
+    case 'heading'
+        distanceTerrain = matching.headingTerrain(trajA,trajB,chosenNorm);
+        experimentExtension = [experimentExtension, 'Heading'];
     otherwise
         error('Cannot handle this choice');
 end

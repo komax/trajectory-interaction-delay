@@ -1,4 +1,4 @@
-delaySpaces = {'normal';'directionalDistance';'dynamicInteraction';'dynamicDistance'};
+delaySpaces = {'normal';'directionalDistance';'dynamicInteraction';'dynamicDistance';'heading'};
 normes = [1 2 Inf];
 
 for i = 1:length(delaySpaces)
