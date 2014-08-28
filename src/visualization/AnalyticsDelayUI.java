@@ -20,7 +20,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         USUAL,
         DIRECTIONAL_DISTANCE,
-        DYNAMIC_INTERACTION
+        DYNAMIC_INTERACTION,
+        HEADING
     };
     
     public static final String PATH_TO_DATA = "results/bats/";
@@ -91,6 +92,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
             case DIRECTIONAL_DISTANCE:
                 delaySpaceSuffix = "DirectionalDistance";
+                break;
+            case HEADING:
+                delaySpaceSuffix = "Heading";
                 break;
         }
         String combinedSuffix = normString + delaySpaceSuffix;
@@ -225,7 +229,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jLabel4.setText("Delay Space");
 
-        delaySpaceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usual Distance", "Directional Distance", "Dynamic Interaction" }));
+        delaySpaceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usual Distance", "Directional Distance", "Dynamic Interaction", "Heading" }));
         delaySpaceComboBox.setToolTipText("");
         delaySpaceComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -254,9 +258,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(distanceField, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(samplingRateField, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                        .addComponent(thresholdSpinner)))
+                    .addComponent(samplingRateField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                    .addComponent(thresholdSpinner, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -376,6 +379,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
             case 2:
                 updateDistanceAndMatching(currentDistance, DelaySpaceType.DYNAMIC_INTERACTION);
+                break;
+            case 3:
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.HEADING);
                 break;
         }
         updateAndRepaintPlots();
