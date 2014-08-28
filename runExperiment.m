@@ -29,7 +29,7 @@ switch distanceType
     otherwise
         error('Cannot handle this choice');
 end
-pathToResults = 'results/synthetic';
+pathToResults = 'results/synthetic/';
 matchingName = [pathToResults, 'matchingOn', experimentExtension, '.dump'];
 delayPlotName = [pathToResults, 'delaySpaceOn', experimentExtension, '.png'];
 lcfMatching = matching.discrete_lcfm(trajA,trajB,distanceTerrain);
