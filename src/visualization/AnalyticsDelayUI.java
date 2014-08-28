@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         DYNAMIC_INTERACTION
     };
     
-    public static final String PATH_TO_DATA = "results/";
+    public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -41,7 +41,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "batsMatchingNorm2.dump");
+        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
         this.threshold = 1;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
@@ -94,7 +94,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
         }
         String combinedSuffix = normString + delaySpaceSuffix;
-        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "batsMatching" + combinedSuffix + ".dump");
+        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matching" + combinedSuffix + ".dump");
         this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + ".png";
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
