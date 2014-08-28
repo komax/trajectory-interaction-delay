@@ -22,6 +22,10 @@ switch distanceType
         distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
         [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
         experimentExtension = [experimentExtension, 'DynamicDistance'];
+    case 'heading'
+        distanceTerrain = matching.headingTerrain(trajA,trajB,chosenNorm);
+        [trajA, trajB, distanceTerrain] = trimOffLastPoint(trajA,trajB,distanceTerrain);
+        experimentExtension = [experimentExtension, 'Heading'];
     otherwise
         error('Cannot handle this choice');
 end
