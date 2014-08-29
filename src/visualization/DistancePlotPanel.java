@@ -41,7 +41,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         }        
     }
     
-    public void setSelectedDelay(int selectedIndex) {
+    public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
     }
     
