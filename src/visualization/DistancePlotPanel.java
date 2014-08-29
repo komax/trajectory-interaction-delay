@@ -72,8 +72,8 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
             
-            g.drawLine(0, yCoord,xCoord, yCoord);
-            g.drawLine(xCoord, 0, xCoord, getHeight());
+            g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
+            g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
