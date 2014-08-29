@@ -107,8 +107,8 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             xCoord = roundDouble(drawablePoint.x);
             yCoord = roundDouble(drawablePoint.y);
             
-            g.drawLine(0, yCoord,xCoord, yCoord);
-            g.drawLine(xCoord, 0, xCoord, getHeight());
+            g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
+            g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
