@@ -77,21 +77,22 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int width = getWidth();
-        int height = getHeight();
+        int width = plotWidth();
+        int height = plotHeight();
         BufferedImage scaledImage = resize(freeSpaceImage, width, height);
-        g.drawImage(scaledImage, 0, 0, null);
+        g.drawImage(scaledImage, axisWidth(), 0, null);
         
         if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
             double xPoint = ((double) width) * (double) selectedIndexTraject2 / (lengthMatching-1);
+            xPoint += axisWidth();
             double yPoint = height - ((double) height) * selectedIndexTraject1 / (lengthMatching-1);
             // Drawing the horizontial line.
-            g.drawLine(0, roundDouble(yPoint), roundDouble(xPoint), roundDouble(yPoint));
+            g.drawLine(axisWidth(), roundDouble(yPoint), roundDouble(xPoint), roundDouble(yPoint));
             // Drawing the vertical line.
-            g.drawLine(roundDouble(xPoint), getHeight(), roundDouble(xPoint), roundDouble(yPoint));
+            g.drawLine(roundDouble(xPoint), plotHeight(), roundDouble(xPoint), roundDouble(yPoint));
             
         }
     }
