@@ -94,6 +94,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             // Drawing the vertical line.
             g.drawLine(roundDouble(xPoint), plotHeight(), roundDouble(xPoint), roundDouble(yPoint));
             
+            g.drawString(Integer.toString(selectedIndexTraject1), 0, roundDouble(yPoint));
+            g.drawString(Integer.toString(selectedIndexTraject2), roundDouble(xPoint), getHeight());
+            
         }
     }
 
