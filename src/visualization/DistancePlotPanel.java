@@ -92,5 +92,15 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             transformedPreviousPoint = transformedCurrentPoint;
         }
     }
+
+    @Override
+    public int axisWidth() {
+        return 10;
+    }
+
+    @Override
+    public int axisHeight() {
+        return 10;
+    }
     
 }

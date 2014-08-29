@@ -40,23 +40,36 @@ public abstract class GenericPlottingPanel extends JPanel {
     }
 
     protected Point2D cartesianToPanelPoint(Point2D cartesianPoint) {
-        int width = getWidth();
-        int height = getHeight();
+        int width = plotWidth();
+        int height = plotHeight();
         double panelX = cartesianPoint.x / maxX() * width;
         double panelY = height - cartesianPoint.y / maxY() * height;
+        panelX += axisWidth();
+        panelY += axisHeight();
         return new Point2D(panelX, panelY);
     }
 
     protected Point2D panelToCartesianPoint(Point2D panelPoint) {
-        int width = getWidth();
-        int height = getHeight();
-        double cartesianX = panelPoint.x / width * maxX();
-        double cartesianY = panelPoint.y / height * maxY();
+        int plotWidth = plotWidth();
+        int plotHeight = plotHeight();
+        double cartesianX = panelPoint.x / plotWidth * maxX();
+        double cartesianY = panelPoint.y / plotHeight * maxY();
         return new Point2D(cartesianX, cartesianY);
+    }
+    
+    protected int plotWidth() {
+        return getWidth() - axisWidth();
+    }
+    
+    protected int plotHeight() {
+        return getHeight() - axisHeight();
     }
     
     public abstract double maxX();
     public abstract double maxY();
+    
+    public abstract int axisWidth();
+    public abstract int axisHeight();
     
     @Override
     public void paintComponent(Graphics g) {

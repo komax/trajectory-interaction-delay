@@ -95,5 +95,15 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             
         }
     }
+
+    @Override
+    public int axisWidth() {
+        return 10;
+    }
+
+    @Override
+    public int axisHeight() {
+        return 10;
+    }
     
 }
