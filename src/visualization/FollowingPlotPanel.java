@@ -143,4 +143,14 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             g.drawLine(x, y, x, y);
         }
     }  
+
+    @Override
+    public int axisWidth() {
+        return 10;
+    }
+
+    @Override
+    public int axisHeight() {
+        return 10;
+    }
 }

@@ -339,4 +339,14 @@ public final class MatchingPlot extends GenericPlottingPanel {
         return this.maxY;
     }
 
+    @Override
+    public int axisWidth() {
+        return 0;
+    }
+
+    @Override
+    public int axisHeight() {
+        return 0;
+    }
+
 }
