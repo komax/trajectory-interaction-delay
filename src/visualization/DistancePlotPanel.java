@@ -72,8 +72,12 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
             
-            g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
+            g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
+            
+            String currentDistance = String.format("%.3f", distancesOnMatching[selectedIndex]);
+            g.drawString(currentDistance, 0, yCoord);
+            g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
