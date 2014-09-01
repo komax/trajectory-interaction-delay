@@ -287,7 +287,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private void drawPoints(Graphics g, int index) {
         Graphics2D g2 = (Graphics2D) g;
         int diameter = 6;
-        int radius = diameter / 2;
+        int offset = diameter / 2;
         
         Point2D pointTraject1 = trajectory1.get(matching.i[index]);
         Point2D panelPoint = cartesianToPanelPoint(pointTraject1);
@@ -295,17 +295,21 @@ public final class MatchingPlot extends GenericPlottingPanel {
         int panelY = roundDouble(panelPoint.y);
         if (isTraject1Ahead[index]) {
             int delay = delaysInTimestamps[index];
-            Color color = positiveColors.getColor(delay);
+            Color chosenColor = positiveColors.getColor(delay);
             g2.setStroke(new BasicStroke(5));
-            g.setColor(color);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g.setColor(chosenColor);
+            Polygon triangle = new Polygon();
+            triangle.addPoint(panelX, panelY + offset);
+            triangle.addPoint(panelX - offset, panelY - offset);
+            triangle.addPoint(panelX + offset, panelY - offset);
+            g.drawPolygon(triangle);
         } else {
             g2.setStroke(new BasicStroke(5));
             g.setColor(Color.lightGray);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
             g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
         }
         
         
@@ -318,14 +322,15 @@ public final class MatchingPlot extends GenericPlottingPanel {
             Color chosenColor = negativeColors.getColor(delay);
             g2.setStroke(new BasicStroke(5));
             g.setColor(chosenColor);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            
+            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
             g.setColor(Color.lightGray);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
             g2.setStroke(new BasicStroke(3));
             g.setColor(Color.white);
-            g.drawOval(panelX - radius, panelY - radius, diameter, diameter);
+            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
         }
     }
 
