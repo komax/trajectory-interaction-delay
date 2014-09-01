@@ -322,8 +322,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
             Color chosenColor = negativeColors.getColor(delay);
             g2.setStroke(new BasicStroke(5));
             g.setColor(chosenColor);
-            
-            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+            g.drawRect(panelX - offset, panelY - offset, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
             g.setColor(Color.lightGray);
