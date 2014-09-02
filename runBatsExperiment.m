@@ -49,6 +49,7 @@ end
 pathToResults = 'results/bats/';
 matchingName = [pathToResults, 'matching', experimentExtension, '.dump'];
 delayPlotName = [pathToResults, 'delaySpace', experimentExtension, '.png'];
+logScaleDelayPlotName = [pathToResults, 'delaySpace', experimentExtension, 'logScale.png'];
 % Plot the distance terrain.
 %visualise.plotDistanceTerrain(distanceTerrain);
 
@@ -61,3 +62,5 @@ visualise.plotMatching(lcfMatching);
 % Plot free space with its matching.
 delayPlot = visualise.plotMatchingInFreeSpace(distanceTerrain, lcfMatching);
 saveas(delayPlot,delayPlotName);
+logScaleDelayPlot = visualise.plotMatchingInFreeSpace(logScaleDelaySpace(distanceTerrain), lcfMatching);
+saveas(logScaleDelayPlot,logScaleDelayPlotName);
