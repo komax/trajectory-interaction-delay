@@ -250,6 +250,14 @@ public class ColorMap {
         return colorSpectrum.get(index);
     }
     
+    public Color getMinColor() {
+        return getColor(getMinValue());
+    }
+    
+    public Color getMaxColor() {
+        return getColor(getMaxValue());
+    }
+    
     public void halfColorSpectrum() {
         List<Color> newColorSpectrum = new ArrayList<>();
         newColorSpectrum.add(colorSpectrum.get(0));
@@ -259,6 +267,14 @@ public class ColorMap {
             }
         }
         colorSpectrum = newColorSpectrum;
+    }
+    
+    public double getMinValue() {
+        return minValue;
+    }
+    
+    public double getMaxValue() {
+        return maxValue;
     }
     
 }

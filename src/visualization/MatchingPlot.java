@@ -294,10 +294,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
         int panelX = roundDouble(panelPoint.x);
         int panelY = roundDouble(panelPoint.y);
         if (isTraject1Ahead[index]) {
-            int delay = delaysInTimestamps[index];
-            Color chosenColor = positiveColors.getColor(delay);
+            Color maxColor = positiveColors.getMaxColor();
             g2.setStroke(new BasicStroke(5));
-            g.setColor(chosenColor);
+            g.setColor(maxColor);
             Polygon triangle = new Polygon();
             triangle.addPoint(panelX, panelY + offset);
             triangle.addPoint(panelX - offset, panelY - offset);
@@ -318,10 +317,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
         panelX = roundDouble(panelPoint.x);
         panelY = roundDouble(panelPoint.y);
         if (isTraject2Ahead[index]) {
-            int delay = delaysInTimestamps[index];
-            Color chosenColor = negativeColors.getColor(delay);
+            Color maxColor = negativeColors.getMaxColor();
             g2.setStroke(new BasicStroke(5));
-            g.setColor(chosenColor);
+            g.setColor(maxColor);
             g.drawRect(panelX - offset, panelY - offset, diameter, diameter);
         } else {
             g2.setStroke(new BasicStroke(5));
