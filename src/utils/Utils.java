@@ -130,5 +130,25 @@ public class Utils {
         }
         return delays;
     }
+    
+    public static double[] headingOnMatching(Matching matching) {
+        double[] headings = new double[matching.i.length];
+        double[][] traject1 = matching.getTrajectory1();
+        double[][] traject2 = matching.getTrajectory2();  
+        for (int k = 0; k < headings.length; k++) {
+            double[] pointI = traject1[matching.i[k]];
+            double[] pointJ = traject2[matching.i[k]];
+            double[] followPointI;
+            double[] followPointJ;
+            if (k <= (headings.length - 1)) {
+                followPointI = traject1[matching.i[k+1]];
+                followPointJ = traject2[matching.j[k+1]];
+            } else {
+                followPointI = traject1[traject1.length - 1];
+                followPointJ = traject2[traject2.length - 1];
+            }
+        }
+        return headings;
+    }
 
 }
