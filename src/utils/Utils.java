@@ -150,5 +150,21 @@ public class Utils {
         }
         return headings;
     }
+    
+    public double[] crossProduct(double[] p, double[] q) {
+        double[] product = new double[p.length];
+        product[0] = p[1] * q[2] - p[2] * q[1];
+        product[1] = p[2] * q[0] - p[0] * q[2];
+        product[2] = p[0] * q[1] - p[1] * q[0];
+        return product;
+    }
+    
+    public double dotProduct(double[] p, double[] q) {
+        double product = 0.0;
+        for (int i = 0; i < p.length; i++) {
+            product += p[i] * q[i];
+        }
+        return product;
+    }
 
 }
