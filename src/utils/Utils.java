@@ -147,6 +147,10 @@ public class Utils {
                 followPointI = traject1[traject1.length - 1];
                 followPointJ = traject2[traject2.length - 1];
             }
+            double angleI = computeHeadingAngle(pointI, followPointI);
+            double angleJ = computeHeadingAngle(pointJ, followPointJ);
+            double headingValue = Math.cos(angleI - angleJ);
+            headings[k] = headingValue; 
         }
         return headings;
     }
