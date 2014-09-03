@@ -100,6 +100,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         String combinedSuffix = normString + delaySpaceSuffix;
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matching" + combinedSuffix + ".dump");
         this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + ".png";
+        // FIXME Selecth the correct distance for plotting.
         this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
     }
 
@@ -212,7 +213,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jLabel2.setText("Sampling Rate");
 
-        samplingRateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seconds", "milliseconds" }));
+        samplingRateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seconds", "Hertz" }));
 
         samplingRateField.setText("1.35");
 
