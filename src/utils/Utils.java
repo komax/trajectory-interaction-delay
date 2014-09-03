@@ -155,6 +155,16 @@ public class Utils {
         return headings;
     }
     
+    public static double[] directionalDistancesOnMatching(Matching matching, DistanceNorm distance) {
+        double[] distances = distancesOnMatching(matching, distance);
+        double[] headings = headingOnMatching(matching);
+        double[] directionalDistances = new double[distances.length];
+        for (int i = 0; i < directionalDistances.length; i++) {
+            directionalDistances[i] = distances[i] * (2 - headings[i]);
+        }
+        return directionalDistances;
+    }
+    
     public static double[] crossProduct(double[] p, double[] q) {
         double[] product = new double[p.length];
         product[0] = p[1] * q[2] - p[2] * q[1];
