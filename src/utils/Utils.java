@@ -151,7 +151,7 @@ public class Utils {
         return headings;
     }
     
-    public double[] crossProduct(double[] p, double[] q) {
+    public static double[] crossProduct(double[] p, double[] q) {
         double[] product = new double[p.length];
         product[0] = p[1] * q[2] - p[2] * q[1];
         product[1] = p[2] * q[0] - p[0] * q[2];
@@ -159,12 +159,26 @@ public class Utils {
         return product;
     }
     
-    public double dotProduct(double[] p, double[] q) {
+    public static double dotProduct(double[] p, double[] q) {
         double product = 0.0;
         for (int i = 0; i < p.length; i++) {
             product += p[i] * q[i];
         }
         return product;
+    }
+    
+    private static double vectorNorm(double[] vector) {
+        double[] nullVector = new double[vector.length];
+        for (int i = 0; i < vector.length; i++) {
+            nullVector[i] = 0.0;
+        }
+        return EuclideanDistance.distance(vector, nullVector);
+    }
+    
+    private static double computeAngle(double[] vectorA, double[] vectorB) {
+        double angle = Math.atan2(vectorNorm(crossProduct(vectorA, vectorB)),
+                dotProduct(vectorA, vectorB));
+        return angle;
     }
 
 }
