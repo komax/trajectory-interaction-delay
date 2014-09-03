@@ -167,6 +167,14 @@ public class Utils {
         return product;
     }
     
+    public static double[] diff(double[] p, double[] q) {
+        double[] diffResult = new double[p.length];
+        for (int i = 0; i < p.length; i++) {
+            diffResult[i] = p[i] - q[i];
+        }
+        return diffResult;
+    }
+    
     private static double vectorNorm(double[] vector) {
         double[] nullVector = new double[vector.length];
         for (int i = 0; i < vector.length; i++) {
@@ -179,6 +187,30 @@ public class Utils {
         double angle = Math.atan2(vectorNorm(crossProduct(vectorA, vectorB)),
                 dotProduct(vectorA, vectorB));
         return angle;
+    }
+    
+    private static double computeHeadingAngle(double[] p, double[] successorP) {
+        double[] projectedPoint = new double[p.length];
+        projectedPoint[0] = successorP[0];
+        for (int i = 1; i < p.length; i++) {
+            projectedPoint[i] = p[i];
+        }
+        double[] vectorA = diff(projectedPoint, p);
+        double[] vectorB = diff(successorP, p);
+        double angle = computeAngle(vectorA, vectorB);
+        if ((successorP[0] - p[0]) > 0) {
+            if ((successorP[1] - p[1]) > 0) {
+                return angle;
+            } else {
+                return -angle;
+            }
+        } else {
+            if ((successorP[1] - p[1]) > 0) {
+                return Math.PI - angle;
+            } else {
+                return Math.PI + angle;
+            }
+        }
     }
 
 }
