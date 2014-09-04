@@ -15,7 +15,6 @@ import utils.Utils;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
-
     public enum DelaySpaceType {
 
         USUAL,
@@ -24,6 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
+    private static final int TRANSLUCENT_FOCUS = 50;
     public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
@@ -64,7 +64,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initMatchingPlot() {
-        this.matchingPlot = new MatchingPlot(matching, threshold);
+        this.matchingPlot = new MatchingPlot(matching, threshold, TRANSLUCENT_FOCUS);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
 
@@ -128,7 +128,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-            matchingPlot.updateMatching(matching, threshold);
+            matchingPlot.updateMatching(matching, threshold, TRANSLUCENT_FOCUS);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
