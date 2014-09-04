@@ -121,7 +121,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
         super.paintComponent(g);
         paintTrajectories(g);
         drawMatching(g);
-
+    }
+    
+    private void setTranslucentColor(Graphics g, Color color) {
+        Color translucentColor = ColorMap.getColorFromRGB(color.getRGB(), 50);
+        g.setColor(translucentColor);
     }
 
     private void paintTrajectories(Graphics g) {
