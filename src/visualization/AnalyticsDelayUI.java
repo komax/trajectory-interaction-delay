@@ -100,8 +100,21 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         String combinedSuffix = normString + delaySpaceSuffix;
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matching" + combinedSuffix + ".dump");
         this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + ".png";
-        // FIXME Selecth the correct distance for plotting.
-        this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
+        switch (delaySpace) {
+            case USUAL:
+                this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
+                break;
+            case DYNAMIC_INTERACTION:
+                // FIXME not yet implemented
+                this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
+                break;
+            case DIRECTIONAL_DISTANCE:
+                this.distancesOnMatching = Utils.directionalDistancesOnMatching(matching, currentDistance);
+                break;
+            case HEADING:
+                this.distancesOnMatching = Utils.headingOnMatching(matching);
+                break;
+        }
     }
 
     private void updateAndRepaintPlots() {

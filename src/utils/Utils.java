@@ -140,7 +140,7 @@ public class Utils {
             double[] pointJ = traject2[matching.i[k]];
             double[] followPointI;
             double[] followPointJ;
-            if (k <= (headings.length - 1)) {
+            if (k < (headings.length - 1)) {
                 followPointI = traject1[matching.i[k+1]];
                 followPointJ = traject2[matching.j[k+1]];
             } else {
