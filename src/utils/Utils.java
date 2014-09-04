@@ -137,7 +137,7 @@ public class Utils {
         double[][] traject2 = matching.getTrajectory2();  
         for (int k = 0; k < headings.length; k++) {
             double[] pointI = traject1[matching.i[k]];
-            double[] pointJ = traject2[matching.i[k]];
+            double[] pointJ = traject2[matching.j[k]];
             double[] followPointI;
             double[] followPointJ;
             if (k < (headings.length - 1)) {
@@ -153,6 +153,56 @@ public class Utils {
             headings[k] = headingValue; 
         }
         return headings;
+    }
+    
+    public static double[] dynamicInteractionOnMatching(Matching matching, DistanceNorm distance, double alpha) {
+        double[] displacements = displacementsOnMatching(matching, distance, alpha);
+        double[] headings = headingOnMatching(matching);
+        double[] dynamicInteractions = new double[displacements.length];
+        for (int i = 0; i < dynamicInteractions.length; i++) {
+            dynamicInteractions[i] = (1.0 - displacements[i]) * headings[i];
+        }
+        return dynamicInteractions;
+    }
+    
+    private static double[] displacementsOnMatching(Matching matching, DistanceNorm distance, double alpha) {
+        double[] displacements = new double[matching.i.length];
+        double[][] traject1 = matching.getTrajectory1();
+        double[][] traject2 = matching.getTrajectory2();  
+        for (int k = 0; k < displacements.length; k++) {
+            double[] pointI = traject1[matching.i[k]];
+            double[] pointJ = traject2[matching.j[k]];
+            double[] followPointI;
+            double[] followPointJ;
+            if (k < (displacements.length - 1)) {
+                followPointI = traject1[matching.i[k+1]];
+                followPointJ = traject2[matching.j[k+1]];
+            } else {
+                followPointI = traject1[traject1.length - 1];
+                followPointJ = traject2[traject2.length - 1];
+            }
+            double distanceI = computeLineSegmentDistance(pointI, followPointI, distance);
+            double distanceJ = computeLineSegmentDistance(pointJ, followPointJ, distance);
+            double displacementValue = computeDisplacement(distanceI, distanceJ, alpha);
+            displacements[k] = displacementValue; 
+        }
+        return displacements;
+    }
+    
+    private static double computeLineSegmentDistance(double[] pointI, double[] successorPointI, DistanceNorm distance) {
+        return vectorNorm(diff(pointI, successorPointI), distance);
+    }
+    
+    private static double computeDisplacement(double distanceI, double distanceJ, double alpha) {
+        double eps = 0.000001;
+        double summedDistance = distanceI + distanceJ;
+        if (summedDistance < eps) {
+            return 1.0;
+        } else {
+            double numerator = Math.abs(distanceI - distanceJ);
+            double fraction = numerator / summedDistance;
+            return 1.0 - Math.pow(fraction, alpha);
+        }
     }
     
     public static double[] directionalDistancesOnMatching(Matching matching, DistanceNorm distance) {
@@ -189,16 +239,16 @@ public class Utils {
         return diffResult;
     }
     
-    private static double vectorNorm(double[] vector) {
+    private static double vectorNorm(double[] vector, DistanceNorm distance) {
         double[] nullVector = new double[vector.length];
         for (int i = 0; i < vector.length; i++) {
             nullVector[i] = 0.0;
         }
-        return EuclideanDistance.distance(vector, nullVector);
+        return distance.distance(vector, nullVector);
     }
     
     private static double computeAngle(double[] vectorA, double[] vectorB) {
-        double angle = Math.atan2(vectorNorm(crossProduct(vectorA, vectorB)),
+        double angle = Math.atan2(vectorNorm(crossProduct(vectorA, vectorB), EuclideanDistance),
                 dotProduct(vectorA, vectorB));
         return angle;
     }
