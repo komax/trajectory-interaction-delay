@@ -118,10 +118,23 @@ public final class MatchingPlot extends GenericPlottingPanel {
     public void setSelectedIndex(int newIndex) {
         this.selectedIndex = newIndex;
         int halfRange = translucentFocus / 2;
-        this.startFocusTraject1 = matching.i[newIndex] - halfRange;
-        this.endFocusTraject1 = matching.i[newIndex] + halfRange;
-        this.startFocusTraject2 = matching.j[newIndex] - halfRange;
-        this.endFocusTraject2 = matching.j[newIndex] + halfRange;
+        int startIndex;
+        if (newIndex < halfRange) {
+            startIndex = 0;
+        } else {
+            startIndex = newIndex - halfRange;
+        }
+        
+        int endIndex;
+        if (newIndex + halfRange < matching.i.length) {
+            endIndex = newIndex + halfRange;
+        } else {
+            endIndex = matching.i.length - 1;
+        }
+        this.startFocusTraject1 = matching.i[startIndex];
+        this.endFocusTraject1 = matching.i[endIndex];
+        this.startFocusTraject2 = matching.j[startIndex];
+        this.endFocusTraject2 = matching.j[endIndex];
     }
 
     @Override
