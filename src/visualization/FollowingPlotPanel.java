@@ -101,9 +101,13 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
                 delay += delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("+%d", delaysInTimestamps[selectedIndex]);
+                Color traject1AheadColor = positiveColors.getMaxColor();
+                g.setColor(traject1AheadColor);
             } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
                 delay -= delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("-%d", delaysInTimestamps[selectedIndex]);
+                Color traject2AheadColor = negativeColors.getMaxColor();
+                g.setColor(traject2AheadColor);
             } else {
                 currentDelay = "0";
             }
@@ -111,15 +115,17 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             xCoord = roundDouble(drawablePoint.x);
             yCoord = roundDouble(drawablePoint.y);
+
+            g.drawString(currentDelay, 0, yCoord);
+            
+            g.setColor(Color.black);
+            g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
             
             g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
             
             g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
-            
-            g.drawString(currentDelay, 0, yCoord);
-            g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
@@ -157,7 +163,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
 
     @Override
     public int axisWidth() {
-        return 10;
+        return 40;
     }
 
     @Override
