@@ -23,8 +23,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    private static final int TRANSLUCENT_FOCUS = 50;
-    public static final String PATH_TO_DATA = "results/bats/";
+    private static final int TRANSLUCENT_FOCUS = 10;
+    public static final String PATH_TO_DATA = "results/frisbee/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;

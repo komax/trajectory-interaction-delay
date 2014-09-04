@@ -10,7 +10,7 @@ import utils.Utils;
  * Created by max on 25-4-14.
  */
 public final class MatchingPlot extends GenericPlottingPanel {
-    private static final int TRANSLUCENT_ALPHA = 50;
+    private static final int TRANSLUCENT_ALPHA = 20;
     
     private Matching matching;
     private ArrayList<Point2D> trajectory1;
@@ -259,6 +259,12 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = negativeColors.getColor(startDelay);
                         }
                         
+                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                            beginColor = getTranslucentColor(beginColor);
+                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                            beginColor = getTranslucentColor(beginColor);
+                        }
+                        
                         Point2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
                         int endTraject2X = roundDouble(endTraject2.x);
                         int endTraject2Y = roundDouble(endTraject2.y);
@@ -269,6 +275,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             endColor = negativeColors.getMinColor();
                         } else {
                             endColor = negativeColors.getColor(endDelay);
+                        }
+                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                            endColor = getTranslucentColor(endColor);
+                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                            endColor = getTranslucentColor(endColor);
                         }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
@@ -291,6 +302,12 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = positiveColors.getColor(startDelay);
                         }
                         
+                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                            beginColor = getTranslucentColor(beginColor);
+                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                            beginColor = getTranslucentColor(beginColor);
+                        }
+                        
                         Point2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
                         int endTraject1X = roundDouble(endTraject1.x);
                         int endTraject1Y = roundDouble(endTraject1.y);
@@ -301,6 +318,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             endColor = positiveColors.getMinColor();
                         } else {
                             endColor = positiveColors.getColor(endDelay);
+                        }
+                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                            endColor = getTranslucentColor(endColor);
+                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                            endColor = getTranslucentColor(endColor);
                         }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
