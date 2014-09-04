@@ -149,9 +149,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
         drawMatching(g);
     }
     
-    private void setTranslucentColor(Graphics g, Color color) {
-        Color translucentColor = ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
-        g.setColor(translucentColor);
+    private static Color getTranslucentColor(Color color) {
+        return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
     }
 
     private void paintTrajectories(Graphics g) {
@@ -165,13 +164,13 @@ public final class MatchingPlot extends GenericPlottingPanel {
         for (int i = 1; i < trajectory.size(); i++) {
             if (trajectory == trajectory1) {
                 if (i < startFocusTraject1 || i > endFocusTraject1) {
-                    setTranslucentColor(g, Color.black);
+                    g.setColor(getTranslucentColor(Color.black));
                 } else {
                     g.setColor(Color.black);
                 }
             } else if (trajectory == trajectory2) {
                 if (i < startFocusTraject2 || i > endFocusTraject2) {
-                    setTranslucentColor(g, Color.black);
+                    g.setColor(getTranslucentColor(Color.black));
                 } else {
                     g.setColor(Color.black);
                 }                
@@ -228,9 +227,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         chosenColor = positiveColors.getMinColor();
                     }
                     if (currentIndexTraject1 < startFocusTraject1 || currentIndexTraject1 > endFocusTraject1) {
-                        setTranslucentColor(g, chosenColor);
+                        g.setColor(getTranslucentColor(chosenColor));
                     } else if (currentIndexTraject2 < startFocusTraject2 || currentIndexTraject2 > endFocusTraject2) {
-                        setTranslucentColor(g, chosenColor);
+                        g.setColor(getTranslucentColor(chosenColor));
                     } else {
                         g.setColor(chosenColor);
                     }
