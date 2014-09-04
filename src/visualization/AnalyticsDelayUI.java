@@ -106,7 +106,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
             case DYNAMIC_INTERACTION:
                 // FIXME not yet implemented
-                this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
+                double alpha = 2.0;
+                this.distancesOnMatching = Utils.dynamicInteractionOnMatching(matching, distance, alpha);
                 break;
             case DIRECTIONAL_DISTANCE:
                 this.distancesOnMatching = Utils.directionalDistancesOnMatching(matching, currentDistance);
