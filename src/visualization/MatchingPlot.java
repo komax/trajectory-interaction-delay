@@ -227,7 +227,13 @@ public final class MatchingPlot extends GenericPlottingPanel {
                     } else {
                         chosenColor = positiveColors.getMinColor();
                     }
-                    g.setColor(chosenColor);
+                    if (currentIndexTraject1 < startFocusTraject1 || currentIndexTraject1 > endFocusTraject1) {
+                        setTranslucentColor(g, chosenColor);
+                    } else if (currentIndexTraject2 < startFocusTraject2 || currentIndexTraject2 > endFocusTraject2) {
+                        setTranslucentColor(g, chosenColor);
+                    } else {
+                        g.setColor(chosenColor);
+                    }
                     // 3a. Draw a simple line.
                     Point2D pointTraj1 = trajectory1.get(startIndexTraject1);
                     Point2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
