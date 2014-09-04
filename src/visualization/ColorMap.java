@@ -124,11 +124,11 @@ public class ColorMap {
         return new Color(colorValue);
     }
     
-    public static Color getColorFromRGB(int red, int green, int blue, int alpha) {
+    public static Color getColorFromRGB(int red, int green, int blue, float alpha) {
         return new Color(red, green, blue, alpha);
     }
     
-    public static Color getColorFromRGB(int colorValue, int alpha) {
+    public static Color getColorFromRGB(int colorValue, float alpha) {
         Color colorWithoutAlpha = getColorFromRGB(colorValue);
         int red = colorWithoutAlpha.getRed();
         int green = colorWithoutAlpha.getGreen();
