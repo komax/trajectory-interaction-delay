@@ -205,9 +205,9 @@ public class ColorMap {
     public static ColorMap createGrayToRedTransparentColormap(double minValue, double maxValue) {
         List<Color> colors = new ArrayList<>();
         int[] colorValues = LIGHT_GRAY_TO_PURE_RED_COLOR_CODES;
+        int alphaValue = 150;
         for (int i=colorValues.length-1; i>= 0; i--) {
-            int alphaValue = 180 - colorValues.length + 1;
-            colors.add(getColorFromRGB(colorValues[i], alphaValue + i));
+            colors.add(getColorFromRGB(colorValues[i], alphaValue));
         }
         return new ColorMap(minValue, maxValue, colors);
     }
@@ -215,9 +215,9 @@ public class ColorMap {
     public static ColorMap createGrayToBlueTransparentColormap(double minValue, double maxValue) {
         List<Color> colors = new ArrayList<>();
         int[] colorValues = LIGHT_GRAY_TO_PURE_BLUE_COLOR_CODES;
+        int alphaValue = 150;
         for (int i=colorValues.length-1; i>= 0; i--) {
-            int alphaValue = 180 - colorValues.length + 1;
-            colors.add(getColorFromRGB(colorValues[i], alphaValue + i));
+            colors.add(getColorFromRGB(colorValues[i], alphaValue));
         }
         return new ColorMap(minValue, maxValue, colors);
     }

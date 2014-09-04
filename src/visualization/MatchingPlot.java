@@ -182,7 +182,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                     } else if (isTraject2Ahead[k-1]) {
                         chosenColor = negativeColors.getColor(delay);
                     } else {
-                        chosenColor = Color.lightGray;
+                        chosenColor = positiveColors.getMinColor();
                     }
                     g.setColor(chosenColor);
                     // 3a. Draw a simple line.
@@ -206,7 +206,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
                         if (startDelay < threshold) {
-                            beginColor = Color.lightGray;
+                            beginColor = negativeColors.getMinColor();
                         } else {
                             beginColor = negativeColors.getColor(startDelay);
                         }
@@ -218,7 +218,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
                         if (endDelay < threshold) {
-                            endColor = Color.lightGray;
+                            endColor = negativeColors.getMinColor();
                         } else {
                             endColor = negativeColors.getColor(endDelay);
                         }
@@ -238,7 +238,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
                         if (startDelay < threshold) {
-                            beginColor = Color.lightGray;
+                            beginColor = positiveColors.getMinColor();
                         } else {
                             beginColor = positiveColors.getColor(startDelay);
                         }
@@ -250,7 +250,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
                         if (endDelay < threshold) {
-                            endColor = Color.lightGray;
+                            endColor = positiveColors.getMinColor();
                         } else {
                             endColor = positiveColors.getColor(endDelay);
                         }
