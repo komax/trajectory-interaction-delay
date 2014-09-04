@@ -22,7 +22,8 @@ end
 
 function [displacementValue] = displacement(distanceA,distanceB,alpha)
 summedDistance = distanceA + distanceB;
-if ~summedDistance
+epsilon = 0.000001;
+if summedDistance < epsilon
     displacementValue = 1.0;
 else
     numerator = abs(distanceA - distanceB);
