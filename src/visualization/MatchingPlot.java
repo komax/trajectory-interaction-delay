@@ -10,6 +10,8 @@ import utils.Utils;
  * Created by max on 25-4-14.
  */
 public final class MatchingPlot extends GenericPlottingPanel {
+    private static final int TRANSLUCENT_ALPHA = 50;
+    
     private Matching matching;
     private ArrayList<Point2D> trajectory1;
     private ArrayList<Point2D> trajectory2;
@@ -25,17 +27,23 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private ColorMap negativeColors;
     private boolean[] isTraject1Ahead;
     private boolean[] isTraject2Ahead;
-    private int threshold;
+    private int thresholdDelay;
+    private int translucentFocus;
+    private int startFocusTraject1;
+    private int endFocusTraject1;
+    private int startFocusTraject2;
+    private int endFocusTraject2;
 
-    public MatchingPlot(Matching matching, int threshold) {
+    public MatchingPlot(Matching matching, int thresholdDelay, int translucentFocus) {
         // Store data to plot
         this.selectedIndex = -1;
-        updateMatching(matching, threshold);
+        updateMatching(matching, thresholdDelay, translucentFocus);
     }
     
-    public void updateMatching(Matching matching, int threshold) {
+    public void updateMatching(Matching matching, int thresholdDelay, int translucentFocus) {
         this.matching = matching;
-        this.threshold = threshold;
+        this.thresholdDelay = thresholdDelay;
+        this.translucentFocus = translucentFocus;
         this.minX = Double.MAX_VALUE;
         this.minY = Double.MAX_VALUE;
 
@@ -52,19 +60,19 @@ public final class MatchingPlot extends GenericPlottingPanel {
         findMaxOn(trajectory2);
         
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
-        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, threshold);
-        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching, threshold);
+        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, thresholdDelay);
+        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching, thresholdDelay);
         this.maxDelay = Integer.MIN_VALUE;
         for (int delay: delaysInTimestamps) {
             if (delay > maxDelay) {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(threshold, maxDelay);
+        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(thresholdDelay, maxDelay);
         this.positiveColors.halfColorSpectrum();
         this.positiveColors.halfColorSpectrum();
       //  this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
+        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(thresholdDelay, maxDelay);
         this.negativeColors.halfColorSpectrum();
        // this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
@@ -109,6 +117,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
     
     public void setSelectedIndex(int newIndex) {
         this.selectedIndex = newIndex;
+        int halfRange = translucentFocus / 2;
+        this.startFocusTraject1 = matching.i[newIndex] - halfRange;
+        this.endFocusTraject1 = matching.i[newIndex] + halfRange;
+        this.startFocusTraject2 = matching.j[newIndex] - halfRange;
+        this.endFocusTraject2 = matching.j[newIndex] + halfRange;
     }
 
     @Override
@@ -124,7 +137,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
     }
     
     private void setTranslucentColor(Graphics g, Color color) {
-        Color translucentColor = ColorMap.getColorFromRGB(color.getRGB(), 50);
+        Color translucentColor = ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         g.setColor(translucentColor);
     }
 
@@ -137,6 +150,19 @@ public final class MatchingPlot extends GenericPlottingPanel {
         Point2D previousPoint = trajectory.get(0);
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i = 1; i < trajectory.size(); i++) {
+            if (trajectory == trajectory1) {
+                if (i < startFocusTraject1 || i > endFocusTraject1) {
+                    setTranslucentColor(g, Color.black);
+                } else {
+                    g.setColor(Color.black);
+                }
+            } else if (trajectory == trajectory2) {
+                if (i < startFocusTraject2 || i > endFocusTraject2) {
+                    setTranslucentColor(g, Color.black);
+                } else {
+                    g.setColor(Color.black);
+                }                
+            }
             Point2D currentPoint = trajectory.get(i);
             Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = roundDouble(transformedPreviousPoint.x);
@@ -209,7 +235,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
-                        if (startDelay < threshold) {
+                        if (startDelay < thresholdDelay) {
                             beginColor = negativeColors.getMinColor();
                         } else {
                             beginColor = negativeColors.getColor(startDelay);
@@ -221,7 +247,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
-                        if (endDelay < threshold) {
+                        if (endDelay < thresholdDelay) {
                             endColor = negativeColors.getMinColor();
                         } else {
                             endColor = negativeColors.getColor(endDelay);
@@ -241,7 +267,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
-                        if (startDelay < threshold) {
+                        if (startDelay < thresholdDelay) {
                             beginColor = positiveColors.getMinColor();
                         } else {
                             beginColor = positiveColors.getColor(startDelay);
@@ -253,7 +279,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
-                        if (endDelay < threshold) {
+                        if (endDelay < thresholdDelay) {
                             endColor = positiveColors.getMinColor();
                         } else {
                             endColor = positiveColors.getColor(endDelay);
