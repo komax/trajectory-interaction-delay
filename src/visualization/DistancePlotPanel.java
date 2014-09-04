@@ -99,7 +99,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
 
     @Override
     public int axisWidth() {
-        return 10;
+        return 40;
     }
 
     @Override
