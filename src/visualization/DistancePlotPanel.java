@@ -8,6 +8,7 @@ package visualization;
 
 import frechet.Matching;
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,6 +25,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private double maxDistance;
     private double[] distancesOnMatching;
     private double minDistance;
+    private ColorMap heatedBodyColorMap;
     
     public DistancePlotPanel(Matching matching, DistanceNorm distance) {
         this.selectedIndex = -1;
@@ -41,9 +43,10 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
                 maxDistance = currentDistance;
             }
             if (currentDistance < minDistance) {
-                
+                minDistance = currentDistance;
             }
-        }        
+        }
+        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
     }
     
     public void setSelectedIndex(int selectedIndex) {
@@ -69,8 +72,29 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(3));
+        Point2D previousPoint = new Point2D(0, normalizedDistances[0]);
+        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+        for (int i=1; i<maxX(); i++) {
+            Point2D currentPoint = new Point2D(i, normalizedDistances[i]);
+            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+            int fromX = roundDouble(transformedPreviousPoint.x);
+            int fromY = roundDouble(transformedPreviousPoint.y);
+            int toX = roundDouble(transformedCurrentPoint.x);
+            int toY = roundDouble(transformedCurrentPoint.y);
+            
+            Color heatedColor = heatedBodyColorMap.getColor(normalizedDistances[i]);
+            g.setColor(heatedColor);
+            g.drawLine(0, fromY, axisWidth(), fromY);
+            
+            g.setColor(Color.black);
+            g.drawLine(fromX, fromY, toX, toY);
+            
+            transformedPreviousPoint = transformedCurrentPoint;
+        }
+        
         if (selectedIndex >= 0) {
-            Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
@@ -81,24 +105,12 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
             
             String currentDistance = String.format("%.3f", distancesOnMatching[selectedIndex]);
+            g.setColor(Color.green);
             g.drawString(currentDistance, 0, yCoord);
+            g.setColor(Color.BLACK);
             g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
             
             g2.setStroke(new BasicStroke(2));
-        }
-        
-        Point2D previousPoint = new Point2D(0, normalizedDistances[0]);
-        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
-        for (int i=1; i<maxX(); i++) {
-            Point2D currentPoint = new Point2D(i, normalizedDistances[i]);
-            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
-            int fromX = roundDouble(transformedPreviousPoint.x);
-            int fromY = roundDouble(transformedPreviousPoint.y);
-            int toX = roundDouble(transformedCurrentPoint.x);
-            int toY = roundDouble(transformedCurrentPoint.y);
-            g.drawLine(fromX, fromY, toX, toY);
-            
-            transformedPreviousPoint = transformedCurrentPoint;
         }
     }
 
