@@ -116,6 +116,17 @@ public class ColorMap {
           0xC0C0C0
     };
     
+    public static float[][] HEATED_BODY_COLOR_CODES = {
+        {0.0417f, 0.0f, 0.0f},
+        {0.3750f, 0.0f, 0.0f},
+        {0.7083f, 0.0f, 0.0f},
+        {1.0000f, 0.0417f, 0.0f},
+        {1.0000f, 0.3750f, 0.0f},
+        {1.0000f, 0.7083f, 0.0f},
+        {1.0000f, 1.0000f, 0.0625f},
+        {1.0000f, 1.0000f, 0.5625f}
+    };
+    
     public static Color getColorFromRGB(int red, int green, int blue) {
         return new Color(red, green, blue);
     }
@@ -137,8 +148,12 @@ public class ColorMap {
     }
     
     public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
-        // TODO create colorSpectrum
-        List<Color> heatedColorMap = null;
+        List<Color> heatedColorMap = new ArrayList<>();
+        float[][] colorCodes = HEATED_BODY_COLOR_CODES;
+        for (int i = colorCodes.length - 1; i >= 0; i++) {
+            float[] currentColor = colorCodes[i];
+            heatedColorMap.add(new Color(currentColor[0], currentColor[1], currentColor[2]));
+        }
         return new ColorMap(minValue, maxValue, heatedColorMap);
     }
     
