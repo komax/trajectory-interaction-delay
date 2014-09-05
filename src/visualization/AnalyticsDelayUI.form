@@ -243,11 +243,17 @@
                           </StringArray>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="samplingRateComboBoxItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="samplingRateField">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="0.2"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="samplingRateFieldActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
                       <Properties>

@@ -36,6 +36,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private String imageName;
     private DelaySpaceType delaySpaceType;
     private int threshold;
+    private double samplingRate;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -45,6 +46,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
         this.threshold = 1;
+        this.samplingRate = 0.2;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
         initSlider();
         initDelaySpace();
@@ -120,7 +122,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.i.length - 1);
         if (followingDelayPlot != null) {
-            followingDelayPlot.updateMatching(matching, threshold, 0.2);
+            followingDelayPlot.updateMatching(matching, threshold, samplingRate);
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
@@ -227,8 +229,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel2.setText("Sampling Rate");
 
         samplingRateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seconds", "Hertz" }));
+        samplingRateComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                samplingRateComboBoxItemStateChanged(evt);
+            }
+        });
 
         samplingRateField.setText("0.2");
+        samplingRateField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                samplingRateFieldActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Delay Threshold");
 
@@ -411,6 +423,31 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_thresholdSpinnerStateChanged
 
+    private void samplingRateComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_samplingRateComboBoxItemStateChanged
+        setSamplingRate();
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_samplingRateComboBoxItemStateChanged
+
+    private void samplingRateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_samplingRateFieldActionPerformed
+        setSamplingRate();
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_samplingRateFieldActionPerformed
+
+    
+    private void setSamplingRate() {
+        int selectedIndex = samplingRateComboBox.getSelectedIndex();
+        switch(selectedIndex) {
+            case 0:
+                this.samplingRate = Double.valueOf(samplingRateField.getText());
+                break;
+
+            case 1:
+                double hertzFrequenz = Double.valueOf(samplingRateField.getText());
+                this.samplingRate = 1.0 / hertzFrequenz;
+                break;
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
