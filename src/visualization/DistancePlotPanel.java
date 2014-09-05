@@ -19,10 +19,11 @@ import utils.Utils;
  * @author max
  */
 public final class DistancePlotPanel extends GenericPlottingPanel {
-    private double[] normalizedDelay;
+    private double[] normalizedDistances;
     private int selectedIndex;
-    private double maxDelay;
+    private double maxDistance;
     private double[] distancesOnMatching;
+    private double minDistance;
     
     public DistancePlotPanel(Matching matching, DistanceNorm distance) {
         this.selectedIndex = -1;
@@ -31,12 +32,16 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     
     public void updateMatching(Matching matching, DistanceNorm distance) {
         this.distancesOnMatching = Utils.distancesOnMatching(matching, distance);
-        this.normalizedDelay = Utils.normalizedDelay(distancesOnMatching);
-        this.maxDelay = Double.MIN_VALUE;
+        this.normalizedDistances = Utils.normalizedDelay(distancesOnMatching);
+        this.maxDistance = Double.MIN_VALUE;
+        this.minDistance = Double.MAX_VALUE;
         
-        for (double delay : normalizedDelay) {
-            if (delay > maxDelay) {
-                maxDelay = delay;
+        for (double currentDistance : normalizedDistances) {
+            if (currentDistance > maxDistance) {
+                maxDistance = currentDistance;
+            }
+            if (currentDistance < minDistance) {
+                
             }
         }        
     }
@@ -52,12 +57,12 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return normalizedDelay.length;
+        return normalizedDistances.length;
     }
 
     @Override
     public double maxY() {
-        return maxDelay;
+        return maxDistance;
     }
     
     @Override
@@ -67,7 +72,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         if (selectedIndex >= 0) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
-            Point2D selectedPoint = new Point2D(selectedIndex, normalizedDelay[selectedIndex]);
+            Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
@@ -82,10 +87,10 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(2));
         }
         
-        Point2D previousPoint = new Point2D(0, normalizedDelay[0]);
+        Point2D previousPoint = new Point2D(0, normalizedDistances[0]);
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
-            Point2D currentPoint = new Point2D(i, normalizedDelay[i]);
+            Point2D currentPoint = new Point2D(i, normalizedDistances[i]);
             Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = roundDouble(transformedPreviousPoint.x);
             int fromY = roundDouble(transformedPreviousPoint.y);
