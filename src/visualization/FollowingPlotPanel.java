@@ -27,17 +27,19 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     private ColorMap positiveColors;
     private ColorMap negativeColors;
     private int threshold;
+    private double delayUnit;
     
-    public FollowingPlotPanel(Matching matching, int threshold) {
+    public FollowingPlotPanel(Matching matching, int threshold, double delayUnit) {
         this.selectedIndex = -1;
-        updateMatching(matching, threshold);
+        updateMatching(matching, threshold, delayUnit);
     }
     
-    public void updateMatching(Matching matching, int threshold) {
+    public void updateMatching(Matching matching, int threshold, double delayUnit) {
         this.matching = matching;
         this.lengthMatching = matching.i.length;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
         this.threshold = threshold;
+        this.delayUnit = delayUnit;
         for (int delay: delaysInTimestamps) {
             if (delay > maxDelay) {
                 maxDelay = delay;
@@ -100,12 +102,12 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             String currentDelay;
             if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
                 delay += delaysInTimestamps[selectedIndex];
-                currentDelay = String.format("+%d", delaysInTimestamps[selectedIndex]);
+                currentDelay = String.format("+%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
                 Color traject1AheadColor = positiveColors.getMaxColor();
                 g.setColor(traject1AheadColor);
             } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
                 delay -= delaysInTimestamps[selectedIndex];
-                currentDelay = String.format("-%d", delaysInTimestamps[selectedIndex]);
+                currentDelay = String.format("-%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
                 Color traject2AheadColor = negativeColors.getMaxColor();
                 g.setColor(traject2AheadColor);
             } else {
