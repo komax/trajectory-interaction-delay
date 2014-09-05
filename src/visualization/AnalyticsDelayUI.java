@@ -23,8 +23,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    private static final int TRANSLUCENT_FOCUS = 10;
-    public static final String PATH_TO_DATA = "results/frisbee/";
+    private static final int TRANSLUCENT_FOCUS = 30;
+    public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -74,7 +74,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initFollowingPlot() {
-        this.followingDelayPlot = new FollowingPlotPanel(matching, threshold);
+        this.followingDelayPlot = new FollowingPlotPanel(matching, threshold, 0.2);
         this.delayPanel.add(followingDelayPlot);
     }
 
@@ -120,7 +120,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.i.length - 1);
         if (followingDelayPlot != null) {
-            followingDelayPlot.updateMatching(matching, threshold);
+            followingDelayPlot.updateMatching(matching, threshold, 0.2);
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
@@ -228,7 +228,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         samplingRateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "seconds", "Hertz" }));
 
-        samplingRateField.setText("1.35");
+        samplingRateField.setText("0.2");
 
         jLabel3.setText("Delay Threshold");
 
