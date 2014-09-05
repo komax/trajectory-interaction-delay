@@ -150,7 +150,7 @@ public class ColorMap {
     public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
         List<Color> heatedColorMap = new ArrayList<>();
         float[][] colorCodes = HEATED_BODY_COLOR_CODES;
-        for (int i = colorCodes.length - 1; i >= 0; i++) {
+        for (int i = 0; i < colorCodes.length; i++) {
             float[] currentColor = colorCodes[i];
             heatedColorMap.add(new Color(currentColor[0], currentColor[1], currentColor[2]));
         }
