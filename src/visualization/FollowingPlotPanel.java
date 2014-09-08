@@ -121,7 +121,8 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
                 currentDelay = String.format("-%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
                 g.setColor(traject2AheadColor);
             } else {
-                currentDelay = "0";
+                g.setColor(Color.BLACK);
+                currentDelay = "   0.00 s";
             }
             Point2D selectedPoint = new Point2D(selectedIndex, delay);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
@@ -175,7 +176,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
 
     @Override
     public int axisWidth() {
-        return 40;
+        return 55;
     }
 
     @Override
