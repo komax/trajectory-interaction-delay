@@ -141,9 +141,33 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             int offset = diameter / 2;
             g2.setStroke(new BasicStroke(5));
             if (isTraject1Ahead()) {
-                
+                g.setColor(Color.white);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+                g2.fillRect(xCoordLegend, yCoord, 20, 40);
+                g.setColor(TRAJECT_BLUE);
+                Polygon triangle = new Polygon();
+                int triangleX = xCoordLegend + 10;
+                int triangleY = yCoord + 10;
+                triangle.addPoint(triangleX, triangleY + offset);
+                triangle.addPoint(triangleX - offset, triangleY - offset);
+                triangle.addPoint(triangleX + offset, triangleY - offset);
+                g.drawPolygon(triangle);
+                g.setColor(TRAJECT_RED);
+                g.drawRect(xCoordLegend + 10 - offset, yCoord + 30 - offset, diameter, diameter);
             } else if (isTraject2Ahead()) {
-                
+                g.setColor(Color.white);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+                g2.fillRect(xCoordLegend, yCoord, 20, 40);
+                g.setColor(TRAJECT_BLUE);
+                Polygon triangle = new Polygon();
+                int triangleX = xCoordLegend + 10;
+                int triangleY = yCoord + 30;
+                triangle.addPoint(triangleX, triangleY + offset);
+                triangle.addPoint(triangleX - offset, triangleY - offset);
+                triangle.addPoint(triangleX + offset, triangleY - offset);
+                g.drawPolygon(triangle);
+                g.setColor(TRAJECT_RED);
+                g.drawRect(xCoordLegend + 10 - offset, yCoord + 10 - offset, diameter, diameter);
             } else {
                 g.setColor(Color.white);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
