@@ -91,6 +91,18 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         int xCoord = roundDouble(drawableOrigin.x);
         int yCoord = roundDouble(drawableOrigin.y);
         g.drawLine(xCoord, yCoord, getWidth(), yCoord);
+        g.drawLine(xCoord, axisHeight(), getWidth(), axisHeight());
+        g.drawLine(xCoord, plotHeight(), getWidth(), plotHeight());
+        
+        Color traject1AheadColor = positiveColors.getMaxColor();
+        g.setColor(traject1AheadColor);       
+        String maxDelayString = String.format("+%.2f s", maxDelay * delayUnit);
+        g.drawString(maxDelayString, 0, axisHeight());
+        
+        Color traject2AheadColor = negativeColors.getMaxColor();
+        g.setColor(traject2AheadColor);       
+        String minDelayString = String.format("-%.2f s", maxDelay * delayUnit);
+        g.drawString(minDelayString, 0, getHeight() - axisHeight());       
         
         // Restore old stroke style.
         g2.setStroke(oldStroke);
@@ -103,12 +115,10 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
                 delay += delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("+%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
-                Color traject1AheadColor = positiveColors.getMaxColor();
                 g.setColor(traject1AheadColor);
             } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
                 delay -= delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("-%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
-                Color traject2AheadColor = negativeColors.getMaxColor();
                 g.setColor(traject2AheadColor);
             } else {
                 currentDelay = "0";
