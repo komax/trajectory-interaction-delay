@@ -46,7 +46,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initComponents();
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
-        this.logScaled = true;
+        this.logScaled = false;
         this.threshold = 1;
         this.samplingRate = 0.2;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType, this.logScaled);
@@ -67,7 +67,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (logScaled) {
             delaySpaceName = "delaySpaceNorm2logScale.png";
         }
-        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length);
+        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length, threshold);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
