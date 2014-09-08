@@ -102,7 +102,11 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         Color traject2AheadColor = negativeColors.getMaxColor();
         g.setColor(traject2AheadColor);       
         String minDelayString = String.format("-%.2f s", maxDelay * delayUnit);
-        g.drawString(minDelayString, 0, getHeight() - axisHeight());       
+        g.drawString(minDelayString, 0, getHeight() - axisHeight());
+        
+        g.setColor(Color.BLACK);
+        String zeroDelayString = "   0.00 s";
+        g.drawString(zeroDelayString, 0, yCoord);
         
         // Restore old stroke style.
         g2.setStroke(oldStroke);
@@ -111,7 +115,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             // Draw selected delay in the plot.
             g2.setStroke(new BasicStroke(1));
             double delay = maxDelay;
-            String currentDelay;
+            String currentDelay = "";
             if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
                 delay += delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("+%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
@@ -120,9 +124,6 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
                 delay -= delaysInTimestamps[selectedIndex];
                 currentDelay = String.format("-%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
                 g.setColor(traject2AheadColor);
-            } else {
-                g.setColor(Color.BLACK);
-                currentDelay = "   0.00 s";
             }
             Point2D selectedPoint = new Point2D(selectedIndex, delay);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
