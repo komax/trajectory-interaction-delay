@@ -166,9 +166,14 @@
                                   <Component id="thresholdSpinner" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="24" max="32767" attributes="0"/>
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="logScalingRadioButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -191,6 +196,7 @@
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="samplingRateComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="samplingRateField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="logScalingRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -300,6 +306,14 @@
                       </Properties>
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="delaySpaceComboBoxItemStateChanged"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="logScalingRadioButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="log Scaling"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="logScalingRadioButtonItemStateChanged"/>
                       </Events>
                     </Component>
                   </SubComponents>

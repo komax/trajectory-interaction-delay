@@ -177,6 +177,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         thresholdSpinner = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         delaySpaceComboBox = new javax.swing.JComboBox();
+        logScalingRadioButton = new javax.swing.JRadioButton();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -274,6 +275,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
+        logScalingRadioButton.setText("log Scaling");
+        logScalingRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                logScalingRadioButtonItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -298,9 +306,12 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(samplingRateField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logScalingRadioButton)))
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +328,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logScalingRadioButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -444,6 +456,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         updateAndRepaintPlots();
     }//GEN-LAST:event_samplingRateFieldActionPerformed
 
+    private void logScalingRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_logScalingRadioButtonItemStateChanged
+
+        if (logScalingRadioButton.isSelected()) {
+            this.logScaled = true;
+        } else {
+            this.logScaled = false;
+        }
+        updateDistanceAndMatching(currentDistance, delaySpaceType, logScaled);
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_logScalingRadioButtonItemStateChanged
+
     
     private void setSamplingRate() {
         int selectedIndex = samplingRateComboBox.getSelectedIndex();
@@ -510,6 +533,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
+    private javax.swing.JRadioButton logScalingRadioButton;
     private javax.swing.JSlider matchingSlider;
     private javax.swing.JComboBox samplingRateComboBox;
     private javax.swing.JTextField samplingRateField;
