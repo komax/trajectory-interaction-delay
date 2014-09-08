@@ -37,6 +37,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DelaySpaceType delaySpaceType;
     private int threshold;
     private double samplingRate;
+    private boolean logScaled;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -45,9 +46,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initComponents();
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.delaySpaceType = DelaySpaceType.USUAL;
+        this.logScaled = true;
         this.threshold = 1;
         this.samplingRate = 0.2;
-        updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType);
+        updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType, this.logScaled);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -61,7 +63,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + "delaySpaceNorm2.png", matching.getTrajectory1().length);
+        String delaySpaceName = "delaySpaceNorm2.png";
+        if (logScaled) {
+            delaySpaceName = "delaySpaceNorm2logScale.png";
+        }
+        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
@@ -80,9 +86,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.delayPanel.add(followingDelayPlot);
     }
 
-    private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace) {
+    private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace, boolean logScale) {
         this.currentDistance = distance;
         this.delaySpaceType = delaySpace;
+        this.logScaled = logScale;
         String normString = distance.toString();
         String delaySpaceSuffix = "";
         switch (delaySpace) {
@@ -101,7 +108,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         String combinedSuffix = normString + delaySpaceSuffix;
         this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matching" + combinedSuffix + ".dump");
-        this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + ".png";
+        String logScaleSuffix = "";
+        if (logScaled) {
+            logScaleSuffix = "logScale";
+        }
+        this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + logScaleSuffix + ".png";
         switch (delaySpace) {
             case USUAL:
                 this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
@@ -387,9 +398,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() - 1;
         if (selectedIndex == lastElement) {
-            updateDistanceAndMatching(Utils.LInfDistance, this.delaySpaceType);
+            updateDistanceAndMatching(Utils.LInfDistance, this.delaySpaceType, this.logScaled);
         } else {
-            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType);
+            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType, this.logScaled);
         }
         updateAndRepaintPlots();
     }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
@@ -398,16 +409,16 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = delaySpaceComboBox.getSelectedIndex();
         switch (selectedIndex) {
             case 0:
-                updateDistanceAndMatching(currentDistance, DelaySpaceType.USUAL);
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.USUAL, this.logScaled);
                 break;
             case 1:
-                updateDistanceAndMatching(currentDistance, DelaySpaceType.DIRECTIONAL_DISTANCE);
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.DIRECTIONAL_DISTANCE, this.logScaled);
                 break;
             case 2:
-                updateDistanceAndMatching(currentDistance, DelaySpaceType.DYNAMIC_INTERACTION);
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.DYNAMIC_INTERACTION, this.logScaled);
                 break;
             case 3:
-                updateDistanceAndMatching(currentDistance, DelaySpaceType.HEADING);
+                updateDistanceAndMatching(currentDistance, DelaySpaceType.HEADING, this.logScaled);
                 break;
         }
         updateAndRepaintPlots();
