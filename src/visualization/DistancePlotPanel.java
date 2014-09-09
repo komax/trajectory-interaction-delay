@@ -22,10 +22,12 @@ import utils.Utils;
 public final class DistancePlotPanel extends GenericPlottingPanel {
     private double[] normalizedDistances;
     private int selectedIndex;
-    private double maxDistance;
+    private double maxDistanceNormalized;
     private double[] distancesOnMatching;
-    private double minDistance;
+    private double minDistanceNormalized;
     private ColorMap heatedBodyColorMap;
+    private double maxDistance;
+    private double minDistance;
     
     public DistancePlotPanel(Matching matching, DistanceNorm distance) {
         this.selectedIndex = -1;
@@ -35,10 +37,18 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     public void updateMatching(Matching matching, DistanceNorm distance) {
         this.distancesOnMatching = Utils.distancesOnMatching(matching, distance);
         this.normalizedDistances = Utils.normalizedDelay(distancesOnMatching);
-        this.maxDistance = Double.MIN_VALUE;
-        this.minDistance = Double.MAX_VALUE;
+        this.maxDistanceNormalized = Double.MIN_VALUE;
+        this.minDistanceNormalized = Double.MAX_VALUE;
         
         for (double currentDistance : normalizedDistances) {
+            if (currentDistance > maxDistanceNormalized) {
+                maxDistanceNormalized = currentDistance;
+            }
+            if (currentDistance < minDistanceNormalized) {
+                minDistanceNormalized = currentDistance;
+            }
+        }
+        for (double currentDistance : distancesOnMatching) {
             if (currentDistance > maxDistance) {
                 maxDistance = currentDistance;
             }
@@ -46,7 +56,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
                 minDistance = currentDistance;
             }
         }
-        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
+        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistanceNormalized, maxDistanceNormalized);
     }
     
     public void setSelectedIndex(int selectedIndex) {
@@ -65,7 +75,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
 
     @Override
     public double maxY() {
-        return maxDistance;
+        return maxDistanceNormalized;
     }
     
     @Override
@@ -94,8 +104,21 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             transformedPreviousPoint = transformedCurrentPoint;
         }
         
+        g.setColor(Color.black);
+        Point2D maxPoint = cartesianToPanelPoint(new Point2D(0, maxDistanceNormalized));
+        int maxY = roundDouble(maxPoint.y);
+        String maxDistanceString = String.format("%.3f", maxDistance);
+        g.drawString(maxDistanceString, 0, maxY);
+        
+        g.setColor(Color.white);
+        Point2D minPoint = cartesianToPanelPoint(new Point2D(0, minDistanceNormalized));
+        int minY = roundDouble(minPoint.y);
+        String minDistanceString = String.format("%.3f", minDistance);
+        g.drawString(minDistanceString, 0, minY);
+        
         if (selectedIndex >= 0) {
             g2.setStroke(new BasicStroke(1));
+            g.setColor(Color.black);
             Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = roundDouble(drawablePoint.x);
