@@ -90,20 +90,21 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         Point2D drawableOrigin = cartesianToPanelPoint(origin);
         int xCoord = roundDouble(drawableOrigin.x);
         int yCoord = roundDouble(drawableOrigin.y);
+        // Dashed lines for -max_value, 0 and max_value.
         g.drawLine(xCoord, yCoord, getWidth(), yCoord);
         g.drawLine(xCoord, axisHeight(), getWidth(), axisHeight());
         g.drawLine(xCoord, plotHeight(), getWidth(), plotHeight());
-        
+        // Put label for max delay if trajectory1 is ahead.
         Color traject1AheadColor = positiveColors.getMaxColor();
         g.setColor(traject1AheadColor);       
         String maxDelayString = String.format("+%.2f s", maxDelay * delayUnit);
         g.drawString(maxDelayString, 0, axisHeight());
-        
+        // Put label for max delay if trajectory2 is ahead.
         Color traject2AheadColor = negativeColors.getMaxColor();
         g.setColor(traject2AheadColor);       
         String minDelayString = String.format("-%.2f s", maxDelay * delayUnit);
         g.drawString(minDelayString, 0, getHeight() - axisHeight());
-        
+        // Put label for zero delay.
         g.setColor(Color.BLACK);
         String zeroDelayString = "   0.00 s";
         g.drawString(zeroDelayString, 0, yCoord);
@@ -117,6 +118,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             double delay = maxDelay;
             String currentDelayString = "";
             int currentDelay = delaysInTimestamps[selectedIndex];
+            // Put label for current delay if the delay succeeds the threshold.
             if (currentDelay >= threshold) {
                 if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
                     delay += currentDelay;
@@ -134,12 +136,14 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             xCoord = roundDouble(drawablePoint.x);
             yCoord = roundDouble(drawablePoint.y);
-
+            // Put the label for selected delay.
             g.drawString(currentDelayString, 0, yCoord);
             
+            // Put the label for the corresponding index of the delay.
             g.setColor(Color.black);
             g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
             
+            // Draw the lines for current selection.
             g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
             
@@ -149,6 +153,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(2));
         }
         
+        // Plotting of the delays.
         for (int k=0; k<lengthMatching; k++) {
             boolean traj1IsAhead = matching.i[k] > matching.j[k];
             boolean traj2IsAhead = matching.j[k] > matching.i[k];
