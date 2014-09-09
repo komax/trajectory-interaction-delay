@@ -115,22 +115,27 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
             // Draw selected delay in the plot.
             g2.setStroke(new BasicStroke(1));
             double delay = maxDelay;
-            String currentDelay = "";
-            if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
-                delay += delaysInTimestamps[selectedIndex];
-                currentDelay = String.format("+%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
-                g.setColor(traject1AheadColor);
-            } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
-                delay -= delaysInTimestamps[selectedIndex];
-                currentDelay = String.format("-%.2f s", delaysInTimestamps[selectedIndex] * delayUnit);
-                g.setColor(traject2AheadColor);
+            String currentDelayString = "";
+            int currentDelay = delaysInTimestamps[selectedIndex];
+            if (currentDelay >= threshold) {
+                if (matching.i[selectedIndex] > matching.j[selectedIndex]) {
+                    delay += currentDelay;
+                    currentDelayString = String.format("+%.2f s", currentDelay * delayUnit);
+                    g.setColor(traject1AheadColor);
+                } else if (matching.i[selectedIndex] < matching.j[selectedIndex]) {
+                    delay -= currentDelay;
+                    currentDelayString = String.format("-%.2f s", currentDelay * delayUnit);
+                    g.setColor(traject2AheadColor);
+                }
+            } else {
+                g.setColor(Color.BLACK);
             }
             Point2D selectedPoint = new Point2D(selectedIndex, delay);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             xCoord = roundDouble(drawablePoint.x);
             yCoord = roundDouble(drawablePoint.y);
 
-            g.drawString(currentDelay, 0, yCoord);
+            g.drawString(currentDelayString, 0, yCoord);
             
             g.setColor(Color.black);
             g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
