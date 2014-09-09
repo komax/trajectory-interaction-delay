@@ -96,21 +96,25 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int toX = roundDouble(transformedCurrentPoint.x);
             int toY = roundDouble(transformedCurrentPoint.y);
             
+            // Draw a line left the plot to visualize the different values.
             Color heatedColor = heatedBodyColorMap.getColor(normalizedDistances[i]);
             g.setColor(heatedColor);
             g.drawLine(0, fromY, axisWidth(), fromY);
             
+            // Draw a black line segment from previous point the consecutive one.
             g.setColor(Color.black);
             g.drawLine(fromX, fromY, toX, toY);
             
             transformedPreviousPoint = transformedCurrentPoint;
         }
-        
+        // Set label for max distance.
         g.setColor(Color.black);
         Point2D maxPoint = cartesianToPanelPoint(new Point2D(0, maxDistanceNormalized));
         int maxY = roundDouble(maxPoint.y);
         String maxDistanceString = String.format("%.3f", maxDistance);
         g.drawString(maxDistanceString, 0, maxY);
+        
+        // Dashed line for max value.
         Stroke oldStroke = g2.getStroke();
         float dash1[] = {10.0f};
         BasicStroke dashed = new BasicStroke(1.0f,
@@ -118,28 +122,26 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
                         BasicStroke.JOIN_MITER,
                         10.0f, dash1, 0.0f);
         g2.setStroke(dashed);
-        Point2D origin = new Point2D(0, maxDistanceNormalized);
-        Point2D drawableOrigin = cartesianToPanelPoint(origin);
-        int xCoord = roundDouble(drawableOrigin.x);
-        int yCoord = roundDouble(drawableOrigin.y);
-        g.drawLine(xCoord, yCoord, getWidth(), yCoord);
+        g.drawLine(0, maxY, getWidth(), maxY);
 
         // Restore old stroke style.
         g2.setStroke(oldStroke);
         
+        // Set label for min distance.
         g.setColor(Color.white);
         Point2D minPoint = cartesianToPanelPoint(new Point2D(0, minDistanceNormalized));
         int minY = roundDouble(minPoint.y);
         String minDistanceString = String.format("%.3f", minDistance);
         g.drawString(minDistanceString, 0, minY);
         
+        // Draw axes and selected distance.
         if (selectedIndex >= 0) {
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.black);
             Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
-            xCoord = roundDouble(drawablePoint.x);
-            yCoord = roundDouble(drawablePoint.y);
+            int xCoord = roundDouble(drawablePoint.x);
+            int yCoord = roundDouble(drawablePoint.y);
             
             g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
             g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
