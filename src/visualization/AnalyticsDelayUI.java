@@ -23,7 +23,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    private static final int TRANSLUCENT_FOCUS = 50;
     public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
@@ -36,6 +35,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private String imageName;
     private DelaySpaceType delaySpaceType;
     private int threshold;
+    private int translucentFocus;
     private double samplingRate;
     private boolean logScaled;
 
@@ -49,6 +49,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.logScaled = false;
         this.threshold = 1;
         this.samplingRate = 0.2;
+        this.translucentFocus = 50;
         updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType, this.logScaled);
         initSlider();
         initDelaySpace();
@@ -72,7 +73,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initMatchingPlot() {
-        this.matchingPlot = new MatchingPlot(matching, threshold, TRANSLUCENT_FOCUS);
+        this.matchingPlot = new MatchingPlot(matching, threshold, translucentFocus);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
 
@@ -141,7 +142,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-            matchingPlot.updateMatching(matching, threshold, TRANSLUCENT_FOCUS);
+            matchingPlot.updateMatching(matching, threshold, translucentFocus);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
@@ -178,6 +179,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         delaySpaceComboBox = new javax.swing.JComboBox();
         logScalingRadioButton = new javax.swing.JRadioButton();
+        jLabel5 = new javax.swing.JLabel();
+        focusSpinner = new javax.swing.JSpinner();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -282,6 +285,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Focus on Matching");
+
+        focusSpinner.setValue(50);
+        focusSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                focusSpinnerStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -306,12 +318,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(samplingRateField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logScalingRadioButton)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(logScalingRadioButton)))
+                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,12 +346,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logScalingRadioButton))
+                    .addComponent(jLabel5)
+                    .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logScalingRadioButton)))
         );
 
         jSplitPane5.setLeftComponent(settingsPanel);
@@ -467,6 +486,16 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         updateAndRepaintPlots();
     }//GEN-LAST:event_logScalingRadioButtonItemStateChanged
 
+    private void focusSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_focusSpinnerStateChanged
+        int newFocusValue = (int) focusSpinner.getValue();
+        if (newFocusValue > 0) {
+            translucentFocus = newFocusValue;
+            updateAndRepaintPlots();
+        } else {
+            focusSpinner.setValue(1);
+        }
+    }//GEN-LAST:event_focusSpinnerStateChanged
+
     
     private void setSamplingRate() {
         int selectedIndex = samplingRateComboBox.getSelectedIndex();
@@ -524,10 +553,12 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JTextField distanceField;
     private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
+    private javax.swing.JSpinner focusSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
