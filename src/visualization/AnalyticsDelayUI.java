@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    public static final String PATH_TO_DATA = "results/bats/";
+    public static final String PATH_TO_DATA = "results/frisbee/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -178,9 +178,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         thresholdSpinner = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         delaySpaceComboBox = new javax.swing.JComboBox();
-        logScalingRadioButton = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         focusSpinner = new javax.swing.JSpinner();
+        logScalingCheckBox = new javax.swing.JCheckBox();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -278,19 +278,19 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
-        logScalingRadioButton.setText("log Scaling");
-        logScalingRadioButton.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                logScalingRadioButtonItemStateChanged(evt);
-            }
-        });
-
         jLabel5.setText("Focus on Matching");
 
         focusSpinner.setValue(50);
         focusSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 focusSpinnerStateChanged(evt);
+            }
+        });
+
+        logScalingCheckBox.setText("log Scaling");
+        logScalingCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                logScalingCheckBoxItemStateChanged(evt);
             }
         });
 
@@ -318,16 +318,17 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(samplingRateField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(logScalingRadioButton)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(logScalingCheckBox))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         settingsPanelLayout.setVerticalGroup(
@@ -353,7 +354,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logScalingRadioButton)))
+                    .addComponent(logScalingCheckBox)))
         );
 
         jSplitPane5.setLeftComponent(settingsPanel);
@@ -475,17 +476,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         updateAndRepaintPlots();
     }//GEN-LAST:event_samplingRateFieldActionPerformed
 
-    private void logScalingRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_logScalingRadioButtonItemStateChanged
-
-        if (logScalingRadioButton.isSelected()) {
-            this.logScaled = true;
-        } else {
-            this.logScaled = false;
-        }
-        updateDistanceAndMatching(currentDistance, delaySpaceType, logScaled);
-        updateAndRepaintPlots();
-    }//GEN-LAST:event_logScalingRadioButtonItemStateChanged
-
     private void focusSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_focusSpinnerStateChanged
         int newFocusValue = (int) focusSpinner.getValue();
         if (newFocusValue > 0) {
@@ -495,6 +485,16 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             focusSpinner.setValue(1);
         }
     }//GEN-LAST:event_focusSpinnerStateChanged
+
+    private void logScalingCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_logScalingCheckBoxItemStateChanged
+        if(logScalingCheckBox.isSelected()) {
+            this.logScaled = true;
+        } else {
+            this.logScaled = false;
+        }
+        updateDistanceAndMatching(currentDistance, delaySpaceType, logScaled);
+        updateAndRepaintPlots();
+    }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 
     
     private void setSamplingRate() {
@@ -564,7 +564,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
-    private javax.swing.JRadioButton logScalingRadioButton;
+    private javax.swing.JCheckBox logScalingCheckBox;
     private javax.swing.JSlider matchingSlider;
     private javax.swing.JComboBox samplingRateComboBox;
     private javax.swing.JTextField samplingRateField;

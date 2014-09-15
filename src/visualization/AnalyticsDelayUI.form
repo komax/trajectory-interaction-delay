@@ -166,18 +166,20 @@
                                   <Component id="thresholdSpinner" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="24" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="focusSpinner" min="-2" pref="60" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="focusSpinner" min="-2" pref="60" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <Component id="logScalingRadioButton" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="logScalingCheckBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -210,7 +212,7 @@
                                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="thresholdComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="thresholdSpinner" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                  <Component id="logScalingRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="logScalingCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -316,14 +318,6 @@
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="delaySpaceComboBoxItemStateChanged"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JRadioButton" name="logScalingRadioButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="log Scaling"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="logScalingRadioButtonItemStateChanged"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel5">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Focus on Matching"/>
@@ -337,6 +331,14 @@
                       </Properties>
                       <Events>
                         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="focusSpinnerStateChanged"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="logScalingCheckBox">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="log Scaling"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="logScalingCheckBoxItemStateChanged"/>
                       </Events>
                     </Component>
                   </SubComponents>
