@@ -25,11 +25,11 @@ switch typeDistanceTerrain
         distanceTerrain = matching.directionalDistanceTerrain(trajA,trajB,chosenNorm);
         experimentExtension = [experimentExtension, 'DirectionalDistance'];
     case 'dynamicInteraction'
-        alpha = 2;
+        alpha = 1;
         distanceTerrain = matching.dynamicInteractionTerrain(trajA,trajB,chosenNorm,alpha);
         experimentExtension = [experimentExtension, 'DynamicInteraction'];
     case 'dynamicDistance'
-        alpha = 2;
+        alpha = 1;
         distanceTerrain = matching.dynamicDistanceTerrain(trajA,trajB,chosenNorm,alpha);
         experimentExtension = [experimentExtension, 'DynamicDistance'];
     case 'heading'
