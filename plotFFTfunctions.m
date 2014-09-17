@@ -10,4 +10,13 @@ for i = 1:length(x)
 end
 mesh(x,y,displacements);
 
+complexX = complex(x);
+complexY = complex(y);
 displacementApproxs = zeros(length(x),length(y));
+alpha = 0.1;
+for i = 1:length(x)
+    for j = 1:length(y)
+        displacementApproxs(i,j) = real(exp(log(complexY(j) + alpha) - log(complexX(i) + alpha)* i * pi / 2));
+    end
+end
+mesh(x,y,displacementApproxs);
