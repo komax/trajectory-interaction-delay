@@ -51,6 +51,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
         this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
+        repaint();
     }
     
     public void setSelectedIndex(int newIndex) {
