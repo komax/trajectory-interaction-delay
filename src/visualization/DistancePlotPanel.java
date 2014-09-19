@@ -59,6 +59,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             }
         }
         this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistanceNormalized, maxDistanceNormalized);
+        this.repaint();
     }
     
     public void setSelectedIndex(int selectedIndex) {
