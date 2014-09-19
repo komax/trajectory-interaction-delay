@@ -31,13 +31,13 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private double maxDistance;
     private double minDistance;
     
-    public DistancePlotPanel(Matching matching, DistanceNorm distance) {
+    public DistancePlotPanel(Matching matching, double[] distances) {
         this.selectedIndex = -1;
-        updateMatching(matching, distance);
+        updateMatching(matching, distances);
     }
     
-    public void updateMatching(Matching matching, DistanceNorm distance) {
-        this.distancesOnMatching = Utils.distancesOnMatching(matching, distance);
+    public void updateMatching(Matching matching, double[] distancesOnMatching) {
+        this.distancesOnMatching = distancesOnMatching;
         this.normalizedDistances = Utils.normalizedDelay(distancesOnMatching);
         this.maxDistanceNormalized = Double.MIN_VALUE;
         this.minDistanceNormalized = Double.MAX_VALUE;

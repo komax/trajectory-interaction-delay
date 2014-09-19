@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    public static final String PATH_TO_DATA = "results/frisbee/";
+    public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -78,7 +78,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelayPlot() {
-        this.distancePlot = new DistancePlotPanel(matching, Utils.EuclideanDistance);
+        this.distancePlot = new DistancePlotPanel(matching, distancesOnMatching);
         this.distancePanel.add(distancePlot);
     }
 
@@ -126,7 +126,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 this.distancesOnMatching = Utils.directionalDistancesOnMatching(matching, currentDistance);
                 break;
             case HEADING:
-                this.distancesOnMatching = Utils.headingOnMatching(matching);
+                this.distancesOnMatching = Utils.headingDistancesOnMatching(matching);
                 break;
         }
     }
@@ -138,7 +138,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
-            distancePlot.updateMatching(matching, currentDistance);
+            distancePlot.updateMatching(matching, distancesOnMatching);
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
