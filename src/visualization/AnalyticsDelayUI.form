@@ -141,29 +141,28 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Component id="thresholdComboBox" min="-2" pref="129" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="samplingRateField" alignment="1" pref="57" max="32767" attributes="0"/>
+                                          <Component id="thresholdSpinner" alignment="1" max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="samplingRateComboBox" min="-2" pref="129" max="-2" attributes="0"/>
-                                          <Component id="distanceNormComboBox" min="-2" max="-2" attributes="0"/>
+                                          <Component id="distanceNormComboBox" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="distanceField" pref="57" max="32767" attributes="0"/>
-                                  <Component id="samplingRateField" alignment="1" pref="57" max="32767" attributes="0"/>
-                                  <Component id="thresholdSpinner" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="24" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -196,7 +195,6 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="distanceNormComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="distanceField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -239,11 +237,6 @@
                       <Events>
                         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="distanceNormComboBoxItemStateChanged"/>
                       </Events>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="distanceField">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="5.78"/>
-                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
                       <Properties>
