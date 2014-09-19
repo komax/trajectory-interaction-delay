@@ -155,6 +155,15 @@ public class Utils {
         return headings;
     }
     
+    public static double[] headingDistancesOnMatching(Matching matching) {
+        double[] headingDistances = new double[matching.i.length];
+        double[] headings = headingOnMatching(matching);
+        for (int k = 0; k < headings.length; k++) {
+            headingDistances[k] = 1.0 - headings[k];
+        }
+        return headingDistances;
+    }
+    
     public static double[] dynamicInteractionOnMatching(Matching matching, DistanceNorm distance, double alpha) {
         double[] displacements = displacementsOnMatching(matching, distance, alpha);
         double[] headings = headingOnMatching(matching);
