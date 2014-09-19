@@ -13,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import utils.DistanceNorm;
 import utils.Utils;
 import static visualization.GenericPlottingPanel.roundDouble;
 
@@ -58,8 +57,20 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
                 minDistance = currentDistance;
             }
         }
-        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistanceNormalized, maxDistanceNormalized);
+        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
         this.repaint();
+    }
+    
+    private double[] linspace(int steps) {
+        double difference = maxDistance - minDistance;
+        double step = difference / steps;
+        double[] values = new double[steps];
+        double currentValue = minDistance;
+        for (int k = 0; k < steps; k++) {
+            values[k] = currentValue;
+            currentValue += step;
+        }
+        return values;
     }
     
     public void setSelectedIndex(int selectedIndex) {
@@ -86,7 +97,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(3));
+        g2.setStroke(new BasicStroke(1));
         Point2D previousPoint = new Point2D(0, normalizedDistances[0]);
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
@@ -97,17 +108,25 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int toX = roundDouble(transformedCurrentPoint.x);
             int toY = roundDouble(transformedCurrentPoint.y);
             
-            // Draw a line left the plot to visualize the different values.
-            Color heatedColor = heatedBodyColorMap.getColor(normalizedDistances[i]);
-            g.setColor(heatedColor);
-            g.drawLine(0, fromY, axisWidth(), fromY);
-            
             // Draw a black line segment from previous point the consecutive one.
             g.setColor(Color.black);
             g.drawLine(fromX, fromY, toX, toY);
             
             transformedPreviousPoint = transformedCurrentPoint;
         }
+        
+        // Draw a line left the plot to visualize the different values.
+        double[] bucketValues = linspace(1000);
+        for (int i=0; i <bucketValues.length; i++) {
+            double currentValue = bucketValues[i];
+            double normalizedValue = currentValue / maxDistance;
+            int yCoord = roundDouble(cartesianToPanelPoint(new Point2D(0, normalizedValue)).y);
+            Color heatedColor = heatedBodyColorMap.getColor(currentValue);
+            g.setColor(heatedColor);
+            g.drawLine(0, yCoord, axisWidth(), yCoord);
+        }
+                
+        
         // Set label for max distance.
         g.setColor(Color.black);
         Point2D maxPoint = cartesianToPanelPoint(new Point2D(0, maxDistanceNormalized));
