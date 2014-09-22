@@ -169,7 +169,7 @@ public class Utils {
         double[] headings = headingOnMatching(matching);
         double[] dynamicInteractions = new double[displacements.length];
         for (int i = 0; i < dynamicInteractions.length; i++) {
-            dynamicInteractions[i] = (1.0 - displacements[i]) * headings[i];
+            dynamicInteractions[i] = 1.0 - (displacements[i] * headings[i]);
         }
         return dynamicInteractions;
     }
