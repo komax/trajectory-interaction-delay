@@ -37,7 +37,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     
     public void updateMatching(Matching matching, double[] distancesOnMatching) {
         this.distancesOnMatching = distancesOnMatching;
-        this.normalizedDistances = Utils.normalizedDelay(distancesOnMatching);
+        this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
         this.maxDistanceNormalized = Double.MIN_VALUE;
         this.minDistanceNormalized = Double.MAX_VALUE;
         
