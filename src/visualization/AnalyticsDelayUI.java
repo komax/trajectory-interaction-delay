@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    public static final String PATH_TO_DATA = "results/bats/";
+    public static final String PATH_TO_DATA = "results/frisbee/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -119,7 +119,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
                 break;
             case DYNAMIC_INTERACTION:
-                double alpha = 2.0;
+                double alpha = 1.0;
                 this.distancesOnMatching = Utils.dynamicInteractionOnMatching(matching, distance, alpha);
                 break;
             case DIRECTIONAL_DISTANCE:
