@@ -69,17 +69,17 @@ public class Utils {
         return -1;
     }
 
-    public static double[] normalizedDelay(double[] delays) {
-        double maxDelay = Double.MIN_VALUE;
-        double[] normalizedDelays = new double[delays.length];
-        for (double delay : delays) {
-            if (delay > maxDelay) {
-                maxDelay = delay;
+    public static double[] normalizeValues(double[] values) {
+        double maxValue = Double.MIN_VALUE;
+        double[] normalizedDelays = new double[values.length];
+        for (double delay : values) {
+            if (delay > maxValue) {
+                maxValue = delay;
             }
         }
 
-        for (int i = 0; i < delays.length; i++) {
-            normalizedDelays[i] = delays[i] / maxDelay;
+        for (int i = 0; i < values.length; i++) {
+            normalizedDelays[i] = values[i] / maxValue;
         }
         return normalizedDelays;
     }
