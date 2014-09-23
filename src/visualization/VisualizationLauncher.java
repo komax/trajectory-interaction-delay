@@ -4,7 +4,6 @@ import frechet.Matching;
 
 import javax.swing.*;
 import matlabconversion.MatchingReader;
-import utils.DistanceNorm;
 import utils.Utils;
 
 /**
@@ -13,9 +12,10 @@ import utils.Utils;
 public class VisualizationLauncher {
     
     public static void main(String[] args) {
-        Matching matching = MatchingReader.readMatching("batsMatching.dump");
+        Matching matching = MatchingReader.readMatching("results/bats/matchingNorm2.dump");
         launchMatchingPlot(matching);
-        launchDelayPlot(matching, Utils.EuclideanDistance);
+        double[] distances = Utils.distancesOnMatching(matching, Utils.EuclideanDistance);
+        launchDistancePlot(matching, distances);
     }
 
     public static void launchMatchingPlot(final Matching matching) {
@@ -27,11 +27,11 @@ public class VisualizationLauncher {
         });
     }
     
-    public static void launchDelayPlot(final Matching matching, final DistanceNorm distance) {
+    public static void launchDistancePlot(final Matching matching, final double[] distances) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                createAndShowDelayPlot(matching, distance);
+                createAndShowDistancePlot(matching, distances);
             }
         });
     }
@@ -44,10 +44,9 @@ public class VisualizationLauncher {
         frame.setVisible(true);
     }
     
-    private static void createAndShowDelayPlot(Matching matching, DistanceNorm distance) {
+    private static void createAndShowDistancePlot(Matching matching, double[] distances) {
         JFrame frame = new JFrame("Plotting Normalized Delays");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        double[] distances = Utils.distancesOnMatching(matching, distance);
         frame.add(new DistancePlotPanel(matching, distances));
         frame.pack();
         frame.setVisible(true);
