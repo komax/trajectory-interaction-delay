@@ -35,6 +35,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     }
     
     public void updateMatching(Matching matching, int threshold, double delayUnit) {
+        this.maxDelay = Integer.MIN_VALUE;
         this.matching = matching;
         this.lengthMatching = matching.i.length;
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
