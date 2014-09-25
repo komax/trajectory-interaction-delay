@@ -40,6 +40,8 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
         this.maxDistanceNormalized = Double.MIN_VALUE;
         this.minDistanceNormalized = Double.MAX_VALUE;
+        this.maxDistance = Double.MIN_VALUE;
+        this.minDistance = Double.MAX_VALUE;
         
         for (double currentDistance : normalizedDistances) {
             if (currentDistance > maxDistanceNormalized) {
