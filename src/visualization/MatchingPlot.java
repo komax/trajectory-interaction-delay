@@ -11,6 +11,7 @@ import utils.Utils;
  */
 public final class MatchingPlot extends GenericPlottingPanel {
     private static final int TRANSLUCENT_ALPHA = 20;
+    private static final int VISIBLE_ALPHA = 150;
     
     private Matching matching;
     private ArrayList<Point2D> trajectory1;
@@ -149,7 +150,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
         drawMatching(g);
     }
     
-    private static Color getTranslucentColor(Color color) {
+    private static Color getColorTraject1(Color color, int index) {
+        return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+    }
+    
+    private static Color getColorTraject2(Color color, int index) {
         return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
     }
 
@@ -164,13 +169,13 @@ public final class MatchingPlot extends GenericPlottingPanel {
         for (int i = 1; i < trajectory.size(); i++) {
             if (trajectory == trajectory1) {
                 if (i < startFocusTraject1 || i > endFocusTraject1) {
-                    g.setColor(getTranslucentColor(Color.black));
+                    g.setColor(getColorTraject1(Color.black, i));
                 } else {
                     g.setColor(Color.black);
                 }
             } else if (trajectory == trajectory2) {
                 if (i < startFocusTraject2 || i > endFocusTraject2) {
-                    g.setColor(getTranslucentColor(Color.black));
+                    g.setColor(getColorTraject2(Color.black, i));
                 } else {
                     g.setColor(Color.black);
                 }                
@@ -227,9 +232,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         chosenColor = positiveColors.getMinColor();
                     }
                     if (currentIndexTraject1 < startFocusTraject1 || currentIndexTraject1 > endFocusTraject1) {
-                        g.setColor(getTranslucentColor(chosenColor));
+                        g.setColor(getColorTraject1(chosenColor, currentIndexTraject1));
                     } else if (currentIndexTraject2 < startFocusTraject2 || currentIndexTraject2 > endFocusTraject2) {
-                        g.setColor(getTranslucentColor(chosenColor));
+                        g.setColor(getColorTraject2(chosenColor, currentIndexTraject2));
                     } else {
                         g.setColor(chosenColor);
                     }
@@ -260,9 +265,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         }
                         
                         if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            beginColor = getTranslucentColor(beginColor);
+                            beginColor = getColorTraject1(beginColor, startIndexTraject1);
                         } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            beginColor = getTranslucentColor(beginColor);
+                            beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
                         Point2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
@@ -277,9 +282,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             endColor = negativeColors.getColor(endDelay);
                         }
                         if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            endColor = getTranslucentColor(endColor);
+                            endColor = getColorTraject1(endColor, endIndexTraject1);
                         } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            endColor = getTranslucentColor(endColor);
+                            endColor = getColorTraject2(endColor, endIndexTraject2);
                         }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
@@ -303,9 +308,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         }
                         
                         if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            beginColor = getTranslucentColor(beginColor);
+                            beginColor = getColorTraject1(beginColor, startIndexTraject1);
                         } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            beginColor = getTranslucentColor(beginColor);
+                            beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
                         Point2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
@@ -320,9 +325,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             endColor = positiveColors.getColor(endDelay);
                         }
                         if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            endColor = getTranslucentColor(endColor);
+                            endColor = getColorTraject1(endColor, endIndexTraject1);
                         } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            endColor = getTranslucentColor(endColor);
+                            endColor = getColorTraject2(endColor, endIndexTraject2);
                         }
                         
                         GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
