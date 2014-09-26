@@ -150,12 +150,22 @@ public final class MatchingPlot extends GenericPlottingPanel {
         drawMatching(g);
     }
     
-    private static Color getColorTraject1(Color color, int index) {
-        return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+    private Color getColorTraject1(Color color, int index) {
+        if (index < startFocusTraject1 || index > endFocusTraject1) {
+            return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+        } else {
+            // TODO intepolate the color
+            return color;
+        }
     }
     
-    private static Color getColorTraject2(Color color, int index) {
-        return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+    private Color getColorTraject2(Color color, int index) {
+        if (index < startFocusTraject2 || index > endFocusTraject2) {
+            return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+        } else {
+            // TODO intepolate the color
+            return color;
+        }   
     }
 
     private void paintTrajectories(Graphics g) {
@@ -168,17 +178,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
         Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i = 1; i < trajectory.size(); i++) {
             if (trajectory == trajectory1) {
-                if (i < startFocusTraject1 || i > endFocusTraject1) {
-                    g.setColor(getColorTraject1(Color.black, i));
-                } else {
-                    g.setColor(Color.black);
-                }
+                g.setColor(getColorTraject1(Color.black, i));
             } else if (trajectory == trajectory2) {
-                if (i < startFocusTraject2 || i > endFocusTraject2) {
-                    g.setColor(getColorTraject2(Color.black, i));
-                } else {
-                    g.setColor(Color.black);
-                }                
+                g.setColor(getColorTraject2(Color.black, i));
             }
             Point2D currentPoint = trajectory.get(i);
             Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
