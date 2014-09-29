@@ -132,6 +132,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             g.drawLine(xCoord, plotHeight(), xCoord, yCoord);
             
             // Drawing of indices on the axes.
+            g.setColor(Color.BLACK);
             g.drawString(Integer.toString(selectedIndexTraject1), 0, yCoord);
             g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
             
