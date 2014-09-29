@@ -154,8 +154,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
         if (index < startFocusTraject1 || index > endFocusTraject1) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         } else {
-            // TODO intepolate the color
             return color;
+            // TODO intepolate the color
+//            int deltaToSelection = Math.abs(selectedIndex - index);
+//            int calculatedAlpha = interpolatedAlpha(deltaToSelection, selectedIndex);
+//            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
         }
     }
     
@@ -163,9 +166,20 @@ public final class MatchingPlot extends GenericPlottingPanel {
         if (index < startFocusTraject2 || index > endFocusTraject2) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         } else {
-            // TODO intepolate the color
             return color;
+            // TODO intepolate the color
+//            int deltaToSelection = Math.abs(selectedIndex - index);
+//            int calculatedAlpha = interpolatedAlpha(deltaToSelection, selectedIndex);
+//            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
         }   
+    }
+    
+    private int interpolatedAlpha(int deltaToFocus, int indexFocus) {
+        int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
+        int upperIndexFocus = indexFocus + translucentFocus;
+        Double expectedIndex = (double) (upperIndexFocus - deltaToFocus) * valueRange / upperIndexFocus;
+        int nullBasedAlphaValue = expectedIndex.intValue();
+        return TRANSLUCENT_ALPHA + nullBasedAlphaValue;
     }
 
     private void paintTrajectories(Graphics g) {
