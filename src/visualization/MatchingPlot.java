@@ -153,24 +153,46 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private Color getColorTraject1(Color color, int index) {
         if (index < startFocusTraject1 || index > endFocusTraject1) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+        } else if (selectedIndex != -1) {
+            int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
+            int deltaFocus;
+            int intervalLength;
+            int indexI = matching.i[selectedIndex];
+            if (index >= indexI) {
+                deltaFocus = endFocusTraject1 - index;
+                intervalLength = endFocusTraject1 - indexI;
+            } else {
+                deltaFocus = index - startFocusTraject1;
+                intervalLength = indexI - startFocusTraject1;
+            }
+            Double alpha = ((double) deltaFocus) * valueRange / intervalLength;
+            int calculatedAlpha = alpha.intValue() + TRANSLUCENT_ALPHA;
+            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
         } else {
-            return color;
-            // TODO intepolate the color
-//            int deltaToSelection = Math.abs(selectedIndex - index);
-//            int calculatedAlpha = interpolatedAlpha(deltaToSelection, selectedIndex);
-//            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
+            return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         }
     }
     
     private Color getColorTraject2(Color color, int index) {
         if (index < startFocusTraject2 || index > endFocusTraject2) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
+        } else if (selectedIndex != -1) {
+            int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
+            int deltaFocus;
+            int intervalLength;
+            int indexJ = matching.j[selectedIndex];
+            if (index >= indexJ) {
+            deltaFocus = endFocusTraject2 - index;
+                intervalLength = endFocusTraject2 - indexJ;
+            } else {
+                deltaFocus = index - startFocusTraject2;
+                intervalLength = indexJ - startFocusTraject2;
+            }
+            Double alpha = ((double) deltaFocus) * valueRange / intervalLength;
+            int calculatedAlpha = alpha.intValue() + TRANSLUCENT_ALPHA;
+            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
         } else {
-            return color;
-            // TODO intepolate the color
-//            int deltaToSelection = Math.abs(selectedIndex - index);
-//            int calculatedAlpha = interpolatedAlpha(deltaToSelection, selectedIndex);
-//            return ColorMap.getColorFromRGB(color.getRGB(), calculatedAlpha);
+            return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         }   
     }
     
@@ -263,7 +285,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             roundDouble(convPointTraj2.x), roundDouble(convPointTraj2.y));
                 } else {
                     // Compute the color interpolation of the patch.
-                    if (startIndexTraject1 == endIndexTraject1) {
+                    if (singleIndexTraject1) {
                         Point2D pointTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
                         int traject1PointX = roundDouble(pointTraject1.x);
                         int traject1PointY = roundDouble(pointTraject1.y);
