@@ -34,12 +34,14 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private BufferedImage freeSpaceImage;
     private final int lengthMatching;
     private final int delayThreshold;
+    private double samplingRate;
     
-    public DelaySpacePanel(String fileName, int lengthTrajectory, int delayThreshold) {
+    public DelaySpacePanel(String fileName, int lengthTrajectory, int delayThreshold, double samplingRate) {
         this.selectedIndexTraject1 = -1;
         this.selectedIndexTraject2 = -1;
         this.lengthMatching = lengthTrajectory;
         this.delayThreshold = delayThreshold;
+        this.samplingRate = samplingRate;
         updateImage(fileName);
     }
     
@@ -117,6 +119,15 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         BufferedImage scaledImage = resize(freeSpaceImage, width, height);
         g.drawImage(scaledImage, axisWidth(), 0, null);
         
+        // Draw legends on the axes using the sampling rate.
+        g.setColor(Color.BLACK);
+        g.drawString("0 s", 0, height);
+        g.drawString("0 s", axisWidth(), getHeight());
+        String maxValString = String.format("%.2f s", (lengthMatching - 1) * samplingRate);
+        g.drawString(maxValString, 0, axisHeight());
+        g.drawString(maxValString, width, height + axisHeight());
+        //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
+        
         if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
@@ -189,7 +200,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public int axisWidth() {
-        return 30;
+        return 50;
     }
 
     @Override
