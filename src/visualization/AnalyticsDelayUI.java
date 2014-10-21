@@ -162,7 +162,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
-        jSplitPane5 = new javax.swing.JSplitPane();
         delaySpacePanel = new javax.swing.JPanel();
         settingsPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -192,12 +191,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-
         delaySpacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Space"));
         delaySpacePanel.setPreferredSize(new java.awt.Dimension(560, 420));
         delaySpacePanel.setLayout(new java.awt.BorderLayout());
-        jSplitPane5.setBottomComponent(delaySpacePanel);
+        jSplitPane2.setBottomComponent(delaySpacePanel);
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
 
@@ -326,9 +323,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(logScalingCheckBox)))
         );
 
-        jSplitPane5.setLeftComponent(settingsPanel);
-
-        jSplitPane2.setRightComponent(jSplitPane5);
+        jSplitPane2.setLeftComponent(settingsPanel);
 
         jSplitPane1.setLeftComponent(jSplitPane2);
 
@@ -560,7 +555,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
-    private javax.swing.JSplitPane jSplitPane5;
     private javax.swing.JSplitPane jSplitPane6;
     private javax.swing.JCheckBox logScalingCheckBox;
     private javax.swing.JSlider matchingSlider;
