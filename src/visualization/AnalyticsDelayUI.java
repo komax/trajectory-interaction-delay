@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    public static final String PATH_TO_DATA = "results/frisbee_subtraj/";
+    public static final String PATH_TO_DATA = "results/bats/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -162,8 +162,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
-        sliderPanel = new javax.swing.JPanel();
-        matchingSlider = new javax.swing.JSlider();
         jSplitPane5 = new javax.swing.JSplitPane();
         delaySpacePanel = new javax.swing.JPanel();
         settingsPanel = new javax.swing.JPanel();
@@ -183,6 +181,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
+        sliderPanel = new javax.swing.JPanel();
+        matchingSlider = new javax.swing.JSlider();
+        jSplitPane6 = new javax.swing.JSplitPane();
         distancePanel = new javax.swing.JPanel();
         delayPanel = new javax.swing.JPanel();
 
@@ -190,33 +191,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         setTitle("Visualization of Delays in Trajectories");
 
         jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-
-        sliderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matching"));
-
-        matchingSlider.setMajorTickSpacing(50);
-        matchingSlider.setMinorTickSpacing(25);
-        matchingSlider.setPaintLabels(true);
-        matchingSlider.setPaintTicks(true);
-        matchingSlider.setToolTipText("");
-        matchingSlider.setValue(0);
-        matchingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                matchingSliderStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout sliderPanelLayout = new javax.swing.GroupLayout(sliderPanel);
-        sliderPanel.setLayout(sliderPanelLayout);
-        sliderPanelLayout.setHorizontalGroup(
-            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
-        );
-        sliderPanelLayout.setVerticalGroup(
-            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, Short.MAX_VALUE)
-        );
-
-        jSplitPane2.setTopComponent(sliderPanel);
 
         jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -313,7 +287,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(distanceNormComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(settingsPanelLayout.createSequentialGroup()
@@ -368,15 +342,46 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
+        sliderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matching"));
+
+        matchingSlider.setMajorTickSpacing(50);
+        matchingSlider.setMinorTickSpacing(25);
+        matchingSlider.setPaintLabels(true);
+        matchingSlider.setPaintTicks(true);
+        matchingSlider.setToolTipText("");
+        matchingSlider.setValue(0);
+        matchingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                matchingSliderStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout sliderPanelLayout = new javax.swing.GroupLayout(sliderPanel);
+        sliderPanel.setLayout(sliderPanelLayout);
+        sliderPanelLayout.setHorizontalGroup(
+            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+        );
+        sliderPanelLayout.setVerticalGroup(
+            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, Short.MAX_VALUE)
+        );
+
+        jSplitPane4.setTopComponent(sliderPanel);
+
+        jSplitPane6.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
         distancePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Distance Plot"));
         distancePanel.setPreferredSize(new java.awt.Dimension(30, 170));
         distancePanel.setLayout(new java.awt.BorderLayout());
-        jSplitPane4.setTopComponent(distancePanel);
+        jSplitPane6.setTopComponent(distancePanel);
 
         delayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Delay Plot"));
         delayPanel.setPreferredSize(new java.awt.Dimension(30, 170));
         delayPanel.setLayout(new java.awt.BorderLayout());
-        jSplitPane4.setBottomComponent(delayPanel);
+        jSplitPane6.setBottomComponent(delayPanel);
+
+        jSplitPane4.setBottomComponent(jSplitPane6);
 
         jSplitPane3.setRightComponent(jSplitPane4);
 
@@ -386,7 +391,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -556,6 +561,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JSplitPane jSplitPane5;
+    private javax.swing.JSplitPane jSplitPane6;
     private javax.swing.JCheckBox logScalingCheckBox;
     private javax.swing.JSlider matchingSlider;
     private javax.swing.JComboBox samplingRateComboBox;
