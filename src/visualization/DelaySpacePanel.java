@@ -144,8 +144,10 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             
             // Drawing of indices on the axes.
             g.setColor(Color.BLACK);
-            g.drawString(Integer.toString(selectedIndexTraject1), 0, yCoord);
-            g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
+            String secondsTraject1 = String.format("%.2f s", selectedIndexTraject1 * samplingRate);
+            g.drawString(secondsTraject1, 0, yCoord);
+            String secondsTraject2 = String.format("%.2f s", selectedIndexTraject2 * samplingRate);
+            g.drawString(secondsTraject2, xCoord, getHeight());
             
             // Draw a translucent legend next to the point.
             int xCoordLegend = xCoord + 5;
