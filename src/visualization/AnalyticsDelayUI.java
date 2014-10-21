@@ -328,8 +328,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jSplitPane1.setLeftComponent(jSplitPane2);
 
         jSplitPane3.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane3.setMinimumSize(new java.awt.Dimension(500, 433));
 
         trajectoryPlotPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Trajectory Plot"));
+        trajectoryPlotPanel.setMinimumSize(new java.awt.Dimension(500, 400));
         trajectoryPlotPanel.setPreferredSize(new java.awt.Dimension(500, 400));
         trajectoryPlotPanel.setRequestFocusEnabled(false);
         trajectoryPlotPanel.setLayout(new java.awt.BorderLayout());
@@ -345,6 +347,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         matchingSlider.setPaintTicks(true);
         matchingSlider.setToolTipText("");
         matchingSlider.setValue(0);
+        matchingSlider.setPreferredSize(new java.awt.Dimension(150, 400));
         matchingSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 matchingSliderStateChanged(evt);
