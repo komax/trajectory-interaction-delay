@@ -68,7 +68,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (logScaled) {
             delaySpaceName = "delaySpaceNorm2logScale.png";
         }
-        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length, threshold);
+        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length, threshold, samplingRate);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
