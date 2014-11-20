@@ -13,6 +13,6 @@ axis tight;
 axis off;
 iValues = [0; (javaMatchingObj.i + 1)];
 jValues = [0; (javaMatchingObj.j + 1)];
-delayPlot = plot(jValues,iValues,'g','LineWidth',2);
+delayPlot = plot(jValues,iValues,'g','LineWidth',3.5);
 end
 
