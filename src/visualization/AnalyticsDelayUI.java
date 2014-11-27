@@ -23,7 +23,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         HEADING
     };
     
-    public static final String PATH_TO_DATA = "results/bats/";
+    public static final String PATH_TO_DATA = "results/pigeons_subtraj/";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
