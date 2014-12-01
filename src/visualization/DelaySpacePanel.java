@@ -132,9 +132,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            double xPoint = ((double) width) * (double) selectedIndexTraject2 / (lengthMatching-1);
+            double xPoint = ((double) width) * ((double) selectedIndexTraject2 + 0.5) / lengthMatching;
             xPoint += axisWidth();
-            double yPoint = height - ((double) height) * selectedIndexTraject1 / (lengthMatching-1);
+            double yPoint = height - ((double) height) * ((double) selectedIndexTraject1 + 0.5) / lengthMatching;
             int xCoord = roundDouble(xPoint);
             int yCoord = roundDouble(yPoint);
             // Drawing the horizontial line.
