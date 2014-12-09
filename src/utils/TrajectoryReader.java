@@ -6,7 +6,6 @@
 package utils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +28,8 @@ public class TrajectoryReader {
     }
     
     private void readTrajectories() throws IOException {
-        List<List<Double>> traject1 = new ArrayList<>();
-        List<List<Double>> traject2 = new ArrayList<>();
+        List<double[]> traject1 = new ArrayList<>();
+        List<double[]> traject2 = new ArrayList<>();
         
         // Skip the first line.
         inputReader.readLine();
@@ -40,13 +39,13 @@ public class TrajectoryReader {
         // Read the lines and their data points.
         while ((currentLine = inputReader.readLine()) != null) {
             String[] lineElements = currentLine.split("\\s+");
-            List<Double> pointsTraject1 = new ArrayList<>();
-            List<Double> pointsTraject2 = new ArrayList<>();
-            pointsTraject1.add(Double.parseDouble(lineElements[1]));
-            pointsTraject1.add(Double.parseDouble(lineElements[2]));
+            double[] pointsTraject1 = new double[2];
+            double[] pointsTraject2 = new double[2];
+            pointsTraject1[0] = Double.parseDouble(lineElements[1]);
+            pointsTraject1[1] = Double.parseDouble(lineElements[2]);
             traject1.add(pointsTraject1);
-            pointsTraject2.add(Double.parseDouble(lineElements[3]));
-            pointsTraject2.add(Double.parseDouble(lineElements[4]));
+            pointsTraject2[0] = Double.parseDouble(lineElements[3]);
+            pointsTraject2[1] = Double.parseDouble(lineElements[4]);
             traject2.add(pointsTraject2);
         }
         
@@ -55,9 +54,14 @@ public class TrajectoryReader {
         this.trajectory2 = convertTrajectoryRecursively(traject2, dimensions);
     }
     
-    private double[][] convertTrajectoryRecursively(List<List<Double>> traject, int dimensions) {
+    private double[][] convertTrajectoryRecursively(List<double[]> traject, int dimensions) {
         int length = traject.size();
         double[][] result = new double[length][dimensions];
+        
+        for (int i = 0; i < length; i++) {
+           double[] pointTraject = traject.get(i);
+           result[i] = pointTraject;
+        }
         
         return result;
     }
