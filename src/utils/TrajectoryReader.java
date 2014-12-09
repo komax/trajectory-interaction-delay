@@ -20,19 +20,25 @@ public class TrajectoryReader {
     private double[][] trajectory2;
     private final BufferedReader inputReader;
     
-    public TrajectoryReader(String fileName) throws Exception {
+    public static TrajectoryReader createTrajectoryReader(String fileName, boolean skipHeader) throws Exception {
+        return new TrajectoryReader(fileName, skipHeader);
+    }
+    
+    public TrajectoryReader(String fileName, boolean skipHeader) throws Exception {
         this.inputReader = new BufferedReader(new FileReader(fileName));
         
         // Read content of the file into the fields.
-        readTrajectories();
+        readTrajectories(skipHeader);
     }
     
-    private void readTrajectories() throws IOException {
+    private void readTrajectories(boolean skipHeader) throws IOException {
         List<double[]> traject1 = new ArrayList<>();
         List<double[]> traject2 = new ArrayList<>();
         
-        // Skip the first line.
-        inputReader.readLine();
+        if (skipHeader) {
+            // Skip the first line.
+            inputReader.readLine();
+        }
         
         String currentLine = "";
         
