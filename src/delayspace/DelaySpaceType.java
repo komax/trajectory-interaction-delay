@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package utils;
+package delayspace;
 
 /**
  *
  * @author max
  */
-public interface DistanceNorm {
-    public double distance(double[] pointP, double[] pointQ);
-}
+public enum DelaySpaceType {
+    
+    USUAL,
+    DIRECTIONAL_DISTANCE,
+    DYNAMIC_INTERACTION,
+    HEADING
+};

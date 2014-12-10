@@ -5,6 +5,8 @@
  */
 package utils;
 
+import utils.distance.AbstractPNorm;
+import utils.distance.DistanceNorm;
 import frechet.Matching;
 
 /**
