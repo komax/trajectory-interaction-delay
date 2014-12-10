@@ -5,6 +5,7 @@ import frechet.Matching;
 import javax.swing.*;
 import matlabconversion.MatchingReader;
 import utils.Utils;
+import utils.distance.DistanceNormFactory;
 
 /**
  * Created by max on 28-4-14.
@@ -14,7 +15,7 @@ public class VisualizationLauncher {
     public static void main(String[] args) {
         Matching matching = MatchingReader.readMatching("results/bats/matchingNorm2.dump");
         launchMatchingPlot(matching);
-        double[] distances = Utils.distancesOnMatching(matching, Utils.EuclideanDistance);
+        double[] distances = Utils.distancesOnMatching(matching, DistanceNormFactory.EuclideanDistance);
         launchDistancePlot(matching, distances);
     }
 

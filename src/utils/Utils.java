@@ -5,62 +5,15 @@
  */
 package utils;
 
-import utils.distance.AbstractPNorm;
 import utils.distance.DistanceNorm;
 import frechet.Matching;
+import static utils.distance.DistanceNormFactory.EuclideanDistance;
 
 /**
  *
  * @author max
  */
 public class Utils {
-
-    public static final DistanceNorm EuclideanDistance = new AbstractPNorm() {
-
-        @Override
-        public int getOrder() {
-            return 2;
-        }
-    };
-
-    public static final DistanceNorm L1Distance = new AbstractPNorm() {
-
-        @Override
-        public int getOrder() {
-            return 1;
-        }
-    };
-
-    public static final DistanceNorm LInfDistance = new DistanceNorm() {
-
-        @Override
-        public double distance(double[] pointP, double[] pointQ) {
-            double maxDistance = Double.MIN_VALUE;
-            for (int i = 0; i < pointP.length; i++) {
-                double diff = Math.abs(pointP[i] - pointQ[i]);
-                maxDistance = Math.max(maxDistance, diff);
-            }
-            return maxDistance;
-        }
-        
-        @Override
-        public String toString() {
-            return "NormInf";
-        }
-    };
-
-    public static DistanceNorm selectDistanceNorm(int order) {
-        switch (order) {
-            case 1:
-                return L1Distance;
-            case 2:
-                return EuclideanDistance;
-            case Integer.MAX_VALUE:
-                return LInfDistance;
-            default:
-                throw new RuntimeException("order=" + order + " is not a valid norm");
-        }
-    }
 
     public static int findMatchingIndex(Matching matching, int i, int j) {
         for (int k = 0; k < matching.i.length; k++) {
