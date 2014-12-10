@@ -11,6 +11,8 @@ package utils.distance;
  */
 public enum DistanceNormType {
     
-    
+    L1_NORM,
+    EUCLIDEAN,
+    LInf_Norm;
     
 }

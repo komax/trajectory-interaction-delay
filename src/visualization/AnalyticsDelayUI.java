@@ -10,6 +10,7 @@ import frechet.Matching;
 import matlabconversion.MatchingReader;
 import utils.distance.DistanceNorm;
 import utils.Utils;
+import utils.distance.DistanceNormFactory;
 
 /**
  *
@@ -43,7 +44,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.threshold = 1;
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
-        updateDistanceAndMatching(Utils.EuclideanDistance, this.delaySpaceType, this.logScaled);
+        updateDistanceAndMatching(DistanceNormFactory.EuclideanDistance, this.delaySpaceType, this.logScaled);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -419,9 +420,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() - 1;
         if (selectedIndex == lastElement) {
-            updateDistanceAndMatching(Utils.LInfDistance, this.delaySpaceType, this.logScaled);
+            updateDistanceAndMatching(DistanceNormFactory.LInfDistance, this.delaySpaceType, this.logScaled);
         } else {
-            updateDistanceAndMatching(Utils.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType, this.logScaled);
+            updateDistanceAndMatching(DistanceNormFactory.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType, this.logScaled);
         }
         updateAndRepaintPlots();
     }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
