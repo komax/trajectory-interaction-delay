@@ -5,9 +5,10 @@
  */
 package visualization;
 
+import delayspace.DelaySpaceType;
 import frechet.Matching;
 import matlabconversion.MatchingReader;
-import utils.DistanceNorm;
+import utils.distance.DistanceNorm;
 import utils.Utils;
 
 /**
@@ -15,14 +16,6 @@ import utils.Utils;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
-    public enum DelaySpaceType {
-
-        USUAL,
-        DIRECTIONAL_DISTANCE,
-        DYNAMIC_INTERACTION,
-        HEADING
-    };
-    
     public static final String PATH_TO_DATA = "results/frisbee_subtraj/";
 
     private Matching matching = null;
