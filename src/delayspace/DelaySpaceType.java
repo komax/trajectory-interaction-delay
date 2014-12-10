@@ -11,8 +11,18 @@ package delayspace;
  */
 public enum DelaySpaceType {
     
-    USUAL,
-    DIRECTIONAL_DISTANCE,
-    DYNAMIC_INTERACTION,
-    HEADING
+    USUAL(false),
+    DIRECTIONAL_DISTANCE(true),
+    DYNAMIC_INTERACTION(true),
+    HEADING(true);
+    
+    private final boolean directional;
+
+    private DelaySpaceType(boolean directional) {
+        this.directional = directional;
+    }
+    
+    public boolean isDirectional() {
+        return directional; 
+    }
 };
