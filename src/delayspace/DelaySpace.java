@@ -13,11 +13,15 @@ import utils.distance.DistanceNormType;
  *
  * @author max
  */
-public class DelaySpace {
+public abstract class DelaySpace {
     
-    private final DistanceNorm distance;
-    private final DelaySpaceType delaySpaceType;
-    private final double[][] delaySpace;
+    protected final DistanceNorm distance;
+    protected final DelaySpaceType delaySpaceType;
+    protected final double[][] delaySpace;
+    
+    public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
+        return null;
+    }
     
     public DelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
         this.distance = DistanceNormFactory.getDistanceNorm(normType);
@@ -27,8 +31,9 @@ public class DelaySpace {
         int lengthTraject2 = trajectory2.length;
         
         this.delaySpace = new double[lengthTraject1][lengthTraject2];
-        // TODO Compute the values for the delay space.
     }
+    
+    protected abstract void computeDelaySpace();
     
     public double[][] getDelaySpace() {
         return delaySpace;
