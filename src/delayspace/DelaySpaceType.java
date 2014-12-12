@@ -13,6 +13,7 @@ public enum DelaySpaceType {
     
     USUAL(false),
     DIRECTIONAL_DISTANCE(true),
+    DISPLACEMENT(false),
     DYNAMIC_INTERACTION(true),
     HEADING(true);
     
