@@ -6,7 +6,6 @@
 package delayspace;
 
 import utils.Utils;
-import utils.distance.DistanceNormType;
 
 /**
  *
@@ -14,8 +13,8 @@ import utils.distance.DistanceNormType;
  */
 public final class Heading extends DelaySpace {
 
-    public Heading(double[][] trajectory1, double[][] trajectory2, DistanceNormType normType) {
-        super(trajectory1, trajectory2, DelaySpaceType.HEADING, normType);
+    public Heading(double[][] trajectory1, double[][] trajectory2) {
+        super(trajectory1, trajectory2, DelaySpaceType.HEADING, null);
         computeDelaySpace();
     }
 
