@@ -18,6 +18,8 @@ public abstract class DelaySpace {
     protected final DistanceNorm distance;
     protected final DelaySpaceType delaySpaceType;
     protected final double[][] delaySpace;
+    protected final double[][] trajectory1;
+    protected final double[][] trajectory2;
     
     public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
         return null;
@@ -26,6 +28,9 @@ public abstract class DelaySpace {
     public DelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
         this.distance = DistanceNormFactory.getDistanceNorm(normType);
         this.delaySpaceType = delayType;
+        
+        this.trajectory1 = trajectory1;
+        this.trajectory2 = trajectory2;
         
         int lengthTraject1 = trajectory1.length;
         int lengthTraject2 = trajectory2.length;

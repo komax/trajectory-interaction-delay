@@ -222,7 +222,7 @@ public class Utils {
         return angle;
     }
     
-    private static double computeHeadingAngle(double[] p, double[] successorP) {
+    public static double computeHeadingAngle(double[] p, double[] successorP) {
         double[] projectedPoint = new double[p.length];
         projectedPoint[0] = successorP[0];
         for (int i = 1; i < p.length; i++) {
