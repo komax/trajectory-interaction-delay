@@ -150,19 +150,19 @@ public class Utils {
                 followPointI = traject1[traject1.length - 1];
                 followPointJ = traject2[traject2.length - 1];
             }
-            double distanceI = computeLineSegmentDistance(pointI, followPointI, distance);
-            double distanceJ = computeLineSegmentDistance(pointJ, followPointJ, distance);
+            double distanceI = computeDistanceOnMovementVector(pointI, followPointI, distance);
+            double distanceJ = computeDistanceOnMovementVector(pointJ, followPointJ, distance);
             double displacementValue = computeDisplacement(distanceI, distanceJ, alpha);
             displacements[k] = displacementValue; 
         }
         return displacements;
     }
     
-    private static double computeLineSegmentDistance(double[] pointI, double[] successorPointI, DistanceNorm distance) {
+    public static double computeDistanceOnMovementVector(double[] pointI, double[] successorPointI, DistanceNorm distance) {
         return vectorNorm(diff(pointI, successorPointI), distance);
     }
     
-    private static double computeDisplacement(double distanceI, double distanceJ, double alpha) {
+    public static double computeDisplacement(double distanceI, double distanceJ, double alpha) {
         double eps = 0.000001;
         double summedDistance = distanceI + distanceJ;
         if (summedDistance < eps) {
