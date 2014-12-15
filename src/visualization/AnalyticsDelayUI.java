@@ -8,13 +8,14 @@ package visualization;
 import delayspace.DelaySpace;
 import delayspace.DelaySpaceType;
 import frechet.Matching;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import matlabconversion.MatchingReader;
 import utils.Experiment;
 import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.Utils;
 import utils.distance.DistanceNormFactory;
-import utils.distance.DistanceNormType;
 
 /**
  *
@@ -22,6 +23,7 @@ import utils.distance.DistanceNormType;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     public static final String PATH_TO_DATA = "results/frisbee_subtraj/";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
@@ -31,7 +33,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private double[] distancesOnMatching;
     private DistanceNorm currentDistance;
     private String imageName;
-    private DelaySpaceType delaySpaceType;
     private int threshold;
     private int translucentFocus;
     private double samplingRate;
@@ -45,13 +46,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
-        this.delaySpaceType = DelaySpaceType.USUAL;
+        //this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.logScaled = false;
         this.threshold = 1;
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
-        updateDistanceAndMatching(DistanceNormFactory.EuclideanDistance, this.delaySpaceType, this.logScaled);
+        this.currentDistance = DistanceNormFactory.EuclideanDistance;
+        try {
+            readTrajectories(PATH_TO_TRAJ_DATA, DelaySpaceType.USUAL);
+        } catch (Exception ex) {
+            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        updateDistanceAndMatching(DistanceNormFactory.EuclideanDistance, DelaySpaceType.USUAL, this.logScaled);
         initSlider();
         initDelaySpace();
         initMatchingPlot();
@@ -88,10 +94,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.delayPanel.add(followingDelayPlot);
     }
     
-    private void readTrajectories(String filename) throws Exception {
+    private void readTrajectories(String filename, DelaySpaceType delaySpaceType) throws Exception {
         TrajectoryReader reader = TrajectoryReader.createTrajectoryReader(filename, true);
         this.trajectory1 = reader.getTrajectory1();
+        System.out.println(this.trajectory1[1][0]);
+        System.out.println(this.trajectory1[1][1]);
         this.trajectory2 = reader.getTrajectory2();
+        System.out.println(this.trajectory2[2][0]);
+        System.out.println(this.trajectory2[2][1]);
         this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance.getType());
     }
     
@@ -99,10 +109,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         Experiment experiment = new Experiment(delaySpace);
         this.matching = experiment.run();
     }
+    
+    private void updateDelaySpace(DelaySpaceType delaySpaceType) {
+        this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance.getType());
+    }
 
     private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace, boolean logScale) {
         this.currentDistance = distance;
-        this.delaySpaceType = delaySpace;
         this.logScaled = logScale;
         String normString = distance.toString();
         String delaySpaceSuffix = "";
@@ -121,7 +134,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 break;
         }
         String combinedSuffix = normString + delaySpaceSuffix;
-        this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matching" + combinedSuffix + ".dump");
+        updateDelaySpace(delaySpace);
+        computeMatching();
         String logScaleSuffix = "";
         if (logScaled) {
             logScaleSuffix = "logScale";
@@ -439,9 +453,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() - 1;
         if (selectedIndex == lastElement) {
-            updateDistanceAndMatching(DistanceNormFactory.LInfDistance, this.delaySpaceType, this.logScaled);
+            updateDistanceAndMatching(DistanceNormFactory.LInfDistance, this.delaySpace.getType(), this.logScaled);
         } else {
-            updateDistanceAndMatching(DistanceNormFactory.selectDistanceNorm(selectedIndex + 1), this.delaySpaceType, this.logScaled);
+            updateDistanceAndMatching(DistanceNormFactory.selectDistanceNorm(selectedIndex + 1), this.delaySpace.getType(), this.logScaled);
         }
         updateAndRepaintPlots();
     }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
@@ -501,7 +515,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         } else {
             this.logScaled = false;
         }
-        updateDistanceAndMatching(currentDistance, delaySpaceType, logScaled);
+        updateDistanceAndMatching(currentDistance, delaySpace.getType(), logScaled);
         updateAndRepaintPlots();
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 

@@ -67,4 +67,8 @@ public abstract class DelaySpace {
         return trajectory2;
     }
     
+    public DelaySpaceType getType() {
+        return delaySpaceType;
+    }
+    
 }
