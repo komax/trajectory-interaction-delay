@@ -44,4 +44,12 @@ public abstract class DelaySpace {
         return delaySpace;
     }
     
+    public double[][] getTrajectory1() {
+        return trajectory1;
+    }
+    
+    public double[][] getTrajectory2() {
+        return trajectory2;
+    }
+    
 }
