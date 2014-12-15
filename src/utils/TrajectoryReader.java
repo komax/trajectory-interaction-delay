@@ -47,11 +47,20 @@ public class TrajectoryReader {
             String[] lineElements = currentLine.split("\\s+");
             double[] pointsTraject1 = new double[2];
             double[] pointsTraject2 = new double[2];
-            pointsTraject1[0] = Double.parseDouble(lineElements[1]);
-            pointsTraject1[1] = Double.parseDouble(lineElements[2]);
+            if (lineElements[0].equals("")) {
+//                System.err.println(lineElements[1] + "|" + lineElements[2] + "|" + lineElements[3] + "|" + lineElements[4] + "|" + lineElements[5]);
+                pointsTraject1[0] = Double.parseDouble(lineElements[2]);
+                pointsTraject1[1] = Double.parseDouble(lineElements[3]);
+                pointsTraject2[0] = Double.parseDouble(lineElements[4]);
+                pointsTraject2[1] = Double.parseDouble(lineElements[5]);
+            } else {
+//                System.err.println(lineElements[0] + "|" + lineElements[1] + "|" + lineElements[2] + "|" + lineElements[3] + "|" + lineElements[4]);
+                pointsTraject1[0] = Double.parseDouble(lineElements[1]);
+                pointsTraject1[1] = Double.parseDouble(lineElements[2]);
+                pointsTraject2[0] = Double.parseDouble(lineElements[3]);
+                pointsTraject2[1] = Double.parseDouble(lineElements[4]);
+            }
             traject1.add(pointsTraject1);
-            pointsTraject2[0] = Double.parseDouble(lineElements[3]);
-            pointsTraject2[1] = Double.parseDouble(lineElements[4]);
             traject2.add(pointsTraject2);
         }
         
