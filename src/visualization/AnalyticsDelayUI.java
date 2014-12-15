@@ -5,12 +5,16 @@
  */
 package visualization;
 
+import delayspace.DelaySpace;
 import delayspace.DelaySpaceType;
 import frechet.Matching;
 import matlabconversion.MatchingReader;
+import utils.Experiment;
+import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.Utils;
 import utils.distance.DistanceNormFactory;
+import utils.distance.DistanceNormType;
 
 /**
  *
@@ -32,6 +36,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private int translucentFocus;
     private double samplingRate;
     private boolean logScaled;
+    private double[][] trajectory1;
+    private double[][] trajectory2;
+    private DelaySpace delaySpace;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -79,6 +86,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void initFollowingPlot() {
         this.followingDelayPlot = new FollowingPlotPanel(matching, threshold, 0.2);
         this.delayPanel.add(followingDelayPlot);
+    }
+    
+    private void readTrajectories(String filename) throws Exception {
+        TrajectoryReader reader = TrajectoryReader.createTrajectoryReader(filename, true);
+        this.trajectory1 = reader.getTrajectory1();
+        this.trajectory2 = reader.getTrajectory2();
+        this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance.getType());
+    }
+    
+    private void computeMatching() {
+        Experiment experiment = new Experiment(delaySpace);
+        this.matching = experiment.run();
     }
 
     private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace, boolean logScale) {

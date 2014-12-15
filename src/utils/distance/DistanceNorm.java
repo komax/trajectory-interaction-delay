@@ -12,4 +12,5 @@ package utils.distance;
  */
 public interface DistanceNorm {
     public double distance(double[] pointP, double[] pointQ);
+    public DistanceNormType getType();
 }
