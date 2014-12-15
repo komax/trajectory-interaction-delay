@@ -21,8 +21,23 @@ public abstract class DelaySpace {
     protected final double[][] trajectory1;
     protected final double[][] trajectory2;
     
+    public static final double ALPHA = 1.0;
+    
     public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
-        return null;
+        switch(delayType) {
+            case USUAL:
+                return new DistanceDelaySpace(trajectory1, trajectory2, normType);
+            case HEADING:
+                return new Heading(trajectory1, trajectory2);
+            case DIRECTIONAL_DISTANCE:
+                return new DirectionalDistance(trajectory1, trajectory2, normType);
+            case DYNAMIC_INTERACTION:
+                return new DynamicInteraction(trajectory1, trajectory2, normType, ALPHA);
+            case DISPLACEMENT:
+                return new Displacement(trajectory1, trajectory2, normType, ALPHA);
+            default:
+                throw new RuntimeException("This delayspace type is not supported: " + delayType);
+        }
     }
     
     public DelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
