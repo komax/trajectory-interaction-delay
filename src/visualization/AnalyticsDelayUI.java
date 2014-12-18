@@ -10,7 +10,6 @@ import delayspace.DelaySpaceType;
 import frechet.Matching;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import matlabconversion.MatchingReader;
 import utils.Experiment;
 import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
@@ -97,11 +96,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void readTrajectories(String filename, DelaySpaceType delaySpaceType) throws Exception {
         TrajectoryReader reader = TrajectoryReader.createTrajectoryReader(filename, true);
         this.trajectory1 = reader.getTrajectory1();
-        System.out.println(this.trajectory1[1][0]);
-        System.out.println(this.trajectory1[1][1]);
         this.trajectory2 = reader.getTrajectory2();
-        System.out.println(this.trajectory2[2][0]);
-        System.out.println(this.trajectory2[2][1]);
         this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance.getType());
     }
     
