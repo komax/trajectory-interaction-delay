@@ -30,6 +30,33 @@ public class Node implements Comparable<Node> {
         this.diagonal = null;
         this.status = NodeType.GROWTHNODE;
     }
+    
+    public boolean isRoot() {
+        return i == 0 && j == 0;
+    }
+    
+    public int outdegree() {
+        int outgoingEdges = 0;
+        
+        if (up != null) {
+            outgoingEdges += 1;
+        }
+        
+        if (right != null) {
+            outgoingEdges += 1;
+        }
+        
+        if (diagonal != null) {
+            outgoingEdges += 1;
+        }
+        
+        return outgoingEdges;
+    }
+    
+    public boolean isDead() {
+        return !isRoot() && outdegree() == 0;
+    }
+    
 
     public LinkedHashSet<Node> pathToRoot() {
         Node temp = this;
