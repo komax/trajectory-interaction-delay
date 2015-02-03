@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
  * @author max
  */
 public final class DelaySpacePanel extends GenericPlottingPanel {
+    // FIXME Use a heated body color map and draw the delay space in a custom panel.
     public static final Color TRAJECT_BLUE = new Color(0x0000FF);
     public static final Color TRAJECT_RED = new Color(0xFF0000);
     
