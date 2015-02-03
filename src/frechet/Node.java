@@ -6,19 +6,15 @@ import java.util.Set;
 
 public class Node implements Comparable<Node> {
 
-    // FIXME Flags are not used in the code.
-    public enum NodeType {
-        
-        GROWTHNODE, LIVINGNODE, DEADNODE
-    };
-
-    private int i, j;
+    private final int i, j;
     double value;
     Node parent;
     private Node up;
     private Node right;
     private Node diagonal;
-    NodeType status;
+    
+    private Shortcut shortcutUp;
+    private Shortcut shortcutRight;
 
     public Node(Node parent, int i, int j, double value) {
         this.parent = parent;
@@ -28,7 +24,8 @@ public class Node implements Comparable<Node> {
         this.up = null;
         this.right = null;
         this.diagonal = null;
-        this.status = NodeType.GROWTHNODE;
+        this.shortcutUp = null;
+        this.shortcutRight = null;
     }
     
     public boolean isRoot() {

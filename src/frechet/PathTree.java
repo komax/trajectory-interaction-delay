@@ -1,6 +1,5 @@
 package frechet;
 
-import frechet.Node.NodeType;
 
 class PathTree {
 
@@ -11,7 +10,6 @@ class PathTree {
         this.grid = new Node[numRows][numColumns];
         this.gridValues = distanceTerrain;
         Node root = new Node(null, 0, 0, distanceTerrain[0][0]);
-        root.status = NodeType.GROWTHNODE;
         this.grid[0][0] = root;
     }
 
@@ -28,18 +26,17 @@ class PathTree {
         return false;
     }
 
+    // TODO Incorporate shortcuts into the adding procedure.
     protected void add(int i, int j) {
         /* add grid[i][j] to the tree */
         // three pairs of candidate parents: N+E, NE+E, N+NE 
         Node parent = selectParent(i, j);
 
-        parent.status = NodeType.LIVINGNODE;
-
         // is [i-1][j-1] dead?
         if ((i != 0) && (j != 0)) {
             Node n = grid[i - 1][j - 1];
             if (!parent.equals(n) && !parent.parent.equals(n)) {
-                n.status = NodeType.DEADNODE;
+                //n.status = NodeType.DEADNODE;
             }
         }
         Node newNode = new Node(parent, i, j, gridValues[i][j]);
