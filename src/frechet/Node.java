@@ -12,12 +12,12 @@ public class Node implements Comparable<Node> {
         GROWTHNODE, LIVINGNODE, DEADNODE
     };
 
-    int i, j;
+    private int i, j;
     double value;
     Node parent;
-    Node north;
-    Node east;
-    Node northEast;
+    private Node up;
+    private Node right;
+    private Node diagonal;
     NodeType status;
 
     public Node(Node parent, int i, int j, double value) {
@@ -25,9 +25,9 @@ public class Node implements Comparable<Node> {
         this.i = i;
         this.j = j;
         this.value = value;
-        this.north = null;
-        this.east = null;
-        this.northEast = null;
+        this.up = null;
+        this.right = null;
+        this.diagonal = null;
         this.status = NodeType.GROWTHNODE;
     }
 
@@ -102,4 +102,25 @@ public class Node implements Comparable<Node> {
     public int hashCode() {
         return 31 * i + j;
     }
+    
+    public int getIndexTraject1() {
+        return i;
+    }
+    
+    public int getIndexTraject2() {
+        return j;
+    }
+    
+    public void setDiagonalNode(Node diagonalNode) {
+        this.diagonal = diagonalNode;
+    }
+    
+    public void setRightNode(Node rightNode) {
+        this.right = rightNode;
+    }
+
+    public void setUpNode(Node upNode) {
+        this.up = upNode;
+    }
+    
 }
