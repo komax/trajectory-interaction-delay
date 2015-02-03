@@ -45,14 +45,14 @@ class PathTree {
         Node newNode = new Node(parent, i, j, gridValues[i][j]);
 
         grid[i][j] = newNode;
-        if ((parent.i < i) && (parent.j < j)) {
-            parent.northEast = newNode;
-        } else if (parent.i == i) {
-            parent.north = newNode;
-            assert (parent.j + 1) == j;
+        if ((parent.getIndexTraject1() < i) && (parent.getIndexTraject2() < j)) {
+            parent.setDiagonalNode(newNode);
+        } else if (parent.getIndexTraject1() == i) {
+            parent.setUpNode(newNode);
+            assert (parent.getIndexTraject2() + 1) == j;
         } else {
-            parent.east = newNode;
-            assert parent.j == j && (parent.i + 1) == i;
+            parent.setRightNode(newNode);
+            assert parent.getIndexTraject2() == j && (parent.getIndexTraject1() + 1) == i;
         }
     }
 

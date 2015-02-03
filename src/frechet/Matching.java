@@ -19,8 +19,8 @@ public class Matching implements Serializable {
 
         for (int p = 0; p < path.size(); p++) {
             Node node = path.get(p);
-            i[p] = node.i;
-            j[p] = node.j;
+            i[p] = node.getIndexTraject1();
+            j[p] = node.getIndexTraject2();
         }
     }
 
