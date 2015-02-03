@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class Node implements Comparable<Node> {
 
+    // FIXME Flags are not used in the code.
     public enum NodeType {
         
         GROWTHNODE, LIVINGNODE, DEADNODE
@@ -54,6 +55,7 @@ public class Node implements Comparable<Node> {
     }
     
     public double maxValueOnPathTo(Node ancestor) {
+        // FIXME Use shortcuts.
         double maxVal = Double.MIN_VALUE;
         for (Node currentNode : pathTo(ancestor)) {
             if (currentNode.value > maxVal) {

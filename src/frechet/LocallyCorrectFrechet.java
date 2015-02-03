@@ -19,6 +19,7 @@ public class LocallyCorrectFrechet {
         for (int j = 1; j < numColumns; j++) {
             tree.add(0, j);
         }
+        // FIXME Replace this by an operation maintaining shortcuts and flags.
         for (int i = 1; i < numRows; i++) {
             for (int j = 1; j < numColumns; j++) {
                 tree.add(i, j);
