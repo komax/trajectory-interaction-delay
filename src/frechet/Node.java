@@ -159,4 +159,12 @@ public class Node implements Comparable<Node> {
         this.up = upNode;
     }
     
+    public boolean hasShortcutUp() {
+        return shortcutUp != null;
+    }
+    
+    public boolean hasShortcutRight() {
+        return shortcutRight != null;
+    }
+    
 }
