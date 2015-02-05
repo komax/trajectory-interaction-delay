@@ -32,6 +32,18 @@ public class Node implements Comparable<Node> {
         return i == 0 && j == 0;
     }
     
+    public boolean isRightOf(Node otherNode) {
+        return this.i > otherNode.i;
+    }
+    
+    public boolean isInSameColumnAs(Node otherNode) {
+        return this.i == otherNode.i;
+    }
+    
+    public boolean isAboveOf(Node otherNode) {
+        return isInSameColumnAs(otherNode) && this.j > otherNode.j;
+    }
+    
     public int outdegree() {
         int outgoingEdges = 0;
         
