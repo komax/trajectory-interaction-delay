@@ -2,6 +2,8 @@ package frechet;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Node implements Comparable<Node> {
@@ -13,11 +15,18 @@ public class Node implements Comparable<Node> {
     private Node right;
     private Node diagonal;
     
+    // Outgoing shortcuts
     private Shortcut shortcutUp;
     private Shortcut shortcutRight;
+    
+    // Incoming shortcuts
+    private final List<Shortcut> sc_incs_up = new LinkedList<Shortcut>();
+    private final List<Shortcut> sc_incs_right = new LinkedList<Shortcut>();
+    private final List<Shortcut> sc_incs_diagup = new LinkedList<Shortcut>();
+    private final List<Shortcut> sc_incs_diagright = new LinkedList<Shortcut>();
 
-    public Node(Node parent, int i, int j, double value) {
-        this.parent = parent;
+    public Node(int i, int j, double value) {
+        this.parent = null;
         this.i = i;
         this.j = j;
         this.value = value;
@@ -151,6 +160,14 @@ public class Node implements Comparable<Node> {
         return parent;
     }
     
+    public double getValue() {
+        return value;
+    }
+    
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+    
     public void setDiagonalNode(Node diagonalNode) {
         this.diagonal = diagonalNode;
     }
@@ -169,6 +186,21 @@ public class Node implements Comparable<Node> {
     
     public boolean hasShortcutRight() {
         return shortcutRight != null;
+    }
+    
+    public List<Shortcut> getIncomingShortcuts(Direction direction) {
+        switch (direction) {
+            case UP:
+                return sc_incs_up;
+            case RIGHT:
+                return sc_incs_right;
+            case DIAG_UP:
+                return sc_incs_diagup;
+            case DIAG_RIGHT:
+                return sc_incs_diagright;
+            default:
+                return new LinkedList<>();
+        }
     }
     
     public boolean isParentOf(Node otherNode) {
