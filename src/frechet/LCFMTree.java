@@ -2,13 +2,16 @@ package frechet;
 
 
 class LCFMTree {
-
-    protected Node[][] grid;
+    private final Node[][] grid;
     private final double[][] gridValues;
+    private final int columns;
+    private final int rows;
 
     public LCFMTree(double[][] distanceTerrain, int numRows, int numColumns) {
+        this.rows = numRows;
+        this.columns = numColumns;
         this.grid = new Node[numRows][numColumns];
-        this.gridValues = distanceTerrain;        
+        this.gridValues = distanceTerrain;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
                 grid[i][j] = new Node(i, j, gridValues[i][j]);
@@ -24,6 +27,12 @@ class LCFMTree {
             grid[0][j].setParent(grid[0][j-1]);
             grid[0][j-1].setUpNode(grid[0][j]);
         }
+    }
+    
+    public Node getNode(int i, int j) {
+        assert i >= 0 && i <= rows;
+        assert j >= 0 && j <= columns;
+        return grid[i][j];
     }
     
     public void buildTree() {
