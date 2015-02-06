@@ -30,26 +30,26 @@ class PathTree {
     protected void add(int i, int j) {
         /* add grid[i][j] to the tree */
         // three pairs of candidate parents: N+E, NE+E, N+NE 
-        Node parent = selectParent(i, j);
+        Node candidateParent = selectParent(i, j);
 
         // is [i-1][j-1] dead?
         if ((i != 0) && (j != 0)) {
-            Node n = grid[i - 1][j - 1];
-            if (!parent.equals(n) && !parent.parent.equals(n)) {
+            Node node = grid[i - 1][j - 1];
+            if (!candidateParent.equals(node) && !candidateParent.isParentOf(node)) {
                 //n.status = NodeType.DEADNODE;
             }
         }
-        Node newNode = new Node(parent, i, j, gridValues[i][j]);
+        Node newNode = new Node(candidateParent, i, j, gridValues[i][j]);
 
         grid[i][j] = newNode;
-        if ((parent.getIndexTraject1() < i) && (parent.getIndexTraject2() < j)) {
-            parent.setDiagonalNode(newNode);
-        } else if (parent.getIndexTraject1() == i) {
-            parent.setUpNode(newNode);
-            assert (parent.getIndexTraject2() + 1) == j;
+        if ((candidateParent.getIndexTraject1() < i) && (candidateParent.getIndexTraject2() < j)) {
+            candidateParent.setDiagonalNode(newNode);
+        } else if (candidateParent.getIndexTraject1() == i) {
+            candidateParent.setUpNode(newNode);
+            assert (candidateParent.getIndexTraject2() + 1) == j;
         } else {
-            parent.setRightNode(newNode);
-            assert parent.getIndexTraject2() == j && (parent.getIndexTraject1() + 1) == i;
+            candidateParent.setRightNode(newNode);
+            assert candidateParent.getIndexTraject2() == j && (candidateParent.getIndexTraject1() + 1) == i;
         }
     }
 
