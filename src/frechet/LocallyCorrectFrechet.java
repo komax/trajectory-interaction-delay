@@ -6,6 +6,7 @@ import java.util.List;
 
 public class LocallyCorrectFrechet {
 
+    @Deprecated // FIXME inefficient computation
     public static Matching compute(double[][] distanceTerrain, double[][] traject1, double[][] traject2,
             int numRows, int numColumns) {
         if ((distanceTerrain[0].length != numColumns) || (distanceTerrain.length != numRows)) {
