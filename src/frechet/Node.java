@@ -75,7 +75,7 @@ public class Node implements Comparable<Node> {
         return !isRoot() && outdegree() == 0;
     }
     
-
+    @Deprecated // TODO delete, since it does not use shortcuts
     public LinkedHashSet<Node> pathToRoot() {
         Node temp = this;
         LinkedHashSet<Node> path = new LinkedHashSet<Node>();
@@ -86,6 +86,7 @@ public class Node implements Comparable<Node> {
         return path;
     }
     
+    @Deprecated // TODO delete, as it doese not consider shortcuts
     public LinkedHashSet<Node> pathTo(Node ancestor) {
         Node currentNode = this;
         LinkedHashSet<Node> path = new LinkedHashSet<>();
@@ -99,6 +100,7 @@ public class Node implements Comparable<Node> {
         return path;
     }
     
+    @Deprecated // FIXME delete this method
     public double maxValueOnPathTo(Node ancestor) {
         // FIXME Use shortcuts.
         double maxVal = Double.MIN_VALUE;
@@ -110,6 +112,7 @@ public class Node implements Comparable<Node> {
         return maxVal;
     }
 
+    @Deprecated
     public Node nearestCommonAncestor(Node other) {
         // FIXME more efficient implementation.
         LinkedHashSet<Node> path1 = this.pathToRoot();
@@ -132,6 +135,7 @@ public class Node implements Comparable<Node> {
         return (this.i == rhs.i) && (this.j == rhs.j);
     }
 
+    @Deprecated // FXIME this check method ist not required anymore
     public int compareTo(Node rhs) {
         // if this < obj return -1
         if (rhs == this) {
