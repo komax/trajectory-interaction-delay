@@ -8,7 +8,7 @@ public class Node implements Comparable<Node> {
 
     private final int i, j;
     private final double value;
-    Node parent;
+    private Node parent;
     private Node up;
     private Node right;
     private Node diagonal;
@@ -145,6 +145,10 @@ public class Node implements Comparable<Node> {
     
     public int getIndexTraject2() {
         return j;
+    }
+    
+    public Node getParent() {
+        return parent;
     }
     
     public void setDiagonalNode(Node diagonalNode) {

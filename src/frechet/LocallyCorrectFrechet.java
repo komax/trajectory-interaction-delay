@@ -30,7 +30,7 @@ public class LocallyCorrectFrechet {
         Node node = tree.grid[numRows - 1][numColumns - 1];
         while (node != null) {
             path.add(node);
-            node = node.parent;
+            node = node.getParent();
         }
         Collections.reverse(path);
         return new Matching(path, traject1, traject2);
