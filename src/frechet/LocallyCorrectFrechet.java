@@ -11,7 +11,7 @@ public class LocallyCorrectFrechet {
         if ((distanceTerrain[0].length != numColumns) || (distanceTerrain.length != numRows)) {
             throw new RuntimeException("Size of grid and size of trajectories disagree\n");
         }
-        PathTree tree = new PathTree(distanceTerrain, numRows, numColumns);
+        LCFMTree tree = new LCFMTree(distanceTerrain, numRows, numColumns);
 
         for (int i = 1; i < numRows; i++) {
             tree.add(i, 0);
