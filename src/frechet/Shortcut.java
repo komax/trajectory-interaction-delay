@@ -22,4 +22,12 @@ public class Shortcut {
         this.incomingDirection = incomingDirection;
     }
     
+    public Node getTo() {
+        return to;
+    }
+    
+    public double getMaxValue() {
+        return maxValue;
+    }
+    
 }
