@@ -27,7 +27,7 @@ public class LocallyCorrectFrechet {
         }
 
         List<Node> path = new ArrayList<Node>();
-        Node node = tree.grid[numRows - 1][numColumns - 1];
+        Node node = tree.getNode(numRows - 1, numColumns -1);
         while (node != null) {
             path.add(node);
             node = node.getParent();
