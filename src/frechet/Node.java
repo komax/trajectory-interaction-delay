@@ -198,12 +198,39 @@ public class Node implements Comparable<Node> {
                     thisMaxValue = Math.max(thisMaxValue, thisNode.shortcutRight.getMaxValue());
                     thisNode = thisNode.shortcutRight.getTo();
                 } else {
-                    // Use the right shortcut of the parent.
+                    // Use the right shortcut of the parent to compute the maxValue.
+                    thisMaxValue = Math.max(thisMaxValue, thisNode.value);
+                    if (thisNode.parent.isRoot()) {
+                        // Do not follow the shortcut if the parent is already the root.
+                        thisNode = thisNode.parent;
+                    } else {
+                        // Check whether the value of the parent's shortcut has a larger value.
+                        thisMaxValue = Math.max(thisMaxValue, thisNode.parent.shortcutRight.getMaxValue());
+                        // Follow the shorctut of the parent.
+                        thisNode = thisNode.parent.shortcutRight.getTo();
+                    }
                     
                 }
             } else {
                 // thisNode is left or beneath of thatNode:
                 // hence take the up shortcut of thatNode and compute the maximum on the path to the root.
+                if (thatNode.hasShortcutUp()) {
+                    // Use the value of the that up shortcut and follow it.
+                    thatMaxValue = Math.max(thatMaxValue, thatNode.shortcutUp.getMaxValue());
+                    thatNode = thatNode.shortcutUp.getTo();
+                } else {
+                    // thatNode does not have a shortcut: use the shortcut of the parent.
+                    thatMaxValue = Math.max(thatMaxValue, thatNode.value);
+                    if (thatNode.parent.isRoot()) {
+                        // No need to follow as the parent is the root.
+                        thatNode = thatNode.parent;
+                    } else {
+                        // Check if the value of the parent's up shortcut is larger than the current max value.
+                        thatMaxValue = Math.max(thatMaxValue, thatNode.parent.shortcutUp.getMaxValue());
+                        // Follow the parrent's up shortcut.
+                        thatNode = thatNode.parent.shortcutUp.getTo();
+                    }
+                }
             }
         }
         
