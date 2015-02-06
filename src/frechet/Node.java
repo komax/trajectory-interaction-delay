@@ -7,7 +7,7 @@ import java.util.Set;
 public class Node implements Comparable<Node> {
 
     private final int i, j;
-    double value;
+    private final double value;
     Node parent;
     private Node up;
     private Node right;
@@ -165,6 +165,49 @@ public class Node implements Comparable<Node> {
     
     public boolean hasShortcutRight() {
         return shortcutRight != null;
+    }
+    
+    public boolean isParentOf(Node otherNode) {
+        return this.parent.equals(otherNode);
+    }
+    
+    public boolean isBetterThan(Node thatNode) {
+        Node thisNode = this;
+        
+        if (thisNode.isParentOf(thatNode)) {
+            return false;
+        }
+        
+        if (thatNode.isParentOf(thisNode)) {
+            return thatNode.value > 0.0;
+        }
+        
+        if (thisNode.parent.equals(thatNode.parent)) {
+            return thisNode.value < thatNode.value;
+        }
+        
+        double thisMaxValue = Double.MIN_VALUE;
+        double thatMaxValue = Double.MIN_VALUE;
+        
+        while (!thisNode.equals(thatNode)) {
+            if (thisNode.isRightOf(thatNode) || (thisNode.isInSameColumnAs(thatNode) && thisNode.isAboveOf(thatNode))) {
+                // thisNode is right or above of thatNode:
+                // hence compare the right shortcut of thisNode to the value of thatNode
+                if (thisNode.hasShortcutRight()) {
+                    // Use the value of the own right shortcut and follow the shortcut.
+                    thisMaxValue = Math.max(thisMaxValue, thisNode.shortcutRight.getMaxValue());
+                    thisNode = thisNode.shortcutRight.getTo();
+                } else {
+                    // Use the right shortcut of the parent.
+                    
+                }
+            } else {
+                // thisNode is left or beneath of thatNode:
+                // hence take the up shortcut of thatNode and compute the maximum on the path to the root.
+            }
+        }
+        
+        return thisMaxValue < thatMaxValue + utils.Utils.EPSILON;
     }
     
 }
