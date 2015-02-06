@@ -1,12 +1,12 @@
 package frechet;
 
 
-class PathTree {
+class LCFMTree {
 
     protected Node[][] grid;
     private final double[][] gridValues;
 
-    public PathTree(double[][] distanceTerrain, int numRows, int numColumns) {
+    public LCFMTree(double[][] distanceTerrain, int numRows, int numColumns) {
         this.grid = new Node[numRows][numColumns];
         this.gridValues = distanceTerrain;        
         for (int i = 0; i < numRows; i++) {
