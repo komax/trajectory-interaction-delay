@@ -78,40 +78,36 @@ class LCFMTree {
             bestParent.setRightNode(node);
         }
         
-        // if the parent beneath does not have a shortcut, create one.
+        // if the parent beneath does not have a shortcut, create one, or use it.
         if (!down.hasShortcutUp()) {
-            Shortcut shortcutDown = null;
-            Node shortCutFrom = down;
+            Node shortcutFrom = down;
+            Node shortcutTo;
+            Direction incoming;
+            double maxValue;
+            
             if (down.getParent().isRoot()) {
-                Node shortCutTo = down.getParent();
-                Direction incoming = Direction.RIGHT;
-                double maxValue = down.getValue();
+                // If down is the root, create a shortcut to the root.
+                shortcutTo = down.getParent();
+                incoming = Direction.RIGHT;
+                maxValue = down.getValue();
+            } else if (down.getParent().outdegree() == 1) {
+                // if down has only one shortcut, use this shortcut information.
+                Shortcut parentsUpShortcut = down.getParent().getShortcutUp();
+                shortcutTo = parentsUpShortcut.getTo();
+                incoming = parentsUpShortcut.getIncomingDirection();
+                maxValue = Math.max(down.getValue(), parentsUpShortcut.getMaxValue());
+            } else {
+                // There is no shortcut from the parent, create a new one.
+                shortcutTo = down.getParent();
+                incoming = Direction.RIGHT;
+                maxValue = down.getValue();
             }
+            // Create the shortcut using the information from above.
+            Shortcut shortcutDown = new Shortcut(shortcutFrom, shortcutTo, maxValue, incoming);
+            // Add the new shortcut as incoming shortcut to the to target.
+            shortcutTo.getIncomingShortcuts(incoming).add(shortcutDown);
         }
-//
-//        // make up shortcut for nodes[i][j - 1] if necessary
-//        if (down.sc_up == null) {
-//            Shortcut sc = new Shortcut();
-//            down.sc_up = sc;
-//
-//            sc.from = down;
-//            if (down.pred.isRoot()) {
-//                sc.to = down.pred;
-//                sc.inc = Incoming.RIGHT;
-//                sc.to.getIncs(sc.inc).add(sc);
-//                sc.max = down.node.value;
-//            } else if (down.pred.outdegree() == 1) {
-//                sc.to = down.pred.sc_up.to;
-//                sc.inc = down.pred.sc_up.inc;
-//                sc.to.getIncs(sc.inc).add(sc);
-//                sc.max = Math.max(down.node.value, down.pred.sc_up.max);
-//            } else {
-//                sc.to = down.pred;
-//                sc.inc = Incoming.RIGHT;
-//                sc.to.getIncs(sc.inc).add(sc);
-//                sc.max = down.node.value;
-//            }
-//        }
+
 //
 //        // make right shortcut for nodes[i - 1][j] if necessary
 //        if (left.sc_right == null) {
