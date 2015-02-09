@@ -20,10 +20,10 @@ public class Node implements Comparable<Node> {
     private Shortcut shortcutRight;
     
     // Incoming shortcuts
-    private final List<Shortcut> sc_incs_up = new LinkedList<Shortcut>();
-    private final List<Shortcut> sc_incs_right = new LinkedList<Shortcut>();
-    private final List<Shortcut> sc_incs_diagup = new LinkedList<Shortcut>();
-    private final List<Shortcut> sc_incs_diagright = new LinkedList<Shortcut>();
+    private final List<Shortcut> sc_incs_up = new LinkedList<>();
+    private final List<Shortcut> sc_incs_right = new LinkedList<>();
+    private final List<Shortcut> sc_incs_diagup = new LinkedList<>();
+    private final List<Shortcut> sc_incs_diagright = new LinkedList<>();
 
     public Node(int i, int j, double value) {
         this.parent = null;
@@ -198,6 +198,14 @@ public class Node implements Comparable<Node> {
     
     public boolean hasShortcutRight() {
         return shortcutRight != null;
+    }
+    
+    public Shortcut getShortcutUp() {
+        return shortcutUp;
+    }
+    
+    public Shortcut getShortcutRight() {
+        return shortcutRight;
     }
     
     public List<Shortcut> getIncomingShortcuts(Direction direction) {
