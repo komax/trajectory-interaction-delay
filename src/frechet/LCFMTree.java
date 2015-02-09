@@ -262,24 +262,20 @@ class LCFMTree {
                 Iterator<Shortcut> it = extendShortcuts.iterator();
                 while(it.hasNext()) {
                     Shortcut shortcut = it.next();
-                    
+                    Node from = shortcut.getFrom();
+                    if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
+                        // Extend the shortcuts.
+                        double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
+                        Node to = shortcut.getTo();
+                        Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
+                        to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                    } else {
+                        // If from has only one up shortcut, delete it.
+                        from.setShortcutUp(shortcut);
+                    }
+                    // Make sure to remove the old shortcut.
                     it.remove();
                 }
-//                Iterator<Shortcut> it = extend.iterator();
-//                while (it.hasNext()) {
-//                    Shortcut sc = it.next();
-//                    if (sc.from.outdegree() > 1 || sc.from.onWorkingBoundary(next_i, next_j)) {
-//                        // extend
-//                        sc.to = with.to;
-//                        sc.inc = with.inc;
-//                        sc.max = Math.max(sc.max, with.max);
-//                        sc.to.getIncs(sc.inc).add(sc);
-//                    } else {
-//                        // remove
-//                        sc.from.sc_up = null;
-//                    }
-//                    it.remove();
-//                }
             } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
 //                                alive.diagonal = null;
 //                if (alive.up != null && alive.right != null) {
