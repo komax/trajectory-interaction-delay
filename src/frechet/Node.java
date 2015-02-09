@@ -196,6 +196,10 @@ public class Node implements Comparable<Node> {
         return up;
     }
     
+    public boolean hasDiagonalNode() {
+        return diagonal != null;
+    }
+    
     public Node getDiagonalNode() {
         return diagonal;
     }
