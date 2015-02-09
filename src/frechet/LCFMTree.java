@@ -140,6 +140,8 @@ class LCFMTree {
             shortcutTo.getIncomingShortcuts(incoming).add(shortcut);
         }
 
+        // Create shortcuts for [i,j].
+        // Preference order is [i,j-1] (down) > [i-1,j-1] (diagonal) > [i-1,j] (left).
 //        // make shortcuts for nodes[i][j] where necessary
 //        if (best == down) {
 //            // went up, make up shortcut
@@ -196,6 +198,7 @@ class LCFMTree {
 //            sc.max = Math.max(node.node.value, left.sc_right.max);
 //        }
 //
+        // Compress the tree if the diagonal node has no out going edges.
 //        if (diagonal.outdegree() == 0) {
 //            // kill diagonal branch
 //            SolutionNode dead = diagonal;
