@@ -1,5 +1,8 @@
 package frechet;
 
+import java.util.Iterator;
+import java.util.List;
+
 
 class LCFMTree {
     private final Node[][] grid;
@@ -38,8 +41,8 @@ class LCFMTree {
     public void buildTree() {
         int numRows = grid.length;
         int numColumns = grid[0].length;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numColumns; j++) {
+        for (int i = 1; i < numRows; i++) {
+            for (int j = 1; j < numColumns; j++) {
                 expandTree(i, j);
             }
         }
@@ -59,6 +62,25 @@ class LCFMTree {
             bestCandidate = left;
         }
         return bestCandidate;
+    }
+    
+    private boolean isNodeOnWorkingBoundary(Node node, int currentI, int currentJ) {
+        int nextI;
+        int nextJ;
+        if (currentJ == columns - 1) {
+            nextI = currentI + 1;
+            nextJ = 1;
+        } else {
+            nextI = currentI;
+            nextJ = currentJ + 1;
+        }
+        int nodeI = node.getIndexTraject1();
+        int nodeJ = node.getIndexTraject2();
+        if (nodeJ >= nextJ) {
+            return nodeI >= nextI - 1;
+        } else {
+            return nodeI >= nextI;
+        }
     }
     
     private void expandTree(int i, int j) {
@@ -227,14 +249,22 @@ class LCFMTree {
             }
             
             if (deadNode.equals(aliveNode.getUpNode())) {
-//                                alive.up = null;
-//                List<Shortcut> extend;
-//                Shortcut with = alive.sc_up;
-//                if (alive.diagonal != null) {
-//                    extend = alive.getIncs(Incoming.DIAGUP);
-//                } else { // alive.right != null
-//                    extend = alive.getIncs(Incoming.RIGHT);
-//                }
+                // dead node is above alive node
+                aliveNode.setUpNode(null);
+                List<Shortcut> extendShortcuts;
+                Shortcut with = aliveNode.getShortcutUp();
+                if (aliveNode.hasDiagonalNode()) {
+                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_UP);
+                } else {
+                    // alive has incoming shortcuts from right.
+                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.RIGHT);
+                }
+                Iterator<Shortcut> it = extendShortcuts.iterator();
+                while(it.hasNext()) {
+                    Shortcut shortcut = it.next();
+                    
+                    it.remove();
+                }
 //                Iterator<Shortcut> it = extend.iterator();
 //                while (it.hasNext()) {
 //                    Shortcut sc = it.next();
