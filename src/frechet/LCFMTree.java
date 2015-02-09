@@ -213,20 +213,21 @@ class LCFMTree {
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      
         }
         // Compress the tree if the diagonal node has no out going edges.
-//        if (diagonal.outdegree() == 0) {
-//            // kill diagonal branch
-//            SolutionNode dead = diagonal;
-//            SolutionNode alive = diagonal.pred;
-//            while (alive.outdegree() == 1) {
-//                // kill alive
-//                alive.up = alive.diagonal = alive.right = null;
-//                dead = alive;
-//                alive = alive.pred;
-//            }
-//
-//            // alive is the branching node, dead is its now dead child
-//            if (alive.up == dead) {
-//                alive.up = null;
+        if (diagonal.isDead()) {
+            // Kill the diagonal dead branch.
+            Node deadNode = diagonal;
+            Node aliveNode = diagonal.getParent();
+            while (aliveNode.outdegree() == 1) {
+                // Kill alive and move up in the tree.
+                aliveNode.setUpNode(null);
+                aliveNode.setDiagonalNode(null);
+                aliveNode.setRightNode(null);
+                deadNode = aliveNode;
+                aliveNode = aliveNode.getParent();
+            }
+            
+            if (deadNode.equals(aliveNode.getUpNode())) {
+//                                alive.up = null;
 //                List<Shortcut> extend;
 //                Shortcut with = alive.sc_up;
 //                if (alive.diagonal != null) {
@@ -249,8 +250,8 @@ class LCFMTree {
 //                    }
 //                    it.remove();
 //                }
-//            } else if (alive.diagonal == dead) {
-//                alive.diagonal = null;
+            } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
+//                                alive.diagonal = null;
 //                if (alive.up != null && alive.right != null) {
 //                    // no extensions needed
 //                } else if (alive.up != null) {
@@ -293,8 +294,8 @@ class LCFMTree {
 //                        it.remove();
 //                    }
 //                }
-//            } else if (alive.right == dead) {
-//                alive.right = null;
+            } else if (deadNode.equals(aliveNode.getRightNode())) {
+//                                alive.right = null;
 //
 //                List<Shortcut> extend;
 //                Shortcut with = alive.sc_right;
@@ -318,8 +319,8 @@ class LCFMTree {
 //                    }
 //                    it.remove();
 //                }
-//            }
-//        }
+            }
+        }
     }
 
     // TODO Incorporate shortcuts into the adding procedure.
