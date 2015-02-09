@@ -142,62 +142,76 @@ class LCFMTree {
 
         // Create shortcuts for [i,j].
         // Preference order is [i,j-1] (down) > [i-1,j-1] (diagonal) > [i-1,j] (left).
-//        // make shortcuts for nodes[i][j] where necessary
-//        if (best == down) {
-//            // went up, make up shortcut
-//            Shortcut sc = new Shortcut();
-//            node.sc_up = sc;
-//
-//            sc.from = node;
-//            sc.to = down.sc_up.to;
-//            sc.inc = down.sc_up.inc;
-//            sc.to.getIncs(sc.inc).add(sc);
-//            sc.max = Math.max(node.node.value, down.sc_up.max);
-//        } else if (best == diagonal) {
-//            // diagonal, make both shortcuts
-//            Shortcut sc_right = new Shortcut();
-//            node.sc_right = sc_right;
-//
-//            sc_right.from = node;
-//            if (diagonal.right == null) {
-//                sc_right.to = diagonal.sc_right.to;
-//                sc_right.inc = diagonal.sc_right.inc;
-//                sc_right.to.getIncs(sc_right.inc).add(sc_right);
-//                sc_right.max = Math.max(node.node.value, diagonal.sc_right.max);
-//            } else {
-//                sc_right.to = diagonal;
-//                sc_right.inc = Incoming.DIAGRIGHT;
-//                sc_right.to.getIncs(sc_right.inc).add(sc_right);
-//                sc_right.max = node.node.value;
-//            }
-//
-//            Shortcut sc_up = new Shortcut();
-//            node.sc_up = sc_up;
-//
-//            sc_up.from = node;
-//            if (diagonal.up == null) {
-//                sc_up.to = diagonal.sc_up.to;
-//                sc_up.inc = diagonal.sc_up.inc;
-//                sc_up.to.getIncs(sc_up.inc).add(sc_up);
-//                sc_up.max = Math.max(node.node.value, diagonal.sc_up.max);
-//            } else {
-//                sc_up.to = diagonal;
-//                sc_up.inc = Incoming.DIAGUP;
-//                sc_up.to.getIncs(sc_up.inc).add(sc_up);
-//                sc_up.max = node.node.value;
-//            }
-//        } else {
-//            // went right, make right shortcut
-//            Shortcut sc = new Shortcut();
-//            node.sc_right = sc;
-//
-//            sc.from = node;
-//            sc.to = left.sc_right.to;
-//            sc.inc = left.sc_right.inc;
-//            sc.to.getIncs(sc.inc).add(sc);
-//            sc.max = Math.max(node.node.value, left.sc_right.max);
-//        }
-//
+        if (bestParent.equals(down)) {
+            // Use the up shortcut from down as shortcut for the node.
+            Shortcut downsUpShortcut = down.getShortcutUp();
+            Node shortcutFrom = node;
+            Node shortcutTo = downsUpShortcut.getTo();
+            Direction shortcutIncomingDirection = downsUpShortcut.getIncomingDirection();
+            double maxShortcutValue = Math.max(node.getValue(), downsUpShortcut.getMaxValue());
+            
+            // Create the shortcut and put it as up shortcut to the node.
+            Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
+            node.setShortcutUp(shortcut);
+            // Add the shortcut to the target as incoming shortcut.
+            shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);
+        } else if (bestParent.equals(diagonal)) {
+            // If the best parent is diagonal, create two shortcuts for the current node.
+            Node shortcutFrom = node;
+            Node shortcutTo;
+            double maxValue;
+            Direction incomingDirection;
+            // Create the right shortcut.
+            if (diagonal.hasRightNode()) {
+                shortcutTo = diagonal;
+                incomingDirection = Direction.DIAG_RIGHT;
+                maxValue = node.getValue();                
+            } else {
+                Shortcut diagonalsRightShortcut = diagonal.getShortcutRight();
+                shortcutTo = diagonalsRightShortcut.getTo();
+                incomingDirection = diagonalsRightShortcut.getIncomingDirection();
+                maxValue = Math.max(node.getValue(), diagonalsRightShortcut.getMaxValue());
+            }
+            // Set right shortcut of the current node.
+            Shortcut shortcutRight = new Shortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
+            node.setShortcutRight(shortcutRight);
+            // Set the incoming references correctly.
+            shortcutTo.getIncomingShortcuts(incomingDirection).add(shortcutRight);
+            
+            // Create the up shortcut.
+            shortcutTo = null;
+            maxValue = 0.0;
+            incomingDirection = null;
+            if (diagonal.hasUpNode()) {
+                shortcutTo = diagonal;
+                incomingDirection = Direction.DIAG_UP;
+                maxValue = node.getValue();                
+            } else {
+                Shortcut diagonalsUpshortcut = diagonal.getShortcutUp();
+                shortcutTo = diagonalsUpshortcut.getTo();
+                incomingDirection = diagonalsUpshortcut.getIncomingDirection();
+                maxValue = Math.max(node.getValue(), diagonalsUpshortcut.getMaxValue());
+            }
+            // Create the up shortcut for the current node.
+            Shortcut shortcutUp = new Shortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
+            node.setShortcutUp(shortcutUp);
+            // Set the new shortcut as incoming reference to the target node.
+            shortcutTo.getIncomingShortcuts(incomingDirection).add(shortcutUp);
+            
+        } else {
+            // Use the right shortcut from left as shortcut for the node.
+            Shortcut leftsRightShortcut = down.getShortcutUp();
+            Node shortcutFrom = node;
+            Node shortcutTo = leftsRightShortcut.getTo();
+            Direction shortcutIncomingDirection = leftsRightShortcut.getIncomingDirection();
+            double maxShortcutValue = Math.max(node.getValue(), leftsRightShortcut.getMaxValue());
+            
+            // Create the shortcut and put it as up shortcut to the node.
+            Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
+            node.setShortcutUp(shortcut);
+            // Add the shortcut to the target as incoming shortcut.
+            shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      
+        }
         // Compress the tree if the diagonal node has no out going edges.
 //        if (diagonal.outdegree() == 0) {
 //            // kill diagonal branch
