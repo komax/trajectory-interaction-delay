@@ -179,9 +179,17 @@ public class Node implements Comparable<Node> {
     public void setRightNode(Node rightNode) {
         this.right = rightNode;
     }
+    
+    public boolean hasRightNode() {
+        return right != null;
+    }
 
     public void setUpNode(Node upNode) {
         this.up = upNode;
+    }
+    
+    public boolean hasUpNode() {
+        return up != null;
     }
     
     public void setShortcutUp(Shortcut shortcutUp) {
