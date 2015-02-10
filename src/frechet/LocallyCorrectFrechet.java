@@ -1,40 +1,16 @@
 package frechet;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class LocallyCorrectFrechet {
-
-    @Deprecated // FIXME inefficient computation
     public static Matching compute(double[][] distanceTerrain, double[][] traject1, double[][] traject2,
             int numRows, int numColumns) {
         if ((distanceTerrain[0].length != numColumns) || (distanceTerrain.length != numRows)) {
             throw new RuntimeException("Size of grid and size of trajectories disagree\n");
         }
+        
         LCFMTree tree = new LCFMTree(distanceTerrain, numRows, numColumns);
-
-        for (int i = 1; i < numRows; i++) {
-            tree.add(i, 0);
-        }
-        for (int j = 1; j < numColumns; j++) {
-            tree.add(0, j);
-        }
-        // FIXME Replace this by an operation maintaining shortcuts and flags.
-        for (int i = 1; i < numRows; i++) {
-            for (int j = 1; j < numColumns; j++) {
-                tree.add(i, j);
-            }
-        }
-
-        List<Node> path = new ArrayList<Node>();
-        Node node = tree.getNode(numRows - 1, numColumns -1);
-        while (node != null) {
-            path.add(node);
-            node = node.getParent();
-        }
-        Collections.reverse(path);
-        return new Matching(path, traject1, traject2);
+        tree.buildTree();
+        Matching matching = new Matching(tree, traject1, traject2);
+        return matching;
     }
 
 }
