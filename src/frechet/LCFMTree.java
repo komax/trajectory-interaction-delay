@@ -234,37 +234,85 @@ class LCFMTree {
             // Add the shortcut to the target as incoming shortcut.
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      
         }
-        removeDeadPaths(diagonal, i, j);
+        if (diagonal.isDead()) {
+            // Compress the tree if the diagonal node has no out going edges.
+            removeDeadPaths(diagonal, i, j);
+        }
     }
 
     private void removeDeadPaths(Node diagonal, int i, int j) {
-        // Compress the tree if the diagonal node has no out going edges.
-        if (diagonal.isDead()) {
-            // Kill the diagonal dead branch.
-            Node deadNode = diagonal;
-            Node aliveNode = diagonal.getParent();
-            while (aliveNode.outdegree() == 1) {
-                // Kill alive and move up in the tree.
-                aliveNode.setUpNode(null);
-                aliveNode.setDiagonalNode(null);
-                aliveNode.setRightNode(null);
-                deadNode = aliveNode;
-                aliveNode = aliveNode.getParent();
+        // Kill the diagonal dead branch.
+        Node deadNode = diagonal;
+        Node aliveNode = diagonal.getParent();
+        while (aliveNode.outdegree() == 1) {
+            // Kill alive and move up in the tree.
+            aliveNode.setUpNode(null);
+            aliveNode.setDiagonalNode(null);
+            aliveNode.setRightNode(null);
+            deadNode = aliveNode;
+            aliveNode = aliveNode.getParent();
+        }
+
+        if (deadNode.equals(aliveNode.getUpNode())) {
+            // dead node is above alive node
+            aliveNode.setUpNode(null);
+            List<Shortcut> extendShortcuts;
+            Shortcut with = aliveNode.getShortcutUp();
+            if (aliveNode.hasDiagonalNode()) {
+                extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_UP);
+            } else {
+                // alive has incoming shortcuts from right.
+                extendShortcuts = aliveNode.getIncomingShortcuts(Direction.RIGHT);
             }
-            
-            if (deadNode.equals(aliveNode.getUpNode())) {
-                // dead node is above alive node
-                aliveNode.setUpNode(null);
-                List<Shortcut> extendShortcuts;
-                Shortcut with = aliveNode.getShortcutUp();
-                if (aliveNode.hasDiagonalNode()) {
-                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_UP);
+            Iterator<Shortcut> it = extendShortcuts.iterator();
+            while (it.hasNext()) {
+                Shortcut shortcut = it.next();
+                Node from = shortcut.getFrom();
+                if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
+                    // Extend the shortcuts.
+                    double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
+                    Node to = with.getTo();
+                    Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
+                    to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
                 } else {
-                    // alive has incoming shortcuts from right.
-                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.RIGHT);
+                    // If from has only one up shortcut, delete it.
+                    from.setShortcutUp(null);
                 }
+                // Make sure to remove the old shortcut.
+                it.remove();
+            }
+        } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
+            // The dead node is diagonal to the alive node.
+            aliveNode.setDiagonalNode(null);
+            if (aliveNode.hasUpNode() && aliveNode.hasRightNode()) {
+                // Nothing to do. No extensions are needed.
+            } else if (aliveNode.hasUpNode()) {
+                // extend the shortcuts from up.
+                List<Shortcut> extendShortcuts = aliveNode.getIncomingShortcuts(Direction.UP);
+                Shortcut with = aliveNode.getShortcutRight();
                 Iterator<Shortcut> it = extendShortcuts.iterator();
-                while(it.hasNext()) {
+                while (it.hasNext()) {
+                    Shortcut shortcut = it.next();
+                    Node from = shortcut.getFrom();
+                    if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
+                        // Extend the shortcuts.
+                        double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
+                        Node to = with.getTo();
+                        Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
+                        to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                    } else {
+                        // If from has only one up shortcut, delete it.
+                        from.setShortcutRight(null);
+                    }
+                    // Make sure to remove the old shortcut.
+                    it.remove();
+                }
+            } else {
+                // alive.hasRightNode() == true
+                List<Shortcut> extendShortcuts = aliveNode.getIncomingShortcuts(Direction.RIGHT);
+                Shortcut with = aliveNode.getShortcutUp();
+                Iterator<Shortcut> it = extendShortcuts.iterator();
+                while (it.hasNext()) {
                     Shortcut shortcut = it.next();
                     Node from = shortcut.getFrom();
                     if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
@@ -280,82 +328,34 @@ class LCFMTree {
                     // Make sure to remove the old shortcut.
                     it.remove();
                 }
-            } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
-                // The dead node is diagonal to the alive node.
-                aliveNode.setDiagonalNode(null);
-                if (aliveNode.hasUpNode() && aliveNode.hasRightNode()) {
-                    // Nothing to do. No extensions are needed.
-                } else if (aliveNode.hasUpNode()) {
-                    // extend the shortcuts from up.
-                    List<Shortcut> extendShortcuts = aliveNode.getIncomingShortcuts(Direction.UP);
-                    Shortcut with = aliveNode.getShortcutRight();
-                    Iterator<Shortcut> it = extendShortcuts.iterator();
-                    while(it.hasNext()) {
-                        Shortcut shortcut = it.next();
-                        Node from = shortcut.getFrom();
-                        if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
-                            // Extend the shortcuts.
-                            double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
-                            Node to = with.getTo();
-                            Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                            to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
-                        } else {
-                            // If from has only one up shortcut, delete it.
-                            from.setShortcutRight(null);
-                        }
-                        // Make sure to remove the old shortcut.
-                        it.remove();
-                    }
+            }
+        } else if (deadNode.equals(aliveNode.getRightNode())) {
+            // dead node right from the alive node
+            aliveNode.setRightNode(null);
+            List<Shortcut> extendShortcuts;
+            Shortcut with = aliveNode.getShortcutRight();
+            if (aliveNode.hasDiagonalNode()) {
+                extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_RIGHT);
+            } else {
+                // alive has incoming shortcuts from up.
+                extendShortcuts = aliveNode.getIncomingShortcuts(Direction.UP);
+            }
+            Iterator<Shortcut> it = extendShortcuts.iterator();
+            while (it.hasNext()) {
+                Shortcut shortcut = it.next();
+                Node from = shortcut.getFrom();
+                if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
+                    // Extend the shortcuts.
+                    double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
+                    Node to = shortcut.getTo();
+                    Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
+                    to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
                 } else {
-                    // alive.hasRightNode() == true
-                    List<Shortcut> extendShortcuts = aliveNode.getIncomingShortcuts(Direction.RIGHT);
-                    Shortcut with = aliveNode.getShortcutUp();
-                    Iterator<Shortcut> it = extendShortcuts.iterator();
-                    while(it.hasNext()) {
-                        Shortcut shortcut = it.next();
-                        Node from = shortcut.getFrom();
-                        if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
-                            // Extend the shortcuts.
-                            double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
-                            Node to = with.getTo();
-                            Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                            to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
-                        } else {
-                            // If from has only one up shortcut, delete it.
-                            from.setShortcutUp(null);
-                        }
-                        // Make sure to remove the old shortcut.
-                        it.remove();
-                    }
+                    // If from has only one up shortcut, delete it.
+                    from.setShortcutUp(null);
                 }
-            } else if (deadNode.equals(aliveNode.getRightNode())) {
-                // dead node right from the alive node
-                aliveNode.setRightNode(null);
-                List<Shortcut> extendShortcuts;
-                Shortcut with = aliveNode.getShortcutRight();
-                if (aliveNode.hasDiagonalNode()) {
-                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_RIGHT);
-                } else {
-                    // alive has incoming shortcuts from up.
-                    extendShortcuts = aliveNode.getIncomingShortcuts(Direction.UP);
-                }
-                Iterator<Shortcut> it = extendShortcuts.iterator();
-                while(it.hasNext()) {
-                    Shortcut shortcut = it.next();
-                    Node from = shortcut.getFrom();
-                    if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
-                        // Extend the shortcuts.
-                        double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
-                        Node to = shortcut.getTo();
-                        Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                        to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
-                    } else {
-                        // If from has only one up shortcut, delete it.
-                        from.setShortcutUp(null);
-                    }
-                    // Make sure to remove the old shortcut.
-                    it.remove();
-                }
+                // Make sure to remove the old shortcut.
+                it.remove();
             }
         }
     }
