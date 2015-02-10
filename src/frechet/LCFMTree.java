@@ -234,6 +234,10 @@ class LCFMTree {
             // Add the shortcut to the target as incoming shortcut.
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      
         }
+        removeDeadPaths(diagonal, i, j);
+    }
+
+    private void removeDeadPaths(Node diagonal, int i, int j) {
         // Compress the tree if the diagonal node has no out going edges.
         if (diagonal.isDead()) {
             // Kill the diagonal dead branch.
