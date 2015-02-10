@@ -186,7 +186,12 @@ public class Node {
     }
     
     public boolean isParentOf(Node otherNode) {
-        return this.parent.equals(otherNode);
+        if (otherNode != null) {
+            return otherNode.equals(this.parent);
+        } else {
+            return this.parent.equals(otherNode);
+        }
+        
     }
     
     public boolean isBetterThan(Node thatNode) {

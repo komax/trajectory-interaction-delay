@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-// FIXME Matching should get a PathTree instead of the solution as parameter.
 public class Matching implements Serializable {
 
     public final int[] i;
