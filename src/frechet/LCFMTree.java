@@ -54,11 +54,11 @@ class LCFMTree {
         Node left = grid[i-1][j];
         
         Node bestCandidate = down;
-        if (diagonal.isBetterThan(bestCandidate)) {
+        if (diagonal != null && diagonal.isBetterThan(bestCandidate)) {
             bestCandidate = diagonal;
         }
         
-        if (left.isBetterThan(bestCandidate)) {
+        if (left != null && left.isBetterThan(bestCandidate)) {
             bestCandidate = left;
         }
         return bestCandidate;
@@ -132,7 +132,7 @@ class LCFMTree {
         }
         
         // if left [i,j-1] does not have a shortcut, create one, or use the right shortcut.
-        if (!left.hasShortcutUp()) {
+        if (!left.hasShortcutRight()) {
             Node shortcutFrom = left;
             Node shortcutTo;
             Direction incoming;
@@ -157,7 +157,7 @@ class LCFMTree {
             }
             // Create the shortcut using the information from above.
             Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxValue, incoming);
-            left.setShortcutUp(shortcut);
+            left.setShortcutRight(shortcut);
             // Add the new shortcut as incoming shortcut to the to target.
             shortcutTo.getIncomingShortcuts(incoming).add(shortcut);
         }
