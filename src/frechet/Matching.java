@@ -40,19 +40,6 @@ public class Matching implements Serializable {
         }
     }
 
-    public Matching(List<Node> path, double[][] trajectory1, double[][] trajectory2) {
-        this.i = new int[path.size()];
-        this.j = new int[path.size()];
-        this.trajectory1 = trajectory1;
-        this.trajectory2 = trajectory2;
-
-        for (int p = 0; p < path.size(); p++) {
-            Node node = path.get(p);
-            i[p] = node.getIndexTraject1();
-            j[p] = node.getIndexTraject2();
-        }
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Matching(\ni <-> j");
