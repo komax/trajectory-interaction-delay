@@ -222,18 +222,19 @@ class LCFMTree {
             
         } else {
             // Use the right shortcut from left as shortcut for the node.
-            Shortcut leftsRightShortcut = down.getShortcutUp();
+            Shortcut leftsRightShortcut = left.getShortcutRight();
             Node shortcutFrom = node;
             Node shortcutTo = leftsRightShortcut.getTo();
             Direction shortcutIncomingDirection = leftsRightShortcut.getIncomingDirection();
             double maxShortcutValue = Math.max(node.getValue(), leftsRightShortcut.getMaxValue());
             
-            // Create the shortcut and put it as up shortcut to the node.
+            // Create the shortcut and put it as right shortcut to the node.
             Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
-            node.setShortcutUp(shortcut);
+            node.setShortcutRight(shortcut);
             // Add the shortcut to the target as incoming shortcut.
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      
         }
+        
         if (diagonal.isDead()) {
             // Compress the tree if the diagonal node has no out going edges.
             removeDeadPaths(diagonal, i, j);
