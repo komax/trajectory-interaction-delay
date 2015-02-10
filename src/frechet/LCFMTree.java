@@ -43,6 +43,7 @@ class LCFMTree {
         int numColumns = grid[0].length;
         for (int i = 1; i < numRows; i++) {
             for (int j = 1; j < numColumns; j++) {
+                System.out.println("i = "+i+" j = "+j);
                 expandTree(i, j);
             }
         }
@@ -273,8 +274,9 @@ class LCFMTree {
                     // Extend the shortcuts.
                     double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
                     Node to = with.getTo();
-                    Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                    to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                    Direction incomingDirection = with.getIncomingDirection();
+                    Shortcut newShortcut = new Shortcut(from, to, maxValue, incomingDirection);
+                    to.getIncomingShortcuts(incomingDirection).add(newShortcut);
                 } else {
                     // If from has only one up shortcut, delete it.
                     from.setShortcutUp(null);
@@ -299,8 +301,9 @@ class LCFMTree {
                         // Extend the shortcuts.
                         double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
                         Node to = with.getTo();
-                        Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                        to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                        Direction incomingDirection = with.getIncomingDirection();
+                        Shortcut newShortcut = new Shortcut(from, to, maxValue, incomingDirection);
+                        to.getIncomingShortcuts(incomingDirection).add(newShortcut);
                     } else {
                         // If from has only one up shortcut, delete it.
                         from.setShortcutRight(null);
@@ -320,8 +323,9 @@ class LCFMTree {
                         // Extend the shortcuts.
                         double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
                         Node to = with.getTo();
-                        Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                        to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                        Direction incomingDirection = with.getIncomingDirection();
+                        Shortcut newShortcut = new Shortcut(from, to, maxValue, incomingDirection);
+                        to.getIncomingShortcuts(incomingDirection).add(newShortcut);
                     } else {
                         // If from has only one up shortcut, delete it.
                         from.setShortcutUp(null);
@@ -348,9 +352,10 @@ class LCFMTree {
                 if (from.outdegree() > 1 || isNodeOnWorkingBoundary(from, i, j)) {
                     // Extend the shortcuts.
                     double maxValue = Math.max(shortcut.getMaxValue(), with.getMaxValue());
-                    Node to = shortcut.getTo();
-                    Shortcut newShortcut = new Shortcut(from, to, maxValue, shortcut.getIncomingDirection());
-                    to.getIncomingShortcuts(shortcut.getIncomingDirection()).add(newShortcut);
+                    Node to = with.getTo();
+                    Direction incomingDirection = with.getIncomingDirection();
+                    Shortcut newShortcut = new Shortcut(from, to, maxValue, incomingDirection);
+                    to.getIncomingShortcuts(incomingDirection).add(newShortcut);
                 } else {
                     // If from has only one up shortcut, delete it.
                     from.setShortcutUp(null);
