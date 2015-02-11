@@ -232,7 +232,6 @@ public class Node {
                         // Follow the shorctut of the parent.
                         thisNode = thisNode.parent.shortcutRight.getTo();
                     }
-                    
                 }
             } else {
                 // thisNode is left or beneath of thatNode:

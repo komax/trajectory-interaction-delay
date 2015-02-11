@@ -10,10 +10,10 @@ package frechet;
  * @author max
  */
 public class Shortcut {
-    private final Node from;
-    private final Node to;
-    private final double maxValue;
-    private final Direction incomingDirection;
+    private Node from;
+    private Node to;
+    private double maxValue;
+    private Direction incomingDirection;
     
     public Shortcut(Node from, Node to, double maxValue, Direction incomingDirection) {
         this.from = from;
@@ -36,6 +36,22 @@ public class Shortcut {
     
     public Direction getIncomingDirection() {
         return incomingDirection;
+    }
+    
+    public void setFrom(Node from) {
+        this.from = from;
+    }
+    
+    public void setTo(Node to) {
+        this.to = to;
+    }
+    
+    public void setMaxValue(double maxValue) {
+        this.maxValue = maxValue;
+    }
+    
+    public void setIncomingDirection(Direction incomingDirection) {
+        this.incomingDirection = incomingDirection;
     }
     
 }
