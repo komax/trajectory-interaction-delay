@@ -92,10 +92,32 @@ public class Node {
     
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("Node(i = ");
+        StringBuilder stringBuilder = new StringBuilder("Node(cell = (");
         stringBuilder.append(i);
-        stringBuilder.append(" , j = ");
+        stringBuilder.append(" , ");
         stringBuilder.append(j);
+        stringBuilder.append(") parent = ");
+        if (isRoot()) {
+            stringBuilder.append("(0, 0)");
+        } else {
+            stringBuilder.append("(");
+            stringBuilder.append(parent.i);
+            stringBuilder.append(", ");
+            stringBuilder.append(parent.j);
+            stringBuilder.append(")");
+        }
+        stringBuilder.append("\nshortcutUp = ");
+        if (hasShortcutUp()) {
+            stringBuilder.append(shortcutUp.toString());
+        } else {
+            stringBuilder.append("null");
+        }
+        stringBuilder.append("\nshortcutRight = ");
+        if (hasShortcutRight()) {
+            stringBuilder.append(shortcutRight.toString());
+        } else {
+            stringBuilder.append("null");
+        }
         stringBuilder.append(")");
         return stringBuilder.toString();
     }
