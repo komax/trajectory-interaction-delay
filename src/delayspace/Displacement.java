@@ -44,6 +44,7 @@ public final class Displacement extends DelaySpace {
                 double distanceI = computeDistanceOnMovementVector(pointI, followPointI, distance);
                 double distanceJ = computeDistanceOnMovementVector(pointJ, followPointJ, distance);
                 double displacementValue = computeDisplacement(distanceI, distanceJ, alpha);
+                delaySpace[i][j] = displacementValue;
             }
         }
     }
