@@ -23,9 +23,11 @@ public class Matching implements Serializable {
         Node currentNode = tree.getNode(numRows - 1, numColumns - 1);
         path.add(currentNode);
         while (!currentNode.isRoot()) {
-            currentNode.getParent();
+            currentNode = currentNode.getParent();
             path.add(currentNode);
         }
+        // Add the root to the matching.
+        path.add(currentNode);
         
         // Store the path in the fields i and j.
         this.length = path.size();
@@ -33,7 +35,7 @@ public class Matching implements Serializable {
         j = new int[length];
         for (int k = 0; k < length; k++) {
             Node matchingNode = path.get(k);
-            int reversedIndex = length - k;
+            int reversedIndex = length - 1 - k;
             i[reversedIndex] = matchingNode.getIndexTraject1();
             j[reversedIndex] = matchingNode.getIndexTraject2();
         }
