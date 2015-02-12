@@ -54,4 +54,22 @@ public class Shortcut {
         this.incomingDirection = incomingDirection;
     }
     
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Shortcut( from = (");
+        builder.append(from.getIndexTraject1());
+        builder.append(", ");
+        builder.append(from.getIndexTraject2());
+        builder.append("), to = (");
+        builder.append(to.getIndexTraject1());
+        builder.append(", ");
+        builder.append(to.getIndexTraject2());
+        builder.append("), incomingDirection = ");
+        builder.append(incomingDirection);
+        builder.append(", maxValue = ");
+        builder.append(maxValue);
+        builder.append(")");
+        return builder.toString();
+    }
+    
 }
