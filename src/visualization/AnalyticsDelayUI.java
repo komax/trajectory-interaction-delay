@@ -21,7 +21,6 @@ import utils.distance.DistanceNormFactory;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
-    public static final String PATH_TO_DATA = "results/frisbee_subtraj/";
 //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
     public static final String PATH_TO_TRAJ_DATA = "data/zig_zack_data.txt";
 
@@ -32,7 +31,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private FollowingPlotPanel followingDelayPlot;
     private double[] distancesOnMatching;
     private DistanceNorm currentDistance;
-    private String imageName;
     private int threshold;
     private int translucentFocus;
     private double samplingRate;
@@ -71,11 +69,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        String delaySpaceName = "delaySpaceNorm2.png";
-        if (logScaled) {
-            delaySpaceName = "delaySpaceNorm2logScale.png";
-        }
-        this.delaySpacePlot = new DelaySpacePanel(PATH_TO_DATA + delaySpaceName, matching.getTrajectory1().length, threshold, samplingRate);
+        this.delaySpacePlot = new DelaySpacePanel(delaySpace, matching, threshold, samplingRate, logScaled);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
@@ -128,15 +122,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             case HEADING:
                 delaySpaceSuffix = "Heading";
                 break;
+            case DISPLACEMENT:
+                break;
+            default:
+                throw new AssertionError(delaySpace.name());
         }
-        String combinedSuffix = normString + delaySpaceSuffix;
         updateDelaySpace(delaySpace);
         computeMatching();
-        String logScaleSuffix = "";
-        if (logScaled) {
-            logScaleSuffix = "logScale";
-        }
-        this.imageName = PATH_TO_DATA + "delaySpace" + combinedSuffix + logScaleSuffix + ".png";
         switch (delaySpace) {
             case USUAL:
                 this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
@@ -155,7 +147,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void updateAndRepaintPlots() {
-        this.matchingSlider.setMaximum(this.matching.i.length - 1);
+        this.matchingSlider.setMaximum(this.matching.getLength() - 1);
         if (followingDelayPlot != null) {
             followingDelayPlot.updateMatching(matching, threshold, samplingRate);
             followingDelayPlot.repaint();
@@ -169,8 +161,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
-            delaySpacePlot.updateImage(imageName);
-            matchingPlot.repaint();
+            delaySpacePlot.updateMatching(matching);
+            delaySpacePlot.repaint();
         }
     }
 
@@ -439,7 +431,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 delayPanel.repaint();
             }
             if (delaySpacePlot != null) {
-                delaySpacePlot.setSelectedIndices(matching.i[newValue], matching.j[newValue]);
+                delaySpacePlot.updateSelection(matching.i[newValue], matching.j[newValue]);
                 delaySpacePanel.repaint();
             }
         }

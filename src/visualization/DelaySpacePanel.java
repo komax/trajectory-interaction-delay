@@ -6,6 +6,7 @@
 
 package visualization;
 
+import delayspace.DelaySpace;
 import frechet.Matching;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -16,11 +17,6 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -34,13 +30,17 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private EdgeCursor selectedEdge;
     private final int delayThreshold;
     private double samplingRate;
-    private final Matching matching;
+    private Matching matching;
+    private final DelaySpace delaySpace;
+    private final boolean logScaled;
     
-    public DelaySpacePanel(Matching matching, int delayThreshold, double samplingRate) {
+    public DelaySpacePanel(DelaySpace delaySpace, Matching matching, int delayThreshold, double samplingRate, boolean logScaled) {
+        this.delaySpace = delaySpace;
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         this.matching = matching;
         this.delayThreshold = delayThreshold;
         this.samplingRate = samplingRate;
+        this.logScaled = logScaled;
     }
     
     public void updateSelection(int indexTraject1, int indexTraject2) {
@@ -91,6 +91,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     
     @Override
     public void paintComponent(Graphics g) {
+        // TODO use the delayspace to plot the delay space.
         super.paintComponent(g);
         
         g.clearRect(0, 0, getWidth(), getHeight());
@@ -188,6 +189,10 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     @Override
     public int axisHeight() {
         return 15;
+    }
+
+    void updateMatching(Matching matching) {
+        this.matching = matching;
     }
     
 }
