@@ -6,6 +6,7 @@
 
 package visualization;
 
+import frechet.Matching;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -30,56 +31,33 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     public static final Color TRAJECT_BLUE = new Color(0x0000FF);
     public static final Color TRAJECT_RED = new Color(0xFF0000);
     
-    private int selectedIndexTraject1;
-    private int selectedIndexTraject2;
-    private BufferedImage freeSpaceImage;
-    private final int lengthMatching;
+    private EdgeCursor selectedEdge;
     private final int delayThreshold;
     private double samplingRate;
+    private final Matching matching;
     
-    public DelaySpacePanel(String fileName, int lengthTrajectory, int delayThreshold, double samplingRate) {
-        this.selectedIndexTraject1 = -1;
-        this.selectedIndexTraject2 = -1;
-        this.lengthMatching = lengthTrajectory;
+    public DelaySpacePanel(Matching matching, int delayThreshold, double samplingRate) {
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
+        this.matching = matching;
         this.delayThreshold = delayThreshold;
         this.samplingRate = samplingRate;
-        updateImage(fileName);
     }
     
-    public void updateImage(String fileName) {
-        try {
-            this.freeSpaceImage = ImageIO.read(new File(fileName));
-        } catch (IOException ex) {
-            Logger.getLogger(DelaySpacePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-    }
-    
-    public void setSelectedIndices(int indexTraject1, int indexTraject2) {
-        this.selectedIndexTraject1 = indexTraject1;
-        this.selectedIndexTraject2 = indexTraject2;
+    public void updateSelection(int indexTraject1, int indexTraject2) {
+        this.selectedEdge = new EdgeCursor(indexTraject1, indexTraject2);
     }
     
     private boolean isTraject1Ahead() {
-        if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
-            int difference = selectedIndexTraject1 - selectedIndexTraject2;
-            if (difference >= delayThreshold) {
-                return true;
-            } else {
-                return false;
-            }
+        if (selectedEdge.isTrajAAhead()) {
+            return selectedEdge.isDelayLargerOrEqualThan(delayThreshold);
         } else {
             return false;
         }
     }
     
     private boolean isTraject2Ahead() {
-        if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
-            int difference = selectedIndexTraject2 - selectedIndexTraject1;
-            if (difference >= delayThreshold) {
-                return true;
-            } else {
-                return false;
-            }
+        if (selectedEdge.isTrajBAhead()) {
+            return selectedEdge.isDelayLargerOrEqualThan(delayThreshold);
         } else {
             return false;
         }
@@ -106,7 +84,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(freeSpaceImage.getWidth(), freeSpaceImage.getHeight());
+        // TODO fix dimension to correct size
+        return new Dimension(getWidth(), getHeight());
+//        return new Dimension(freeSpaceImage.getWidth(), freeSpaceImage.getHeight());
     }
     
     @Override
@@ -117,25 +97,24 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
 
         int width = plotWidth();
         int height = plotHeight();
-        BufferedImage scaledImage = resize(freeSpaceImage, width, height);
-        g.drawImage(scaledImage, axisWidth(), 0, null);
         
         // Draw legends on the axes using the sampling rate.
         g.setColor(Color.BLACK);
         g.drawString("0 s", 0, height);
         g.drawString("0 s", axisWidth(), getHeight());
-        String maxValString = String.format("%.2f s", (lengthMatching - 1) * samplingRate);
+        String maxValString = String.format("%.2f s", (matching.getLength() - 1) * samplingRate);
         g.drawString(maxValString, 0, axisHeight());
         g.drawString(maxValString, width, height + axisHeight());
         //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
         
-        if (selectedIndexTraject1 >= 0 && selectedIndexTraject2 >= 0) {
+        if (selectedEdge.isValid()) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            double xPoint = ((double) width) * ((double) selectedIndexTraject2 + 0.5) / lengthMatching;
+            int lengthMatching = matching.getLength();
+            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajB() + 0.5) / lengthMatching;
             xPoint += axisWidth();
-            double yPoint = height - ((double) height) * ((double) selectedIndexTraject1 + 0.5) / lengthMatching;
+            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajA() + 0.5) / lengthMatching;
             int xCoord = roundDouble(xPoint);
             int yCoord = roundDouble(yPoint);
             // Drawing the horizontial line.
@@ -145,9 +124,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             
             // Drawing of indices on the axes.
             g.setColor(Color.BLACK);
-            String secondsTraject1 = String.format("%.2f s", selectedIndexTraject1 * samplingRate);
+            String secondsTraject1 = String.format("%.2f s", selectedEdge.getIndexTrajA() * samplingRate);
             g.drawString(secondsTraject1, 0, yCoord);
-            String secondsTraject2 = String.format("%.2f s", selectedIndexTraject2 * samplingRate);
+            String secondsTraject2 = String.format("%.2f s", selectedEdge.getIndexTrajB() * samplingRate);
             g.drawString(secondsTraject2, xCoord, getHeight());
             
             // Draw a translucent legend next to the point.
