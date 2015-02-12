@@ -43,8 +43,8 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         this.logScaled = logScaled;
     }
     
-    public void updateSelection(int indexTraject1, int indexTraject2) {
-        this.selectedEdge = new EdgeCursor(indexTraject1, indexTraject2);
+    public void updateSelection(EdgeCursor selection) {
+        this.selectedEdge = selection;
     }
     
     private boolean isTraject1Ahead() {
