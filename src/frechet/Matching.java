@@ -40,6 +40,10 @@ public class Matching implements Serializable {
             j[reversedIndex] = matchingNode.getIndexTraject2();
         }
     }
+    
+    public int getLength() {
+        return length;
+    }
 
     @Override
     public String toString() {
