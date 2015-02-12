@@ -22,7 +22,8 @@ import utils.distance.DistanceNormFactory;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
     public static final String PATH_TO_DATA = "results/frisbee_subtraj/";
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
+//    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
+    public static final String PATH_TO_TRAJ_DATA = "data/zig_zack_data.txt";
 
     private Matching matching = null;
     private MatchingPlot matchingPlot;
