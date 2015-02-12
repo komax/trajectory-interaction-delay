@@ -22,7 +22,7 @@ import static visualization.GenericPlottingPanel.roundDouble;
  */
 public final class DistancePlotPanel extends GenericPlottingPanel {
     private double[] normalizedDistances;
-    private int selectedIndex;
+    private EdgeCursor selectedEdge;
     private double maxDistanceNormalized;
     private double[] distancesOnMatching;
     private double minDistanceNormalized;
@@ -31,7 +31,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private double minDistance;
     
     public DistancePlotPanel(Matching matching, double[] distances) {
-        this.selectedIndex = -1;
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, distances);
     }
     
@@ -75,8 +75,8 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         return values;
     }
     
-    public void setSelectedIndex(int selectedIndex) {
-        this.selectedIndex = selectedIndex;
+    public void updateSelection(EdgeCursor selection) {
+        this.selectedEdge = selection;
     }
     
     @Override
@@ -157,9 +157,10 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         g.drawString(minDistanceString, 0, minY);
         
         // Draw axes and selected distance.
-        if (selectedIndex >= 0) {
+        if (selectedEdge.isValid()) {
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.black);
+            int selectedIndex = selectedEdge.getPosition();
             Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
             Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = roundDouble(drawablePoint.x);

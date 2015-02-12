@@ -23,14 +23,14 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     private int lengthMatching;
     private int maxDelay;
     private Matching matching;
-    private int selectedIndex;
+    private EdgeCursor selectedEdge;
     private ColorMap positiveColors;
     private ColorMap negativeColors;
     private int threshold;
     private double delayUnit;
     
     public FollowingPlotPanel(Matching matching, int threshold, double delayUnit) {
-        this.selectedIndex = -1;
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, threshold, delayUnit);
     }
     
@@ -55,8 +55,8 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         repaint();
     }
     
-    public void setSelectedIndex(int newIndex) {
-        this.selectedIndex = newIndex;
+    public void updateSelection(EdgeCursor selection) {
+        this.selectedEdge = selection;
     }
     
     @Override
@@ -114,11 +114,12 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
         // Restore old stroke style.
         g2.setStroke(oldStroke);
         
-        if (selectedIndex >= 0) {
+        if (selectedEdge.isValid()) {
             // Draw selected delay in the plot.
             g2.setStroke(new BasicStroke(1));
             double delay = maxDelay;
             String currentDelayString = "";
+            int selectedIndex = selectedEdge.getPosition();
             int currentDelay = delaysInTimestamps[selectedIndex];
             // Put label for current delay if the delay succeeds the threshold.
             if (currentDelay >= threshold) {

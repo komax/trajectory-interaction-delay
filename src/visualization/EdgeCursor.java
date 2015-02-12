@@ -10,14 +10,16 @@ package visualization;
  * @author max
  */
 public class EdgeCursor {
-    public static final EdgeCursor INVALID_CURSOR = new EdgeCursor(-1, -1);
+    public static final EdgeCursor INVALID_CURSOR = new EdgeCursor(-1, -1, -1);
     
     private final int indexTrajA;
     private final int indexTrajB;
+    private final int position;
     
-    public EdgeCursor(int indexTrajA, int indexTrajB) {
+    public EdgeCursor(int indexTrajA, int indexTrajB, int position) {
         this.indexTrajA = indexTrajA;
         this.indexTrajB = indexTrajB;
+        this.position = position;
     }
     
     public int getIndexTrajA() {
@@ -26,6 +28,10 @@ public class EdgeCursor {
     
     public int getIndexTrajB() {
         return indexTrajB;
+    }
+    
+    public int getPosition() {
+        return position;
     }
     
     public boolean isTrajAAhead() {

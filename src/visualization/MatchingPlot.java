@@ -21,7 +21,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private double maxX;
     private double minY;
     private double maxY;
-    private int selectedIndex;
+    private EdgeCursor selectedEdge;
     private int[] delaysInTimestamps;
     private int maxDelay;
     private ColorMap positiveColors;
@@ -37,7 +37,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
 
     public MatchingPlot(Matching matching, int thresholdDelay, int translucentFocus) {
         // Store data to plot
-        this.selectedIndex = -1;
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, thresholdDelay, translucentFocus);
     }
     
@@ -116,8 +116,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
         }
     }
     
-    public void setSelectedIndex(int newIndex) {
-        this.selectedIndex = newIndex;
+    public void updateSelection(EdgeCursor selection) {
+        this.selectedEdge = selection;
+        int newIndex = selection.getPosition();
         int halfRange = translucentFocus / 2;
         int startIndex;
         if (newIndex < halfRange) {
@@ -153,11 +154,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private Color getColorTraject1(Color color, int index) {
         if (index < startFocusTraject1 || index > endFocusTraject1) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
-        } else if (selectedIndex != -1) {
+        } else if (selectedEdge.isValid()) {
             int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
             int deltaFocus;
             int intervalLength;
-            int indexI = matching.i[selectedIndex];
+            int indexI = selectedEdge.getIndexTrajA();
             if (index >= indexI) {
                 deltaFocus = endFocusTraject1 - index;
                 intervalLength = endFocusTraject1 - indexI;
@@ -176,11 +177,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private Color getColorTraject2(Color color, int index) {
         if (index < startFocusTraject2 || index > endFocusTraject2) {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
-        } else if (selectedIndex != -1) {
+        } else if (selectedEdge.isValid()) {
             int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
             int deltaFocus;
             int intervalLength;
-            int indexJ = matching.j[selectedIndex];
+            int indexJ = selectedEdge.getIndexTrajB();
             if (index >= indexJ) {
             deltaFocus = endFocusTraject2 - index;
                 intervalLength = endFocusTraject2 - indexJ;
@@ -392,7 +393,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
                 startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
             }
         }
-        if (selectedIndex >= 0) {
+        if (selectedEdge.isValid()) {
+            int selectedIndex = selectedEdge.getPosition();
             drawPoints(g, selectedIndex);
         }
     }

@@ -417,21 +417,24 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
         if (!matchingSlider.getValueIsAdjusting()) {
             int newValue = matchingSlider.getValue();
+            int indexTrajA = matching.i[newValue];
+            int indexTrajB = matching.j[newValue];
+            EdgeCursor selection = new EdgeCursor(indexTrajA, indexTrajB, newValue);
             matchingSlider.setToolTipText(Integer.toString(newValue));
             if (distancePlot != null) {
-                distancePlot.setSelectedIndex(newValue);
+                distancePlot.updateSelection(selection);
                 distancePanel.repaint();
             }
             if (matchingPlot != null) {
-                matchingPlot.setSelectedIndex(newValue);
+                matchingPlot.updateSelection(selection);
                 trajectoryPlotPanel.repaint();
             }
             if (followingDelayPlot != null) {
-                followingDelayPlot.setSelectedIndex(newValue);
+                followingDelayPlot.updateSelection(selection);
                 delayPanel.repaint();
             }
             if (delaySpacePlot != null) {
-                delaySpacePlot.updateSelection(matching.i[newValue], matching.j[newValue]);
+                delaySpacePlot.updateSelection(selection);
                 delaySpacePanel.repaint();
             }
         }
