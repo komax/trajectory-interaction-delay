@@ -103,10 +103,10 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         // Draw legends on the axes using the sampling rate.
         g.setColor(Color.BLACK);
         g.drawString("0 s", 0, height);
-        g.drawString("0 s", axisWidth(), getHeight());
+        g.drawString("0 s", leftColumn(), getHeight());
         String maxValString = String.format("%.2f s", (matching.getLength() - 1) * samplingRate);
-        g.drawString(maxValString, 0, axisHeight());
-        g.drawString(maxValString, width, height + axisHeight());
+        g.drawString(maxValString, 0, upperRow());
+        g.drawString(maxValString, width, height + upperRow());
         //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
         
         if (selectedEdge.isValid()) {
@@ -115,12 +115,12 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             g.setColor(Color.green);
             int lengthMatching = matching.getLength();
             double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajB() + 0.5) / lengthMatching;
-            xPoint += axisWidth();
+            xPoint += leftColumn();
             double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajA() + 0.5) / lengthMatching;
             int xCoord = roundDouble(xPoint);
             int yCoord = roundDouble(yPoint);
             // Drawing the horizontial line.
-            g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
+            g.drawLine(leftColumn(), yCoord, xCoord, yCoord);
             // Drawing the vertical line.
             g.drawLine(xCoord, plotHeight(), xCoord, yCoord);
             
@@ -183,17 +183,27 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
 
     @Override
-    public int axisWidth() {
+    public int leftColumn() {
         return 50;
     }
 
     @Override
-    public int axisHeight() {
+    public int upperRow() {
         return 15;
     }
 
     void updateMatching(Matching matching) {
         this.matching = matching;
+    }
+
+    @Override
+    public int rightColumn() {
+        return 0;
+    }
+
+    @Override
+    public int bottomRow() {
+        return 0;
     }
     
 }

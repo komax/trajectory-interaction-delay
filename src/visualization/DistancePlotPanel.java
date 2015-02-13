@@ -126,7 +126,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int yCoord = roundDouble(cartesianToPanelPoint(new DoublePoint2D(0, normalizedValue)).y);
             Color heatedColor = heatedBodyColorMap.getColor(currentValue);
             g.setColor(heatedColor);
-            g.drawLine(0, yCoord, axisWidth(), yCoord);
+            g.drawLine(0, yCoord, leftColumn(), yCoord);
         }
                 
         
@@ -167,27 +167,37 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
             
-            g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
-            g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
+            g.drawLine(leftColumn(), yCoord, xCoord, yCoord);
+            g.drawLine(xCoord, upperRow(), xCoord, getHeight());
             
             String currentDistance = String.format("%.3f", distancesOnMatching[selectedIndex]);
             g.setColor(Color.green);
             g.drawString(currentDistance, 0, yCoord);
             g.setColor(Color.BLACK);
-            g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
+            g.drawString(Integer.toString(selectedIndex), xCoord, upperRow());
             
             g2.setStroke(new BasicStroke(2));
         }
     }
 
     @Override
-    public int axisWidth() {
+    public int leftColumn() {
         return 40;
     }
 
     @Override
-    public int axisHeight() {
+    public int upperRow() {
         return 10;
+    }
+
+    @Override
+    public int rightColumn() {
+        return 0;
+    }
+
+    @Override
+    public int bottomRow() {
+        return 0;
     }
     
 }

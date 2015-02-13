@@ -459,12 +459,22 @@ public final class MatchingPlot extends GenericPlottingPanel {
     }
 
     @Override
-    public int axisWidth() {
+    public int leftColumn() {
         return 0;
     }
 
     @Override
-    public int axisHeight() {
+    public int upperRow() {
+        return 0;
+    }
+
+    @Override
+    public int rightColumn() {
+        return 0;
+    }
+
+    @Override
+    public int bottomRow() {
         return 0;
     }
 
