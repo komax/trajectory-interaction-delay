@@ -10,6 +10,7 @@ import frechet.Matching;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -163,7 +164,7 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
         int previousDelay = delaysInTimestamps[0];
         boolean previousDelaySucceedsThreshold = previousDelay >= threshold;
         DoublePoint2D previousDataPoint = null;
-        Color previousDelayColor;
+        Color previousDelayColor = null;
         if (previousDelaySucceedsThreshold) {
             if (previousDelayIsTraj1Ahead) {
                 // Color that trajectory 1 is ahead.
@@ -188,21 +189,20 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             int currentDelay = delaysInTimestamps[k];
             boolean currentDelaySucceedsThreshold = currentDelay >= threshold;
             DoublePoint2D currentDataPoint = null;
+            Color currentDelayColor = null;
             if (currentDelaySucceedsThreshold) {
                 if (currentDelayTraj1IsAhead) {
                     // Color that trajectory 1 is ahead.
-                    Color color = positiveColors.getColor(currentDelay);
-                    g.setColor(color);
+                    currentDelayColor = positiveColors.getColor(currentDelay);
                     currentDataPoint = new DoublePoint2D(k, maxDelay + currentDelay);
                 } else if (currentDelayTraj2IsAhead) {
                     // Color that trajectory 2 is ahead.
-                    Color color = negativeColors.getColor(currentDelay);
-                    g.setColor(color);
+                    currentDelayColor = negativeColors.getColor(currentDelay);
                     currentDataPoint = new DoublePoint2D(k, maxDelay - currentDelay);
                 }
             } else {
                 // No delay is detected.
-                g.setColor(Color.lightGray);
+                currentDelayColor = Color.lightGray;
                 currentDataPoint = new DoublePoint2D(k, maxDelay);
             }
             // Draw data point into the plot.
@@ -212,6 +212,8 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             int currentX = roundDouble(currentDrawablePoint.x);
             int currentY = roundDouble(currentDrawablePoint.y);
             // TODO use the correct color transition from previous to current color.
+            GradientPaint gradientPaint = new GradientPaint(previousX, previousY, previousDelayColor, currentX, currentY, currentDelayColor);
+            g2.setPaint(gradientPaint);
             g.drawLine(previousX, previousY, currentX, currentY);
             previousDrawablePoint = currentDrawablePoint;
         }
