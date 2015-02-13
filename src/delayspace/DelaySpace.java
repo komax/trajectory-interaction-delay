@@ -55,8 +55,16 @@ public abstract class DelaySpace {
     
     protected abstract void computeDelaySpace();
     
-    public double[][] getDelaySpace() {
-        return delaySpace;
+    public double get(int i, int j) {
+        return delaySpace[i][j];
+    }
+    
+    public int numberRows() {
+        return delaySpace.length;
+    }
+    
+    public int numberColumns() {
+        return delaySpace[0].length;
     }
     
     public double[][] getTrajectory1() {
@@ -71,4 +79,7 @@ public abstract class DelaySpace {
         return delaySpaceType;
     }
     
+    public boolean isDirectional() {
+        return delaySpaceType.isDirectional();
+    }
 }

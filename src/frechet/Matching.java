@@ -12,7 +12,7 @@ public class Matching implements Serializable {
     private final double[][] trajectory2;
     private final int length;
     
-    public Matching(LCFMTree tree, double[][] trajectory1, double[][] trajectory2) {
+    public Matching(LCFMTree tree, double[][] trajectory1, double[][] trajectory2, boolean isDirectional) {
         this.trajectory1 = trajectory1;
         this.trajectory2 = trajectory2;
         
@@ -20,7 +20,15 @@ public class Matching implements Serializable {
         List<Node> path = new ArrayList<>();
         int numRows = trajectory1.length;
         int numColumns = trajectory2.length;
-        Node currentNode = tree.getNode(numRows - 1, numColumns - 1);
+        if (isDirectional) {
+            path.add(new Node(numRows - 1, numColumns - 1, Double.NaN));
+        }
+        Node currentNode;
+        if (isDirectional) {
+            currentNode = tree.getNode(numRows - 2, numColumns - 2);
+        } else {
+            currentNode = tree.getNode(numRows - 1, numColumns - 1);
+        }
         path.add(currentNode);
         while (!currentNode.isRoot()) {
             currentNode = currentNode.getParent();

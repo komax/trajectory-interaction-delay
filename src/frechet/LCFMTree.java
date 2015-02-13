@@ -1,23 +1,28 @@
 package frechet;
 
+import delayspace.DelaySpace;
 import java.util.Iterator;
 import java.util.List;
 
 
 class LCFMTree {
     private final Node[][] grid;
-    private final double[][] gridValues;
     private final int columns;
     private final int rows;
 
-    public LCFMTree(double[][] distanceTerrain, int numRows, int numColumns) {
+    public LCFMTree(DelaySpace delaySpace) {
+        int numRows = delaySpace.numberRows();
+        int numColumns = delaySpace.numberColumns();
+        if (delaySpace.isDirectional()) {
+            numRows -= 1;
+            numColumns -= 1;
+        }
         this.rows = numRows;
         this.columns = numColumns;
         this.grid = new Node[numRows][numColumns];
-        this.gridValues = distanceTerrain;
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
-                grid[i][j] = new Node(i, j, gridValues[i][j]);
+                grid[i][j] = new Node(i, j, delaySpace.get(i, j));
             }
         }
         
