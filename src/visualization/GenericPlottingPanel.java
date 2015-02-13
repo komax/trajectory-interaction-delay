@@ -13,48 +13,34 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
+import utils.DoublePoint2D;
 
 /**
  *
  * @author max
  */
 public abstract class GenericPlottingPanel extends JPanel {
-    protected static int roundDouble(double number) {
-        return (int) Math.round(number);
-    }
-
-    public static class Point2D {
-
-        public final double x;
-        public final double y;
-
-        public Point2D(double x, double y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-    
     public GenericPlottingPanel() {
         super(new BorderLayout());
         setBackground(Color.WHITE);
     }
 
-    protected Point2D cartesianToPanelPoint(Point2D cartesianPoint) {
+    protected DoublePoint2D cartesianToPanelPoint(DoublePoint2D cartesianPoint) {
         int width = plotWidth();
         int height = plotHeight();
         double panelX = cartesianPoint.x / maxX() * width;
         double panelY = height - cartesianPoint.y / maxY() * height;
         panelX += axisWidth();
         panelY += axisHeight();
-        return new Point2D(panelX, panelY);
+        return new DoublePoint2D(panelX, panelY);
     }
 
-    protected Point2D panelToCartesianPoint(Point2D panelPoint) {
+    protected DoublePoint2D panelToCartesianPoint(DoublePoint2D panelPoint) {
         int plotWidth = plotWidth();
         int plotHeight = plotHeight();
         double cartesianX = panelPoint.x / plotWidth * maxX();
         double cartesianY = panelPoint.y / plotHeight * maxY();
-        return new Point2D(cartesianX, cartesianY);
+        return new DoublePoint2D(cartesianX, cartesianY);
     }
     
     protected int plotWidth() {
