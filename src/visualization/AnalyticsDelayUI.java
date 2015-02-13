@@ -22,8 +22,10 @@ import utils.distance.DistanceNormFactory;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
 //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
+    // TODO Add an interface to load data at first.
     public static final String PATH_TO_TRAJ_DATA = "data/zig_zack_data.txt";
 
+    // TODO Check whether all of the members are required or some can be computed on demand.
     private Matching matching = null;
     private MatchingPlot matchingPlot;
     private DistancePlotPanel distancePlot;
@@ -44,7 +46,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
-        //this.matching = MatchingReader.readMatching(PATH_TO_DATA + "matchingNorm2.dump");
         this.logScaled = false;
         this.threshold = 1;
         this.samplingRate = 0.2;
@@ -55,6 +56,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // TODO Get rid of this complex udpate method...
         updateDistanceAndMatching(DistanceNormFactory.EuclideanDistance, DelaySpaceType.USUAL, this.logScaled);
         initSlider();
         initDelaySpace();
@@ -104,29 +106,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance.getType());
     }
 
+    // FIXME Get rid of this complex method.
     private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace, boolean logScale) {
         this.currentDistance = distance;
         this.logScaled = logScale;
-        String normString = distance.toString();
-        String delaySpaceSuffix = "";
-        switch (delaySpace) {
-            case USUAL:
-                delaySpaceSuffix = "";
-                break;
-            case DYNAMIC_INTERACTION:
-                delaySpaceSuffix = "DynamicInteraction";
-                break;
-            case DIRECTIONAL_DISTANCE:
-                delaySpaceSuffix = "DirectionalDistance";
-                break;
-            case HEADING:
-                delaySpaceSuffix = "Heading";
-                break;
-            case DISPLACEMENT:
-                break;
-            default:
-                throw new AssertionError(delaySpace.name());
-        }
+        
         updateDelaySpace(delaySpace);
         computeMatching();
         switch (delaySpace) {
@@ -146,6 +130,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }
 
+    // TODO Check whether this method plots and behaves correctly.
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.getLength() - 1);
         if (followingDelayPlot != null) {
@@ -416,6 +401,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
     private void matchingSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_matchingSliderStateChanged
         if (!matchingSlider.getValueIsAdjusting()) {
+            // TODO updates the slider all plots correctly?
             int newValue = matchingSlider.getValue();
             int indexTrajA = matching.i[newValue];
             int indexTrajB = matching.j[newValue];
@@ -444,6 +430,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() - 1;
         if (selectedIndex == lastElement) {
+            // FIXME Remove last element handling.
             updateDistanceAndMatching(DistanceNormFactory.LInfDistance, this.delaySpace.getType(), this.logScaled);
         } else {
             updateDistanceAndMatching(DistanceNormFactory.selectDistanceNorm(selectedIndex + 1), this.delaySpace.getType(), this.logScaled);
@@ -453,6 +440,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
     private void delaySpaceComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_delaySpaceComboBoxItemStateChanged
         int selectedIndex = delaySpaceComboBox.getSelectedIndex();
+        // TODO restructure this class somehow.
         switch (selectedIndex) {
             case 0:
                 updateDistanceAndMatching(currentDistance, DelaySpaceType.USUAL, this.logScaled);
@@ -506,6 +494,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         } else {
             this.logScaled = false;
         }
+        // FIXME pass logscaling to delay space plot and delay plot. NOT all plots.
         updateDistanceAndMatching(currentDistance, delaySpace.getType(), logScaled);
         updateAndRepaintPlots();
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
@@ -523,6 +512,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 this.samplingRate = 1.0 / hertzFrequenz;
                 break;
         }
+        // FIXME update the plots on the new sampling rate.
     }
     
     /**

@@ -51,6 +51,7 @@ public abstract class DelaySpace {
         int lengthTraject2 = trajectory2.length;
         
         this.delaySpace = new double[lengthTraject1][lengthTraject2];
+        // TODO init delay spaces to Nan values to ensure correct values afterwards.
     }
     
     protected abstract void computeDelaySpace();
