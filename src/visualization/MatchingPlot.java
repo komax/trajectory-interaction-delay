@@ -7,16 +7,17 @@ import java.util.List;
 import utils.DoublePoint2D;
 import utils.IntPoint2D;
 import utils.Utils;
-import static utils.Utils.roundDouble;
 
 /**
  * Created by max on 25-4-14.
  */
 public final class MatchingPlot extends GenericPlottingPanel {
+    // TODO Parameterize this plot with the alpha values?
     private static final int TRANSLUCENT_ALPHA = 20;
     private static final int VISIBLE_ALPHA = 150;
     
     private Matching matching;
+    // TODO Add a Trajectory class?
     private ArrayList<DoublePoint2D> trajectory1;
     private ArrayList<DoublePoint2D> trajectory2;
 
@@ -253,6 +254,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
             }
             final boolean singleIndexTraject1 = startIndexTraject1 == endIndexTraject1;
             final boolean singleIndexTraject2 = startIndexTraject2 == endIndexTraject2;
+            // TODO Patching drawing in an separate method?
             if (singleIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
                 // 1. ribbon case
                 endIndexTraject2 = currentIndexTraject2;

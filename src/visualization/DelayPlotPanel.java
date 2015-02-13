@@ -160,6 +160,8 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(2));
         }
         
+        
+        // TODO Compress the code a bit.
         boolean previousDelayIsTraj1Ahead = matching.i[0] > matching.j[0];
         boolean previousDelayIsTraj2Ahead = matching.j[0] > matching.j[0];
         int previousDelay = delaysInTimestamps[0];
@@ -180,6 +182,7 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
         // Draw data point into the plot.
         IntPoint2D previousDrawablePoint = cartesianToPanelPoint(previousDataPoint);
         
+        // FIXME Max value are larger than the axis. Incorporate the belowColumn.
         // Plotting of the delays.
         for (int k=1; k<lengthMatching; k++) {
             boolean currentDelayTraj1IsAhead = matching.i[k] > matching.j[k];
