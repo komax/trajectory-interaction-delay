@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import utils.DoublePoint2D;
+import static utils.Utils.roundDouble;
 
 /**
  *
@@ -156,35 +158,40 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(2));
         }
         
+        boolean previousDelayIsTraj1Ahead = matching.i[0] > matching.j[0];
+        boolean previousDelayIsTraj2Ahead = matching.j[0] > matching.j[0];
+        int previousDelay = delaysInTimestamps[0];
+        boolean previousDelaySucceedsThreshold = previousDelay >= threshold;
+        
         // Plotting of the delays.
-        for (int k=0; k<lengthMatching; k++) {
-            boolean traj1IsAhead = matching.i[k] > matching.j[k];
-            boolean traj2IsAhead = matching.j[k] > matching.i[k];
+        for (int k=1; k<lengthMatching; k++) {
+            boolean currentDelayTraj1IsAhead = matching.i[k] > matching.j[k];
+            boolean currentDelayTraj2IsAhead = matching.j[k] > matching.i[k];
             int currentDelay = delaysInTimestamps[k];
-            boolean delaySucceedsThreshold = currentDelay >= threshold;
-            Point2D dataPoint = null;
-            if (delaySucceedsThreshold) {
-                if (traj1IsAhead) {
+            boolean currentDelaySucceedsThreshold = currentDelay >= threshold;
+            DoublePoint2D currentDataPoint = null;
+            if (currentDelaySucceedsThreshold) {
+                if (currentDelayTraj1IsAhead) {
                     // Color that trajectory 1 is ahead.
                     Color color = positiveColors.getColor(currentDelay);
                     g.setColor(color);
-                    dataPoint = new Point2D(k, maxDelay + currentDelay);
-                } else if (traj2IsAhead) {
+                    currentDataPoint = new DoublePoint2D(k, maxDelay + currentDelay);
+                } else if (currentDelayTraj2IsAhead) {
                     // Color that trajectory 2 is ahead.
                     Color color = negativeColors.getColor(currentDelay);
                     g.setColor(color);
-                    dataPoint = new Point2D(k, maxDelay - currentDelay);
+                    currentDataPoint = new DoublePoint2D(k, maxDelay - currentDelay);
                 }
             } else {
                 // No delay is detected.
                 g.setColor(Color.lightGray);
-                dataPoint = new Point2D(k, maxDelay);
+                currentDataPoint = new DoublePoint2D(k, maxDelay);
             }
             // Draw data point into the plot.
-            Point2D drawablePoint = cartesianToPanelPoint(dataPoint);
-            int x = roundDouble(drawablePoint.x);
-            int y = roundDouble(drawablePoint.y);
-            g.drawLine(x, y, x, y);
+            DoublePoint2D currentDrawablePoint = cartesianToPanelPoint(currentDataPoint);
+            int currentX = roundDouble(currentDrawablePoint.x);
+            int currentY = roundDouble(currentDrawablePoint.y);
+            g.drawLine(currentX, currentY, currentX, currentY);
         }
     }  
 

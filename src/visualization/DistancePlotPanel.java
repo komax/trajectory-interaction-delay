@@ -13,8 +13,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import utils.DoublePoint2D;
 import utils.Utils;
-import static visualization.GenericPlottingPanel.roundDouble;
+import static utils.Utils.roundDouble;
 
 /**
  *
@@ -100,11 +101,11 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(1));
-        Point2D previousPoint = new Point2D(0, normalizedDistances[0]);
-        Point2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+        DoublePoint2D previousPoint = new DoublePoint2D(0, normalizedDistances[0]);
+        DoublePoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
-            Point2D currentPoint = new Point2D(i, normalizedDistances[i]);
-            Point2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+            DoublePoint2D currentPoint = new DoublePoint2D(i, normalizedDistances[i]);
+            DoublePoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = roundDouble(transformedPreviousPoint.x);
             int fromY = roundDouble(transformedPreviousPoint.y);
             int toX = roundDouble(transformedCurrentPoint.x);
@@ -122,7 +123,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         for (int i=0; i <bucketValues.length; i++) {
             double currentValue = bucketValues[i];
             double normalizedValue = currentValue / maxDistance;
-            int yCoord = roundDouble(cartesianToPanelPoint(new Point2D(0, normalizedValue)).y);
+            int yCoord = roundDouble(cartesianToPanelPoint(new DoublePoint2D(0, normalizedValue)).y);
             Color heatedColor = heatedBodyColorMap.getColor(currentValue);
             g.setColor(heatedColor);
             g.drawLine(0, yCoord, axisWidth(), yCoord);
@@ -131,7 +132,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         // Set label for max distance.
         g.setColor(Color.black);
-        Point2D maxPoint = cartesianToPanelPoint(new Point2D(0, maxDistanceNormalized));
+        DoublePoint2D maxPoint = cartesianToPanelPoint(new DoublePoint2D(0, maxDistanceNormalized));
         int maxY = roundDouble(maxPoint.y);
         String maxDistanceString = String.format("%.3f", maxDistance);
         g.drawString(maxDistanceString, 0, maxY);
@@ -151,7 +152,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         // Set label for min distance.
         g.setColor(Color.white);
-        Point2D minPoint = cartesianToPanelPoint(new Point2D(0, minDistanceNormalized));
+        DoublePoint2D minPoint = cartesianToPanelPoint(new DoublePoint2D(0, minDistanceNormalized));
         int minY = roundDouble(minPoint.y);
         String minDistanceString = String.format("%.3f", minDistance);
         g.drawString(minDistanceString, 0, minY);
@@ -161,8 +162,8 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.black);
             int selectedIndex = selectedEdge.getPosition();
-            Point2D selectedPoint = new Point2D(selectedIndex, normalizedDistances[selectedIndex]);
-            Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, normalizedDistances[selectedIndex]);
+            DoublePoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
             

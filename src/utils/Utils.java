@@ -16,6 +16,10 @@ import static utils.distance.DistanceNormFactory.EuclideanDistance;
 public class Utils {
     
     public static final double EPSILON = 0.000001;
+    
+    public static int roundDouble(double number) {
+        return (int) Math.round(number);
+    }
 
     public static int findMatchingIndex(Matching matching, int i, int j) {
         for (int k = 0; k < matching.i.length; k++) {
