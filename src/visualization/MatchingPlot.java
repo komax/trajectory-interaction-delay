@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DoublePoint2D;
+import utils.IntPoint2D;
 import utils.Utils;
 import static utils.Utils.roundDouble;
 
@@ -214,7 +215,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
 
     private void drawTrajectory(List<DoublePoint2D> trajectory, Graphics g) {
         DoublePoint2D previousPoint = trajectory.get(0);
-        DoublePoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+        IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i = 1; i < trajectory.size(); i++) {
             if (trajectory == trajectory1) {
                 g.setColor(getColorTraject1(Color.black, i));
@@ -222,11 +223,11 @@ public final class MatchingPlot extends GenericPlottingPanel {
                 g.setColor(getColorTraject2(Color.black, i));
             }
             DoublePoint2D currentPoint = trajectory.get(i);
-            DoublePoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
-            int fromX = roundDouble(transformedPreviousPoint.x);
-            int fromY = roundDouble(transformedPreviousPoint.y);
-            int toX = roundDouble(transformedCurrentPoint.x);
-            int toY = roundDouble(transformedCurrentPoint.y);
+            IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+            int fromX = transformedPreviousPoint.x;
+            int fromY = transformedPreviousPoint.y;
+            int toX = transformedCurrentPoint.x;
+            int toY = transformedCurrentPoint.y;
             g.drawLine(fromX, fromY, toX, toY);
 
             transformedPreviousPoint = transformedCurrentPoint;
@@ -281,21 +282,20 @@ public final class MatchingPlot extends GenericPlottingPanel {
                     }
                     // 3a. Draw a simple line.
                     DoublePoint2D pointTraj1 = trajectory1.get(startIndexTraject1);
-                    DoublePoint2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
+                    IntPoint2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
                     DoublePoint2D pointTraj2 = trajectory2.get(startIndexTraject2);
-                    DoublePoint2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
-                    g.drawLine(roundDouble(convPointTraj1.x), roundDouble(convPointTraj1.y),
-                            roundDouble(convPointTraj2.x), roundDouble(convPointTraj2.y));
+                    IntPoint2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
+                    g.drawLine(convPointTraj1.x, convPointTraj1.y, convPointTraj2.x, convPointTraj2.y);
                 } else {
                     // Compute the color interpolation of the patch.
                     if (singleIndexTraject1) {
-                        DoublePoint2D pointTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
-                        int traject1PointX = roundDouble(pointTraject1.x);
-                        int traject1PointY = roundDouble(pointTraject1.y);
+                        IntPoint2D pointTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
+                        int traject1PointX = pointTraject1.x;
+                        int traject1PointY = pointTraject1.y;
            
-                        DoublePoint2D startTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
-                        int startTraject2X = roundDouble(startTraject2.x);
-                        int startTraject2Y = roundDouble(startTraject2.y);
+                        IntPoint2D startTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
+                        int startTraject2X = startTraject2.x;
+                        int startTraject2Y = startTraject2.y;
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
@@ -311,9 +311,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
-                        DoublePoint2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
-                        int endTraject2X = roundDouble(endTraject2.x);
-                        int endTraject2Y = roundDouble(endTraject2.y);
+                        IntPoint2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
+                        int endTraject2X = endTraject2.x;
+                        int endTraject2Y = endTraject2.y;
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
@@ -332,13 +332,13 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         Graphics2D g2 = (Graphics2D) g;
                         g2.setPaint(gradientPaint);
                     } else {
-                        DoublePoint2D pointTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
-                        int traject2PointX = roundDouble(pointTraject2.x);
-                        int traject2PointY = roundDouble(pointTraject2.y);
+                        IntPoint2D pointTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
+                        int traject2PointX = pointTraject2.x;
+                        int traject2PointY = pointTraject2.y;
            
-                        DoublePoint2D startTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
-                        int startTraject1X = roundDouble(startTraject1.x);
-                        int startTraject1Y = roundDouble(startTraject1.y);
+                        IntPoint2D startTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
+                        int startTraject1X = startTraject1.x;
+                        int startTraject1Y = startTraject1.y;
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
                         int startDelay = delaysInTimestamps[startIndex];
                         Color beginColor;
@@ -354,9 +354,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
-                        DoublePoint2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
-                        int endTraject1X = roundDouble(endTraject1.x);
-                        int endTraject1Y = roundDouble(endTraject1.y);
+                        IntPoint2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
+                        int endTraject1X = endTraject1.x;
+                        int endTraject1Y = endTraject1.y;
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
                         int endDelay = delaysInTimestamps[endIndex];
                         Color endColor;
@@ -376,19 +376,19 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         g2.setPaint(gradientPaint);
                     }
                     // 3b. Build the polygon.
-                    Polygon ribbon = new Polygon();
+                    Polygon patch = new Polygon();
                     for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
                         DoublePoint2D point = trajectory1.get(l);
-                        DoublePoint2D convertedPoint = cartesianToPanelPoint(point);
-                        ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
+                        IntPoint2D convertedPoint = cartesianToPanelPoint(point);
+                        patch.addPoint(convertedPoint.x, convertedPoint.y);
                     }
                     for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
                         DoublePoint2D point = trajectory2.get(l);
-                        DoublePoint2D convertedPoint = cartesianToPanelPoint(point);
-                        ribbon.addPoint(roundDouble(convertedPoint.x), roundDouble(convertedPoint.y));
+                        IntPoint2D convertedPoint = cartesianToPanelPoint(point);
+                        patch.addPoint(convertedPoint.x, convertedPoint.y);
                     }
                     // Draw the polygon.
-                    g.fillPolygon(ribbon);
+                    g.fillPolygon(patch);
                 }
                 // Reset the indices.
                 startIndexTraject1 = endIndexTraject1 = currentIndexTraject1;
@@ -407,9 +407,9 @@ public final class MatchingPlot extends GenericPlottingPanel {
         int offset = diameter / 2;
         
         DoublePoint2D pointTraject1 = trajectory1.get(matching.i[index]);
-        DoublePoint2D panelPoint = cartesianToPanelPoint(pointTraject1);
-        int panelX = roundDouble(panelPoint.x);
-        int panelY = roundDouble(panelPoint.y);
+        IntPoint2D panelPoint = cartesianToPanelPoint(pointTraject1);
+        int panelX = panelPoint.x;
+        int panelY = panelPoint.y;
         if (isTraject1Ahead[index]) {
             Color maxColor = positiveColors.getMaxColor();
             g2.setStroke(new BasicStroke(5));
@@ -431,8 +431,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
         
         DoublePoint2D pointTraject2 = trajectory2.get(matching.j[index]);
         panelPoint = cartesianToPanelPoint(pointTraject2);
-        panelX = roundDouble(panelPoint.x);
-        panelY = roundDouble(panelPoint.y);
+        panelX = panelPoint.x;
+        panelY = panelPoint.y;
         if (isTraject2Ahead[index]) {
             Color maxColor = negativeColors.getMaxColor();
             g2.setStroke(new BasicStroke(5));
