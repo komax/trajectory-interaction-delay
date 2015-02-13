@@ -18,7 +18,7 @@ import java.awt.Stroke;
  *
  * @author max
  */
-public final class FollowingPlotPanel extends GenericPlottingPanel {
+public final class DelayPlotPanel extends GenericPlottingPanel {
     private int[] delaysInTimestamps;
     private int lengthMatching;
     private int maxDelay;
@@ -29,7 +29,7 @@ public final class FollowingPlotPanel extends GenericPlottingPanel {
     private int threshold;
     private double delayUnit;
     
-    public FollowingPlotPanel(Matching matching, int threshold, double delayUnit) {
+    public DelayPlotPanel(Matching matching, int threshold, double delayUnit) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, threshold, delayUnit);
     }

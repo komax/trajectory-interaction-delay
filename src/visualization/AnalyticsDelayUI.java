@@ -28,7 +28,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private MatchingPlot matchingPlot;
     private DistancePlotPanel distancePlot;
     private DelaySpacePanel delaySpacePlot;
-    private FollowingPlotPanel followingDelayPlot;
+    private DelayPlotPanel followingDelayPlot;
     private double[] distancesOnMatching;
     private DistanceNorm currentDistance;
     private int threshold;
@@ -84,7 +84,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initFollowingPlot() {
-        this.followingDelayPlot = new FollowingPlotPanel(matching, threshold, 0.2);
+        this.followingDelayPlot = new DelayPlotPanel(matching, threshold, 0.2);
         this.delayPanel.add(followingDelayPlot);
     }
     
