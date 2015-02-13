@@ -1,15 +1,19 @@
 package frechet;
 
+import delayspace.DelaySpace;
+
 public class LocallyCorrectFrechet {
-    public static Matching compute(double[][] distanceTerrain, double[][] traject1, double[][] traject2,
-            int numRows, int numColumns) {
-        if ((distanceTerrain[0].length != numColumns) || (distanceTerrain.length != numRows)) {
+    public static Matching compute(DelaySpace delaySpace, double[][] traject1, double[][] traject2) {
+        int numRows = traject1.length;
+        int numColumns = traject2.length;
+        
+        if ((delaySpace.numberColumns() != numColumns) || (delaySpace.numberRows() != numRows)) {
             throw new RuntimeException("Size of grid and size of trajectories disagree\n");
         }
         
-        LCFMTree tree = new LCFMTree(distanceTerrain, numRows, numColumns);
+        LCFMTree tree = new LCFMTree(delaySpace);
         tree.buildTree();
-        Matching matching = new Matching(tree, traject1, traject2);
+        Matching matching = new Matching(tree, traject1, traject2, delaySpace.isDirectional());
         return matching;
     }
 

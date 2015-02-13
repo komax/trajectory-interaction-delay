@@ -40,7 +40,7 @@ public class Experiment {
     public Matching run() {
         int lengthTraject1 = trajectory1.length;
         int lengthTraject2 = trajectory2.length;
-        Matching matching = LocallyCorrectFrechet.compute(delaySpace.getDelaySpace(), trajectory1, trajectory2, lengthTraject1, lengthTraject2);
+        Matching matching = LocallyCorrectFrechet.compute(delaySpace, trajectory1, trajectory2);
         return matching;
     }
     
