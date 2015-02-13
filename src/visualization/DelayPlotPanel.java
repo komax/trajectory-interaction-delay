@@ -90,8 +90,8 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
                         BasicStroke.JOIN_MITER,
                         10.0f, dash1, 0.0f);
         g2.setStroke(dashed);
-        Point2D origin = new Point2D(0, maxDelay);
-        Point2D drawableOrigin = cartesianToPanelPoint(origin);
+        DoublePoint2D origin = new DoublePoint2D(0, maxDelay);
+        DoublePoint2D drawableOrigin = cartesianToPanelPoint(origin);
         int xCoord = roundDouble(drawableOrigin.x);
         int yCoord = roundDouble(drawableOrigin.y);
         // Dashed lines for -max_value, 0 and max_value.
@@ -137,8 +137,8 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             } else {
                 g.setColor(Color.BLACK);
             }
-            Point2D selectedPoint = new Point2D(selectedIndex, delay);
-            Point2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, delay);
+            DoublePoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             xCoord = roundDouble(drawablePoint.x);
             yCoord = roundDouble(drawablePoint.y);
             // Put the label for selected delay.
@@ -162,6 +162,24 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
         boolean previousDelayIsTraj2Ahead = matching.j[0] > matching.j[0];
         int previousDelay = delaysInTimestamps[0];
         boolean previousDelaySucceedsThreshold = previousDelay >= threshold;
+        DoublePoint2D previousDataPoint = null;
+        Color previousDelayColor;
+        if (previousDelaySucceedsThreshold) {
+            if (previousDelayIsTraj1Ahead) {
+                // Color that trajectory 1 is ahead.
+                previousDelayColor = positiveColors.getColor(previousDelay);
+                previousDataPoint = new DoublePoint2D(0, maxDelay + previousDelay);
+            } else if (previousDelayIsTraj2Ahead) {
+                // Color that trajectory 2 is ahead.
+                previousDelayColor = negativeColors.getColor(previousDelay);
+                previousDataPoint = new DoublePoint2D(0, maxDelay - previousDelay);
+            }
+        } else {
+            previousDelayColor = Color.lightGray;
+            previousDataPoint = new DoublePoint2D(0, maxDelay);
+        }
+        // Draw data point into the plot.
+        DoublePoint2D previousDrawablePoint = cartesianToPanelPoint(previousDataPoint);
         
         // Plotting of the delays.
         for (int k=1; k<lengthMatching; k++) {
@@ -189,9 +207,13 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             }
             // Draw data point into the plot.
             DoublePoint2D currentDrawablePoint = cartesianToPanelPoint(currentDataPoint);
+            int previousX = roundDouble(previousDrawablePoint.x);
+            int previousY = roundDouble(previousDrawablePoint.y);
             int currentX = roundDouble(currentDrawablePoint.x);
             int currentY = roundDouble(currentDrawablePoint.y);
-            g.drawLine(currentX, currentY, currentX, currentY);
+            // TODO use the correct color transition from previous to current color.
+            g.drawLine(previousX, previousY, currentX, currentY);
+            previousDrawablePoint = currentDrawablePoint;
         }
     }  
 

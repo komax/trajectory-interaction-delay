@@ -18,4 +18,8 @@ public class IntPoint2D {
         this.x = x;
         this.y = y;
     }
+    
+    public DoublePoint2D toDoublePoint() {
+        return new DoublePoint2D((double) x, (double) y);
+    }
 }
