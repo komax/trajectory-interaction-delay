@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import utils.DoublePoint2D;
+import utils.IntPoint2D;
 
 /**
  *
@@ -25,22 +26,22 @@ public abstract class GenericPlottingPanel extends JPanel {
         setBackground(Color.WHITE);
     }
 
-    protected DoublePoint2D cartesianToPanelPoint(DoublePoint2D cartesianPoint) {
+    protected IntPoint2D cartesianToPanelPoint(DoublePoint2D cartesianPoint) {
         int width = plotWidth();
         int height = plotHeight();
         double panelX = cartesianPoint.x / maxX() * width;
         double panelY = height - cartesianPoint.y / maxY() * height;
         panelX += leftColumn();
         panelY += upperRow();
-        return new DoublePoint2D(panelX, panelY);
+        return IntPoint2D.createIntPoint2D(panelX, panelY);
     }
 
-    protected DoublePoint2D panelToCartesianPoint(DoublePoint2D panelPoint) {
+    protected IntPoint2D panelToCartesianPoint(DoublePoint2D panelPoint) {
         int plotWidth = plotWidth();
         int plotHeight = plotHeight();
         double cartesianX = panelPoint.x / plotWidth * maxX();
         double cartesianY = panelPoint.y / plotHeight * maxY();
-        return new DoublePoint2D(cartesianX, cartesianY);
+        return IntPoint2D.createIntPoint2D(cartesianX, cartesianY);
     }
     
     protected int plotWidth() {

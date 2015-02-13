@@ -13,6 +13,10 @@ public class IntPoint2D {
 
     public final int x;
     public final int y;
+    
+    public static IntPoint2D createIntPoint2D(double x, double y) {
+        return new IntPoint2D(Utils.roundDouble(x), Utils.roundDouble(y));
+    }
 
     public IntPoint2D(int x, int y) {
         this.x = x;

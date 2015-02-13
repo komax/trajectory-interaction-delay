@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import utils.DoublePoint2D;
+import utils.IntPoint2D;
 import utils.Utils;
 import static utils.Utils.roundDouble;
 
@@ -102,10 +103,10 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(1));
         DoublePoint2D previousPoint = new DoublePoint2D(0, normalizedDistances[0]);
-        DoublePoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+        IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
             DoublePoint2D currentPoint = new DoublePoint2D(i, normalizedDistances[i]);
-            DoublePoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+            IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = roundDouble(transformedPreviousPoint.x);
             int fromY = roundDouble(transformedPreviousPoint.y);
             int toX = roundDouble(transformedCurrentPoint.x);
@@ -132,7 +133,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         // Set label for max distance.
         g.setColor(Color.black);
-        DoublePoint2D maxPoint = cartesianToPanelPoint(new DoublePoint2D(0, maxDistanceNormalized));
+        IntPoint2D maxPoint = cartesianToPanelPoint(new DoublePoint2D(0, maxDistanceNormalized));
         int maxY = roundDouble(maxPoint.y);
         String maxDistanceString = String.format("%.3f", maxDistance);
         g.drawString(maxDistanceString, 0, maxY);
@@ -152,7 +153,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         // Set label for min distance.
         g.setColor(Color.white);
-        DoublePoint2D minPoint = cartesianToPanelPoint(new DoublePoint2D(0, minDistanceNormalized));
+        IntPoint2D minPoint = cartesianToPanelPoint(new DoublePoint2D(0, minDistanceNormalized));
         int minY = roundDouble(minPoint.y);
         String minDistanceString = String.format("%.3f", minDistance);
         g.drawString(minDistanceString, 0, minY);
@@ -163,7 +164,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             g.setColor(Color.black);
             int selectedIndex = selectedEdge.getPosition();
             DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, normalizedDistances[selectedIndex]);
-            DoublePoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
+            IntPoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = roundDouble(drawablePoint.x);
             int yCoord = roundDouble(drawablePoint.y);
             
