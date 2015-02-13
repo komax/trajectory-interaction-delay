@@ -29,9 +29,9 @@ public class Utils {
     public static double[] normalizeValues(double[] values) {
         double maxValue = Double.MIN_VALUE;
         double[] normalizedDelays = new double[values.length];
-        for (double delay : values) {
-            if (delay > maxValue) {
-                maxValue = delay;
+        for (double val : values) {
+            if (val > maxValue) {
+                maxValue = val;
             }
         }
 
