@@ -14,9 +14,10 @@ import utils.distance.DistanceNormType;
  * @author max
  */
 public abstract class DelaySpace {
+    // TODO Debug for all subclasses and its results.
     
     protected final DistanceNorm distance;
-    protected final DelaySpaceType delaySpaceType;
+    protected final DelaySpaceType delaySpaceType; // FIXME Drop this ugly field.
     protected final double[][] delaySpace;
     protected final double[][] trajectory1;
     protected final double[][] trajectory2;

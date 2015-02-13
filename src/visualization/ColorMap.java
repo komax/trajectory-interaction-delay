@@ -15,6 +15,7 @@ import java.util.List;
  * @author max
  */
 public class ColorMap {
+    // TODO Have a look on the static fields. Restructuring of the colormaps? 
     private final double minValue;
     private final double maxValue;
     private List<Color> colorSpectrum;

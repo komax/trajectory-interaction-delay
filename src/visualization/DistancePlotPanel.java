@@ -23,20 +23,24 @@ import static utils.Utils.roundDouble;
  * @author max
  */
 public final class DistancePlotPanel extends GenericPlottingPanel {
+    // FIXME Plot does not plot correctly anymore
     private double[] normalizedDistances;
     private EdgeCursor selectedEdge;
     private double maxDistanceNormalized;
     private double[] distancesOnMatching;
     private double minDistanceNormalized;
+    // TODO Use the heatmap from the delay space.
     private ColorMap heatedBodyColorMap;
     private double maxDistance;
     private double minDistance;
     
     public DistancePlotPanel(Matching matching, double[] distances) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
+        // TODO Use the results from the delay space?
         updateMatching(matching, distances);
     }
     
+    // TODO Seperate these update actions and compute the distances on demand
     public void updateMatching(Matching matching, double[] distancesOnMatching) {
         this.distancesOnMatching = distancesOnMatching;
         this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
@@ -105,12 +109,13 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         DoublePoint2D previousPoint = new DoublePoint2D(0, normalizedDistances[0]);
         IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
+            // TODO Compress the code below a bit.
             DoublePoint2D currentPoint = new DoublePoint2D(i, normalizedDistances[i]);
             IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
-            int fromX = roundDouble(transformedPreviousPoint.x);
-            int fromY = roundDouble(transformedPreviousPoint.y);
-            int toX = roundDouble(transformedCurrentPoint.x);
-            int toY = roundDouble(transformedCurrentPoint.y);
+            int fromX = transformedPreviousPoint.x;
+            int fromY = transformedPreviousPoint.y;
+            int toX = transformedCurrentPoint.x;
+            int toY = transformedCurrentPoint.y;
             
             // Draw a black line segment from previous point the consecutive one.
             g.setColor(Color.black);
@@ -154,7 +159,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         // Set label for min distance.
         g.setColor(Color.white);
         IntPoint2D minPoint = cartesianToPanelPoint(new DoublePoint2D(0, minDistanceNormalized));
-        int minY = roundDouble(minPoint.y);
+        int minY = minPoint.y;
         String minDistanceString = String.format("%.3f", minDistance);
         g.drawString(minDistanceString, 0, minY);
         

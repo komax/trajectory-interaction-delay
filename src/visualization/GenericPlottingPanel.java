@@ -27,6 +27,7 @@ public abstract class GenericPlottingPanel extends JPanel {
     }
 
     protected IntPoint2D cartesianToPanelPoint(DoublePoint2D cartesianPoint) {
+        // TODO Is this conversion still correct with the new columns and rows?
         int width = plotWidth();
         int height = plotHeight();
         double panelX = cartesianPoint.x / maxX() * width;
@@ -71,6 +72,4 @@ public abstract class GenericPlottingPanel extends JPanel {
             RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
     }
-
-    
 }

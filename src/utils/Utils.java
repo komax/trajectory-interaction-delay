@@ -15,6 +15,8 @@ import static utils.distance.DistanceNormFactory.EuclideanDistance;
  */
 public class Utils {
     
+    // TODO Remove the matching distance stuff?
+    
     public static final double EPSILON = 0.000001;
     
     public static int roundDouble(double number) {

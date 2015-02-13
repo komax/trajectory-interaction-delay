@@ -32,8 +32,8 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private final int delayThreshold;
     private double samplingRate;
     private Matching matching;
-    private final DelaySpace delaySpace;
-    private final boolean logScaled;
+    private final DelaySpace delaySpace; // FIXME Use the delay space to plot.
+    private final boolean logScaled; // TODO Enable to turn logscaling on and off
     
     public DelaySpacePanel(DelaySpace delaySpace, Matching matching, int delayThreshold, double samplingRate, boolean logScaled) {
         this.delaySpace = delaySpace;
@@ -74,15 +74,6 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         return getHeight();
     }
     
-    public static BufferedImage resize(BufferedImage image, int width, int height) {
-        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
-        Graphics2D g2d = (Graphics2D) bi.createGraphics();
-        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
-        g2d.drawImage(image, 0, 0, width, height, null);
-        g2d.dispose();
-        return bi;
-    }
-    
     @Override
     public Dimension getPreferredSize() {
         // TODO fix dimension to correct size
@@ -110,6 +101,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
         
         if (selectedEdge.isValid()) {
+            // TODO Refactor this ugly code below.
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
