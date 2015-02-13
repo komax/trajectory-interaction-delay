@@ -97,18 +97,18 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
         int yCoord = roundDouble(drawableOrigin.y);
         // Dashed lines for -max_value, 0 and max_value.
         g.drawLine(xCoord, yCoord, getWidth(), yCoord);
-        g.drawLine(xCoord, axisHeight(), getWidth(), axisHeight());
+        g.drawLine(xCoord, upperRow(), getWidth(), upperRow());
         g.drawLine(xCoord, plotHeight(), getWidth(), plotHeight());
         // Put label for max delay if trajectory1 is ahead.
         Color traject1AheadColor = positiveColors.getMaxColor();
         g.setColor(traject1AheadColor);       
         String maxDelayString = String.format("+%.2f s", maxDelay * delayUnit);
-        g.drawString(maxDelayString, 0, axisHeight());
+        g.drawString(maxDelayString, 0, upperRow());
         // Put label for max delay if trajectory2 is ahead.
         Color traject2AheadColor = negativeColors.getMaxColor();
         g.setColor(traject2AheadColor);       
         String minDelayString = String.format("-%.2f s", maxDelay * delayUnit);
-        g.drawString(minDelayString, 0, getHeight() - axisHeight());
+        g.drawString(minDelayString, 0, getHeight() - upperRow());
         // Put label for zero delay.
         g.setColor(Color.BLACK);
         String zeroDelayString = "   0.00 s";
@@ -147,14 +147,14 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
             
             // Put the label for the corresponding index of the delay.
             g.setColor(Color.black);
-            g.drawString(Integer.toString(selectedIndex), xCoord, axisHeight());
+            g.drawString(Integer.toString(selectedIndex), xCoord, upperRow());
             
             // Draw the lines for current selection.
-            g.drawLine(axisWidth(), yCoord,xCoord, yCoord);
-            g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
+            g.drawLine(leftColumn(), yCoord,xCoord, yCoord);
+            g.drawLine(xCoord, upperRow(), xCoord, getHeight());
             
-            g.drawLine(axisWidth(), yCoord, xCoord, yCoord);
-            g.drawLine(xCoord, axisHeight(), xCoord, getHeight());
+            g.drawLine(leftColumn(), yCoord, xCoord, yCoord);
+            g.drawLine(xCoord, upperRow(), xCoord, getHeight());
             
             g2.setStroke(new BasicStroke(2));
         }
@@ -220,12 +220,22 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
     }  
 
     @Override
-    public int axisWidth() {
+    public int leftColumn() {
         return 55;
     }
 
     @Override
-    public int axisHeight() {
-        return 10;
+    public int upperRow() {
+        return 5;
+    }
+
+    @Override
+    public int rightColumn() {
+        return 5;
+    }
+
+    @Override
+    public int bottomRow() {
+        return 0;
     }
 }
