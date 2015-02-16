@@ -52,7 +52,15 @@ public abstract class DelaySpace {
         int lengthTraject2 = trajectory2.length;
         
         this.delaySpace = new double[lengthTraject1][lengthTraject2];
-        // TODO init delay spaces to Nan values to ensure correct values afterwards.
+        clear();
+    }
+    
+    public final void clear() {
+        for (int i = 0; i < numberRows(); i++) {
+            for (int j = 0; j < numberColumns(); j++) {
+                delaySpace[i][j] = Double.NaN;
+            }
+        }
     }
     
     protected abstract void computeDelaySpace();
