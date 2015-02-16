@@ -30,8 +30,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private final int delayThreshold;
     private double samplingRate;
     private Matching matching;
-    private final DelaySpace delaySpace; // FIXME Use the delay space to plot.
+    private DelaySpace delaySpace; // FIXME Use the delay space to plot.
     private final boolean logScaled; // TODO Enable to turn logscaling on and off
+    private ColorMap heatedBodyColorMap;
     
     public DelaySpacePanel(DelaySpace delaySpace, Matching matching, int delayThreshold, double samplingRate, boolean logScaled) {
         this.delaySpace = delaySpace;
@@ -40,6 +41,31 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         this.delayThreshold = delayThreshold;
         this.samplingRate = samplingRate;
         this.logScaled = logScaled;
+        this.heatedBodyColorMap = computeHeatMap();
+    }
+    
+    public void updateDelaySpace(DelaySpace newDelaySpace) {
+        this.delaySpace = newDelaySpace;
+        this.heatedBodyColorMap = computeHeatMap();
+        // TODO repaint?
+    }
+    
+    public ColorMap computeHeatMap() {
+        double maxDistance = Double.MIN_VALUE;
+        double minDistance = Double.MAX_VALUE;
+
+        for (int i = 0; i < delaySpace.numberRows(); i++) {
+            for (int j = 0; j < delaySpace.numberColumns(); j++) {
+                double currentDistance = delaySpace.get(i, j);
+                if (currentDistance > maxDistance) {
+                    maxDistance = currentDistance;
+                }
+                if (currentDistance < minDistance) {
+                    minDistance = currentDistance;
+                }
+            }
+        }
+        return ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
     }
     
     public void updateSelection(EdgeCursor selection) {
