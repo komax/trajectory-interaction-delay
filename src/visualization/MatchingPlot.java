@@ -470,14 +470,4 @@ public final class MatchingPlot extends GenericPlottingPanel {
         return 0;
     }
 
-    @Override
-    public int rightColumn() {
-        return 0;
-    }
-
-    @Override
-    public int bottomRow() {
-        return 0;
-    }
-
 }

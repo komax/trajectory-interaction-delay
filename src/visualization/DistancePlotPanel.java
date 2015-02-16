@@ -195,15 +195,5 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     public int upperRow() {
         return 10;
     }
-
-    @Override
-    public int rightColumn() {
-        return 0;
-    }
-
-    @Override
-    public int bottomRow() {
-        return 0;
-    }
     
 }
