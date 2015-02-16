@@ -129,9 +129,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
     
     private void drawMatching(Graphics g, int width, int height) {
-        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0], matching.j[0]));
+        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0] + 0.5 , matching.j[0]  - 0.5));
         for (int k = 1; k < matching.getLength(); k++) {
-            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k], matching.j[k]));
+            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k] + 0.5 , matching.j[k] - 0.5));
             g.setColor(MATCHING_COLOR);
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3.5f));
