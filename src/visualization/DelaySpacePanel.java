@@ -146,9 +146,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajB() + 0.5) / matching.getLength();
+            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajA() + 0.5) / matching.getLength();
             xPoint += leftColumn();
-            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajA() + 0.5) / matching.getLength();
+            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajB() + 0.5) / matching.getLength();
             int xCoord = roundDouble(xPoint);
             int yCoord = roundDouble(yPoint);
             // Drawing the horizontial line.
@@ -158,10 +158,10 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             
             // Drawing of indices on the axes.
             g.setColor(Color.BLACK);
-            String secondsTraject1 = String.format("%.2f s", selectedEdge.getIndexTrajA() * samplingRate);
-            g.drawString(secondsTraject1, 0, yCoord);
             String secondsTraject2 = String.format("%.2f s", selectedEdge.getIndexTrajB() * samplingRate);
-            g.drawString(secondsTraject2, xCoord, getHeight());
+            g.drawString(secondsTraject2, 0, yCoord);
+            String secondsTraject1 = String.format("%.2f s", selectedEdge.getIndexTrajA() * samplingRate);
+            g.drawString(secondsTraject1, xCoord, getHeight());
             
             // Draw a translucent legend next to the point.
             int xCoordLegend = xCoord + 5;
