@@ -97,6 +97,14 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private void drawDelaySpace(int width, int height) {
         int cellWidth = roundDouble((double) width / delaySpace.numberRows());
         int cellHeight = roundDouble((double) height / delaySpace.numberColumns());
+        
+        for (int i = 0; i < delaySpace.numberRows(); i++) {
+            for (int j = 0; j < delaySpace.numberColumns(); j++) {
+                double cellValue = delaySpace.get(i, j);
+                // 1. Convert cell value into a color of the heat map.
+                // 2. Draw a rectangle as the cell at (i,j) with its color.
+            }
+        }
     }
 
     private void drawCursorAndGlyph(Graphics g, int width, int height) {
