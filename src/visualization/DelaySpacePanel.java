@@ -15,8 +15,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import static utils.Utils.roundDouble;
 
 /**
@@ -91,24 +89,25 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         int width = plotWidth();
         int height = plotHeight();
         
-        // Draw legends on the axes using the sampling rate.
-        g.setColor(Color.BLACK);
-        g.drawString("0 s", 0, height);
-        g.drawString("0 s", leftColumn(), getHeight());
-        String maxValString = String.format("%.2f s", (matching.getLength() - 1) * samplingRate);
-        g.drawString(maxValString, 0, upperRow());
-        g.drawString(maxValString, width, height + upperRow());
-        //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
-        
+        drawDelaySpace(width, height);    
+        drawLegends(g, height, width);
+        drawCursorAndGlyph(g, width, height);
+    }
+
+    private void drawDelaySpace(int width, int height) {
+        int cellWidth = roundDouble((double) width / delaySpace.numberRows());
+        int cellHeight = roundDouble((double) height / delaySpace.numberColumns());
+    }
+
+    private void drawCursorAndGlyph(Graphics g, int width, int height) {
         if (selectedEdge.isValid()) {
             // TODO Refactor this ugly code below.
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            int lengthMatching = matching.getLength();
-            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajB() + 0.5) / lengthMatching;
+            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajB() + 0.5) / matching.getLength();
             xPoint += leftColumn();
-            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajA() + 0.5) / lengthMatching;
+            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajA() + 0.5) / matching.getLength();
             int xCoord = roundDouble(xPoint);
             int yCoord = roundDouble(yPoint);
             // Drawing the horizontial line.
@@ -172,6 +171,17 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 g.drawPolygon(triangle);
             }
         }
+    }
+
+    private void drawLegends(Graphics g, int height, int width) {
+        // Draw legends on the axes using the sampling rate.
+        g.setColor(Color.BLACK);
+        g.drawString("0 s", 0, height);
+        g.drawString("0 s", leftColumn(), getHeight());
+        String maxValString = String.format("%.2f s", (matching.getLength() - 1) * samplingRate);
+        g.drawString(maxValString, 0, upperRow());
+        g.drawString(maxValString, width, height + upperRow());
+        //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
     }
 
     @Override
