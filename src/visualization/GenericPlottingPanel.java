@@ -46,11 +46,11 @@ public abstract class GenericPlottingPanel extends JPanel {
     }
     
     protected int plotWidth() {
-        return getWidth() - leftColumn() - rightColumn();
+        return getWidth() - leftColumn();
     }
     
     protected int plotHeight() {
-        return getHeight() - upperRow() - bottomRow();
+        return getHeight() - upperRow();
     }
     
     public abstract double maxX();
@@ -59,8 +59,9 @@ public abstract class GenericPlottingPanel extends JPanel {
     public abstract int leftColumn();
     public abstract int upperRow();
     
-    public abstract int rightColumn();
-    public abstract int bottomRow();
+    // FIXME Add these methods to again.
+//    public abstract int rightColumn();
+//    public abstract int bottomRow();
     
     @Override
     public void paintComponent(Graphics g) {

@@ -87,12 +87,12 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         return delaySpace.numberColumns();
     }
     
-    @Override
-    public Dimension getPreferredSize() {
-        // TODO fix dimension to correct size
-        return new Dimension(getWidth(), getHeight());
-//        return new Dimension(freeSpaceImage.getWidth(), freeSpaceImage.getHeight());
-    }
+//    @Override
+//    public Dimension getPreferredSize() {
+//        // TODO fix dimension to correct size
+//        return new Dimension(getWidth(), getHeight());
+////        return new Dimension(freeSpaceImage.getWidth(), freeSpaceImage.getHeight());
+//    }
     
     @Override
     public void paintComponent(Graphics g) {
@@ -237,16 +237,6 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
 
     void updateMatching(Matching matching) {
         this.matching = matching;
-    }
-
-    @Override
-    public int rightColumn() {
-        return 0;
-    }
-
-    @Override
-    public int bottomRow() {
-        return 0;
     }
     
 }

@@ -225,13 +225,4 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
         return 5;
     }
 
-    @Override
-    public int rightColumn() {
-        return 5;
-    }
-
-    @Override
-    public int bottomRow() {
-        return 0;
-    }
 }
