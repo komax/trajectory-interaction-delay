@@ -25,8 +25,8 @@ import static utils.Utils.roundDouble;
  */
 public final class DelaySpacePanel extends GenericPlottingPanel {
     // FIXME Use a heated body color map and draw the delay space in a custom panel.
-    public static final Color TRAJECT_BLUE = new Color(0x0000FF);
-    public static final Color TRAJECT_RED = new Color(0xFF0000);
+    public static final Color TRAJECT_BLUE_COLOR = new Color(0x0000FF);
+    public static final Color TRAJECT_RED_COLOR = new Color(0xFF0000);
     public static final Color MATCHING_COLOR = Color.GREEN;
     
     private EdgeCursor selectedEdge;
@@ -172,7 +172,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 g.setColor(Color.white);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
                 g2.fillRect(xCoordLegend, yCoord, 20, 40);
-                g.setColor(TRAJECT_BLUE);
+                g.setColor(TRAJECT_BLUE_COLOR);
                 Polygon triangle = new Polygon();
                 int triangleX = xCoordLegend + 10;
                 int triangleY = yCoord + 10;
@@ -180,13 +180,13 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 triangle.addPoint(triangleX - offset, triangleY - offset);
                 triangle.addPoint(triangleX + offset, triangleY - offset);
                 g.drawPolygon(triangle);
-                g.setColor(TRAJECT_RED);
+                g.setColor(TRAJECT_RED_COLOR);
                 g.drawRect(xCoordLegend + 10 - offset, yCoord + 30 - offset, diameter, diameter);
             } else if (isTraject2Ahead()) {
                 g.setColor(Color.white);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
                 g2.fillRect(xCoordLegend, yCoord, 20, 40);
-                g.setColor(TRAJECT_BLUE);
+                g.setColor(TRAJECT_BLUE_COLOR);
                 Polygon triangle = new Polygon();
                 int triangleX = xCoordLegend + 10;
                 int triangleY = yCoord + 30;
@@ -194,15 +194,15 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 triangle.addPoint(triangleX - offset, triangleY - offset);
                 triangle.addPoint(triangleX + offset, triangleY - offset);
                 g.drawPolygon(triangle);
-                g.setColor(TRAJECT_RED);
+                g.setColor(TRAJECT_RED_COLOR);
                 g.drawRect(xCoordLegend + 10 - offset, yCoord + 10 - offset, diameter, diameter);
             } else {
                 g.setColor(Color.white);
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
                 g2.fillRect(xCoordLegend, yCoord, 40, 20);
-                g.setColor(TRAJECT_RED);
+                g.setColor(TRAJECT_RED_COLOR);
                 g.drawRect(xCoordLegend + 10 - offset, yCoord + 10 - offset, diameter, diameter);
-                g.setColor(TRAJECT_BLUE);
+                g.setColor(TRAJECT_BLUE_COLOR);
                 Polygon triangle = new Polygon();
                 int triangleX = xCoordLegend + 30;
                 int triangleY = yCoord + 10;
