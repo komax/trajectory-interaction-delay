@@ -27,6 +27,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     // FIXME Use a heated body color map and draw the delay space in a custom panel.
     public static final Color TRAJECT_BLUE = new Color(0x0000FF);
     public static final Color TRAJECT_RED = new Color(0xFF0000);
+    public static final Color MATCHING_COLOR = Color.GREEN;
     
     private EdgeCursor selectedEdge;
     private final int delayThreshold;
@@ -53,21 +54,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
     
     public ColorMap computeHeatMap() {
-        double maxDistance = Double.MIN_VALUE;
-        double minDistance = Double.MAX_VALUE;
-
-        for (int i = 0; i < delaySpace.numberRows(); i++) {
-            for (int j = 0; j < delaySpace.numberColumns(); j++) {
-                double currentDistance = delaySpace.get(i, j);
-                if (currentDistance > maxDistance) {
-                    maxDistance = currentDistance;
-                }
-                if (currentDistance < minDistance) {
-                    minDistance = currentDistance;
-                }
-            }
-        }
-        return ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
+        return ColorMap.createHeatedBodyColorMap(delaySpace.getMinValue(), delaySpace.getMaxValue());
     }
     
     public void updateSelection(EdgeCursor selection) {
@@ -117,7 +104,8 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         int width = plotWidth();
         int height = plotHeight();
         
-        drawDelaySpace(g, width, height);    
+        drawDelaySpace(g, width, height);
+        drawMatching(g, width, height);
         drawLegends(g, height, width);
         drawCursorAndGlyph(g, width, height);
     }
@@ -137,6 +125,18 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 g.fillRect(lowerLeftPoint.x, lowerLeftPoint.y,
                         cellWidth, cellHeight);
             }
+        }
+    }
+    
+    private void drawMatching(Graphics g, int width, int height) {
+        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0], matching.j[0]));
+        for (int k = 1; k < matching.getLength(); k++) {
+            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k], matching.j[k]));
+            g.setColor(MATCHING_COLOR);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3.5f));
+            g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
+            previousPoint = currentPoint;
         }
     }
 

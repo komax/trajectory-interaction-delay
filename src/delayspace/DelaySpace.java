@@ -77,6 +77,28 @@ public abstract class DelaySpace {
         return delaySpace[0].length;
     }
     
+    public double getMinValue() {
+        double minValue = Double.MAX_VALUE;
+        
+        for (int i = 0; i < numberRows(); i++) {
+            for (int j = 0; j < numberColumns(); j++) {
+                minValue = Math.min(minValue, delaySpace[i][j]);
+            }
+        }
+        return minValue;
+    }
+    
+    public double getMaxValue() {
+        double maxValue = Double.MIN_VALUE;
+        
+        for (int i = 0; i < numberRows(); i++) {
+            for (int j = 0; j < numberColumns(); j++) {
+                maxValue = Math.max(maxValue, delaySpace[i][j]);
+            }
+        }
+        return maxValue;
+    }
+    
     public double[][] getTrajectory1() {
         return trajectory1;
     }
