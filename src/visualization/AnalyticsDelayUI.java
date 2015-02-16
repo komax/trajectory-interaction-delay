@@ -31,7 +31,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DistancePlotPanel distancePlot;
     private DelaySpacePanel delaySpacePlot;
     private DelayPlotPanel followingDelayPlot;
-    private double[] distancesOnMatching;
+    private double[] distancesOnMatching; // FIXME drop this field by using the values from the delay space!
     private DistanceNorm currentDistance;
     private int threshold;
     private int translucentFocus;
