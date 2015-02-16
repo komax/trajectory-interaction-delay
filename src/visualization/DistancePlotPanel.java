@@ -129,7 +129,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         for (int i=0; i <bucketValues.length; i++) {
             double currentValue = bucketValues[i];
             double normalizedValue = currentValue / maxDistance;
-            int yCoord = roundDouble(cartesianToPanelPoint(new DoublePoint2D(0, normalizedValue)).y);
+            int yCoord = cartesianToPanelPoint(new DoublePoint2D(0, normalizedValue)).y;
             Color heatedColor = heatedBodyColorMap.getColor(currentValue);
             g.setColor(heatedColor);
             g.drawLine(0, yCoord, leftColumn(), yCoord);

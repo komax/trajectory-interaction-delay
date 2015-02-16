@@ -15,6 +15,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import utils.DoublePoint2D;
+import utils.IntPoint2D;
 import static utils.Utils.roundDouble;
 
 /**
@@ -90,12 +92,12 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return getWidth();
+        return delaySpace.numberRows();
     }
 
     @Override
     public double maxY() {
-        return getHeight();
+        return delaySpace.numberColumns();
     }
     
     @Override
@@ -115,12 +117,12 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         int width = plotWidth();
         int height = plotHeight();
         
-        drawDelaySpace(width, height);    
+        drawDelaySpace(g, width, height);    
         drawLegends(g, height, width);
         drawCursorAndGlyph(g, width, height);
     }
 
-    private void drawDelaySpace(int width, int height) {
+    private void drawDelaySpace(Graphics g, int width, int height) {
         int cellWidth = roundDouble((double) width / delaySpace.numberRows());
         int cellHeight = roundDouble((double) height / delaySpace.numberColumns());
         
@@ -128,7 +130,12 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             for (int j = 0; j < delaySpace.numberColumns(); j++) {
                 double cellValue = delaySpace.get(i, j);
                 // 1. Convert cell value into a color of the heat map.
+                Color cellColor = heatedBodyColorMap.getColor(cellValue);
+                g.setColor(cellColor);
                 // 2. Draw a rectangle as the cell at (i,j) with its color.
+                IntPoint2D lowerLeftPoint = cartesianToPanelPoint(new DoublePoint2D(i - 0.5 , j - 0.5));
+                g.fillRect(lowerLeftPoint.x, lowerLeftPoint.y,
+                        cellWidth, cellHeight);
             }
         }
     }
