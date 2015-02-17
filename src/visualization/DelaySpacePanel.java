@@ -121,7 +121,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
                 Color cellColor = heatedBodyColorMap.getColor(cellValue);
                 g.setColor(cellColor);
                 // 2. Draw a rectangle as the cell at (i,j) with its color.
-                IntPoint2D lowerLeftPoint = cartesianToPanelPoint(new DoublePoint2D(i - 0.5 , j - 0.5));
+                IntPoint2D lowerLeftPoint = cartesianToPanelPoint(new DoublePoint2D(i, j));
                 g.fillRect(lowerLeftPoint.x, lowerLeftPoint.y,
                         cellWidth, cellHeight);
             }
@@ -129,9 +129,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
     
     private void drawMatching(Graphics g, int width, int height) {
-        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0] + 0.5 , matching.j[0]  - 0.5));
+        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0], matching.j[0]));
         for (int k = 1; k < matching.getLength(); k++) {
-            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k] + 0.5 , matching.j[k] - 0.5));
+            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k] + 0.5, matching.j[k] - 0.5));
             g.setColor(MATCHING_COLOR);
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3.5f));
