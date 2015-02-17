@@ -12,7 +12,6 @@ import frechet.Matching;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -25,7 +24,6 @@ import static utils.Utils.roundDouble;
  * @author max
  */
 public final class DelaySpacePanel extends GenericPlottingPanel {
-    // FIXME Use a heated body color map and draw the delay space in a custom panel.
     public static final Color TRAJECT_BLUE_COLOR = new Color(0x0000FF);
     public static final Color TRAJECT_RED_COLOR = new Color(0xFF0000);
     public static final Color MATCHING_COLOR = Color.GREEN;
@@ -34,8 +32,8 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     private final int delayThreshold;
     private double samplingRate;
     private Matching matching;
-    private DelaySpace delaySpace; // FIXME Use the delay space to plot.
-    private final boolean logScaled; // TODO Enable to turn logscaling on and off
+    private DelaySpace delaySpace;
+    private boolean logScaled;
     private ColorMap heatedBodyColorMap;
     
     public DelaySpacePanel(DelaySpace delaySpace, Matching matching, int delayThreshold, double samplingRate, boolean logScaled) {
@@ -55,7 +53,18 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
     
     public ColorMap computeHeatMap() {
-        return ColorMap.createHeatedBodyColorMap(delaySpace.getMinValue(), delaySpace.getMaxValue());
+        double minValue = delaySpace.getMinValue();
+        double maxValue = delaySpace.getMaxValue();
+        if (logScaled) {
+            return ColorMap.createHeatedBodyColorMap(Math.log(minValue), Math.log(maxValue));
+        } else {
+            return ColorMap.createHeatedBodyColorMap(minValue, maxValue);
+        }
+    }
+    
+    public void setLogScaled(boolean logScaled) {
+        this.logScaled = logScaled;
+        this.heatedBodyColorMap = computeHeatMap();
     }
     
     public void updateSelection(EdgeCursor selection) {
@@ -118,6 +127,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         for (int i = 0; i < delaySpace.numberRows(); i++) {
             for (int j = 0; j < delaySpace.numberColumns(); j++) {
                 double cellValue = delaySpace.get(i, j);
+                if (logScaled) {
+                    cellValue = Math.log(cellValue);
+                }
                 // 1. Convert cell value into a color of the heat map.
                 Color cellColor = heatedBodyColorMap.getColor(cellValue);
                 g.setColor(cellColor);
