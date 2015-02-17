@@ -22,6 +22,7 @@ public class Matching implements Serializable {
         int numColumns = trajectory2.length;
         if (isDirectional) {
             path.add(new Node(numRows - 1, numColumns - 1, Double.NaN));
+            System.out.println(path.get(0));
         }
         Node currentNode;
         if (isDirectional) {
@@ -30,12 +31,12 @@ public class Matching implements Serializable {
             currentNode = tree.getNode(numRows - 1, numColumns - 1);
         }
         path.add(currentNode);
+        System.out.println(currentNode);
         while (!currentNode.isRoot()) {
             currentNode = currentNode.getParent();
             path.add(currentNode);
+            System.out.println(currentNode);
         }
-        // Add the root to the matching.
-        path.add(currentNode);
         
         // Store the path in the fields i and j.
         this.length = path.size();
