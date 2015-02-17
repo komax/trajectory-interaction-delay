@@ -6,6 +6,7 @@
 
 package visualization;
 
+import colormap.ColorMap;
 import frechet.Matching;
 import java.awt.BasicStroke;
 import java.awt.Color;

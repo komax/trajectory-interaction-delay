@@ -6,6 +6,7 @@
 
 package visualization;
 
+import colormap.ColorMap;
 import delayspace.DelaySpace;
 import frechet.Matching;
 import java.awt.AlphaComposite;
@@ -146,15 +147,13 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.green);
-            double xPoint = ((double) width) * ((double) selectedEdge.getIndexTrajA() + 0.5) / matching.getLength();
-            xPoint += leftColumn();
-            double yPoint = height - ((double) height) * ((double) selectedEdge.getIndexTrajB() + 0.5) / matching.getLength();
-            int xCoord = roundDouble(xPoint);
-            int yCoord = roundDouble(yPoint);
+            IntPoint2D cursorPoint = cartesianToPanelPoint(new DoublePoint2D(selectedEdge.getIndexTrajA() + 0.5, selectedEdge.getIndexTrajB() - 0.5 ));
+            int xCoord = cursorPoint.x;
+            int yCoord = cursorPoint.y;
             // Drawing the horizontial line.
             g.drawLine(leftColumn(), yCoord, xCoord, yCoord);
             // Drawing the vertical line.
-            g.drawLine(xCoord, plotHeight(), xCoord, yCoord);
+            g.drawLine(xCoord, plotHeight()+upperRow(), xCoord, yCoord);
             
             // Drawing of indices on the axes.
             g.setColor(Color.BLACK);
