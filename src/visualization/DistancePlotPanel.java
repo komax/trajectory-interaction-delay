@@ -34,21 +34,15 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private ColorMap heatedBodyColorMap;
     private double maxDistance;
     private double minDistance;
-    private Matching matching;
-    private DelaySpace delaySpace;
     
     public DistancePlotPanel(Matching matching, DelaySpace delaySpace) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
-        this.matching = matching;
-        this.delaySpace = delaySpace;
         // TODO Use the results from the delay space?
         update(matching, delaySpace);
     }
     
     // TODO Seperate these update actions and compute the distances on demand
     public void update(Matching matching, DelaySpace delaySpace) {
-        this.matching = matching;
-        this.delaySpace = delaySpace;
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         
         this.distancesOnMatching = Utils.distancesOnMatching(matching, delaySpace);
@@ -164,8 +158,8 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             int selectedIndex = selectedEdge.getPosition();
             DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, normalizedDistances[selectedIndex]);
             IntPoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
-            int xCoord = roundDouble(drawablePoint.x);
-            int yCoord = roundDouble(drawablePoint.y);
+            int xCoord = drawablePoint.x;
+            int yCoord = drawablePoint.y;
             
             g.drawLine(leftColumn(), yCoord, xCoord, yCoord);
             g.drawLine(xCoord, upperRow(), xCoord, getHeight());
