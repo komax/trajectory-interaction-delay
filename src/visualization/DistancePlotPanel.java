@@ -24,24 +24,19 @@ import static utils.Utils.roundDouble;
  * @author max
  */
 public final class DistancePlotPanel extends GenericPlottingPanel {
-    // FIXME Plot does not plot correctly anymore
     private double[] normalizedDistances;
     private EdgeCursor selectedEdge;
     private double maxDistanceNormalized;
     private double[] distancesOnMatching;
     private double minDistanceNormalized;
-    // TODO Use the heatmap from the delay space.
     private ColorMap heatedBodyColorMap;
     private double maxDistance;
     private double minDistance;
     
     public DistancePlotPanel(Matching matching, DelaySpace delaySpace) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
-        // TODO Use the results from the delay space?
         update(matching, delaySpace);
     }
-    
-    // TODO Seperate these update actions and compute the distances on demand
     public void update(Matching matching, DelaySpace delaySpace) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         
