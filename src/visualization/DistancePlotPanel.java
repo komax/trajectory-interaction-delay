@@ -33,6 +33,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private ColorMap heatedBodyColorMap;
     private double maxDistance;
     private double minDistance;
+    private boolean logScaled = false;
     
     public DistancePlotPanel(Matching matching, DelaySpace delaySpace) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
@@ -48,9 +49,21 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         this.minDistance = delaySpace.getMinValue();
         this.maxDistanceNormalized = maxDistance / maxDistance;
         this.minDistanceNormalized = minDistance / minDistance;
-        
-        this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
+        if (logScaled) {
+            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(Math.log(minDistance), Math.log(maxDistance));
+        } else {
+            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
+        }
         this.repaint();
+    }
+    
+    public void setLogScaled(boolean logScaled) {
+        this.logScaled = logScaled;
+        if (logScaled) {
+            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(Math.log(minDistance), Math.log(maxDistance));
+        } else {
+            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
+        }
     }
     
     private double[] linspace(int steps) {
@@ -114,6 +127,9 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             double currentValue = bucketValues[i];
             double normalizedValue = currentValue / maxDistance;
             int yCoord = cartesianToPanelPoint(new DoublePoint2D(0, normalizedValue)).y;
+            if (logScaled) {
+                currentValue = Math.log(currentValue);
+            }
             Color heatedColor = heatedBodyColorMap.getColor(currentValue);
             g.setColor(heatedColor);
             g.drawLine(0, yCoord, leftColumn(), yCoord);
