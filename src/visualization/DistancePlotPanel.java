@@ -6,6 +6,7 @@
 
 package visualization;
 
+import colormap.ColorMap;
 import delayspace.DelaySpace;
 import frechet.Matching;
 import java.awt.BasicStroke;

@@ -1,5 +1,6 @@
 package visualization;
 
+import colormap.ColorMap;
 import frechet.Matching;
 import java.awt.*;
 import java.util.ArrayList;
