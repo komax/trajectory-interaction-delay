@@ -6,6 +6,7 @@
 
 package visualization;
 
+import delayspace.DelaySpace;
 import frechet.Matching;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,38 +34,31 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     private ColorMap heatedBodyColorMap;
     private double maxDistance;
     private double minDistance;
+    private Matching matching;
+    private DelaySpace delaySpace;
     
-    public DistancePlotPanel(Matching matching, double[] distances) {
+    public DistancePlotPanel(Matching matching, DelaySpace delaySpace) {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
+        this.matching = matching;
+        this.delaySpace = delaySpace;
         // TODO Use the results from the delay space?
-        updateMatching(matching, distances);
+        update(matching, delaySpace);
     }
     
     // TODO Seperate these update actions and compute the distances on demand
-    public void updateMatching(Matching matching, double[] distancesOnMatching) {
-        this.distancesOnMatching = distancesOnMatching;
-        this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
-        this.maxDistanceNormalized = Double.MIN_VALUE;
-        this.minDistanceNormalized = Double.MAX_VALUE;
-        this.maxDistance = Double.MIN_VALUE;
-        this.minDistance = Double.MAX_VALUE;
+    public void update(Matching matching, DelaySpace delaySpace) {
+        this.matching = matching;
+        this.delaySpace = delaySpace;
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         
-        for (double currentDistance : normalizedDistances) {
-            if (currentDistance > maxDistanceNormalized) {
-                maxDistanceNormalized = currentDistance;
-            }
-            if (currentDistance < minDistanceNormalized) {
-                minDistanceNormalized = currentDistance;
-            }
-        }
-        for (double currentDistance : distancesOnMatching) {
-            if (currentDistance > maxDistance) {
-                maxDistance = currentDistance;
-            }
-            if (currentDistance < minDistance) {
-                minDistance = currentDistance;
-            }
-        }
+        this.distancesOnMatching = Utils.distancesOnMatching(matching, delaySpace);
+        this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
+
+        this.maxDistance = delaySpace.getMaxValue();
+        this.minDistance = delaySpace.getMinValue();
+        this.maxDistanceNormalized = maxDistance / maxDistance;
+        this.minDistanceNormalized = minDistance / minDistance;
+        
         this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
         this.repaint();
     }

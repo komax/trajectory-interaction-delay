@@ -5,6 +5,7 @@
  */
 package utils;
 
+import delayspace.DelaySpace;
 import utils.distance.DistanceNorm;
 import frechet.Matching;
 import static utils.distance.DistanceNormFactory.EuclideanDistance;
@@ -73,16 +74,13 @@ public class Utils {
         return traject2IsAhead;
     }
 
-    public static double[] distancesOnMatching(Matching matching, DistanceNorm distance) {
-        double[] delay = new double[matching.i.length];
-        double[][] traject1 = matching.getTrajectory1();
-        double[][] traject2 = matching.getTrajectory2();
-        for (int k = 0; k < delay.length; k++) {
-            double[] pointI = traject1[matching.i[k]];
-            double[] pointJ = traject2[matching.j[k]];
-            delay[k] = distance.distance(pointI, pointJ);
+    public static double[] distancesOnMatching(Matching matching, DelaySpace delaySpace) {
+        double[] distances = new double[matching.getLength()];
+        for (int k = 0; k < distances.length; k++) {
+            double cellValue  = delaySpace.get(matching.i[k], matching.j[k]);
+            distances[k] = cellValue;
         }
-        return delay;
+        return distances;
     }
 
     public static int[] delayInTimestamps(Matching matching) {
@@ -92,78 +90,6 @@ public class Utils {
             delays[k] = diff;
         }
         return delays;
-    }
-    
-    public static double[] headingOnMatching(Matching matching) {
-        double[] headings = new double[matching.i.length];
-        double[][] traject1 = matching.getTrajectory1();
-        double[][] traject2 = matching.getTrajectory2();  
-        for (int k = 0; k < headings.length; k++) {
-            int indexI = matching.i[k];
-            int indexJ = matching.j[k];
-            double[] pointI = traject1[indexI];
-            double[] pointJ = traject2[indexJ];
-            double[] followPointI;
-            double[] followPointJ;
-            if (indexI < (traject1.length - 1)) {
-                followPointI = traject1[indexI + 1];
-            } else {
-                followPointI = traject1[traject1.length -1];
-            }
-            if (indexJ < (traject2.length - 1)) {
-                followPointJ = traject2[indexJ + 1];
-            } else {
-                followPointJ = traject2[traject2.length -1];
-            }
-            double angleI = computeHeadingAngle(pointI, followPointI);
-            double angleJ = computeHeadingAngle(pointJ, followPointJ);
-            double headingValue = Math.cos(angleI - angleJ);
-            headings[k] = headingValue; 
-        }
-        return headings;
-    }
-    
-    public static double[] headingDistancesOnMatching(Matching matching) {
-        double[] headingDistances = new double[matching.i.length];
-        double[] headings = headingOnMatching(matching);
-        for (int k = 0; k < headings.length; k++) {
-            headingDistances[k] = 1.0 - headings[k];
-        }
-        return headingDistances;
-    }
-    
-    public static double[] dynamicInteractionOnMatching(Matching matching, DistanceNorm distance, double alpha) {
-        double[] displacements = displacementsOnMatching(matching, distance, alpha);
-        double[] headings = headingOnMatching(matching);
-        double[] dynamicInteractions = new double[displacements.length];
-        for (int i = 0; i < dynamicInteractions.length; i++) {
-            dynamicInteractions[i] = 1.0 - (displacements[i] * headings[i]);
-        }
-        return dynamicInteractions;
-    }
-    
-    private static double[] displacementsOnMatching(Matching matching, DistanceNorm distance, double alpha) {
-        double[] displacements = new double[matching.i.length];
-        double[][] traject1 = matching.getTrajectory1();
-        double[][] traject2 = matching.getTrajectory2();  
-        for (int k = 0; k < displacements.length; k++) {
-            double[] pointI = traject1[matching.i[k]];
-            double[] pointJ = traject2[matching.j[k]];
-            double[] followPointI;
-            double[] followPointJ;
-            if (k < (displacements.length - 1)) {
-                followPointI = traject1[matching.i[k+1]];
-                followPointJ = traject2[matching.j[k+1]];
-            } else {
-                followPointI = traject1[traject1.length - 1];
-                followPointJ = traject2[traject2.length - 1];
-            }
-            double distanceI = computeDistanceOnMovementVector(pointI, followPointI, distance);
-            double distanceJ = computeDistanceOnMovementVector(pointJ, followPointJ, distance);
-            double displacementValue = computeDisplacement(distanceI, distanceJ, alpha);
-            displacements[k] = displacementValue; 
-        }
-        return displacements;
     }
     
     public static double computeDistanceOnMovementVector(double[] pointI, double[] successorPointI, DistanceNorm distance) {
@@ -180,16 +106,6 @@ public class Utils {
             double fraction = numerator / summedDistance;
             return 1.0 - Math.pow(fraction, alpha);
         }
-    }
-    
-    public static double[] directionalDistancesOnMatching(Matching matching, DistanceNorm distance) {
-        double[] distances = distancesOnMatching(matching, distance);
-        double[] headings = headingOnMatching(matching);
-        double[] directionalDistances = new double[distances.length];
-        for (int i = 0; i < directionalDistances.length; i++) {
-            directionalDistances[i] = distances[i] * (2 - headings[i]);
-        }
-        return directionalDistances;
     }
     
     public static double[] crossProduct(double[] p, double[] q) {
@@ -253,5 +169,4 @@ public class Utils {
             }
         }
     }
-
 }

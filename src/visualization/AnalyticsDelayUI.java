@@ -81,7 +81,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelayPlot() {
-        this.distancePlot = new DistancePlotPanel(matching, distancesOnMatching);
+        this.distancePlot = new DistancePlotPanel(matching, delaySpace);
         this.distancePanel.add(distancePlot);
     }
 
@@ -107,27 +107,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     // FIXME Get rid of this complex method.
-    private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpace, boolean logScale) {
+    private void updateDistanceAndMatching(DistanceNorm distance, DelaySpaceType delaySpaceType, boolean logScale) {
         this.currentDistance = distance;
         this.logScaled = logScale;
         
-        updateDelaySpace(delaySpace);
+        updateDelaySpace(delaySpaceType);
         computeMatching();
-        switch (delaySpace) {
-            case USUAL:
-                this.distancesOnMatching = Utils.distancesOnMatching(matching, currentDistance);
-                break;
-            case DYNAMIC_INTERACTION:
-                double alpha = 1.0;
-                this.distancesOnMatching = Utils.dynamicInteractionOnMatching(matching, distance, alpha);
-                break;
-            case DIRECTIONAL_DISTANCE:
-                this.distancesOnMatching = Utils.directionalDistancesOnMatching(matching, currentDistance);
-                break;
-            case HEADING:
-                this.distancesOnMatching = Utils.headingDistancesOnMatching(matching);
-                break;
-        }
+        this.distancesOnMatching = Utils.distancesOnMatching(matching, this.delaySpace);
     }
 
     // TODO Check whether this method plots and behaves correctly.
@@ -138,7 +124,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
-            distancePlot.updateMatching(matching, distancesOnMatching);
+            distancePlot.update(matching, delaySpace);
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
