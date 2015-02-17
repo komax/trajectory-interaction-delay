@@ -43,6 +43,12 @@ public class ColorMap {
         return getColorFromRGB(red, green, blue, alpha);
     }
     
+    public static ColorMap createColorMap(ColorMapType colorMapType, double minValue,
+            double maxValue, int numberOfColors) {
+        // TODO support a color map with a particular number of colors
+        return null;
+    }
+    
     public static ColorMap createHeatedBodyColorMap(double minValue, double maxValue) {
         List<Color> heatedColorMap = new ArrayList<>();
         float[][] colorCodes = HEATED_BODY_COLOR_CODES;
