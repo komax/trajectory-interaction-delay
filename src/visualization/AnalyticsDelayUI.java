@@ -486,6 +486,12 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             delaySpacePlot.repaint();
         }
         
+        if (distancePlot != null) {
+            // FIXME Support logscaling in the distance plot
+            delaySpacePlot.setLogScaled(logScaled);
+            delaySpacePlot.repaint();
+        }
+        
         // FIXME pass logscaling to delay space plot and delay plot. NOT all plots.
         updateDistanceAndMatching(currentDistance, delaySpace.getType(), logScaled);
         updateAndRepaintPlots();
