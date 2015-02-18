@@ -49,12 +49,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         this.minDistance = delaySpace.getMinValue();
         this.maxDistanceNormalized = maxDistance / maxDistance;
         this.minDistanceNormalized = minDistance / minDistance;
-        if (logScaled) {
-            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(Math.log(minDistance), Math.log(maxDistance));
-        } else {
-            this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
-        }
-        this.repaint();
+        setLogScaled(false);
     }
     
     public void setLogScaled(boolean logScaled) {
@@ -64,6 +59,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         } else {
             this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
         }
+        this.repaint();
     }
     
     private double[] linspace(int steps) {
