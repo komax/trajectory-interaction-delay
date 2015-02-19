@@ -8,7 +8,6 @@ package utils;
 import delayspace.DelaySpace;
 import utils.distance.DistanceNorm;
 import frechet.Matching;
-import static utils.distance.DistanceNormFactory.EuclideanDistance;
 
 /**
  *
