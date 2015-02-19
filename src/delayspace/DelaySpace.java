@@ -5,6 +5,7 @@
  */
 package delayspace;
 
+import utils.Utils;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
 import utils.distance.DistanceNormType;
@@ -16,35 +17,42 @@ import utils.distance.DistanceNormType;
 public abstract class DelaySpace {
     // TODO Debug for all subclasses and its results.
     
-    protected final DistanceNorm distance;
-    protected final DelaySpaceType delaySpaceType; // FIXME Drop this ugly field.
+    protected DistanceNorm distance;
     protected final double[][] delaySpace;
     protected final double[][] trajectory1;
     protected final double[][] trajectory2;
+    protected double alpha;
     
-    public static final double ALPHA = 1.0;
-    
-    public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
+    public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNorm distanceNorm) {
+        DelaySpace delaySpace = null;
+        double alpha = 1.0;
         switch(delayType) {
             case USUAL:
-                return new DistanceDelaySpace(trajectory1, trajectory2, normType);
+                delaySpace = new DistanceDelaySpace(trajectory1, trajectory2);
+                break;
             case HEADING:
-                return new Heading(trajectory1, trajectory2);
+                delaySpace = new Heading(trajectory1, trajectory2);
+                break;
             case DIRECTIONAL_DISTANCE:
-                return new DirectionalDistance(trajectory1, trajectory2, normType);
+                delaySpace = new DirectionalDistance(trajectory1, trajectory2);
+                break;
             case DYNAMIC_INTERACTION:
-                return new DynamicInteraction(trajectory1, trajectory2, normType, ALPHA);
+                delaySpace = new DynamicInteraction(trajectory1, trajectory2, alpha);
+                break;
             case DISPLACEMENT:
-                return new Displacement(trajectory1, trajectory2, normType, ALPHA);
+                delaySpace = new Displacement(trajectory1, trajectory2, alpha);
+                break;
             default:
                 throw new RuntimeException("This delayspace type is not supported: " + delayType);
         }
+        delaySpace.setDistanceNorm(distanceNorm);
+        delaySpace.computeDelaySpace();
+        return delaySpace;
     }
     
-    public DelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNormType normType) {
-        this.distance = DistanceNormFactory.getDistanceNorm(normType);
-        this.delaySpaceType = delayType;
-        
+    public DelaySpace(double[][] trajectory1, double[][] trajectory2) {
+        this.distance = DistanceNormFactory.EuclideanDistance;
+        this.alpha = Double.NaN;
         this.trajectory1 = trajectory1;
         this.trajectory2 = trajectory2;
         
@@ -77,6 +85,10 @@ public abstract class DelaySpace {
         return delaySpace[0].length;
     }
     
+    public void setDistanceNorm(DistanceNorm distanceNorm) {
+        this.distance = distanceNorm;
+    }
+    
     public double getMinValue() {
         double minValue = Double.MAX_VALUE;
         
@@ -107,11 +119,5 @@ public abstract class DelaySpace {
         return trajectory2;
     }
     
-    public DelaySpaceType getType() {
-        return delaySpaceType;
-    }
-    
-    public boolean isDirectional() {
-        return delaySpaceType.isDirectional();
-    }
+    public abstract boolean isDirectional();
 }
