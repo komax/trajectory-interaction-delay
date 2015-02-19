@@ -105,11 +105,16 @@ public class Utils {
         }
     }
     
-    public static double[] crossProduct(double[] p, double[] q) {
+    public static double[] crossProduct3D(double[] p, double[] q) {
         double[] product = new double[p.length];
         product[0] = p[1] * q[2] - p[2] * q[1];
         product[1] = p[2] * q[0] - p[0] * q[2];
         product[2] = p[0] * q[1] - p[1] * q[0];
+        return product;
+    }
+    
+    public static double crossProduct2D(double[] p, double[] q) {
+        double product = p[0] * q[1] - p[1] * q[0];
         return product;
     }
     
@@ -138,7 +143,7 @@ public class Utils {
     }
     
     private static double computeAngle(double[] vectorA, double[] vectorB) {
-        double angle = Math.atan2(vectorNorm(crossProduct(vectorA, vectorB), EuclideanDistance),
+        double angle = Math.atan2(crossProduct2D(vectorA, vectorB),
                 dotProduct(vectorA, vectorB));
         return angle;
     }
