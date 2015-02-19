@@ -53,11 +53,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
         try {
-            readTrajectories(PATH_TO_TRAJ_DATA, DelaySpaceType.USUAL);
+            readTrajectories(PATH_TO_TRAJ_DATA);
         } catch (Exception ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        setDelaySpace(DelaySpaceType.USUAL, DistanceNormType.EUCLIDEAN);
+        setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
         
         initSlider();
@@ -92,7 +92,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.delayPanel.add(followingDelayPlot);
     }
     
-    private void readTrajectories(String filename, DelaySpaceType delaySpaceType) throws Exception {
+    private void readTrajectories(String filename) throws Exception {
         TrajectoryReader reader = TrajectoryReader.createTrajectoryReader(filename, true);
         this.trajectory1 = reader.getTrajectory1();
         this.trajectory2 = reader.getTrajectory2();
@@ -103,14 +103,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.matching = experiment.run();
     }
     
-    private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNormType currentDistance) {
+    private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
         this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance);
     }
     
     private void updateDelaySpace() {
         DelaySpaceType delaySpaceType = getDelaySpaceType();
-        DistanceNormType distanceNormType = getDistanceNormType();
-        setDelaySpace(delaySpaceType, distanceNormType);
+        DistanceNorm distanceNorm = getDistanceNorm();
+        setDelaySpace(delaySpaceType, distanceNorm);
     }
     
     private DelaySpaceType getDelaySpaceType() {
@@ -129,15 +129,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }
     
-    private DistanceNormType getDistanceNormType() {
+    private DistanceNorm getDistanceNorm() {
         int selectedIndex = distanceNormComboBox.getSelectedIndex();
         int lastElement = distanceNormComboBox.getItemCount() - 1;        
         if (selectedIndex == lastElement) {
-            return DistanceNormType.LInf_Norm;
+            return DistanceNormFactory.LInfDistance;
         } else if (selectedIndex == 1) {
-            return DistanceNormType.L1_NORM;
+            return DistanceNormFactory.L1Distance;
         } else {
-            return DistanceNormType.EUCLIDEAN;
+            return DistanceNormFactory.EuclideanDistance;
         }
     }
 

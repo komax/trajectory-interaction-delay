@@ -15,8 +15,7 @@ public final class Heading extends DelaySpace {
 
     public Heading(double[][] trajectory1, double[][] trajectory2) {
         // FIXME passing null yields an exception. Code does not work.
-        super(trajectory1, trajectory2, DelaySpaceType.HEADING, null);
-        computeDelaySpace();
+        super(trajectory1, trajectory2);
     }
 
     @Override
@@ -43,5 +42,10 @@ public final class Heading extends DelaySpace {
             delaySpace[i][j] = headingValue;
             }
         }
+    }
+
+    @Override
+    public boolean isDirectional() {
+        return true;
     }
 }

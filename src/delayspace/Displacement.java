@@ -7,19 +7,16 @@ package delayspace;
 
 import static utils.Utils.computeDisplacement;
 import static utils.Utils.computeDistanceOnMovementVector;
-import utils.distance.DistanceNormType;
 
 /**
  *
  * @author max
  */
 public final class Displacement extends DelaySpace {
-    private final double alpha;
 
-    public Displacement(double[][] trajectory1, double[][] trajectory2, DistanceNormType normType, double alpha) {
-        super(trajectory1, trajectory2, DelaySpaceType.DISPLACEMENT, normType);
+    public Displacement(double[][] trajectory1, double[][] trajectory2, double alpha) {
+        super(trajectory1, trajectory2);
         this.alpha = alpha;
-        computeDelaySpace();
     }
 
     @Override
@@ -47,6 +44,11 @@ public final class Displacement extends DelaySpace {
                 delaySpace[i][j] = displacementValue;
             }
         }
+    }
+
+    @Override
+    public boolean isDirectional() {
+        return false;
     }
     
 }

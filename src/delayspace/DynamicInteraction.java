@@ -5,8 +5,6 @@
  */
 package delayspace;
 
-import utils.distance.DistanceNormType;
-
 /**
  *
  * @author max
@@ -15,11 +13,10 @@ public final class DynamicInteraction extends DelaySpace {
     private final double[][] displacements;
     private final double[][] headingDelaySpace;
 
-    public DynamicInteraction(double[][] trajectory1, double[][] trajectory2, DistanceNormType normType, double alpha) {
-        super(trajectory1, trajectory2, DelaySpaceType.DYNAMIC_INTERACTION, normType);
-        computeDelaySpace();
+    public DynamicInteraction(double[][] trajectory1, double[][] trajectory2, double alpha) {
+        super(trajectory1, trajectory2);
         
-        this.displacements = (new Displacement(trajectory1, trajectory2, normType, alpha)).delaySpace;
+        this.displacements = (new Displacement(trajectory1, trajectory2, alpha)).delaySpace;
         this.headingDelaySpace = (new Heading(trajectory1, trajectory2)).delaySpace;
     }
 
@@ -32,6 +29,11 @@ public final class DynamicInteraction extends DelaySpace {
             }
         }
         
+    }
+
+    @Override
+    public boolean isDirectional() {
+        return true;
     }
     
 }

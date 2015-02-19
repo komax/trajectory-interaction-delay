@@ -5,17 +5,14 @@
  */
 package delayspace;
 
-import utils.distance.DistanceNormType;
-
 /**
  *
  * @author max
  */
 public final class DistanceDelaySpace extends DelaySpace {
     
-    public DistanceDelaySpace(double[][] trajectory1, double[][] trajectory2, DistanceNormType normType) {
-        super(trajectory1, trajectory2, DelaySpaceType.USUAL, normType);
-        computeDelaySpace();
+    public DistanceDelaySpace(double[][] trajectory1, double[][] trajectory2) {
+        super(trajectory1, trajectory2);
     }
 
     @Override
@@ -28,6 +25,11 @@ public final class DistanceDelaySpace extends DelaySpace {
                 delaySpace[i][j] = distanceValue;
             }
         }
+    }
+
+    @Override
+    public boolean isDirectional() {
+        return false;
     }
     
 }
