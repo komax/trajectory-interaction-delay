@@ -203,14 +203,6 @@ public final class MatchingPlot extends GenericPlottingPanel {
             return ColorMap.getColorFromRGB(color.getRGB(), TRANSLUCENT_ALPHA);
         }   
     }
-    
-    private int interpolatedAlpha(int deltaToFocus, int indexFocus) {
-        int valueRange = VISIBLE_ALPHA - TRANSLUCENT_ALPHA;
-        int upperIndexFocus = indexFocus + translucentFocus;
-        Double expectedIndex = (double) (upperIndexFocus - deltaToFocus) * valueRange / upperIndexFocus;
-        int nullBasedAlphaValue = expectedIndex.intValue();
-        return TRANSLUCENT_ALPHA + nullBasedAlphaValue;
-    }
 
     private void paintTrajectories(Graphics g) {
         drawTrajectory(trajectory1, g);
