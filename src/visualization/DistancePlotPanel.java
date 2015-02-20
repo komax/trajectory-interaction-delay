@@ -59,7 +59,6 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         } else {
             this.heatedBodyColorMap = ColorMap.createHeatedBodyColorMap(minDistance, maxDistance);
         }
-        this.repaint();
     }
     
     private double[] linspace(int steps) {
