@@ -153,7 +153,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-//            matchingPlot.updateMatching(matching, threshold, translucentFocus);
+            matchingPlot.updateMatching(matching, threshold, translucentFocus);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
@@ -442,11 +442,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
     private void distanceNormComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_distanceNormComboBoxItemStateChanged
         updateDelaySpace();
+        computeMatching();
         updateAndRepaintPlots();
     }//GEN-LAST:event_distanceNormComboBoxItemStateChanged
 
     private void delaySpaceComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_delaySpaceComboBoxItemStateChanged
         updateDelaySpace();
+        computeMatching();
         updateAndRepaintPlots();
     }//GEN-LAST:event_delaySpaceComboBoxItemStateChanged
 

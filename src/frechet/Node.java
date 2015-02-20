@@ -99,12 +99,14 @@ public class Node {
         stringBuilder.append(") parent = ");
         if (isRoot()) {
             stringBuilder.append("(0, 0)");
-        } else {
+        } else if (parent != null) {
             stringBuilder.append("(");
             stringBuilder.append(parent.i);
             stringBuilder.append(", ");
             stringBuilder.append(parent.j);
             stringBuilder.append(")");
+        } else {
+            stringBuilder.append("null");
         }
         stringBuilder.append("\nshortcutUp = ");
         if (hasShortcutUp()) {

@@ -241,6 +241,7 @@ class LCFMTree {
         }
         
         if (diagonal.isDead()) {
+            System.err.println("dead ("+(i-1)+","+(j-1)+")");
             // Compress the tree if the diagonal node has no out going edges.
             removeDeadPaths(diagonal, i, j);
         }
