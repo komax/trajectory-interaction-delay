@@ -28,7 +28,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private MatchingPlot matchingPlot;
     private DistancePlotPanel distancePlot;
     private DelaySpacePanel delaySpacePlot;
-    private DelayPlotPanel followingDelayPlot;
+    private DelayPlotPanel delayPlot;
     
     // Settings from the UI
     private int threshold;
@@ -87,8 +87,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initFollowingPlot() {
-        this.followingDelayPlot = new DelayPlotPanel(matching, threshold, 0.2);
-        this.delayPanel.add(followingDelayPlot);
+        this.delayPlot = new DelayPlotPanel(matching, threshold, 0.2);
+        this.delayPanel.add(delayPlot);
     }
     
     private void readTrajectories(String filename) throws Exception {
@@ -143,9 +143,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     // TODO Check whether this method plots and behaves correctly.
     private void updateAndRepaintPlots() {
         this.matchingSlider.setMaximum(this.matching.getLength() - 1);
-        if (followingDelayPlot != null) {
-            followingDelayPlot.updateMatching(matching, threshold, samplingRate);
-            followingDelayPlot.repaint();
+        if (delayPlot != null) {
+            delayPlot.updateMatching(matching, threshold, samplingRate);
+            delayPlot.repaint();
         }
         if (distancePlot != null) {
             // FIXME this plot works the other not. Why?
@@ -160,6 +160,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             delaySpacePlot.updateDelaySpace(delaySpace);
             delaySpacePlot.updateMatching(matching);
 //            delaySpacePlot.updateMatching(matching);
+//            delayPanel.repaint();
             delaySpacePlot.repaint();
         }
     }
@@ -428,8 +429,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 matchingPlot.updateSelection(selection);
                 trajectoryPlotPanel.repaint();
             }
-            if (followingDelayPlot != null) {
-                followingDelayPlot.updateSelection(selection);
+            if (delayPlot != null) {
+                delayPlot.updateSelection(selection);
                 delayPanel.repaint();
             }
             if (delaySpacePlot != null) {
