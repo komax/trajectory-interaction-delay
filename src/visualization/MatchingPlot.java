@@ -82,6 +82,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
         this.negativeColors.halfColorSpectrum();
        // this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
+        
+        this.repaint();
     }
 
     private void makeTrajectoriesNullbased() {

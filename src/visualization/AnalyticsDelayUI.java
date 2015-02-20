@@ -14,7 +14,6 @@ import utils.Experiment;
 import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
-import utils.distance.DistanceNormType;
 
 /**
  *
@@ -149,15 +148,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             followingDelayPlot.repaint();
         }
         if (distancePlot != null) {
+            // FIXME this plot works the other not. Why?
             distancePlot.update(matching, delaySpace);
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-            matchingPlot.updateMatching(matching, threshold, translucentFocus);
+//            matchingPlot.updateMatching(matching, threshold, translucentFocus);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
+            delaySpacePlot.updateDelaySpace(delaySpace);
             delaySpacePlot.updateMatching(matching);
+//            delaySpacePlot.updateMatching(matching);
             delaySpacePlot.repaint();
         }
     }
@@ -490,9 +492,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         
         if (distancePlot != null) {
-            // FIXME Support logscaling in the distance plot
-            delaySpacePlot.setLogScaled(logScaled);
-            delaySpacePlot.repaint();
+            distancePlot.setLogScaled(logScaled);
+            distancePlot.repaint();
         }
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 
