@@ -5,17 +5,14 @@
  */
 package delayspace;
 
-import utils.Utils;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
-import utils.distance.DistanceNormType;
 
 /**
  *
  * @author max
  */
 public abstract class DelaySpace {
-    // TODO Debug for all subclasses and its results.
     
     protected DistanceNorm distance;
     protected final double[][] delaySpace;

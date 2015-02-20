@@ -14,7 +14,6 @@ import utils.Utils;
 public final class Heading extends DelaySpace {
 
     public Heading(double[][] trajectory1, double[][] trajectory2) {
-        // FIXME passing null yields an exception. Code does not work.
         super(trajectory1, trajectory2);
     }
 
