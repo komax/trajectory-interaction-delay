@@ -241,7 +241,7 @@ class LCFMTree {
         }
         
         if (diagonal.isDead()) {
-            System.err.println("dead ("+(i-1)+","+(j-1)+")");
+//            System.err.println("dead ("+(i-1)+","+(j-1)+")");
             // Compress the tree if the diagonal node has no out going edges.
             removeDeadPaths(diagonal, i, j);
         }
@@ -376,8 +376,17 @@ class LCFMTree {
         StringBuilder builder = new StringBuilder();
         for (int i = rows - 1; i >= 0; i--) {
             for (int j = 0; j <= columns - 1; j++) {
-                if (grid[i][j] != null) {
-                    builder.append("1");
+                Node cell = grid[i][j];
+                if (cell != null) {
+                    if (cell.isLeftParent()) {
+                        builder.append("←");
+                    } else if (cell.isDiagnoalParent()) {
+                        builder.append("↙");
+                    } else if (cell.isDownParent()) {
+                        builder.append("↓");
+                    } else {
+                        builder.append("1");
+                    }
                 } else {
                     builder.append("0");
                 }
