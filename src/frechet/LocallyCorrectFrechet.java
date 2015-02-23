@@ -13,6 +13,7 @@ public class LocallyCorrectFrechet {
         
         LCFMTree tree = new LCFMTree(delaySpace);
         tree.buildTree();
+        System.out.println(tree);
         Matching matching = new Matching(tree, traject1, traject2, delaySpace.isDirectional());
         return matching;
     }
