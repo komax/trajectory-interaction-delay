@@ -180,6 +180,30 @@ public class Node {
         return right;
     }
     
+    public boolean isLeftParent() {
+        if (!isRoot() && parent.hasRightNode()) {
+            return parent.right == this;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isDiagnoalParent() {
+        if (!isRoot() && parent.hasDiagonalNode()) {
+            return parent.diagonal == this;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isDownParent() {
+        if (!isRoot() && parent.hasUpNode()) {
+            return parent.up == this;
+        } else {
+            return false;
+        }
+    }
+    
     public void setShortcutUp(Shortcut shortcutUp) {
         this.shortcutUp = shortcutUp;
     }
