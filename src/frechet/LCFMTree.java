@@ -370,4 +370,21 @@ class LCFMTree {
             }
         }
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = rows - 1; i >= 0; i--) {
+            for (int j = 0; j <= columns - 1; j++) {
+                if (grid[i][j] != null) {
+                    builder.append("1");
+                } else {
+                    builder.append("0");
+                }
+            }
+            builder.append("\n");
+        }
+        
+        return builder.toString();
+    }
 }
