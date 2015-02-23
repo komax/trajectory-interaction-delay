@@ -58,7 +58,6 @@ public class Matching implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder("Matching(\ni <-> j");
         assert i.length == j.length;
-        int length = i.length;
         for (int k = 0; k < length; k++) {
             builder.append('\n');
             builder.append(i[k]);
