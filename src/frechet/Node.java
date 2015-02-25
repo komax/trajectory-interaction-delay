@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Node {
+    
+    public static final Node NULL_NODE = new Node(-1, -1, Double.MIN_VALUE);
 
     private final int i, j;
     private final double value;
