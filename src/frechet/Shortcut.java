@@ -10,6 +10,9 @@ package frechet;
  * @author max
  */
 public class Shortcut {
+    
+    public static final Shortcut NO_SHORTCUT = new Shortcut(Node.NULL_NODE, Node.NULL_NODE, Double.MIN_VALUE, Direction.DIAG_RIGHT);
+    
     private Node from;
     private Node to;
     private double maxValue;
