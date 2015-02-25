@@ -1,5 +1,6 @@
 package frechet;
 
+import static frechet.Shortcut.NO_SHORTCUT;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,15 +26,15 @@ public class Node {
     private final List<Shortcut> sc_incs_diagright = new LinkedList<>();
 
     public Node(int i, int j, double value) {
-        this.parent = null;
+        this.parent = NULL_NODE;
         this.i = i;
         this.j = j;
         this.value = value;
-        this.up = null;
-        this.right = null;
-        this.diagonal = null;
-        this.shortcutUp = null;
-        this.shortcutRight = null;
+        this.up = NULL_NODE;
+        this.right = NULL_NODE;
+        this.diagonal = NULL_NODE;
+        this.shortcutUp = NO_SHORTCUT;
+        this.shortcutRight = NO_SHORTCUT;
     }
     
     public boolean isRoot() {
@@ -55,15 +56,15 @@ public class Node {
     public int outdegree() {
         int outgoingEdges = 0;
         
-        if (up != null) {
+        if (up != NULL_NODE) {
             outgoingEdges += 1;
         }
         
-        if (right != null) {
+        if (right != NULL_NODE) {
             outgoingEdges += 1;
         }
         
-        if (diagonal != null) {
+        if (diagonal != NULL_NODE) {
             outgoingEdges += 1;
         }
         
@@ -153,25 +154,13 @@ public class Node {
     public void setRightNode(Node rightNode) {
         this.right = rightNode;
     }
-    
-    public boolean hasRightNode() {
-        return right != null;
-    }
 
     public void setUpNode(Node upNode) {
         this.up = upNode;
     }
     
-    public boolean hasUpNode() {
-        return up != null;
-    }
-    
     public Node getUpNode() {
         return up;
-    }
-    
-    public boolean hasDiagonalNode() {
-        return diagonal != null;
     }
     
     public Node getDiagonalNode() {
@@ -183,7 +172,7 @@ public class Node {
     }
     
     public boolean isLeftParent() {
-        if (!isRoot() && parent.hasRightNode()) {
+        if (!isRoot() && parent.right != NULL_NODE) {
             return parent.right == this;
         } else {
             return false;
@@ -191,7 +180,7 @@ public class Node {
     }
     
     public boolean isDiagnoalParent() {
-        if (!isRoot() && parent.hasDiagonalNode()) {
+        if (!isRoot() && parent.diagonal != NULL_NODE) {
             return parent.diagonal == this;
         } else {
             return false;
@@ -199,7 +188,7 @@ public class Node {
     }
     
     public boolean isDownParent() {
-        if (!isRoot() && parent.hasUpNode()) {
+        if (!isRoot() && parent.up != NULL_NODE) {
             return parent.up == this;
         } else {
             return false;
@@ -215,11 +204,11 @@ public class Node {
     }
     
     public boolean hasShortcutUp() {
-        return shortcutUp != null;
+        return shortcutUp != NO_SHORTCUT;
     }
     
     public boolean hasShortcutRight() {
-        return shortcutRight != null;
+        return shortcutRight != NO_SHORTCUT;
     }
     
     public Shortcut getShortcutUp() {

@@ -38,6 +38,8 @@ public class Matching implements Serializable {
             System.out.println(currentNode);
         }
         
+        System.out.println(tree.getNode(2,1));
+        
         // Store the path in the fields i and j.
         this.length = path.size();
         i = new int[length];
