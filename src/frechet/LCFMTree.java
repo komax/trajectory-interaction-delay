@@ -189,7 +189,7 @@ class LCFMTree {
             double maxValue;
             Direction incomingDirection;
             // Create the right shortcut.
-            if (diagonal.hasRightNode()) {
+            if (diagonal.getRightNode() != Node.NULL_NODE) {
                 shortcutTo = diagonal;
                 incomingDirection = Direction.DIAG_RIGHT;
                 maxValue = node.getValue();                
@@ -209,7 +209,7 @@ class LCFMTree {
             shortcutTo = null;
             maxValue = 0.0;
             incomingDirection = null;
-            if (diagonal.hasUpNode()) {
+            if (diagonal.getUpNode() != Node.NULL_NODE) {
                 shortcutTo = diagonal;
                 incomingDirection = Direction.DIAG_UP;
                 maxValue = node.getValue();                
@@ -265,7 +265,7 @@ class LCFMTree {
             aliveNode.setUpNode(null);
             List<Shortcut> extendShortcuts;
             Shortcut with = aliveNode.getShortcutUp();
-            if (aliveNode.hasDiagonalNode()) {
+            if (aliveNode.getDiagonalNode() != Node.NULL_NODE) {
                 extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_UP);
             } else {
                 // alive has incoming shortcuts from right.
@@ -292,9 +292,9 @@ class LCFMTree {
         } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
             // The dead node is diagonal to the alive node.
             aliveNode.setDiagonalNode(null);
-            if (aliveNode.hasUpNode() && aliveNode.hasRightNode()) {
+            if (aliveNode.getUpNode() != Node.NULL_NODE && aliveNode.getRightNode() != Node.NULL_NODE) {
                 // Nothing to do. No extensions are needed.
-            } else if (aliveNode.hasUpNode()) {
+            } else if (aliveNode.getUpNode() != Node.NULL_NODE) {
                 // extend the shortcuts from up.
                 List<Shortcut> extendShortcuts = aliveNode.getIncomingShortcuts(Direction.UP);
                 Shortcut with = aliveNode.getShortcutRight();
@@ -344,7 +344,7 @@ class LCFMTree {
             aliveNode.setRightNode(null);
             List<Shortcut> extendShortcuts;
             Shortcut with = aliveNode.getShortcutRight();
-            if (aliveNode.hasDiagonalNode()) {
+            if (aliveNode.getDiagonalNode() != Node.NULL_NODE) {
                 extendShortcuts = aliveNode.getIncomingShortcuts(Direction.DIAG_RIGHT);
             } else {
                 // alive has incoming shortcuts from up.
