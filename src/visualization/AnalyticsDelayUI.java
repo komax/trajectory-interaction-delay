@@ -122,6 +122,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             case 2:
                 return DelaySpaceType.DYNAMIC_INTERACTION;
             case 3:
+                return DelaySpaceType.DISPLACEMENT;
+            case 4:
                 return DelaySpaceType.HEADING;
             default:
                 throw new RuntimeException("Invalid selection");       
@@ -252,7 +254,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jLabel4.setText("Delay Space");
 
-        delaySpaceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usual Distance", "Directional Distance", "Dynamic Interaction", "Heading" }));
+        delaySpaceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Usual Distance", "Directional Distance", "Dynamic Interaction", "Displacement", "Heading" }));
         delaySpaceComboBox.setToolTipText("");
         delaySpaceComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -403,7 +405,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
