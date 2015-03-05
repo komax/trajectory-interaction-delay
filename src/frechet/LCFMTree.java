@@ -241,7 +241,7 @@ class LCFMTree {
         }
         
         if (diagonal.isDead()) {
-//            System.err.println("dead ("+(i-1)+","+(j-1)+")");
+            System.out.println("dead ("+(i-1)+","+(j-1)+")");
             // Compress the tree if the diagonal node has no out going edges.
             removeDeadPaths(diagonal, i, j);
         }
@@ -253,16 +253,16 @@ class LCFMTree {
         Node aliveNode = diagonal.getParent();
         while (aliveNode.outdegree() == 1) {
             // Kill alive and move up in the tree.
-            aliveNode.setUpNode(null);
-            aliveNode.setDiagonalNode(null);
-            aliveNode.setRightNode(null);
+            aliveNode.setUpNode(Node.NULL_NODE);
+            aliveNode.setDiagonalNode(Node.NULL_NODE);
+            aliveNode.setRightNode(Node.NULL_NODE);
             deadNode = aliveNode;
             aliveNode = aliveNode.getParent();
         }
 
         if (deadNode.equals(aliveNode.getUpNode())) {
             // dead node is above alive node
-            aliveNode.setUpNode(null);
+            aliveNode.setUpNode(Node.NULL_NODE);
             List<Shortcut> extendShortcuts;
             Shortcut with = aliveNode.getShortcutUp();
             if (aliveNode.getDiagonalNode() != Node.NULL_NODE) {
@@ -284,14 +284,14 @@ class LCFMTree {
                     shortcut.getTo().getIncomingShortcuts(incomingDirection).add(shortcut);
                 } else {
                     // If from has only one up shortcut, delete it.
-                    from.setShortcutUp(null);
+                    from.setShortcutUp(Shortcut.NO_SHORTCUT);
                 }
                 // Make sure to remove the old shortcut.
                 it.remove();
             }
         } else if (deadNode.equals(aliveNode.getDiagonalNode())) {
             // The dead node is diagonal to the alive node.
-            aliveNode.setDiagonalNode(null);
+            aliveNode.setDiagonalNode(Node.NULL_NODE);
             if (aliveNode.getUpNode() != Node.NULL_NODE && aliveNode.getRightNode() != Node.NULL_NODE) {
                 // Nothing to do. No extensions are needed.
             } else if (aliveNode.getUpNode() != Node.NULL_NODE) {
@@ -311,7 +311,7 @@ class LCFMTree {
                         shortcut.getTo().getIncomingShortcuts(incomingDirection).add(shortcut);
                     } else {
                         // If from has only one up shortcut, delete it.
-                        from.setShortcutRight(null);
+                        from.setShortcutRight(Shortcut.NO_SHORTCUT);
                     }
                     // Make sure to remove the old shortcut.
                     it.remove();
@@ -333,7 +333,7 @@ class LCFMTree {
                         shortcut.getTo().getIncomingShortcuts(incomingDirection).add(shortcut);
                     } else {
                         // If from has only one up shortcut, delete it.
-                        from.setShortcutUp(null);
+                        from.setShortcutUp(Shortcut.NO_SHORTCUT);
                     }
                     // Make sure to remove the old shortcut.
                     it.remove();
@@ -341,7 +341,7 @@ class LCFMTree {
             }
         } else if (deadNode.equals(aliveNode.getRightNode())) {
             // dead node right from the alive node
-            aliveNode.setRightNode(null);
+            aliveNode.setRightNode(Node.NULL_NODE);
             List<Shortcut> extendShortcuts;
             Shortcut with = aliveNode.getShortcutRight();
             if (aliveNode.getDiagonalNode() != Node.NULL_NODE) {
@@ -363,7 +363,7 @@ class LCFMTree {
                     shortcut.getTo().getIncomingShortcuts(incomingDirection).add(shortcut);
                 } else {
                     // If from has only one up shortcut, delete it.
-                    from.setShortcutUp(null);
+                    from.setShortcutUp(Shortcut.NO_SHORTCUT);
                 }
                 // Make sure to remove the old shortcut.
                 it.remove();
