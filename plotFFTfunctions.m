@@ -11,7 +11,8 @@ end
 figure;
 % Use a different color map.
 colormap(summer);
-mesh(x,y,displacementsBigAlpha);
+%mesh(x,y,displacementsBigAlpha);
+contourf(x,y,displacementsBigAlpha);
 
 % This function does not fit nicely. Drop it
 complexX = complex(x);
@@ -28,7 +29,8 @@ for k = 1:length(x)
     end
 end
 figure;
-mesh(x,y,displacementApproxs);
+%mesh(x,y,displacementApproxs);
+contourf(x,y,displacementApproxs);
 
 displacementApproxs = zeros(length(x),length(y));
 for k = 1:length(x)
@@ -44,4 +46,5 @@ end
 figure;
 % Use a different color map.
 colormap(summer);
-mesh(x,y,displacementApproxs);
+%mesh(x,y,displacementApproxs);
+contourf(x,y,displacementApproxs);
