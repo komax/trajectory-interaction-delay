@@ -5,6 +5,8 @@
  */
 package delayspace;
 
+import utils.Trajectory;
+
 /**
  *
  * @author max
@@ -13,7 +15,7 @@ public final class DirectionalDistance extends DelaySpace {
     private final DelaySpace distanceDelaySpace;
     private final DelaySpace headingDelaySpace;
 
-    public DirectionalDistance(double[][] trajectory1, double[][] trajectory2) {
+    public DirectionalDistance(Trajectory trajectory1, Trajectory trajectory2) {
         super(trajectory1, trajectory2);
         
         this.distanceDelaySpace = new DistanceDelaySpace(trajectory1, trajectory2);
@@ -24,8 +26,8 @@ public final class DirectionalDistance extends DelaySpace {
     protected void computeDelaySpace() {
         distanceDelaySpace.computeDelaySpace();
         headingDelaySpace.computeDelaySpace();
-        for (int i = 0; i < trajectory1.length; i++) {
-            for (int j = 0; j < trajectory2.length; j++) {
+        for (int i = 0; i < trajectory1.length(); i++) {
+            for (int j = 0; j < trajectory2.length(); j++) {
                 double directionalDistanceVal = distanceDelaySpace.get(i, j) * (headingDelaySpace.get(i, j) + 1.);
                 delaySpace[i][j] = directionalDistanceVal;
             }

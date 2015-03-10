@@ -17,8 +17,8 @@ import utils.distance.DistanceNorm;
  */
 public class Experiment {
     private DelaySpace delaySpace;
-    private double[][] trajectory1;
-    private double[][] trajectory2;
+    private Trajectory trajectory1;
+    private Trajectory trajectory2;
     
     public Experiment(String fileName, DelaySpaceType delaySpaceType, DistanceNorm distanceNorm) {
         try {

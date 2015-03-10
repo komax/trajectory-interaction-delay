@@ -5,6 +5,7 @@
  */
 package delayspace;
 
+import utils.Trajectory;
 import static utils.Utils.computeDisplacement;
 import static utils.Utils.computeDistanceOnMovementVector;
 
@@ -14,29 +15,29 @@ import static utils.Utils.computeDistanceOnMovementVector;
  */
 public final class Displacement extends DelaySpace {
 
-    public Displacement(double[][] trajectory1, double[][] trajectory2, double alpha) {
+    public Displacement(Trajectory trajectory1, Trajectory trajectory2, double alpha) {
         super(trajectory1, trajectory2);
         this.alpha = alpha;
     }
 
     @Override
     protected void computeDelaySpace() {
-        for (int i = 0; i < trajectory1.length; i++) {
-            for (int j = 0; j < trajectory2.length; j++) {
-                double[] pointI = trajectory1[i];
-                double[] pointJ = trajectory2[j];
+        for (int i = 0; i < trajectory1.length(); i++) {
+            for (int j = 0; j < trajectory2.length(); j++) {
+                double[] pointI = trajectory1.getPoint(i);
+                double[] pointJ = trajectory2.getPoint(j);
                 double[] followPointI;
                 double[] followPointJ;
                 
-                if (i < (trajectory1.length - 1)) {
-                    followPointI = trajectory1[i + 1];
+                if (i < (trajectory1.length() - 1)) {
+                    followPointI = trajectory1.getPoint(i + 1);
                 } else {
-                    followPointI = trajectory1[trajectory1.length -1];
+                    followPointI = trajectory1.getPoint(trajectory1.length() - 1);
                 }
-                if (j < (trajectory2.length - 1)) {
-                    followPointJ = trajectory2[j + 1];
+                if (j < (trajectory2.length() - 1)) {
+                    followPointJ = trajectory2.getPoint(j + 1);
                 } else {
-                    followPointJ = trajectory2[trajectory2.length -1];
+                    followPointJ = trajectory2.getPoint(trajectory2.length() - 1);
                 }
                 double distanceI = computeDistanceOnMovementVector(pointI, followPointI, distance);
                 double distanceJ = computeDistanceOnMovementVector(pointJ, followPointJ, distance);

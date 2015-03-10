@@ -5,6 +5,7 @@
  */
 package delayspace;
 
+import utils.Trajectory;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
 
@@ -16,11 +17,12 @@ public abstract class DelaySpace {
     
     protected DistanceNorm distance;
     protected final double[][] delaySpace;
-    protected final double[][] trajectory1;
-    protected final double[][] trajectory2;
+    protected final Trajectory trajectory1;
+    protected final Trajectory trajectory2;
     protected double alpha;
     
-    public static DelaySpace createDelaySpace(double[][] trajectory1, double[][] trajectory2, DelaySpaceType delayType, DistanceNorm distanceNorm) {
+    public static DelaySpace createDelaySpace(Trajectory trajectory1,
+            Trajectory trajectory2, DelaySpaceType delayType, DistanceNorm distanceNorm) {
         DelaySpace delaySpace = null;
         double alpha = 1.0;
         switch(delayType) {
@@ -47,14 +49,14 @@ public abstract class DelaySpace {
         return delaySpace;
     }
     
-    public DelaySpace(double[][] trajectory1, double[][] trajectory2) {
+    public DelaySpace(Trajectory trajectory1, Trajectory trajectory2) {
         this.distance = DistanceNormFactory.EuclideanDistance;
         this.alpha = Double.NaN;
         this.trajectory1 = trajectory1;
         this.trajectory2 = trajectory2;
         
-        int lengthTraject1 = trajectory1.length;
-        int lengthTraject2 = trajectory2.length;
+        int lengthTraject1 = trajectory1.length();
+        int lengthTraject2 = trajectory2.length();
         
         this.delaySpace = new double[lengthTraject1][lengthTraject2];
         clear();
@@ -108,11 +110,11 @@ public abstract class DelaySpace {
         return maxValue;
     }
     
-    public double[][] getTrajectory1() {
+    public Trajectory getTrajectory1() {
         return trajectory1;
     }
     
-    public double[][] getTrajectory2() {
+    public Trajectory getTrajectory2() {
         return trajectory2;
     }
     

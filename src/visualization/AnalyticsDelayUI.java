@@ -11,6 +11,7 @@ import frechet.Matching;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Experiment;
+import utils.Trajectory;
 import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
@@ -37,8 +38,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private boolean logScaled;
     
     // Data members
-    private double[][] trajectory1;
-    private double[][] trajectory2;
+    private Trajectory trajectory1;
+    private Trajectory trajectory2;
     private DelaySpace delaySpace;
     private Matching matching = null;
 
@@ -77,7 +78,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initMatchingPlot() {
-        this.matchingPlot = new MatchingPlot(matching, threshold, translucentFocus);
+        this.matchingPlot = new MatchingPlot(matching, trajectory1, trajectory2, threshold, translucentFocus);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
 
