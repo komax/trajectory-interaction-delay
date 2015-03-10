@@ -3,23 +3,19 @@ package frechet;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import utils.Trajectory;
 
 public class Matching implements Serializable {
 
     public final int[] i;
     public final int[] j;
-    private final double[][] trajectory1;
-    private final double[][] trajectory2;
     private final int length;
     
-    public Matching(LCFMTree tree, double[][] trajectory1, double[][] trajectory2, boolean isDirectional) {
-        this.trajectory1 = trajectory1;
-        this.trajectory2 = trajectory2;
-        
+    public Matching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
         // Compute a path from the end of both trajectories towards the root.
         List<Node> path = new ArrayList<>();
-        int numRows = trajectory1.length;
-        int numColumns = trajectory2.length;
+        int numRows = trajectory1.length();
+        int numColumns = trajectory2.length();
         if (isDirectional) {
             path.add(new Node(numRows - 1, numColumns - 1, Double.NaN));
             System.out.println(path.get(0));
@@ -69,13 +65,4 @@ public class Matching implements Serializable {
         builder.append("\n)");
         return builder.toString();
     }
-
-    public double[][] getTrajectory1() {
-        return trajectory1;
-    }
-
-    public double[][] getTrajectory2() {
-        return trajectory2;
-    }
-
 }

@@ -3,10 +3,9 @@ package visualization;
 import colormap.ColorMap;
 import frechet.Matching;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import utils.DoublePoint2D;
 import utils.IntPoint2D;
+import utils.Trajectory;
 import utils.Utils;
 
 /**
@@ -18,9 +17,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private static final int VISIBLE_ALPHA = 150;
     
     private Matching matching;
-    // TODO Add a Trajectory class?
-    private ArrayList<DoublePoint2D> trajectory1;
-    private ArrayList<DoublePoint2D> trajectory2;
+    private Trajectory trajectory1;
+    private Trajectory trajectory2;
 
     private double minX;
     private double maxX;
@@ -40,8 +38,25 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private int startFocusTraject2;
     private int endFocusTraject2;
 
-    public MatchingPlot(Matching matching, int thresholdDelay, int translucentFocus) {
+    public MatchingPlot(Matching matching, Trajectory trajectory1, Trajectory trajectory2, int thresholdDelay, int translucentFocus) {
         // Store data to plot
+        this.trajectory1 = trajectory1;
+        this.trajectory2 = trajectory2;
+        
+        DoublePoint2D minValuesTraject1 = minTraject1();
+        DoublePoint2D minValuesTraject2 = minTraject2();
+        this.minX = Math.min(minValuesTraject1.x, minValuesTraject2.x);
+        this.minY = Math.min(minValuesTraject1.y, minValuesTraject2.y);
+
+        makeTrajectoriesNullbased();
+        this.minX = 0.0;
+        this.minY = 0.0;
+        
+        DoublePoint2D maxValuesTraject1 = maxTraject1();
+        DoublePoint2D maxValuesTraject2 = maxTraject2();
+        this.maxX = Math.max(maxValuesTraject1.x, maxValuesTraject2.x);
+        this.maxY = Math.max(maxValuesTraject1.x, maxValuesTraject2.x);
+                
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, thresholdDelay, translucentFocus);
     }
@@ -50,20 +65,6 @@ public final class MatchingPlot extends GenericPlottingPanel {
         this.matching = matching;
         this.thresholdDelay = thresholdDelay;
         this.translucentFocus = translucentFocus;
-        this.minX = Double.MAX_VALUE;
-        this.minY = Double.MAX_VALUE;
-
-        findMinOn(matching.getTrajectory1());
-        findMinOn(matching.getTrajectory2());
-
-        makeTrajectoriesNullbased();
-        this.minX = 0.0;
-        this.minY = 0.0;
-
-        this.maxX = Double.MIN_VALUE;
-        this.maxY = Double.MIN_VALUE;
-        findMaxOn(trajectory1);
-        findMaxOn(trajectory2);
         
         this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
         this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, thresholdDelay);
@@ -87,40 +88,63 @@ public final class MatchingPlot extends GenericPlottingPanel {
     }
 
     private void makeTrajectoriesNullbased() {
-        double[][] t1 = matching.getTrajectory1();
-        this.trajectory1 = new ArrayList<>();
-        for (double[] point : t1) {
-            trajectory1.add(new DoublePoint2D(point[0] - minX, point[1] - minY));
+        Trajectory t1 = new Trajectory();
+        Trajectory t2 = new Trajectory();
+        for (double[] point : trajectory1) {
+            double[] nullBasedPoint = new double[2];
+            nullBasedPoint[0] = point[0] - minX;
+            nullBasedPoint[1] = point[1] - minY;
+            t1.addPoint(nullBasedPoint);
         }
-        double[][] t2 = matching.getTrajectory2();
-        this.trajectory2 = new ArrayList<>();
-        for (double[] point : t2) {
-            trajectory2.add(new DoublePoint2D(point[0] - minX, point[1] - minY));
+        
+        for (double[] point : trajectory2) {
+            double[] nullBasedPoint = new double[2];
+            nullBasedPoint[0] = point[0] - minX;
+            nullBasedPoint[1] = point[1] - minY;
+            t2.addPoint(nullBasedPoint);
         }
+        trajectory1 = t1;
+        trajectory2 = t2;
     }
-
-    private void findMinOn(double[][] trajectory) {
-        for (int i = 0; i < trajectory.length; i++) {
-            double xValue = trajectory[i][0];
-            if (minX > xValue) {
-                minX = xValue;
-            }
-            double yValue = trajectory[i][1];
-            if (minY > yValue) {
-                minY = yValue;
-            }
+    
+    private DoublePoint2D minTraject1() {
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        for (double[] point : trajectory1) {
+            minX = Math.min(minX, point[0]);
+            minY = Math.min(minY, point[1]);
         }
+        return new DoublePoint2D(minX, minY);
     }
-
-    private void findMaxOn(ArrayList<DoublePoint2D> trajectory) {
-        for (DoublePoint2D point : trajectory) {
-            if (point.x > maxX) {
-                maxX = point.x;
-            }
-            if (point.y > maxY) {
-                maxY = point.y;
-            }
+    
+    private DoublePoint2D minTraject2() {
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        for (double[] point : trajectory2) {
+            minX = Math.min(minX, point[0]);
+            minY = Math.min(minY, point[1]);
         }
+        return new DoublePoint2D(minX, minY);
+    }
+    
+    private DoublePoint2D maxTraject1() {
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        for (double[] point : trajectory1) {
+            maxX = Math.max(maxX, point[0]);
+            maxY = Math.max(maxY, point[1]);
+        }
+        return new DoublePoint2D(maxX, maxY);
+    }
+    
+    private DoublePoint2D maxTraject2() {
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        for (double[] point : trajectory2) {
+            maxX = Math.max(maxX, point[0]);
+            maxY = Math.max(maxY, point[1]);
+        }
+        return new DoublePoint2D(maxX, maxY);
     }
     
     public void updateSelection(EdgeCursor selection) {
@@ -209,16 +233,16 @@ public final class MatchingPlot extends GenericPlottingPanel {
         drawTrajectory(trajectory2, g);
     }
 
-    private void drawTrajectory(List<DoublePoint2D> trajectory, Graphics g) {
-        DoublePoint2D previousPoint = trajectory.get(0);
+    private void drawTrajectory(Trajectory trajectory, Graphics g) {
+        DoublePoint2D previousPoint = trajectory.getPointObject(0);
         IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
-        for (int i = 1; i < trajectory.size(); i++) {
+        for (int i = 1; i < trajectory.length(); i++) {
             if (trajectory == trajectory1) {
                 g.setColor(getColorTraject1(Color.black, i));
             } else if (trajectory == trajectory2) {
                 g.setColor(getColorTraject2(Color.black, i));
             }
-            DoublePoint2D currentPoint = trajectory.get(i);
+            DoublePoint2D currentPoint = trajectory.getPointObject(i);
             IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = transformedPreviousPoint.x;
             int fromY = transformedPreviousPoint.y;
@@ -278,19 +302,15 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         g.setColor(chosenColor);
                     }
                     // 3a. Draw a simple line.
-                    DoublePoint2D pointTraj1 = trajectory1.get(startIndexTraject1);
+                    DoublePoint2D pointTraj1 = trajectory1.getPointObject(startIndexTraject1);
                     IntPoint2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
-                    DoublePoint2D pointTraj2 = trajectory2.get(startIndexTraject2);
+                    DoublePoint2D pointTraj2 = trajectory2.getPointObject(startIndexTraject2);
                     IntPoint2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
                     g.drawLine(convPointTraj1.x, convPointTraj1.y, convPointTraj2.x, convPointTraj2.y);
                 } else {
                     // Compute the color interpolation of the patch.
                     if (singleIndexTraject1) {
-                        IntPoint2D pointTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
-                        int traject1PointX = pointTraject1.x;
-                        int traject1PointY = pointTraject1.y;
-           
-                        IntPoint2D startTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
+                        IntPoint2D startTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(startIndexTraject2));
                         int startTraject2X = startTraject2.x;
                         int startTraject2Y = startTraject2.y;
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
@@ -308,7 +328,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
-                        IntPoint2D endTraject2 = cartesianToPanelPoint(trajectory2.get(endIndexTraject2));
+                        IntPoint2D endTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(endIndexTraject2));
                         int endTraject2X = endTraject2.x;
                         int endTraject2Y = endTraject2.y;
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
@@ -329,11 +349,8 @@ public final class MatchingPlot extends GenericPlottingPanel {
                         Graphics2D g2 = (Graphics2D) g;
                         g2.setPaint(gradientPaint);
                     } else {
-                        IntPoint2D pointTraject2 = cartesianToPanelPoint(trajectory2.get(startIndexTraject2));
-                        int traject2PointX = pointTraject2.x;
-                        int traject2PointY = pointTraject2.y;
            
-                        IntPoint2D startTraject1 = cartesianToPanelPoint(trajectory1.get(startIndexTraject1));
+                        IntPoint2D startTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(startIndexTraject1));
                         int startTraject1X = startTraject1.x;
                         int startTraject1Y = startTraject1.y;
                         int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
@@ -351,7 +368,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
                             beginColor = getColorTraject2(beginColor, startIndexTraject2);
                         }
                         
-                        IntPoint2D endTraject1 = cartesianToPanelPoint(trajectory1.get(endIndexTraject1));
+                        IntPoint2D endTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(endIndexTraject1));
                         int endTraject1X = endTraject1.x;
                         int endTraject1Y = endTraject1.y;
                         int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
@@ -375,12 +392,12 @@ public final class MatchingPlot extends GenericPlottingPanel {
                     // 3b. Build the polygon.
                     Polygon patch = new Polygon();
                     for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
-                        DoublePoint2D point = trajectory1.get(l);
+                        DoublePoint2D point = trajectory1.getPointObject(l);
                         IntPoint2D convertedPoint = cartesianToPanelPoint(point);
                         patch.addPoint(convertedPoint.x, convertedPoint.y);
                     }
                     for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
-                        DoublePoint2D point = trajectory2.get(l);
+                        DoublePoint2D point = trajectory2.getPointObject(l);
                         IntPoint2D convertedPoint = cartesianToPanelPoint(point);
                         patch.addPoint(convertedPoint.x, convertedPoint.y);
                     }
@@ -403,7 +420,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
         int diameter = 6;
         int offset = diameter / 2;
         
-        DoublePoint2D pointTraject1 = trajectory1.get(matching.i[index]);
+        DoublePoint2D pointTraject1 = trajectory1.getPointObject(matching.i[index]);
         IntPoint2D panelPoint = cartesianToPanelPoint(pointTraject1);
         int panelX = panelPoint.x;
         int panelY = panelPoint.y;
@@ -426,7 +443,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
         }
         
         
-        DoublePoint2D pointTraject2 = trajectory2.get(matching.j[index]);
+        DoublePoint2D pointTraject2 = trajectory2.getPointObject(matching.j[index]);
         panelPoint = cartesianToPanelPoint(pointTraject2);
         panelX = panelPoint.x;
         panelY = panelPoint.y;

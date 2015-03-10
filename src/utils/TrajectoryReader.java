@@ -16,8 +16,8 @@ import java.util.List;
  * @author max
  */
 public class TrajectoryReader {
-    private double[][] trajectory1;
-    private double[][] trajectory2;
+    private Trajectory trajectory1;
+    private Trajectory trajectory2;
     private final BufferedReader inputReader;
     
     public static TrajectoryReader createTrajectoryReader(String fileName, boolean skipHeader) throws Exception {
@@ -32,8 +32,8 @@ public class TrajectoryReader {
     }
     
     private void readTrajectories(boolean skipHeader) throws IOException {
-        List<double[]> traject1 = new ArrayList<>();
-        List<double[]> traject2 = new ArrayList<>();
+        this.trajectory1 = new Trajectory();
+        this.trajectory2 = new Trajectory();
         
         if (skipHeader) {
             // Skip the first line.
@@ -60,13 +60,9 @@ public class TrajectoryReader {
                 pointsTraject2[0] = Double.parseDouble(lineElements[3]);
                 pointsTraject2[1] = Double.parseDouble(lineElements[4]);
             }
-            traject1.add(pointsTraject1);
-            traject2.add(pointsTraject2);
+            trajectory1.addPoint(pointsTraject1);
+            trajectory2.addPoint(pointsTraject2);
         }
-        
-        int dimensions = 2;
-        this.trajectory1 = convertTrajectoryRecursively(traject1, dimensions);
-        this.trajectory2 = convertTrajectoryRecursively(traject2, dimensions);
     }
     
     private double[][] convertTrajectoryRecursively(List<double[]> traject, int dimensions) {
@@ -81,11 +77,11 @@ public class TrajectoryReader {
         return result;
     }
     
-    public double[][] getTrajectory1() {
+    public Trajectory getTrajectory1() {
         return trajectory1;
     }
     
-    public double[][] getTrajectory2() {
+    public Trajectory getTrajectory2() {
         return trajectory2;
     }
     
