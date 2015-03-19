@@ -59,11 +59,11 @@ class LCFMTree {
         Node left = grid[i-1][j];
         
         Node bestCandidate = down;
-        if (diagonal != null && diagonal.isBetterThan(bestCandidate)) {
+        if (diagonal != Node.NULL_NODE && diagonal.isBetterThan(bestCandidate)) {
             bestCandidate = diagonal;
         }
         
-        if (left != null && left.isBetterThan(bestCandidate)) {
+        if (left != Node.NULL_NODE && left.isBetterThan(bestCandidate)) {
             bestCandidate = left;
         }
         return bestCandidate;
@@ -192,7 +192,7 @@ class LCFMTree {
             if (diagonal.getRightNode() != Node.NULL_NODE) {
                 shortcutTo = diagonal;
                 incomingDirection = Direction.DIAG_RIGHT;
-                maxValue = node.getValue();                
+                maxValue = node.getValue();
             } else {
                 Shortcut diagonalsRightShortcut = diagonal.getShortcutRight();
                 shortcutTo = diagonalsRightShortcut.getTo();
@@ -242,6 +242,7 @@ class LCFMTree {
         
         if (diagonal.isDead()) {
             System.out.println("dead ("+(i-1)+","+(j-1)+")");
+            System.out.println(diagonal);
             // Compress the tree if the diagonal node has no out going edges.
             removeDeadPaths(diagonal, i, j);
         }
@@ -377,7 +378,7 @@ class LCFMTree {
         for (int i = rows - 1; i >= 0; i--) {
             for (int j = 0; j <= columns - 1; j++) {
                 Node cell = grid[i][j];
-                if (cell != null) {
+                if (cell != Node.NULL_NODE) {
                     if (cell.isLeftParent()) {
                         builder.append("←");
                     } else if (cell.isDiagnoalParent()) {
