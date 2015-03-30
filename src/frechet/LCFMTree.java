@@ -397,4 +397,17 @@ class LCFMTree {
         
         return builder.toString();
     }
+    
+    public String toStringAllNodes() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i <= rows - 1; i++) {
+            for (int j = 0; j <= columns - 1; j++) {
+                Node cell = grid[i][j];
+                builder.append(cell.toString());
+                builder.append("\n");
+            }
+        }
+        
+        return builder.toString();
+    }
 }
