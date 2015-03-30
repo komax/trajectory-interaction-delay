@@ -51,12 +51,21 @@ public final class DelayPlotPanel extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(threshold, maxDelay);
-        this.positiveColors.halfColorSpectrum();
-        this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
-        this.negativeColors.halfColorSpectrum();
-        this.negativeColors.halfColorSpectrum();
+        if (maxDelay > 0) {
+            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(threshold, maxDelay);
+            this.positiveColors.halfColorSpectrum();
+            this.positiveColors.halfColorSpectrum();
+            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(threshold, maxDelay);
+            this.negativeColors.halfColorSpectrum();
+            this.negativeColors.halfColorSpectrum();
+        } else {
+            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(maxDelay, maxDelay);
+            this.positiveColors.halfColorSpectrum();
+            this.positiveColors.halfColorSpectrum();
+            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(maxDelay, maxDelay);
+            this.negativeColors.halfColorSpectrum();
+            this.negativeColors.halfColorSpectrum();
+        }
         repaint();
     }
     
