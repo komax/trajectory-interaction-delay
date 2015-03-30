@@ -23,7 +23,7 @@ import utils.distance.DistanceNormFactory;
 public class AnalyticsDelayUI extends javax.swing.JFrame {
 //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
     // TODO Add an interface to load data at first.
-    public static final String PATH_TO_TRAJ_DATA = "data/zig_zack_data.txt";
+    public static final String PATH_TO_TRAJ_DATA = "data/crossing_data.txt";
 
     // Plots in the GUI
     private MatchingPlot matchingPlot;

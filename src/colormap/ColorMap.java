@@ -159,6 +159,9 @@ public class ColorMap {
         checkValue(value);
         int numberOfColors = colorSpectrum.size();
         double nullBasedValue = value - minValue;
+        if (valuesRange() == 0.0) {
+            return colorSpectrum.get(0);
+        }
         Double expectedIndex = nullBasedValue * numberOfColors / valuesRange();
         int index = expectedIndex.intValue();
         if (index >= numberOfColors) {

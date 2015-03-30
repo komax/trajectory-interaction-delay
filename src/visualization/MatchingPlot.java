@@ -75,13 +75,18 @@ public final class MatchingPlot extends GenericPlottingPanel {
                 maxDelay = delay;
             }
         }
-        this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(thresholdDelay, maxDelay);
+        
+        if (maxDelay > 0) {
+            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(thresholdDelay, maxDelay);
+            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(thresholdDelay, maxDelay);
+        } else {
+            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(maxDelay, maxDelay);
+            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(maxDelay, maxDelay);
+            
+        }
         this.positiveColors.halfColorSpectrum();
         this.positiveColors.halfColorSpectrum();
-      //  this.positiveColors.halfColorSpectrum();
-        this.negativeColors = ColorMap.createGrayToRedTransparentColormap(thresholdDelay, maxDelay);
         this.negativeColors.halfColorSpectrum();
-       // this.negativeColors.halfColorSpectrum();
         this.negativeColors.halfColorSpectrum();
         
         this.repaint();
