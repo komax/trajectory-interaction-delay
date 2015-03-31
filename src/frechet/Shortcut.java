@@ -18,6 +18,16 @@ public class Shortcut {
     private double maxValue;
     private Direction incomingDirection;
     
+    public static Shortcut createShortcut(Node from, Node to, double maxValue, Direction incomingDirection) {
+        if (from == null) {
+            throw new RuntimeException("from cannot be null in a shortcut");
+        }
+        if (to == null) {
+            throw new RuntimeException("to cannot be null in a shortcut");
+        }
+        return new Shortcut(from, to, maxValue, incomingDirection);
+    }
+    
     public Shortcut(Node from, Node to, double maxValue, Direction incomingDirection) {
         this.from = from;
         this.to = to;
@@ -42,10 +52,16 @@ public class Shortcut {
     }
     
     public void setFrom(Node from) {
+        if (from == null) {
+            throw new RuntimeException("from should not be null");
+        }
         this.from = from;
     }
     
     public void setTo(Node to) {
+        if (to == null) {
+            throw new RuntimeException("to should not be null");
+        }
         this.to = to;
     }
     
