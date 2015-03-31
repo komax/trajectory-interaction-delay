@@ -59,11 +59,11 @@ class LCFMTree {
         Node left = grid[i-1][j];
         
         Node bestCandidate = down;
-        if (diagonal != Node.NULL_NODE && diagonal.isBetterThan(bestCandidate)) {
+        if (diagonal != Node.NULL_NODE && Node.isBetterThan(diagonal, bestCandidate)) {
             bestCandidate = diagonal;
         }
         
-        if (left != Node.NULL_NODE && left.isBetterThan(bestCandidate)) {
+        if (left != Node.NULL_NODE && Node.isBetterThan(left, bestCandidate)) {
             bestCandidate = left;
         }
         return bestCandidate;
@@ -130,7 +130,7 @@ class LCFMTree {
                 maxValue = down.getValue();
             }
             // Create the shortcut using the information from above.
-            Shortcut shortcutDown = new Shortcut(shortcutFrom, shortcutTo, maxValue, incoming);
+            Shortcut shortcutDown = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxValue, incoming);
             down.setShortcutUp(shortcutDown);
             // Add the new shortcut as incoming shortcut to the to target.
             shortcutTo.getIncomingShortcuts(incoming).add(shortcutDown);
@@ -161,8 +161,11 @@ class LCFMTree {
                 maxValue = left.getValue();
             }
             // Create the shortcut using the information from above.
-            Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxValue, incoming);
+            Shortcut shortcut = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxValue, incoming);
             left.setShortcutRight(shortcut);
+            if (shortcutTo == null) {
+                throw new RuntimeException("shortcutTo should not be null");
+            }
             // Add the new shortcut as incoming shortcut to the to target.
             shortcutTo.getIncomingShortcuts(incoming).add(shortcut);
         }
@@ -178,7 +181,7 @@ class LCFMTree {
             double maxShortcutValue = Math.max(node.getValue(), downsUpShortcut.getMaxValue());
             
             // Create the shortcut and put it as up shortcut to the node.
-            Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
+            Shortcut shortcut = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
             node.setShortcutUp(shortcut);
             // Add the shortcut to the target as incoming shortcut.
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);
@@ -200,7 +203,7 @@ class LCFMTree {
                 maxValue = Math.max(node.getValue(), diagonalsRightShortcut.getMaxValue());
             }
             // Set right shortcut of the current node.
-            Shortcut shortcutRight = new Shortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
+            Shortcut shortcutRight = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
             node.setShortcutRight(shortcutRight);
             // Set the incoming references correctly.
             shortcutTo.getIncomingShortcuts(incomingDirection).add(shortcutRight);
@@ -220,7 +223,7 @@ class LCFMTree {
                 maxValue = Math.max(node.getValue(), diagonalsUpshortcut.getMaxValue());
             }
             // Create the up shortcut for the current node.
-            Shortcut shortcutUp = new Shortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
+            Shortcut shortcutUp = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxValue, incomingDirection);
             node.setShortcutUp(shortcutUp);
             // Set the new shortcut as incoming reference to the target node.
             shortcutTo.getIncomingShortcuts(incomingDirection).add(shortcutUp);
@@ -234,7 +237,7 @@ class LCFMTree {
             double maxShortcutValue = Math.max(node.getValue(), leftsRightShortcut.getMaxValue());
             
             // Create the shortcut and put it as right shortcut to the node.
-            Shortcut shortcut = new Shortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
+            Shortcut shortcut = Shortcut.createShortcut(shortcutFrom, shortcutTo, maxShortcutValue, shortcutIncomingDirection);
             node.setShortcutRight(shortcut);
             // Add the shortcut to the target as incoming shortcut.
             shortcutTo.getIncomingShortcuts(shortcutIncomingDirection).add(shortcut);      

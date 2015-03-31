@@ -77,6 +77,9 @@ public class Node {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == NULL_NODE) {
+            return false;
+        }
         if (obj == this) {
             return true;
         }
@@ -102,7 +105,7 @@ public class Node {
         stringBuilder.append(") parent = ");
         if (isRoot()) {
             stringBuilder.append("(0, 0)");
-        } else if (parent != null) {
+        } else if (parent != NULL_NODE) {
             stringBuilder.append("(");
             stringBuilder.append(parent.i);
             stringBuilder.append(", ");
@@ -136,6 +139,9 @@ public class Node {
     }
     
     public Node getParent() {
+        if (this == NULL_NODE) {
+            return NULL_NODE;
+        }
         return parent;
     }
     
@@ -243,9 +249,7 @@ public class Node {
         
     }
     
-    public boolean isBetterThan(Node thatNode) {
-        Node thisNode = this;
-        
+    public static boolean isBetterThan(Node thisNode, Node thatNode) {
         if (thisNode.isParentOf(thatNode)) {
             return false;
         }
@@ -261,6 +265,9 @@ public class Node {
         double thisMaxValue = Double.MIN_VALUE;
         double thatMaxValue = Double.MIN_VALUE;
         
+        if (thatNode == null) {
+            throw new RuntimeException("this is null");
+        }
         while (!thisNode.equals(thatNode)) {
             if (thisNode.isRightOf(thatNode) || (thisNode.isInSameColumnAs(thatNode) && thisNode.isAboveOf(thatNode))) {
                 // thisNode is right or above of thatNode:
@@ -306,6 +313,13 @@ public class Node {
                         thatNode = thatNode.parent.shortcutUp.getTo();
                     }
                 }
+            }
+            if (thisNode == NULL_NODE) {
+                throw new RuntimeException("this node is null node");
+            }
+            if (thisNode == null) {
+               break;
+               // throw new RuntimeException("this node is null");
             }
         }
         
