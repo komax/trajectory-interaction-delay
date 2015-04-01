@@ -75,6 +75,9 @@ public class Shortcut {
     
     @Override
     public String toString() {
+        if (this == NO_SHORTCUT) {
+            return "NoShortcut";
+        }
         StringBuilder builder = new StringBuilder("Shortcut( from = (");
         builder.append(from.getIndexTraject1());
         builder.append(", ");

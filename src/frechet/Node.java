@@ -98,6 +98,9 @@ public class Node {
     
     @Override
     public String toString() {
+        if (this == NULL_NODE) {
+            return "NullNode";
+        }
         StringBuilder stringBuilder = new StringBuilder("Node(cell = (");
         stringBuilder.append(i);
         stringBuilder.append(" , ");
