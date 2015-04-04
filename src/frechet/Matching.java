@@ -11,6 +11,27 @@ public class Matching implements Serializable {
     public final int[] j;
     private final int length;
     
+    public static Matching createFrechetMatching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
+        return new Matching(tree, trajectory1, trajectory2, isDirectional);
+    }
+    
+    public static Matching createOneToOneMatching(Trajectory trajectory1, Trajectory trajectory2) {
+        int length = trajectory1.length();
+        int[] i = new int[length];
+        int[] j = new int[length];
+        for (int k = 0; k < length; k++) {
+            i[k] = k;
+            j[k] = k;
+        }
+        return new Matching(i, j, length);
+    }
+    
+    private Matching(int[] i, int[] j, int length) {
+        this.i = i;
+        this.j = j;
+        this.length = length;
+    }
+    
     public Matching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
         // Compute a path from the end of both trajectories towards the root.
         List<Node> path = new ArrayList<>();
