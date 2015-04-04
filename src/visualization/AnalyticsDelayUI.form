@@ -124,7 +124,11 @@
                                       <Component id="delaySpaceComboBox" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="logScalingCheckBox" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="logScalingCheckBox" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="isFrechetMatchingCheckBox" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -157,6 +161,7 @@
                               <Component id="thresholdComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="thresholdSpinner" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="logScalingCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="isFrechetMatchingCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -279,6 +284,16 @@
                   </Properties>
                   <Events>
                     <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="logScalingCheckBoxItemStateChanged"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="isFrechetMatchingCheckBox">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Frechet Matching"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="isFrechetMatchingCheckBoxItemStateChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isFrechetMatchingCheckBoxActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
