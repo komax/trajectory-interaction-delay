@@ -37,6 +37,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private int translucentFocus;
     private double samplingRate;
     private boolean logScaled;
+    private boolean isAFrechetMatching;
     
     // Data members
     private Trajectory trajectory1;
@@ -195,6 +196,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         focusSpinner = new javax.swing.JSpinner();
         logScalingCheckBox = new javax.swing.JCheckBox();
+        isFrechetMatchingCheckBox = new javax.swing.JCheckBox();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -280,6 +282,19 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
+        isFrechetMatchingCheckBox.setSelected(true);
+        isFrechetMatchingCheckBox.setText("Frechet Matching");
+        isFrechetMatchingCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                isFrechetMatchingCheckBoxItemStateChanged(evt);
+            }
+        });
+        isFrechetMatchingCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isFrechetMatchingCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -313,7 +328,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(logScalingCheckBox))
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(logScalingCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(isFrechetMatchingCheckBox)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         settingsPanelLayout.setVerticalGroup(
@@ -338,7 +356,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logScalingCheckBox)))
+                    .addComponent(logScalingCheckBox)
+                    .addComponent(isFrechetMatchingCheckBox)))
         );
 
         jSplitPane2.setLeftComponent(settingsPanel);
@@ -504,6 +523,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 
+    private void isFrechetMatchingCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isFrechetMatchingCheckBoxItemStateChanged
+
+    private void isFrechetMatchingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isFrechetMatchingCheckBoxActionPerformed
+
     
     private void setSamplingRate() {
         int selectedIndex = samplingRateComboBox.getSelectedIndex();
@@ -562,6 +589,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
     private javax.swing.JSpinner focusSpinner;
+    private javax.swing.JCheckBox isFrechetMatchingCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

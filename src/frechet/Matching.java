@@ -32,7 +32,7 @@ public class Matching implements Serializable {
         this.length = length;
     }
     
-    public Matching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
+    private Matching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
         // Compute a path from the end of both trajectories towards the root.
         List<Node> path = new ArrayList<>();
         int numRows = trajectory1.length();
