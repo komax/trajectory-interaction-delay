@@ -589,7 +589,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AnalyticsDelayUI().setVisible(true);
+                AnalyticsDelayUI myAnalyticsUI = new AnalyticsDelayUI();
+                myAnalyticsUI.setVisible(true);
+                myAnalyticsUI.setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
         });
     }
