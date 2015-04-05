@@ -230,8 +230,8 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         g.setColor(Color.BLACK);
         g.drawString("0 s", 0, height);
         g.drawString("0 s", leftColumn(), getHeight());
-        String maxValString = String.format("%.2f s", (matching.getLength() - 1) * samplingRate);
-        g.drawString(maxValString, 0, upperRow());
+        String maxValString = String.format("%.2f s", delaySpace.getTrajectory1().length() * samplingRate);
+        g.drawString(maxValString, 0, 10);
         g.drawString(maxValString, width, height + upperRow());
         //g.drawString(Integer.toString(selectedIndexTraject2), xCoord, getHeight());
     }
@@ -243,7 +243,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
 
     @Override
     public int upperRow() {
-        return 15;
+        return 0;
     }
 
     void updateMatching(Matching matching) {
