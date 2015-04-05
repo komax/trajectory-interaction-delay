@@ -55,7 +55,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
         DoublePoint2D maxValuesTraject1 = maxTraject1();
         DoublePoint2D maxValuesTraject2 = maxTraject2();
         this.maxX = Math.max(maxValuesTraject1.x, maxValuesTraject2.x);
-        this.maxY = Math.max(maxValuesTraject1.x, maxValuesTraject2.x);
+        this.maxY = Math.max(maxValuesTraject1.y, maxValuesTraject2.y);
                 
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         updateMatching(matching, thresholdDelay, translucentFocus);
