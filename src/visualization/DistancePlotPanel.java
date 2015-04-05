@@ -48,7 +48,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         this.maxDistance = delaySpace.getMaxValue();
         this.minDistance = delaySpace.getMinValue();
         this.maxDistanceNormalized = maxDistance / maxDistance;
-        this.minDistanceNormalized = minDistance / minDistance;
+        this.minDistanceNormalized = minDistance / maxDistance;
         setLogScaled(false);
     }
     
