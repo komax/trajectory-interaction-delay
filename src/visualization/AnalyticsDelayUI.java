@@ -51,6 +51,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.logScaled = false;
+        this.isAFrechetMatching = true;
         this.threshold = 1;
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
@@ -102,7 +103,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     
     private void computeMatching() {
         Experiment experiment = new Experiment(delaySpace);
-        this.matching = experiment.run();
+        if (isAFrechetMatching) {
+            this.matching = experiment.run(Experiment.MatchingType.FRECHET);
+        } else {
+            this.matching = experiment.run(Experiment.MatchingType.ONE_TO_ONE);
+        }
     }
     
     private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
@@ -524,7 +529,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 
     private void isFrechetMatchingCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxItemStateChanged
-        // TODO add your handling code here:
+        if (isFrechetMatchingCheckBox.isSelected()) {
+            this.isAFrechetMatching = true;
+        } else {
+            this.isAFrechetMatching = false;
+        }
+        updateDelaySpace();
+        computeMatching();
+        updateAndRepaintPlots();
     }//GEN-LAST:event_isFrechetMatchingCheckBoxItemStateChanged
 
     private void isFrechetMatchingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxActionPerformed
