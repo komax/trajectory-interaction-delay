@@ -13,6 +13,16 @@ import frechet.Matching;
  * @author max
  */
 public class DynamicTimeWarpingMatching {
+    static class IntTuple {
+        public final int i;
+        public final int j;
+        
+        public IntTuple(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+    
     public static Matching computeDTWMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
         int n = trajectory1.length();
         int m = trajectory2.length();
