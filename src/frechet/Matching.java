@@ -1,8 +1,10 @@
 package frechet;
 
+import delayspace.DelaySpace;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import utils.DynamicTimeWarpingMatching;
 import utils.Trajectory;
 
 public class Matching implements Serializable {
@@ -24,6 +26,10 @@ public class Matching implements Serializable {
             j[k] = k;
         }
         return new Matching(i, j, length);
+    }
+    
+    public static Matching createDTWMaching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
+        return DynamicTimeWarpingMatching.computeDTWMatching(trajectory1, trajectory2, delayspace);
     }
     
     private Matching(int[] i, int[] j, int length) {
