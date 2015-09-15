@@ -29,7 +29,8 @@ public class Matching implements Serializable {
     }
     
     public static Matching createDTWMaching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
-        return DynamicTimeWarpingMatching.computeDTWMatching(trajectory1, trajectory2, delayspace);
+        List<DynamicTimeWarpingMatching.IntTuple> matchingIndices = DynamicTimeWarpingMatching.computeDTWMatching(trajectory1, trajectory2, delayspace);
+        return null;
     }
     
     private Matching(int[] i, int[] j, int length) {
