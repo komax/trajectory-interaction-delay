@@ -202,7 +202,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         focusSpinner = new javax.swing.JSpinner();
         logScalingCheckBox = new javax.swing.JCheckBox();
-        isFrechetMatchingCheckBox = new javax.swing.JCheckBox();
+        computationMethodComboBox = new javax.swing.JComboBox();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -288,16 +288,15 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
-        isFrechetMatchingCheckBox.setSelected(true);
-        isFrechetMatchingCheckBox.setText("Frechet Matching");
-        isFrechetMatchingCheckBox.addItemListener(new java.awt.event.ItemListener() {
+        computationMethodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Frechet Matching", "Identity Matching", "Dynamic Time Warping" }));
+        computationMethodComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                isFrechetMatchingCheckBoxItemStateChanged(evt);
+                computationMethodComboBoxItemStateChanged(evt);
             }
         });
-        isFrechetMatchingCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        computationMethodComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                isFrechetMatchingCheckBoxActionPerformed(evt);
+                computationMethodComboBoxActionPerformed(evt);
             }
         });
 
@@ -324,20 +323,19 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                             .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(distanceNormComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(settingsPanelLayout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(settingsPanelLayout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(settingsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addComponent(logScalingCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(isFrechetMatchingCheckBox)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(computationMethodComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         settingsPanelLayout.setVerticalGroup(
@@ -363,7 +361,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(thresholdComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(thresholdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logScalingCheckBox)
-                    .addComponent(isFrechetMatchingCheckBox)))
+                    .addComponent(computationMethodComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jSplitPane2.setLeftComponent(settingsPanel);
@@ -405,7 +403,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         );
         sliderPanelLayout.setVerticalGroup(
             sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, Short.MAX_VALUE)
+            .addComponent(matchingSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
         );
 
         jSplitPane4.setTopComponent(sliderPanel);
@@ -512,7 +510,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_focusSpinnerStateChanged
 
     private void logScalingCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_logScalingCheckBoxItemStateChanged
-        if(logScalingCheckBox.isSelected()) {
+        if (logScalingCheckBox.isSelected()) {
             this.logScaled = true;
         } else {
             this.logScaled = false;
@@ -529,20 +527,20 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logScalingCheckBoxItemStateChanged
 
-    private void isFrechetMatchingCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxItemStateChanged
-        if (isFrechetMatchingCheckBox.isSelected()) {
-            this.isAFrechetMatching = true;
-        } else {
-            this.isAFrechetMatching = false;
-        }
-        updateDelaySpace();
-        computeMatching();
-        updateAndRepaintPlots();
-    }//GEN-LAST:event_isFrechetMatchingCheckBoxItemStateChanged
-
-    private void isFrechetMatchingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isFrechetMatchingCheckBoxActionPerformed
+    private void computationMethodComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computationMethodComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_isFrechetMatchingCheckBoxActionPerformed
+    }//GEN-LAST:event_computationMethodComboBoxActionPerformed
+
+    private void computationMethodComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_computationMethodComboBoxItemStateChanged
+//        if (isFrechetMatchingCheckBox.isSelected()) {
+//            this.isAFrechetMatching = true;
+//        } else {
+//            this.isAFrechetMatching = false;
+//        }
+//        updateDelaySpace();
+//        computeMatching();
+//        updateAndRepaintPlots();
+    }//GEN-LAST:event_computationMethodComboBoxItemStateChanged
 
     
     private void setSamplingRate() {
@@ -598,13 +596,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox computationMethodComboBox;
     private javax.swing.JPanel delayPanel;
     private javax.swing.JComboBox delaySpaceComboBox;
     private javax.swing.JPanel delaySpacePanel;
     private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
     private javax.swing.JSpinner focusSpinner;
-    private javax.swing.JCheckBox isFrechetMatchingCheckBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
