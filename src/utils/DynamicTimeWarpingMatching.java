@@ -6,7 +6,6 @@
 package utils;
 
 import delayspace.DelaySpace;
-import frechet.Matching;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,21 +15,21 @@ import java.util.List;
  * @author max
  */
 public class DynamicTimeWarpingMatching {
-    static public class IntTuple {
+    static public class IntPair {
         public final int i;
         public final int j;
         
-        public IntTuple(int i, int j) {
+        public IntPair(int i, int j) {
             this.i = i;
             this.j = j;
         }
         
-        public static IntTuple createIntTuple(int i, int j) {
-            return new  IntTuple(i, j);
+        public static IntPair createIntTuple(int i, int j) {
+            return new  IntPair(i, j);
         }
     }
     
-    public static List<IntTuple> computeDTWMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
+    public static List<IntPair> computeDTWMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
         int n = trajectory1.length();
         int m = trajectory2.length();
         double[][] dtwMatrix = new double[n][m];
@@ -44,7 +43,7 @@ public class DynamicTimeWarpingMatching {
         }
         dtwMatrix[0][0] = 0;
         
-        IntTuple[][] predecessors = new IntTuple[n][m];
+        IntPair[][] predecessors = new IntPair[n][m];
         // Dynamic Program to compute DTW.
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
@@ -55,19 +54,19 @@ public class DynamicTimeWarpingMatching {
                 double diagonalValue = dtwMatrix[i - 1][j - 1]; // Match.
                 if (leftValue < downValue && leftValue < diagonalValue) {
                     dtwMatrix[i][j] = cost + leftValue;
-                    predecessors[i][j] = IntTuple.createIntTuple(i - 1, j);
+                    predecessors[i][j] = IntPair.createIntTuple(i - 1, j);
                 } else if (downValue < diagonalValue) {
                     dtwMatrix[i][j] = cost + downValue;
-                    predecessors[i][j] = IntTuple.createIntTuple(i, j - 1);
+                    predecessors[i][j] = IntPair.createIntTuple(i, j - 1);
                 } else {
                     dtwMatrix[i][j] = cost + diagonalValue;
-                    predecessors[i][j] = IntTuple.createIntTuple(i - 1, j - 1);
+                    predecessors[i][j] = IntPair.createIntTuple(i - 1, j - 1);
                 }
             }
         }
-        IntTuple predecessor  = predecessors[n][m];
-        List<IntTuple> matchingIndices = new ArrayList<>();
-        matchingIndices.add(IntTuple.createIntTuple(n, m));
+        IntPair predecessor  = predecessors[n][m];
+        List<IntPair> matchingIndices = new ArrayList<>();
+        matchingIndices.add(IntPair.createIntTuple(n, m));
         while (predecessor != null) {
             matchingIndices.add(predecessor);
             predecessor = predecessors[predecessor.i][predecessor.j];
