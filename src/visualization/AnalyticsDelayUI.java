@@ -11,6 +11,7 @@ import frechet.Matching;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Experiment;
+import utils.MatchingType;
 import utils.Trajectory;
 import utils.TrajectoryReader;
 import utils.distance.DistanceNorm;
@@ -38,7 +39,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private int translucentFocus;
     private double samplingRate;
     private boolean logScaled;
-    private boolean isAFrechetMatching;
     
     // Data members
     private Trajectory trajectory1;
@@ -52,7 +52,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     public AnalyticsDelayUI() {
         initComponents();
         this.logScaled = false;
-        this.isAFrechetMatching = true;
         this.threshold = 1;
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
@@ -104,11 +103,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     
     private void computeMatching() {
         Experiment experiment = new Experiment(delaySpace);
-        if (isAFrechetMatching) {
-            this.matching = experiment.run(Experiment.MatchingType.FRECHET);
-        } else {
-            this.matching = experiment.run(Experiment.MatchingType.ONE_TO_ONE);
-        }
+        MatchingType matchingType = getMatchingType();
+        this.matching = experiment.run(matchingType);
     }
     
     private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
@@ -136,6 +132,24 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 return DelaySpaceType.HEADING;
             default:
                 throw new RuntimeException("Invalid selection");       
+        }
+    }
+    
+    private MatchingType getMatchingType() {
+        if (computationMethodComboBox == null) {
+            // If not UI is not ready yet, use a frechet matching as a default.
+            return MatchingType.FRECHET;
+        }
+        int selectedIndex = computationMethodComboBox.getSelectedIndex();
+        switch(selectedIndex) {
+            case 0:
+                return MatchingType.FRECHET;
+            case 1:
+                return MatchingType.IDENTIY;
+            case 2:
+                return MatchingType.DTW;
+            default:
+                throw new RuntimeException("Invalid selection for a matching type");
         }
     }
     
