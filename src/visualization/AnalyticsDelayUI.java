@@ -546,14 +546,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_computationMethodComboBoxActionPerformed
 
     private void computationMethodComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_computationMethodComboBoxItemStateChanged
-//        if (isFrechetMatchingCheckBox.isSelected()) {
-//            this.isAFrechetMatching = true;
-//        } else {
-//            this.isAFrechetMatching = false;
-//        }
-//        updateDelaySpace();
-//        computeMatching();
-//        updateAndRepaintPlots();
+        updateDelaySpace();
+        computeMatching();
+        updateAndRepaintPlots();
     }//GEN-LAST:event_computationMethodComboBoxItemStateChanged
 
     
