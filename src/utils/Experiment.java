@@ -16,9 +16,6 @@ import utils.distance.DistanceNorm;
  * @author max
  */
 public class Experiment {
-    public static enum MatchingType {
-        FRECHET, ONE_TO_ONE
-    }
     
     private DelaySpace delaySpace;
     private Trajectory trajectory1;
@@ -47,8 +44,11 @@ public class Experiment {
             case FRECHET:
                 matching = LocallyCorrectFrechet.compute(delaySpace, trajectory1, trajectory2);
                 break;
-            case ONE_TO_ONE:
+            case IDENTIY:
                 matching = Matching.createOneToOneMatching(trajectory1, trajectory2);
+                break;
+            case DTW:
+                matching = Matching.createDTWMaching(trajectory1, trajectory2, delaySpace);
                 break;
             default:
                 throw new RuntimeException("This matching type is not allowed yet");
