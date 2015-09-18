@@ -33,10 +33,10 @@ public class Matching implements Serializable {
         int lengthMatching = matchingIndices.size();
         int[] i = new int[lengthMatching];
         int[] j = new int[lengthMatching];
-        for (int k = 0; k < lengthMatching; k++) {
+        for (int k = 1; k < lengthMatching; k++) {
             DynamicTimeWarpingMatching.IntPair edge = matchingIndices.get(k);
-            i[k] = edge.i;
-            j[k] = edge.j;
+            i[k] = edge.i - 1;
+            j[k] = edge.j - 1;
         }
         return new Matching(i, j, lengthMatching);
     }

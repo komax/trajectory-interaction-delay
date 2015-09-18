@@ -32,18 +32,18 @@ public class DynamicTimeWarpingMatching {
     public static List<IntPair> computeDTWMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
         int n = trajectory1.length();
         int m = trajectory2.length();
-        double[][] dtwMatrix = new double[n][m];
+        double[][] dtwMatrix = new double[n + 1][m + 1];
         
         // Initialization.
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             dtwMatrix[i][0] = Double.MAX_VALUE;
         }
-        for (int j = 0; j < m; j++) {
+        for (int j = 1; j <= m; j++) {
             dtwMatrix[0][j] = Double.MAX_VALUE;
         }
         dtwMatrix[0][0] = 0;
         
-        IntPair[][] predecessors = new IntPair[n][m];
+        IntPair[][] predecessors = new IntPair[n + 1][m + 1];
         // Dynamic Program to compute DTW.
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
