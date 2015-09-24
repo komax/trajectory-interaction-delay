@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DynamicTimeWarpingMatching;
+import utils.EditDistanceOnRealSequence;
 import utils.IntPair;
 import utils.Trajectory;
 
@@ -40,6 +41,11 @@ public class Matching implements Serializable {
             j[k] = edge.j - 1;
         }
         return new Matching(i, j, lengthMatching);
+    }
+    
+    public static Matching createEDRMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace, double epsilon) {
+        EditDistanceOnRealSequence edrMatching = new EditDistanceOnRealSequence(trajectory1, trajectory2, delayspace, epsilon);
+        return edrMatching.computeMatching();
     }
     
     public static Matching createMatching(int[] i, int[] j, int length) {

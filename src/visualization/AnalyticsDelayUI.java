@@ -148,6 +148,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                 return MatchingType.IDENTIY;
             case 2:
                 return MatchingType.DTW;
+            case 3:
+                return MatchingType.EDR;
             default:
                 throw new RuntimeException("Invalid selection for a matching type");
         }
@@ -302,7 +304,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
-        computationMethodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Frechet Matching", "Identity Matching", "Dynamic Time Warping" }));
+        computationMethodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Frechet Matching", "Identity Matching", "Dynamic Time Warping", "Edit Distance on Real" }));
         computationMethodComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 computationMethodComboBoxItemStateChanged(evt);
