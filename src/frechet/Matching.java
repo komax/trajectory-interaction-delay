@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DynamicTimeWarpingMatching;
+import utils.IntPair;
 import utils.Trajectory;
 
 public class Matching implements Serializable {
@@ -29,12 +30,12 @@ public class Matching implements Serializable {
     }
     
     public static Matching createDTWMaching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
-        List<DynamicTimeWarpingMatching.IntPair> matchingIndices = DynamicTimeWarpingMatching.computeDTWMatching(trajectory1, trajectory2, delayspace);
+        List<IntPair> matchingIndices = DynamicTimeWarpingMatching.computeDTWMatching(trajectory1, trajectory2, delayspace);
         int lengthMatching = matchingIndices.size();
         int[] i = new int[lengthMatching];
         int[] j = new int[lengthMatching];
         for (int k = 1; k < lengthMatching; k++) {
-            DynamicTimeWarpingMatching.IntPair edge = matchingIndices.get(k);
+            IntPair edge = matchingIndices.get(k);
             i[k] = edge.i - 1;
             j[k] = edge.j - 1;
         }

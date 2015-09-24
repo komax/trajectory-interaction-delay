@@ -15,20 +15,6 @@ import java.util.List;
  * @author max
  */
 public class DynamicTimeWarpingMatching {
-    static public class IntPair {
-        public final int i;
-        public final int j;
-        
-        public IntPair(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-        
-        public static IntPair createIntTuple(int i, int j) {
-            return new  IntPair(i, j);
-        }
-    }
-    
     public static List<IntPair> computeDTWMatching(Trajectory trajectory1, Trajectory trajectory2, DelaySpace delayspace) {
         int n = trajectory1.length();
         int m = trajectory2.length();
