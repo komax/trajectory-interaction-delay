@@ -69,20 +69,21 @@ public class EditDistanceOnRealSequence {
         // Dynamic Program to compute EDR.
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
-                // FIXME still DTW. This needs to be updated.
-                double cost = delayspace.get(i - 1 , j - 1);
-                edrMatrix[i][j] = cost;
-                double leftValue = edrMatrix[i - 1][j]; // Insertion.
-                double downValue = edrMatrix[i][j - 1]; // Deletion.
+                double leftValue = edrMatrix[i - 1][j] + 1.0; // Insertion.
+                double downValue = edrMatrix[i][j - 1] + 1.0; // Deletion.
                 double diagonalValue = edrMatrix[i - 1][j - 1]; // Match.
+                // Add subcost if the points do not match based on epsilon.
+                if (!match(i - 1 , j - 1)) {
+                    diagonalValue += 1.;
+                }
                 if (leftValue < downValue && leftValue < diagonalValue) {
-                    edrMatrix[i][j] = cost + leftValue;
+                    edrMatrix[i][j] = leftValue;
                     predecessors[i][j] = IntPair.createIntTuple(i - 1, j);
                 } else if (downValue < diagonalValue) {
-                    edrMatrix[i][j] = cost + downValue;
+                    edrMatrix[i][j] = downValue;
                     predecessors[i][j] = IntPair.createIntTuple(i, j - 1);
                 } else {
-                    edrMatrix[i][j] = cost + diagonalValue;
+                    edrMatrix[i][j] = diagonalValue;
                     predecessors[i][j] = IntPair.createIntTuple(i - 1, j - 1);
                 }
             }
