@@ -12,5 +12,6 @@ package utils;
 public enum MatchingType {
     FRECHET,
     IDENTIY,
-    DTW
+    DTW,
+    EDR
 }
