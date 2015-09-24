@@ -42,6 +42,10 @@ public class Matching implements Serializable {
         return new Matching(i, j, lengthMatching);
     }
     
+    public static Matching createMatching(int[] i, int[] j, int length) {
+        return new Matching(i, j, length);
+    }
+    
     private Matching(int[] i, int[] j, int length) {
         this.i = i;
         this.j = j;
