@@ -44,6 +44,18 @@ public class EditDistanceOnRealSequence {
         return transformIntoMatching(indices);
     }
     
+    private boolean match(int i, int j) {
+        double[] p = trajectory1.getPoint(i);
+        double[] q = trajectory2.getPoint(j);
+        double absX = Math.abs(p[0] - q[0]);
+        if (absX <= epsilon) {
+            double absY = Math.abs(p[1] - q[1]);
+            return absY <= epsilon;
+        } else {
+            return false;
+        }
+    }
+    
     private void computeEditDistance() {
         // Initialization.
         for (int i = 1; i <= n; i++) {
