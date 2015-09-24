@@ -50,8 +50,12 @@ public class Experiment {
             case DTW:
                 matching = Matching.createDTWMaching(trajectory1, trajectory2, delaySpace);
                 break;
+            case EDR:
+                // FIXME Enable variable epsilons.
+                matching = Matching.createEDRMatching(trajectory1, trajectory2, delaySpace, 10.0);
+                break;
             default:
-                throw new RuntimeException("This matching type is not allowed yet");
+                throw new RuntimeException("This matching type is not allowed yet "+ matchingType.toString());
         }
         return matching;
     }
