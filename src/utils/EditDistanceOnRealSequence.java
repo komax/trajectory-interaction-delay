@@ -18,7 +18,7 @@ import java.util.List;
 public class EditDistanceOnRealSequence {
     private final int n;
     private final int m;
-    private final double[][] edrMatrix;
+    private final int[][] edrMatrix;
     private final IntPair[][] predecessors;
     private final Trajectory trajectory1;
     private final Trajectory trajectory2;
@@ -34,7 +34,7 @@ public class EditDistanceOnRealSequence {
         this.n = trajectory1.length();
         this.m = trajectory2.length();
         
-        this.edrMatrix = new double[n + 1][m + 1];
+        this.edrMatrix = new int[n + 1][m + 1];
         this.predecessors = new IntPair[n + 1][m + 1];
     }
     
@@ -45,6 +45,7 @@ public class EditDistanceOnRealSequence {
     }
     
     private boolean match(int i, int j) {
+        // TODO Consider using the distance information from the delay space.
         double[] p = trajectory1.getPoint(i);
         double[] q = trajectory2.getPoint(j);
         double absX = Math.abs(p[0] - q[0]);
@@ -69,12 +70,12 @@ public class EditDistanceOnRealSequence {
         // Dynamic Program to compute EDR.
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
-                double leftValue = edrMatrix[i - 1][j] + 1.0; // Insertion.
-                double downValue = edrMatrix[i][j - 1] + 1.0; // Deletion.
-                double diagonalValue = edrMatrix[i - 1][j - 1]; // Match.
+                int leftValue = edrMatrix[i - 1][j] + 1; // Insertion.
+                int downValue = edrMatrix[i][j - 1] + 1; // Deletion.
+                int diagonalValue = edrMatrix[i - 1][j - 1]; // Match.
                 // Add subcost if the points do not match based on epsilon.
                 if (!match(i - 1 , j - 1)) {
-                    diagonalValue += 1.;
+                    diagonalValue += 1;
                 }
                 if (leftValue < downValue && leftValue < diagonalValue) {
                     edrMatrix[i][j] = leftValue;
