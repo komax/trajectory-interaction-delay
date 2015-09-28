@@ -22,9 +22,9 @@ import utils.distance.DistanceNormFactory;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
+ //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
-//     public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
 
@@ -45,6 +45,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Trajectory trajectory2;
     private DelaySpace delaySpace;
     private Matching matching = null;
+    private double epsilon;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -55,6 +56,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.threshold = 1;
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
+        this.epsilon = 1.7;
         try {
             readTrajectories(PATH_TO_TRAJ_DATA);
         } catch (Exception ex) {
@@ -104,7 +106,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private void computeMatching() {
         Experiment experiment = new Experiment(delaySpace);
         MatchingType matchingType = getMatchingType();
-        this.matching = experiment.run(matchingType);
+        this.matching = experiment.run(matchingType, epsilon);
     }
     
     private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
@@ -219,6 +221,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         focusSpinner = new javax.swing.JSpinner();
         logScalingCheckBox = new javax.swing.JCheckBox();
         computationMethodComboBox = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        epsField = new javax.swing.JTextField();
         jSplitPane3 = new javax.swing.JSplitPane();
         trajectoryPlotPanel = new javax.swing.JPanel();
         jSplitPane4 = new javax.swing.JSplitPane();
@@ -264,6 +268,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         samplingRateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 samplingRateFieldActionPerformed(evt);
+            }
+        });
+        samplingRateField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                samplingRateFieldPropertyChange(evt);
             }
         });
 
@@ -316,6 +325,20 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("eps");
+
+        epsField.setText("1.7");
+        epsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                epsFieldActionPerformed(evt);
+            }
+        });
+        epsField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                epsFieldPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -339,19 +362,24 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                             .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(distanceNormComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(delaySpaceComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(logScalingCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(computationMethodComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(4, 4, 4)
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(epsField))
+                        .addGroup(settingsPanelLayout.createSequentialGroup()
+                            .addComponent(logScalingCheckBox)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(computationMethodComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         settingsPanelLayout.setVerticalGroup(
@@ -370,7 +398,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
                     .addComponent(samplingRateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(samplingRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(focusSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(epsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -553,6 +583,23 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         updateAndRepaintPlots();
     }//GEN-LAST:event_computationMethodComboBoxItemStateChanged
 
+    private void epsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_epsFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_epsFieldActionPerformed
+
+    private void samplingRateFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_samplingRateFieldPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_samplingRateFieldPropertyChange
+
+    private void epsFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_epsFieldPropertyChange
+        // TODO add your handling code here:
+        this.epsilon = Double.valueOf(epsField.getText());
+        if (matching != null) {
+            computeMatching();
+            updateAndRepaintPlots();
+        }
+    }//GEN-LAST:event_epsFieldPropertyChange
+
     
     private void setSamplingRate() {
         int selectedIndex = samplingRateComboBox.getSelectedIndex();
@@ -613,12 +660,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JPanel delaySpacePanel;
     private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
+    private javax.swing.JTextField epsField;
     private javax.swing.JSpinner focusSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
