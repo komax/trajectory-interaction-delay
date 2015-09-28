@@ -45,16 +45,7 @@ public class EditDistanceOnRealSequence {
     }
     
     private boolean match(int i, int j) {
-        // TODO Consider using the distance information from the delay space.
-        double[] p = trajectory1.getPoint(i);
-        double[] q = trajectory2.getPoint(j);
-        double absX = Math.abs(p[0] - q[0]);
-        if (absX <= epsilon) {
-            double absY = Math.abs(p[1] - q[1]);
-            return absY <= epsilon;
-        } else {
-            return false;
-        }
+        return delayspace.get(i, j) <= epsilon;
     }
     
     private void computeEditDistance() {
