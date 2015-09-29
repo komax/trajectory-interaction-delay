@@ -23,8 +23,8 @@ import utils.distance.DistanceNormFactory;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
-  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
+  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
 
@@ -328,6 +328,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jLabel6.setText("eps");
 
         epsField.setText("1.7");
+        epsField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                epsFieldCaretUpdate(evt);
+            }
+        });
         epsField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 epsFieldActionPerformed(evt);
@@ -592,13 +597,16 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_samplingRateFieldPropertyChange
 
     private void epsFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_epsFieldPropertyChange
-        // TODO add your handling code here:
+
+    }//GEN-LAST:event_epsFieldPropertyChange
+
+    private void epsFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_epsFieldCaretUpdate
         this.epsilon = Double.valueOf(epsField.getText());
         if (matching != null) {
             computeMatching();
             updateAndRepaintPlots();
         }
-    }//GEN-LAST:event_epsFieldPropertyChange
+    }//GEN-LAST:event_epsFieldCaretUpdate
 
     
     private void setSamplingRate() {
