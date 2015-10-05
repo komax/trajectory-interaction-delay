@@ -23,8 +23,10 @@ import utils.distance.DistanceNormFactory;
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
-  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
+  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
+  //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
+       public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4.txt";
+   // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
 
