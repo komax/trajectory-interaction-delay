@@ -13,6 +13,8 @@ figure;
 colormap(summer);
 %mesh(x,y,displacementsBigAlpha);
 contourf(x,y,displacementsBigAlpha);
+xlabel('d_p');
+ylabel('d_q');
 axis square;
 
 % This function does not fit nicely. Drop it
@@ -35,6 +37,8 @@ figure;
 colormap(summer);
 %mesh(x,y,displacementApproxs);
 contourf(x,y,displacementApproxs);
+xlabel('d_p');
+ylabel('d_q');
 axis square;
 
 displacementApproxs = zeros(length(x),length(y));
@@ -53,4 +57,6 @@ figure;
 colormap(summer);
 %mesh(x,y,displacementApproxs);
 contourf(x,y,displacementApproxs);
+xlabel('d_p');
+ylabel('d_q');
 axis square;
