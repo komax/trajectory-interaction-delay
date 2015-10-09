@@ -12,7 +12,7 @@ package utils;
 public class IntTriple {
     public final int i;
     public final int j;
-    private final int k;
+    public final int k;
         
     public IntTriple(int i, int j, int k) {
         this.i = i;
