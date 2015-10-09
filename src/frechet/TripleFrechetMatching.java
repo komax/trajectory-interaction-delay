@@ -11,19 +11,19 @@ import utils.Trajectory;
  *
  * @author max
  */
-public class TripletLocallyCorrectFrechetMatching {
+public class TripleFrechetMatching {
     
     private Node[][][] grid;
     private int rows;
     private int columns;
     private int height;
     
-    public TripletLocallyCorrectFrechetMatching compute(Trajectory trajectory1,
+    public TripleFrechetMatching compute(Trajectory trajectory1,
             Trajectory trajectory2, Trajectory trajectory3) {
         return null;
     }
     
-    public TripletLocallyCorrectFrechetMatching(int numRows, int numColums, int numZ) {
+    public TripleFrechetMatching(int numRows, int numColums, int numZ) {
         rows = numRows;
         columns = numColums;
         height = numZ;
