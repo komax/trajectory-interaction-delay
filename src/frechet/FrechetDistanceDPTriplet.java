@@ -108,7 +108,7 @@ public class FrechetDistanceDPTriplet {
         return bestParentIndices;
     }
     
-    public double computeFrechetDistance() {
+    public void computeFrechetDistance() {
         // Initialization
         // Omit longest leash value for (0,0,0).
         frechetDistances[0][0][0] = Double.MIN_VALUE;
@@ -155,9 +155,15 @@ public class FrechetDistanceDPTriplet {
                 }
             }
         }
-        
+    }
+    
+    double getFrechetDistance() {
         // Return the Frechet distance in the last cell.
         return frechetDistances[n-1][n-1][n-1];
+    }
+    
+    IntTriple getBottleneck() {
+        return bottleneckIndices[n-1][n-1][n-1];
     }
     
 }
