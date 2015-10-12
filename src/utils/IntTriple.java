@@ -19,6 +19,10 @@ public class IntTriple {
         this.j = j;
         this.k = k;
     }
+    
+    public boolean isEqual(int i, int j, int k) {
+        return this.i == i && this.j == i && this.k == k;
+    }
 
     public static IntTriple createIntTriple(int i, int j, int k) {
         return new IntTriple(i, j, k);
