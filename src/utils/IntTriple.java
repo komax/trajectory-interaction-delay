@@ -53,7 +53,18 @@ public class IntTriple {
         }
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("(");
+        builder.append(this.i);
+        builder.append(", ");
+        builder.append(this.j);
+        builder.append(", ");
+        builder.append(this.k);
+        builder.append(")");
+        return builder.toString();
+    }
     
 
     public static IntTriple createIntTriple(int i, int j, int k) {
