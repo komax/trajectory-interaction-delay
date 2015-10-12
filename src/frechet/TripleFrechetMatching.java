@@ -1,5 +1,9 @@
 package frechet;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import utils.IntTriple;
 import utils.Trajectory;
 
 /*
@@ -13,22 +17,48 @@ import utils.Trajectory;
  */
 public class TripleFrechetMatching {
     
-    private Node[][][] grid;
-    private int rows;
-    private int columns;
-    private int height;
+    private final Trajectory trajectory1;
+    private final Trajectory trajectory2;
+    private final Trajectory trajectory3;
+    private final int n;
     
-    public TripleFrechetMatching compute(Trajectory trajectory1,
-            Trajectory trajectory2, Trajectory trajectory3) {
-        return null;
+    public List<IntTriple> compute() {
+        IntTriple startMatching = IntTriple.createIntTriple(0, 0, 0);
+        IntTriple endMatching = IntTriple.createIntTriple(n - 1, n - 1, n - 1);
+        return computeMatchingRecursively(startMatching, endMatching);
     }
     
-    public TripleFrechetMatching(int numRows, int numColums, int numZ) {
-        rows = numRows;
-        columns = numColums;
-        height = numZ;
+    public TripleFrechetMatching(Trajectory trajectory1, Trajectory trajectory2,
+            Trajectory trajectory3) {
+        this.trajectory1 = trajectory1;
+        this.trajectory2 = trajectory2;
+        this.trajectory3 = trajectory3;
+        this.n = trajectory1.length();
     }
     
+    private List<IntTriple> computeMatchingRecursively(IntTriple leftEnd,
+            IntTriple rightEnd) {
+        FrechetDistanceDPTriplet frechetDP = new FrechetDistanceDPTriplet(trajectory1, trajectory2, trajectory3);
+        frechetDP.computeFrechetDistance();
+        IntTriple bottleneck = frechetDP.getBottleneck();
+        List<IntTriple> leftEdges;
+        if (leftEnd.equals(bottleneck)) {
+            leftEdges = Collections.EMPTY_LIST;
+        } else {
+            leftEdges = computeMatchingRecursively(leftEnd, bottleneck);
+        }
+        List<IntTriple> rightEdges;
+        if (rightEnd.equals(bottleneck)) {
+            rightEdges = Collections.EMPTY_LIST;
+        } else {
+            rightEdges = computeMatchingRecursively(bottleneck, rightEnd);
+        }
+        List<IntTriple> resultingEdges = new ArrayList<>();
+        resultingEdges.addAll(leftEdges);
+        resultingEdges.add(bottleneck);
+        resultingEdges.addAll(rightEdges);
+        return resultingEdges;
+    }
 
 //    protected Node[][] grid;
 //    private double[][] gridValues;

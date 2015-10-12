@@ -5,7 +5,6 @@
  */
 package frechet;
 
-import javax.management.Query;
 import utils.IntTriple;
 import utils.Trajectory;
 import utils.distance.DistanceNorm;
