@@ -38,20 +38,33 @@ public class TripleFrechetMatching {
     
     private List<IntTriple> computeMatchingRecursively(IntTriple leftEnd,
             IntTriple rightEnd) {
+        IntTriple diff = IntTriple.minus(rightEnd, leftEnd);
+        // Stop recursion if left and right end are the same.
+        if (diff.isEqual(0, 0, 0)) {
+            return Collections.EMPTY_LIST;
+        }
+        // If two coordinates of diff are 0, just walk the line for the remaining.
+        if (diff.i == 0 && diff.j == 0 && diff.k != 0) {
+            // FIXME walk the line here.
+        } else if (diff.i != 0 && diff.j == 0 && diff.k == 0) {
+            // FIXME walk the line here.
+        } else if (diff.i == 0 && diff.j != 0 && diff.k == 0) {
+            // FIXME walk the line here.
+        }
+        // Recursion end on 2D trajectory computation if one dimension is fixed.
+        if (diff.k == 0) {
+            // FIXME implement theses cases
+        } else if (diff.i == 0) {
+            
+        } else if (diff.j == 0) {
+            
+        }
         FrechetDistanceDPTriplet frechetDP = new FrechetDistanceDPTriplet(
                 leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
         frechetDP.computeFrechetDistance();
         IntTriple bottleneck = frechetDP.getBottleneck();
         System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd);
-        // Compute a 2D Frechet matching on these three cases.
-        // TODO Catch these cases.
-        if (leftEnd.i == 0 && rightEnd.i == 0) {
-            
-        } else if (leftEnd.j == 0 && rightEnd.j == 0) {
-            
-        } else if (leftEnd.k == 0 && rightEnd.k == 0) {
-            
-        }
+  
         // Recurse if the boundries are distinct from the bottleneck.
         List<IntTriple> leftEdges;
         if (leftEnd.equals(bottleneck)) {
