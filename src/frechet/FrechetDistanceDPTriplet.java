@@ -18,7 +18,10 @@ public class FrechetDistanceDPTriplet {
     private final Trajectory traject1;
     private final Trajectory traject2;
     private final Trajectory traject3;
-    private final int n;
+    private final int lengthX;
+    private final int lengthY;
+    private final int lengthZ;
+    private final IntTriple leftEnd;
     private final double[][][] frechetDistances;
     private final IntTriple[][][] bottleneckIndices;
     
@@ -30,32 +33,36 @@ public class FrechetDistanceDPTriplet {
         return maxVal;
     }
     
-    public FrechetDistanceDPTriplet(Trajectory traject1, Trajectory traject2, Trajectory traject3) {
+    public FrechetDistanceDPTriplet(IntTriple leftEnd, IntTriple rightEnd, Trajectory traject1, Trajectory traject2, Trajectory traject3) {
         this.traject1 = traject1;
         this.traject2 = traject2;
         this.traject3 = traject3;
         
-        this.n = traject1.length();
+        this.leftEnd = leftEnd;
         
-        this.frechetDistances = new double[n][n][n];
-        this.bottleneckIndices = new IntTriple[n][n][n];
+        this.lengthX = rightEnd.i - leftEnd.i  + 1;
+        this.lengthY = rightEnd.j - leftEnd.j + 1;
+        this.lengthZ = rightEnd.k - leftEnd.k + 1;
+        
+        this.frechetDistances = new double[lengthX][lengthY][lengthZ];
+        this.bottleneckIndices = new IntTriple[lengthX][lengthY][lengthZ];
     }
     
     private double euclideanDistanceTraject12(int i, int j) {
-        double[] pointI = traject1.getPoint(i);
-        double[] pointJ = traject2.getPoint(j);
+        double[] pointI = traject1.getPoint(i + leftEnd.i);
+        double[] pointJ = traject2.getPoint(j + leftEnd.j);
         return EuclideanDistance.distance(pointI, pointJ);
     }
 
     private double euclideanDistanceTraject23(int j, int k) {
-        double[] pointJ = traject2.getPoint(j);
-        double[] pointK = traject3.getPoint(k);
+        double[] pointJ = traject2.getPoint(j + leftEnd.j);
+        double[] pointK = traject3.getPoint(k + leftEnd.k);
         return EuclideanDistance.distance(pointJ, pointK);
     }
     
     private double euclideanDistanceTraject13(int i, int k) {
-        double[] pointI = traject1.getPoint(i);
-        double[] pointK = traject3.getPoint(k);
+        double[] pointI = traject1.getPoint(i + leftEnd.i);
+        double[] pointK = traject3.getPoint(k + leftEnd.k);
         return EuclideanDistance.distance(pointI, pointK);
     }
     
@@ -112,33 +119,34 @@ public class FrechetDistanceDPTriplet {
         // Omit longest leash value for (0,0,0).
         frechetDistances[0][0][0] = Double.MIN_VALUE;
         
-        for (int j = 0; j <= n - 1; j++) {
-            for (int k = 0; k <= n - 1; k++) {
+        for (int j = 0; j <= lengthY - 1; j++) {
+            for (int k = 0; k <= lengthZ - 1; k++) {
                 frechetDistances[0][j][k] = longestLeashOnTriplet(0, j, k);
                 bottleneckIndices[0][j][k] = IntTriple.createIntTriple(0, j, k);
             }
         }
         
-        for (int i = 0; i <= n - 1; i++) {
-            for (int k = 0; k <= n - 1; k++) {
+        for (int i = 0; i <= lengthX - 1; i++) {
+            for (int k = 0; k <= lengthZ - 1; k++) {
                 frechetDistances[i][0][k] = longestLeashOnTriplet(i, 0, k);
                 bottleneckIndices[i][0][k] = IntTriple.createIntTriple(i, 0, k);
             }
         }
         
-        for (int i = 0; i <= n - 1; i++) {
-            for (int j = 0; j <= n - 1; j++) {
+        for (int i = 0; i <= lengthX - 1; i++) {
+            for (int j = 0; j <= lengthY - 1; j++) {
                 frechetDistances[i][j][0] = longestLeashOnTriplet(i, j, 0);
                 bottleneckIndices[i][j][0] = IntTriple.createIntTriple(i, j, 0);
             }
         }
         
         // Dynamic Program to compute the Frechet bottleneck.
-        for (int i = 1; i <= n - 1; i++) {
-            for (int j = 1; j <= n - 1; j++) {
-                for (int k = 1; k <= n - 1; k++) {
-                    double frechetEntry = Double.MAX_VALUE;
-                    if (i != n-1 && j != n-1 && k != n-1) {
+        for (int i = 1; i <= lengthX - 1; i++) {
+            for (int j = 1; j <= lengthY - 1; j++) {
+                for (int k = 1; k <= lengthZ - 1; k++) {
+                    System.out.println(IntTriple.createIntTriple(i, j, k));
+                    double frechetEntry = Double.MIN_VALUE;
+                    if (i != lengthX-1 && j != lengthY-1 && k != lengthZ-1) {
                         // Skip longest leash value from (n-1, n-1, n-1)
                         frechetEntry = longestLeashOnTriplet(i, j, k);
                     }
@@ -158,11 +166,12 @@ public class FrechetDistanceDPTriplet {
     
     double getFrechetDistance() {
         // Return the Frechet distance in the last cell.
-        return frechetDistances[n-1][n-1][n-1];
+        return frechetDistances[lengthX - 1][lengthY - 1][lengthZ - 1];
     }
     
     IntTriple getBottleneck() {
-        return bottleneckIndices[n-1][n-1][n-1];
+        IntTriple zerobasedBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
+        return IntTriple.createIntTriple(leftEnd.i + zerobasedBottleneck.i, leftEnd.j + zerobasedBottleneck.j, leftEnd.k + zerobasedBottleneck.k);
     }
     
 }
