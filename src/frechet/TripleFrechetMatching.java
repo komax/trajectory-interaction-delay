@@ -38,9 +38,21 @@ public class TripleFrechetMatching {
     
     private List<IntTriple> computeMatchingRecursively(IntTriple leftEnd,
             IntTriple rightEnd) {
-        FrechetDistanceDPTriplet frechetDP = new FrechetDistanceDPTriplet(trajectory1, trajectory2, trajectory3);
+        FrechetDistanceDPTriplet frechetDP = new FrechetDistanceDPTriplet(
+                leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
         frechetDP.computeFrechetDistance();
         IntTriple bottleneck = frechetDP.getBottleneck();
+        System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd);
+        // Compute a 2D Frechet matching on these three cases.
+        // TODO Catch these cases.
+        if (leftEnd.i == 0 && rightEnd.i == 0) {
+            
+        } else if (leftEnd.j == 0 && rightEnd.j == 0) {
+            
+        } else if (leftEnd.k == 0 && rightEnd.k == 0) {
+            
+        }
+        // Recurse if the boundries are distinct from the bottleneck.
         List<IntTriple> leftEdges;
         if (leftEnd.equals(bottleneck)) {
             leftEdges = Collections.EMPTY_LIST;
