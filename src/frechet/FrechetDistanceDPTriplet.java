@@ -144,7 +144,6 @@ public class FrechetDistanceDPTriplet {
         for (int i = 1; i <= lengthX - 1; i++) {
             for (int j = 1; j <= lengthY - 1; j++) {
                 for (int k = 1; k <= lengthZ - 1; k++) {
-                    System.out.println(IntTriple.createIntTriple(i, j, k));
                     double frechetEntry = Double.MIN_VALUE;
                     if (i != lengthX-1 && j != lengthY-1 && k != lengthZ-1) {
                         // Skip longest leash value from (n-1, n-1, n-1)

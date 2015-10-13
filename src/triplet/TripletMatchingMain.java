@@ -19,7 +19,7 @@ import utils.TripletTrajectoryReader;
  */
 public class TripletMatchingMain {
     
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
     private Trajectory trajectory1;
     private Trajectory trajectory2;
     private Trajectory trajectory3;
