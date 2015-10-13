@@ -13,6 +13,13 @@ public class IntTriple {
     public final int i;
     public final int j;
     public final int k;
+    
+    public static IntTriple minus(IntTriple a, IntTriple b) {
+        int diffI = a.i - b.i;
+        int diffJ = a.j - b.j;
+        int diffK = a.k - b.k;
+        return createIntTriple(diffI, diffJ, diffK);
+    }
         
     public IntTriple(int i, int j, int k) {
         this.i = i;
