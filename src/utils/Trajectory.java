@@ -41,4 +41,10 @@ public class Trajectory implements Iterable<double[]> {
     public int length() {
         return entries.size();
     }
+    
+    public Trajectory subtrajectory(int startIndex, int endIndex) {
+        Trajectory subtraj = new Trajectory();
+        subtraj.entries.addAll(entries.subList(startIndex, endIndex + 1));
+        return subtraj;
+    }
 }
