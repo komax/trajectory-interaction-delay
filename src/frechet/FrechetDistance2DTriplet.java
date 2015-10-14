@@ -5,9 +5,13 @@
  */
 package frechet;
 
+import delayspace.DelaySpace;
+import delayspace.DelaySpaceType;
 import java.util.List;
 import utils.IntTriple;
 import utils.Trajectory;
+import utils.distance.DistanceNorm;
+import utils.distance.DistanceNormFactory;
 
 /**
  *
@@ -25,6 +29,7 @@ public class FrechetDistance2DTriplet {
     private final Trajectory traject2;
     private final Trajectory traject3;
     private final IntTriple leftEnd;
+    private final IntTriple rightEnd;
     private final int lengthX;
     private final int lengthY;
     private final int lengthZ;
@@ -36,6 +41,7 @@ public class FrechetDistance2DTriplet {
         this.traject3 = traject3;
         
         this.leftEnd = leftEnd;
+        this.rightEnd = rightEnd;
         
         this.lengthX = rightEnd.i - leftEnd.i  + 1;
         this.lengthY = rightEnd.j - leftEnd.j + 1;
@@ -60,7 +66,26 @@ public class FrechetDistance2DTriplet {
     
     
     private Matching compute2DMatching() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Trajectory trajectA;
+        Trajectory trajectB;
+        switch(pairType) {
+            case TRAJ_12:
+                trajectA = traject1.subtrajectory(leftEnd.i, rightEnd.i);
+                trajectB = traject2.subtrajectory(leftEnd.j, rightEnd.j);
+                break;
+            case TRAJ_13:
+                trajectA = traject1.subtrajectory(leftEnd.i, rightEnd.i);
+                trajectB = traject3.subtrajectory(leftEnd.k, rightEnd.k);
+                break;
+            case TRAJ_23:
+                trajectA = traject2.subtrajectory(leftEnd.j, rightEnd.j);
+                trajectB = traject3.subtrajectory(leftEnd.k, rightEnd.k);
+                break;
+            default:
+                throw new RuntimeException("Invalid pairtype = " + pairType);
+        }
+        DelaySpace delaySpace = DelaySpace.createDelaySpace(traject1, traject2, DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
+        return LocallyCorrectFrechet.compute(delaySpace, trajectA, trajectB);
     }
     
     private List<IntTriple> transform2DMatching(Matching matching2D) {
