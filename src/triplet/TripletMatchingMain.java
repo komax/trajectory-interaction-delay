@@ -43,11 +43,13 @@ public class TripletMatchingMain {
     private void printMatching(List<IntTriple> matching) {
         StringBuilder builder = new StringBuilder("Matching( (i,j,k)\n");
         for (IntTriple indices : matching) {
+            builder.append("(");
             builder.append(indices.i);
             builder.append(", ");
             builder.append(indices.j);
             builder.append(", ");
             builder.append(indices.k);
+            builder.append(")\n"); 
         }
         builder.append("\n)");
         System.out.println(builder.toString());
