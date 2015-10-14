@@ -68,11 +68,17 @@ public class TripleFrechetMatching {
         }
         // Recursion end on 2D trajectory computation if one dimension is fixed.
         if (diff.k == 0) {
-            // FIXME implement theses cases
+            FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
+            List<IntTriple> resultingEdges = frechet2D.computeMatching();
+            return resultingEdges;
         } else if (diff.i == 0) {
-            
+            FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
+            List<IntTriple> resultingEdges = frechet2D.computeMatching();
+            return resultingEdges;
         } else if (diff.j == 0) {
-            
+            FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
+            List<IntTriple> resultingEdges = frechet2D.computeMatching();
+            return resultingEdges;
         }
         FrechetDistanceDPTriplet frechetDP = new FrechetDistanceDPTriplet(
                 leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
