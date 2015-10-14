@@ -100,8 +100,8 @@ public class TripleFrechetMatching {
             rightEdges = computeMatchingRecursively(bottleneck, rightEnd);
         }
         List<IntTriple> resultingEdges = new ArrayList<>();
-        resultingEdges.addAll(leftEdges);
-        resultingEdges.add(bottleneck);
+        int lastIndex = leftEdges.indexOf(bottleneck);
+        resultingEdges.addAll(leftEdges.subList(0, lastIndex));
         resultingEdges.addAll(rightEdges);
         return resultingEdges;
     }
