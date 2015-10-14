@@ -8,9 +8,9 @@ public class LocallyCorrectFrechet {
         int numRows = traject1.length();
         int numColumns = traject2.length();
         
-        if ((delaySpace.numberColumns() != numColumns) || (delaySpace.numberRows() != numRows)) {
-            throw new RuntimeException("Size of grid and size of trajectories disagree\n");
-        }
+//        if ((delaySpace.numberColumns() != numColumns) || (delaySpace.numberRows() != numRows)) {
+//            throw new RuntimeException("Size of grid and size of trajectories disagree\n");
+//        }
         
         LCFMTree tree = new LCFMTree(delaySpace);
         tree.buildTree();
