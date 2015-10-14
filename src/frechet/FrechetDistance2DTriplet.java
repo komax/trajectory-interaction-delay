@@ -31,9 +31,6 @@ public class FrechetDistance2DTriplet {
     private final Trajectory traject3;
     private final IntTriple leftEnd;
     private final IntTriple rightEnd;
-    private final int lengthX;
-    private final int lengthY;
-    private final int lengthZ;
     private final PairInTriple pairType;
     
     public FrechetDistance2DTriplet(IntTriple leftEnd, IntTriple rightEnd, Trajectory traject1, Trajectory traject2, Trajectory traject3) {        
@@ -44,9 +41,9 @@ public class FrechetDistance2DTriplet {
         this.leftEnd = leftEnd;
         this.rightEnd = rightEnd;
         
-        this.lengthX = rightEnd.i - leftEnd.i  + 1;
-        this.lengthY = rightEnd.j - leftEnd.j + 1;
-        this.lengthZ = rightEnd.k - leftEnd.k + 1;
+        int lengthX = rightEnd.i - leftEnd.i  + 1;
+        int lengthY = rightEnd.j - leftEnd.j + 1;
+        int lengthZ = rightEnd.k - leftEnd.k + 1;
         
         if (lengthX == 1) {
             this.pairType = PairInTriple.TRAJ_23;
