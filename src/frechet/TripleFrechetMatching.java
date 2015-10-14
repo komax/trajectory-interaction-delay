@@ -45,11 +45,26 @@ public class TripleFrechetMatching {
         }
         // If two coordinates of diff are 0, just walk the line for the remaining.
         if (diff.i == 0 && diff.j == 0 && diff.k != 0) {
-            // FIXME walk the line here.
+            List<IntTriple> resultingEdges = new ArrayList<>();
+            // Walk the line only k coordinate.
+            for (int k = leftEnd.k; k <= rightEnd.k; k++) {
+                resultingEdges.add(IntTriple.createIntTriple(leftEnd.i, leftEnd.j, k));
+            }
+            return resultingEdges;
         } else if (diff.i != 0 && diff.j == 0 && diff.k == 0) {
-            // FIXME walk the line here.
+            List<IntTriple> resultingEdges = new ArrayList<>();
+            // Walk the line only i coordinate.
+            for (int i = leftEnd.i; i <= rightEnd.i; i++) {
+                resultingEdges.add(IntTriple.createIntTriple(i, leftEnd.j, leftEnd.k));
+            }
+            return resultingEdges;
         } else if (diff.i == 0 && diff.j != 0 && diff.k == 0) {
-            // FIXME walk the line here.
+            List<IntTriple> resultingEdges = new ArrayList<>();
+            // Walk the line only j coordinate.
+            for (int j = leftEnd.j; j <= rightEnd.j; j++) {
+                resultingEdges.add(IntTriple.createIntTriple(leftEnd.i, j, leftEnd.k));
+            }
+            return resultingEdges;
         }
         // Recursion end on 2D trajectory computation if one dimension is fixed.
         if (diff.k == 0) {
