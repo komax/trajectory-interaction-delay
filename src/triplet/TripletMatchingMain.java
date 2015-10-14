@@ -6,6 +6,8 @@
 package triplet;
 
 import frechet.TripleFrechetMatching;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +42,7 @@ public class TripletMatchingMain {
         return matching.compute();
     }
     
-    private void printMatching(List<IntTriple> matching) {
+    private static void printMatching(List<IntTriple> matching) {
         StringBuilder builder = new StringBuilder("Matching( (i,j,k)\n");
         for (IntTriple indices : matching) {
             builder.append("(");
@@ -55,6 +57,24 @@ public class TripletMatchingMain {
         System.out.println(builder.toString());
     }
     
+    private static void writeCSVfile(List<IntTriple> matching, String filename) throws IOException { 
+        FileWriter csvWriter = new FileWriter(filename);
+        csvWriter.append("i,j,k\n");
+        
+        for (IntTriple triple : matching) {
+            csvWriter.append(Integer.toString(triple.i));
+            csvWriter.append(',');
+            csvWriter.append(Integer.toString(triple.j));
+            csvWriter.append(',');
+            csvWriter.append(Integer.toString(triple.k));
+            csvWriter.append('\n');
+        }
+        
+        csvWriter.flush();
+        csvWriter.close();
+        
+    }
+    
     public static void main(String[] args) {
         TripletMatchingMain tmm = null;
         try {
@@ -63,7 +83,14 @@ public class TripletMatchingMain {
             Logger.getLogger(TripletMatchingMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         List<IntTriple> matching = tmm.computeMatching();
-        tmm.printMatching(matching);
+        printMatching(matching);
+        String csvFileName = "/home/max/Documents/phd/flock_pigeon_data/matching_2_3_4.csv";
+        try {
+            writeCSVfile(matching, csvFileName);
+        } catch (IOException ex) {
+            Logger.getLogger(TripletMatchingMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }
