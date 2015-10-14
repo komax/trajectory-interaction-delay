@@ -7,6 +7,7 @@ package frechet;
 
 import delayspace.DelaySpace;
 import delayspace.DelaySpaceType;
+import java.util.ArrayList;
 import java.util.List;
 import utils.IntTriple;
 import utils.Trajectory;
@@ -89,7 +90,31 @@ public class FrechetDistance2DTriplet {
     }
     
     private List<IntTriple> transform2DMatching(Matching matching2D) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<IntTriple> transformedTriples = new ArrayList<>();
+        int lengthMatching = matching2D.getLength();
+        switch(pairType) {
+            case TRAJ_12:
+                for (int l = 0; l < lengthMatching; l++) {
+                    IntTriple triple = IntTriple.createIntTriple(matching2D.i[l] + leftEnd.i, matching2D.j[l] + leftEnd.j, leftEnd.k);
+                    transformedTriples.add(triple);
+                }
+                break;
+            case TRAJ_13:
+                for (int l = 0; l < lengthMatching; l++) {
+                    IntTriple triple = IntTriple.createIntTriple(matching2D.i[l] + leftEnd.i, leftEnd.j, matching2D.j[l] + leftEnd.k);
+                    transformedTriples.add(triple);
+                }
+                break;
+            case TRAJ_23:
+                for (int l = 0; l < lengthMatching; l++) {
+                    IntTriple triple = IntTriple.createIntTriple(leftEnd.i, matching2D.i[l] + leftEnd.j, matching2D.j[l] + leftEnd.k);
+                    transformedTriples.add(triple);
+                }
+                break;
+            default:
+                throw new RuntimeException("Invalid pairtype = " + pairType);
+        }
+        return transformedTriples;
     }
     
 }
