@@ -10,8 +10,8 @@ import delayspace.DelaySpaceType;
 import java.util.ArrayList;
 import java.util.List;
 import utils.IntTriple;
+import utils.PairInTriple;
 import utils.Trajectory;
-import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
 
 /**
@@ -19,12 +19,6 @@ import utils.distance.DistanceNormFactory;
  * @author max
  */
 public class FrechetDistance2DTriplet {
-
-    public static enum PairInTriple {
-        TRAJ_12,
-        TRAJ_23,
-        TRAJ_13
-    }
     
     private final Trajectory traject1;
     private final Trajectory traject2;
