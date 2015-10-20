@@ -7,6 +7,8 @@ import java.util.List;
 import utils.DynamicTimeWarpingMatching;
 import utils.EditDistanceOnRealSequence;
 import utils.IntPair;
+import utils.IntTriple;
+import utils.PairInTriple;
 import utils.Trajectory;
 
 public class Matching implements Serializable {
@@ -14,6 +16,30 @@ public class Matching implements Serializable {
     public final int[] i;
     public final int[] j;
     private final int length;
+    
+    public static Matching fromTripletMatching(List<IntTriple> tripletMatching, PairInTriple pairType) {
+        int length  = tripletMatching.size();
+        int[] i = new int[length];
+        int[] j = new int[length];
+        for (int k = 0; k < length; k++) {
+            IntTriple triple = tripletMatching.get(k);
+            switch(pairType) {
+                case TRAJ_12:
+                    i[k] = triple.i;
+                    j[k] = triple.j;
+                    break;
+                case TRAJ_13:
+                    i[k] = triple.i;
+                    j[k] = triple.k;
+                    break;
+                case TRAJ_23:
+                    i[k] = triple.j;
+                    j[k] = triple.k;
+                    break;
+            }
+        }
+        return new Matching(i, j, length);
+    }
     
     public static Matching createFrechetMatching(LCFMTree tree, Trajectory trajectory1, Trajectory trajectory2, boolean isDirectional) {
         return new Matching(tree, trajectory1, trajectory2, isDirectional);
