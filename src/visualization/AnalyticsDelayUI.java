@@ -8,12 +8,17 @@ package visualization;
 import delayspace.DelaySpace;
 import delayspace.DelaySpaceType;
 import frechet.Matching;
+import frechet.TripleFrechetMatching;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Experiment;
+import utils.IntTriple;
 import utils.MatchingType;
+import utils.PairInTriple;
 import utils.Trajectory;
 import utils.TrajectoryReader;
+import utils.TripletTrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
 
@@ -25,7 +30,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
-       public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4.txt";
+      public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
+//    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4.txt";
    // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
@@ -48,6 +54,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DelaySpace delaySpace;
     private Matching matching = null;
     private double epsilon;
+    
+    private boolean isTriplet;
+    private PairInTriple pairInTriple;
+    // is null when only 2 trajectories have been used.
+    private Trajectory trajectory3 = null;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -59,11 +70,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
         this.epsilon = 1.7;
-        try {
-            readTrajectories(PATH_TO_TRAJ_DATA);
-        } catch (Exception ex) {
-            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.isTriplet = true;
+        this.pairInTriple = PairInTriple.TRAJ_23;
+        initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
         
@@ -72,6 +81,18 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initMatchingPlot();
         initDelayPlot();
         initFollowingPlot();
+    }
+
+    private void initTrajectories() {
+        try {
+            if (isTriplet) {
+                readTripleTrajectories(PATH_TO_TRAJ_DATA);
+            } else {
+                readTrajectories(PATH_TO_TRAJ_DATA);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void initSlider() {
@@ -105,14 +126,46 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.trajectory2 = reader.getTrajectory2();
     }
     
+    private void readTripleTrajectories(String filename) throws Exception {
+        TripletTrajectoryReader reader = TripletTrajectoryReader.createTrajectoryReader(filename, true);
+        this.trajectory1 = reader.getTrajectory1();
+        this.trajectory2 = reader.getTrajectory2();
+        this.trajectory3 = reader.getTrajectory3();
+    }
+    
     private void computeMatching() {
-        Experiment experiment = new Experiment(delaySpace);
-        MatchingType matchingType = getMatchingType();
-        this.matching = experiment.run(matchingType, epsilon);
+        if (isTriplet) {
+            TripleFrechetMatching m = new TripleFrechetMatching(trajectory1, trajectory2, trajectory3);
+            List<IntTriple> tripleMatching = m.compute();
+            this.matching = Matching.fromTripletMatching(tripleMatching, pairInTriple);
+        } else {
+            Experiment experiment = new Experiment(delaySpace);
+            MatchingType matchingType = getMatchingType();
+            this.matching = experiment.run(matchingType, epsilon);
+        }
     }
     
     private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
-        this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance);
+        if (isTriplet) {
+           Trajectory t1 = null, t2 = null;
+           switch(pairInTriple) {
+               case TRAJ_12:
+                   t1 = trajectory1;
+                   t2 = trajectory2;
+                   break;
+               case TRAJ_13:
+                   t1 = trajectory1;
+                   t2 = trajectory3;
+                   break;
+               case TRAJ_23:
+                   t1 = trajectory2;
+                   t2 = trajectory3;
+                   break;
+           }
+           this.delaySpace = DelaySpace.createDelaySpace(t1, t2, delaySpaceType, currentDistance);
+        } else {
+            this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance);
+        }
     }
     
     private void updateDelaySpace() {
