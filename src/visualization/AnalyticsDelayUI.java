@@ -30,8 +30,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
-      public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
-//    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4.txt";
+   //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
+ //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_3_sample.txt";
+  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_4_sample.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4_sample.txt";
    // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
@@ -55,10 +57,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching = null;
     private double epsilon;
     
-    private boolean isTriplet;
-    private PairInTriple pairInTriple;
+    private final boolean isTriplet;
+    private final PairInTriple pairInTriple;
     // is null when only 2 trajectories have been used.
     private Trajectory trajectory3 = null;
+    
+    // Trajectory selection.
+    private Trajectory trajectA;
+    private Trajectory trajectB;
 
     /**
      * Creates new form AnalyticsDelayUI
@@ -70,8 +76,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
         this.epsilon = 1.7;
-        this.isTriplet = true;
-        this.pairInTriple = PairInTriple.TRAJ_23;
+        this.isTriplet = false;
+        this.pairInTriple = PairInTriple.TRAJ_13;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
@@ -87,9 +93,26 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         try {
             if (isTriplet) {
                 readTripleTrajectories(PATH_TO_TRAJ_DATA);
+                switch(pairInTriple) {
+                    case TRAJ_12:
+                        trajectA = trajectory1;
+                        trajectB = trajectory2;
+                        break;
+                    case TRAJ_13:
+                        trajectA = trajectory1;
+                        trajectB = trajectory3;
+                        break;
+                    case TRAJ_23:
+                        trajectA = trajectory2;
+                        trajectB = trajectory3;
+                        break;
+                }
             } else {
                 readTrajectories(PATH_TO_TRAJ_DATA);
+                trajectA = trajectory1;
+                trajectB = trajectory2;
             }
+
         } catch (Exception ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,7 +129,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initMatchingPlot() {
-        this.matchingPlot = new MatchingPlot(matching, trajectory1, trajectory2, threshold, translucentFocus);
+        this.matchingPlot = new MatchingPlot(matching, trajectA, trajectB, threshold, translucentFocus);
         this.trajectoryPlotPanel.add(matchingPlot);
     }
 
@@ -146,26 +169,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void setDelaySpace(DelaySpaceType delaySpaceType, DistanceNorm currentDistance) {
-        if (isTriplet) {
-           Trajectory t1 = null, t2 = null;
-           switch(pairInTriple) {
-               case TRAJ_12:
-                   t1 = trajectory1;
-                   t2 = trajectory2;
-                   break;
-               case TRAJ_13:
-                   t1 = trajectory1;
-                   t2 = trajectory3;
-                   break;
-               case TRAJ_23:
-                   t1 = trajectory2;
-                   t2 = trajectory3;
-                   break;
-           }
-           this.delaySpace = DelaySpace.createDelaySpace(t1, t2, delaySpaceType, currentDistance);
-        } else {
-            this.delaySpace = DelaySpace.createDelaySpace(trajectory1, trajectory2, delaySpaceType, currentDistance);
-        }
+        this.delaySpace = DelaySpace.createDelaySpace(trajectA, trajectB, delaySpaceType, currentDistance);
     }
     
     private void updateDelaySpace() {
