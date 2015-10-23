@@ -64,7 +64,7 @@ public class DTWDPTriplet {
         return EuclideanDistance.distance(pointI, pointK);
     }
     
-    private double longestLeashOnTriplet(int i, int j, int k) {
+    private double leashValueOnTriplet(int i, int j, int k) {
         double distance12 = euclideanDistanceTraject12(i, j);
         double distance23 = euclideanDistanceTraject23(j, k);
         double distance13 = euclideanDistanceTraject13(i, k);
@@ -115,48 +115,39 @@ public class DTWDPTriplet {
     
     public void computeFrechetDistance() {
         // Initialization
-        // Omit longest leash value for (0,0,0).
-        dtwDistances[0][0][0] = Double.MIN_VALUE;
+        // small value for (0,0,0).
+        dtwDistances[0][0][0] = 0.0;
         
         for (int j = 0; j <= lengthY - 1; j++) {
             for (int k = 0; k <= lengthZ - 1; k++) {
-                dtwDistances[0][j][k] = longestLeashOnTriplet(0, j, k);
+                dtwDistances[0][j][k] = Double.MAX_VALUE;
                 bottleneckIndices[0][j][k] = IntTriple.createIntTriple(0, j, k);
             }
         }
         
         for (int i = 0; i <= lengthX - 1; i++) {
             for (int k = 0; k <= lengthZ - 1; k++) {
-                dtwDistances[i][0][k] = longestLeashOnTriplet(i, 0, k);
+                dtwDistances[i][0][k] = Double.MAX_VALUE;
                 bottleneckIndices[i][0][k] = IntTriple.createIntTriple(i, 0, k);
             }
         }
         
         for (int i = 0; i <= lengthX - 1; i++) {
             for (int j = 0; j <= lengthY - 1; j++) {
-                dtwDistances[i][j][0] = longestLeashOnTriplet(i, j, 0);
+                dtwDistances[i][j][0] = Double.MAX_VALUE;
                 bottleneckIndices[i][j][0] = IntTriple.createIntTriple(i, j, 0);
             }
         }
         
-        // Dynamic Program to compute the Frechet bottleneck.
+        // Dynamic Program to compute the DTW bottleneck.
         for (int i = 1; i <= lengthX - 1; i++) {
             for (int j = 1; j <= lengthY - 1; j++) {
                 for (int k = 1; k <= lengthZ - 1; k++) {
-                    double frechetEntry = Double.MIN_VALUE;
-                    if (i != lengthX-1 && j != lengthY-1 && k != lengthZ-1) {
-                        // Skip longest leash value from (n-1, n-1, n-1)
-                        frechetEntry = longestLeashOnTriplet(i, j, k);
-                    }
+                    double leashValue = leashValueOnTriplet(i, j, k);
                     IntTriple bestParentIndices = minPreviousIndices(i, j, k);
                     double bestParentVal = dtwDistances[bestParentIndices.i][bestParentIndices.j][bestParentIndices.k];
-                    if (bestParentVal > frechetEntry) {
-                        bottleneckIndices[i][j][k] = bestParentIndices;
-                        dtwDistances[i][j][k] = bestParentVal;
-                    } else {
-                        bottleneckIndices[i][j][k] = IntTriple.createIntTriple(i, j, k);
-                        dtwDistances[i][j][k] = frechetEntry;
-                    }
+                    bottleneckIndices[i][j][k] = bestParentIndices;
+                    dtwDistances[i][j][k] = leashValue + bestParentVal;
                 }
             }
         }
