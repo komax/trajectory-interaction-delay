@@ -77,7 +77,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.translucentFocus = 50;
         this.epsilon = 1.7;
         this.isTriplet = false;
-        this.pairInTriple = PairInTriple.TRAJ_13;
+        this.pairInTriple = PairInTriple.TRAJ_23;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
