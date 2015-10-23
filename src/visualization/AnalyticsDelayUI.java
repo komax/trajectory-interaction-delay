@@ -18,6 +18,7 @@ import utils.MatchingType;
 import utils.PairInTriple;
 import utils.Trajectory;
 import utils.TrajectoryReader;
+import utils.TripleDTWMatching;
 import utils.TripletTrajectoryReader;
 import utils.distance.DistanceNorm;
 import utils.distance.DistanceNormFactory;
@@ -30,10 +31,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
-   //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
+      public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_3_sample.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_4_sample.txt";
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4_sample.txt";
+ //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4_sample.txt";
    // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
@@ -76,8 +77,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
         this.epsilon = 1.7;
-        this.isTriplet = false;
-        this.pairInTriple = PairInTriple.TRAJ_23;
+        this.isTriplet = true;
+        this.pairInTriple = PairInTriple.TRAJ_13;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
@@ -158,9 +159,21 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     
     private void computeMatching() {
         if (isTriplet) {
-            TripleFrechetMatching m = new TripleFrechetMatching(trajectory1, trajectory2, trajectory3);
-            List<IntTriple> tripleMatching = m.compute();
-            this.matching = Matching.fromTripletMatching(tripleMatching, pairInTriple);
+            MatchingType matchingType = getMatchingType();
+            switch(matchingType) {
+                case FRECHET:
+                    TripleFrechetMatching m = new TripleFrechetMatching(trajectory1, trajectory2, trajectory3);
+                    List<IntTriple> tripleMatching = m.compute();
+                    this.matching = Matching.fromTripletMatching(tripleMatching, pairInTriple);
+                    break;
+                case DTW:
+                    TripleDTWMatching mDTW = new TripleDTWMatching(trajectory1, trajectory2, trajectory3);
+                    List<IntTriple> tripleDTWMatching = mDTW.compute();
+                    this.matching = Matching.fromTripletMatching(tripleDTWMatching, pairInTriple);
+                    break;
+                default:
+                    throw new RuntimeException("");
+            }
         } else {
             Experiment experiment = new Experiment(delaySpace);
             MatchingType matchingType = getMatchingType();
