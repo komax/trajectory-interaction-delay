@@ -70,7 +70,7 @@ public class TripleDTWMatching {
         double distance12 = euclideanDistanceTraject12(i, j);
         double distance23 = euclideanDistanceTraject23(j, k);
         double distance13 = euclideanDistanceTraject13(i, k);
-       // return maxTriplet(distance12, distance23, distance13);
+        //return maxTriplet(distance12, distance23, distance13);
         return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
     }
     
@@ -131,10 +131,10 @@ public class TripleDTWMatching {
         dtwDistances[0][0][0] = 0.0;
         
         // Dynamic Program to compute the DTW bottleneck.
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
-                for (int k = 1; k < n; k++) {
-                    double leashValue = leashValueOnTriplet(i, j, k);
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                for (int k = 1; k <= n; k++) {
+                    double leashValue = leashValueOnTriplet(i - 1, j - 1, k - 1);
                     IntTriple bestParentIndices = minPreviousIndices(i, j, k);
                     double bestParentVal = dtwDistances[bestParentIndices.i][bestParentIndices.j][bestParentIndices.k];
                     predecessors[i][j][k] = bestParentIndices;
@@ -148,11 +148,11 @@ public class TripleDTWMatching {
         IntTriple predecessor  = predecessors[n][n][n];
         List<IntTriple> matchingIndices = new ArrayList<>();
         matchingIndices.add(IntTriple.createIntTriple(n - 1, n - 1, n - 1));
-        while (predecessor != null) {
-            matchingIndices.add(predecessor);
-            System.out.println(predecessor);
-            predecessor = predecessors[predecessor.i - 1][predecessor.j - 1][predecessor.k - 1];
+        while (!predecessor.isEqual(0, 0, 0)) {
+            matchingIndices.add(IntTriple.createIntTriple(predecessor.i - 1, predecessor.j  - 1, predecessor.k - 1));
+            predecessor = predecessors[predecessor.i][predecessor.j][predecessor.k];
         }
+        matchingIndices.add(IntTriple.createIntTriple(0, 0, 0));
         Collections.reverse(matchingIndices);
         return matchingIndices;
     }
