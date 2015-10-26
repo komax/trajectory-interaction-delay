@@ -8,6 +8,8 @@ package utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import utils.distance.DistanceNorm;
+import utils.distance.DistanceNormFactory;
 
 /**
  *
@@ -15,15 +17,18 @@ import java.util.List;
  */
 public class TripleDTWMatching {
     
+    private static final DistanceNorm EuclideanDistance = DistanceNormFactory.EuclideanDistance;
+    
     private final Trajectory trajectory1;
     private final Trajectory trajectory2;
     private final Trajectory trajectory3;
     private final int n;
+    private final double[][][] dtwDistances;
+    private final IntTriple[][][] predecessors;
     
     public List<IntTriple> compute() {
-        IntTriple startMatching = IntTriple.createIntTriple(0, 0, 0);
-        IntTriple endMatching = IntTriple.createIntTriple(n - 1, n - 1, n - 1);
-        return computeMatchingRecursively(startMatching, endMatching);
+        computeValues();
+        return createMatching();
     }
     
     public TripleDTWMatching(Trajectory trajectory1, Trajectory trajectory2,
@@ -32,76 +37,124 @@ public class TripleDTWMatching {
         this.trajectory2 = trajectory2;
         this.trajectory3 = trajectory3;
         this.n = trajectory1.length();
+        
+        this.dtwDistances = new double[n + 1][n + 1][n + 1];
+        this.predecessors = new IntTriple[n + 1][n + 1][n + 1];
     }
     
-    private List<IntTriple> computeMatchingRecursively(IntTriple leftEnd,
-            IntTriple rightEnd) {
-        IntTriple diff = IntTriple.minus(rightEnd, leftEnd);
-        // Stop recursion if left and right end are the same.
-        if (diff.isEqual(0, 0, 0)) {
-            return Collections.EMPTY_LIST;
+    private static double maxTriplet(double val1, double val2, double val3) {
+        double maxVal = Math.max(val1, val2);
+        maxVal = Math.max(maxVal, val3);
+        return maxVal;
+    }
+    
+    private double euclideanDistanceTraject12(int i, int j) {
+        double[] pointI = trajectory1.getPoint(i);
+        double[] pointJ = trajectory2.getPoint(j);
+        return EuclideanDistance.distance(pointI, pointJ);
+    }
+
+    private double euclideanDistanceTraject23(int j, int k) {
+        double[] pointJ = trajectory2.getPoint(j);
+        double[] pointK = trajectory3.getPoint(k);
+        return EuclideanDistance.distance(pointJ, pointK);
+    }
+    
+    private double euclideanDistanceTraject13(int i, int k) {
+        double[] pointI = trajectory1.getPoint(i);
+        double[] pointK = trajectory3.getPoint(k);
+        return EuclideanDistance.distance(pointI, pointK);
+    }
+    
+    private double leashValueOnTriplet(int i, int j, int k) {
+        double distance12 = euclideanDistanceTraject12(i, j);
+        double distance23 = euclideanDistanceTraject23(j, k);
+        double distance13 = euclideanDistanceTraject13(i, k);
+       // return maxTriplet(distance12, distance23, distance13);
+        return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
+    }
+    
+    private IntTriple minPreviousIndices(int i, int j, int k) {
+        IntTriple bestParentIndices = IntTriple.createIntTriple(i, j, k-1);
+        double bestMinValue = dtwDistances[i][j][k-1];
+        if (dtwDistances[i][j-1][k] < bestMinValue) {
+            bestMinValue = dtwDistances[i][j-1][k];
+            bestParentIndices = IntTriple.createIntTriple(i, j-1, k);
         }
-        // If two coordinates of diff are 0, just walk the line for the remaining.
-        if (diff.i == 0 && diff.j == 0 && diff.k != 0) {
-            List<IntTriple> resultingEdges = new ArrayList<>();
-            // Walk the line only k coordinate.
-            for (int k = leftEnd.k; k <= rightEnd.k; k++) {
-                resultingEdges.add(IntTriple.createIntTriple(leftEnd.i, leftEnd.j, k));
+        if (dtwDistances[i][j-1][k-1]  < bestMinValue) {
+            bestMinValue = dtwDistances[i][j-1][k-1];
+            bestParentIndices = IntTriple.createIntTriple(i, j-1, k-1);
+        }
+        if (dtwDistances[i-1][j][k]  < bestMinValue) {
+            bestMinValue = dtwDistances[i-1][j][k];
+            bestParentIndices = IntTriple.createIntTriple(i-1, j, k);
+        }
+        if (dtwDistances[i-1][j-1][k]  < bestMinValue) {
+            bestMinValue = dtwDistances[i-1][j-1][k];
+            bestParentIndices = IntTriple.createIntTriple(i-1, j-1, k);
+        }
+        if (dtwDistances[i-1][j][k-1]  < bestMinValue) {
+            bestMinValue = dtwDistances[i-1][j][k-1];
+            bestParentIndices = IntTriple.createIntTriple(i-1, j, k-1);
+        }
+        if (dtwDistances[i-1][j-1][k-1]  < bestMinValue) {
+            bestMinValue = dtwDistances[i-1][j-1][k-1];
+            bestParentIndices = IntTriple.createIntTriple(i-1, j-1, k-1);
+        }
+        return bestParentIndices;
+    }
+    
+    public void computeValues() {
+        // Initialization
+        
+        for (int j = 0; j <= n; j++) {
+            for (int k = 0; k <= n; k++) {
+                dtwDistances[0][j][k] = Double.MAX_VALUE;
+                predecessors[0][j][k] = IntTriple.createIntTriple(0, j, k);
             }
-            return resultingEdges;
-        } else if (diff.i != 0 && diff.j == 0 && diff.k == 0) {
-            List<IntTriple> resultingEdges = new ArrayList<>();
-            // Walk the line only i coordinate.
-            for (int i = leftEnd.i; i <= rightEnd.i; i++) {
-                resultingEdges.add(IntTriple.createIntTriple(i, leftEnd.j, leftEnd.k));
+        }
+        
+        for (int i = 0; i <= n; i++) {
+            for (int k = 0; k <= n; k++) {
+                dtwDistances[i][0][k] = Double.MAX_VALUE;
+                predecessors[i][0][k] = IntTriple.createIntTriple(i, 0, k);
             }
-            return resultingEdges;
-        } else if (diff.i == 0 && diff.j != 0 && diff.k == 0) {
-            List<IntTriple> resultingEdges = new ArrayList<>();
-            // Walk the line only j coordinate.
-            for (int j = leftEnd.j; j <= rightEnd.j; j++) {
-                resultingEdges.add(IntTriple.createIntTriple(leftEnd.i, j, leftEnd.k));
+        }
+        
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                dtwDistances[i][j][0] = Double.MAX_VALUE;
+                predecessors[i][j][0] = IntTriple.createIntTriple(i, j, 0);
             }
-            return resultingEdges;
         }
-        // Recursion end on 2D trajectory computation if one dimension is fixed.
-        if (diff.k == 0) {
-            DTW2DTriplet matching2D = new DTW2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-            List<IntTriple> resultingEdges = matching2D.computeMatching();
-            return resultingEdges;
-        } else if (diff.i == 0) {
-            DTW2DTriplet matching2D = new DTW2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-            List<IntTriple> resultingEdges = matching2D.computeMatching();
-            return resultingEdges;
-        } else if (diff.j == 0) {
-            DTW2DTriplet matching2D = new DTW2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-            List<IntTriple> resultingEdges = matching2D.computeMatching();
-            return resultingEdges;
+        // small value for (0,0,0).
+        dtwDistances[0][0][0] = 0.0;
+        
+        // Dynamic Program to compute the DTW bottleneck.
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                for (int k = 1; k < n; k++) {
+                    double leashValue = leashValueOnTriplet(i, j, k);
+                    IntTriple bestParentIndices = minPreviousIndices(i, j, k);
+                    double bestParentVal = dtwDistances[bestParentIndices.i][bestParentIndices.j][bestParentIndices.k];
+                    predecessors[i][j][k] = bestParentIndices;
+                    dtwDistances[i][j][k] = leashValue + bestParentVal;
+                }
+            }
         }
-        DTWDPTriplet dtwDP = new DTWDPTriplet(
-                leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-        dtwDP.computeFrechetDistance();
-        IntTriple bottleneck = dtwDP.getBottleneck();
-//        System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd);
-  
-        // Recurse if the boundries are distinct from the bottleneck.
-        List<IntTriple> leftEdges;
-        if (leftEnd.equals(bottleneck)) {
-            leftEdges = Collections.EMPTY_LIST;
-        } else {
-            leftEdges = computeMatchingRecursively(leftEnd, bottleneck);
+    }
+    
+    private List<IntTriple> createMatching() {
+        IntTriple predecessor  = predecessors[n][n][n];
+        List<IntTriple> matchingIndices = new ArrayList<>();
+        matchingIndices.add(IntTriple.createIntTriple(n - 1, n - 1, n - 1));
+        while (predecessor != null) {
+            matchingIndices.add(predecessor);
+            System.out.println(predecessor);
+            predecessor = predecessors[predecessor.i - 1][predecessor.j - 1][predecessor.k - 1];
         }
-        List<IntTriple> rightEdges;
-        if (rightEnd.equals(bottleneck)) {
-            rightEdges = Collections.EMPTY_LIST;
-        } else {
-            rightEdges = computeMatchingRecursively(bottleneck, rightEnd);
-        }
-        List<IntTriple> resultingEdges = new ArrayList<>();
-        int lastIndex = leftEdges.indexOf(bottleneck);
-        resultingEdges.addAll(leftEdges.subList(0, lastIndex));
-        resultingEdges.addAll(rightEdges);
-        return resultingEdges;
+        Collections.reverse(matchingIndices);
+        return matchingIndices;
     }
     
 }
