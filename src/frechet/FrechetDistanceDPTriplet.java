@@ -32,6 +32,7 @@ public class FrechetDistanceDPTriplet {
         maxVal = Math.max(maxVal, val3);
         return maxVal;
     }
+    private double maxVal = Double.MIN_VALUE;
     
     public FrechetDistanceDPTriplet(IntTriple leftEnd, IntTriple rightEnd, Trajectory traject1, Trajectory traject2, Trajectory traject3) {
         this.traject1 = traject1;
@@ -162,6 +163,16 @@ public class FrechetDistanceDPTriplet {
                 }
             }
         }
+        
+        
+        for (int i = 0; i < lengthX; i++) {
+            for (int j = 0; j < lengthY; j++) {
+                for (int k = 0; k < lengthZ; k++) {
+                    this.maxVal = Math.max(maxVal, frechetDistances[i][j][k]);
+                }
+            }
+        }
+        System.out.println("Max val of delay space = " + this.maxVal);
     }
     
     double getFrechetDistance() {
