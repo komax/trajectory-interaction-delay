@@ -113,6 +113,7 @@ public class FrechetDistanceDPTriplet {
             bestMinValue = frechetDistances[i-1][j-1][k-1];
             bestParentIndices = IntTriple.createIntTriple(i-1, j-1, k-1);
         }
+        //System.out.println("current index = ("+ i +", " + j + ", " + k + ") best parent = " + bestParentIndices + " with value = " + bestMinValue);
         return bestParentIndices;
     }
     
@@ -173,6 +174,19 @@ public class FrechetDistanceDPTriplet {
             }
         }
         System.out.println("Max val of delay space = " + this.maxVal);
+        
+        double number = 30077.522648424725;
+        double eps = 0.00001;
+        for (int i = 0; i < lengthX; i++) {
+            for (int j = 0; j < lengthY; j++) {
+                for (int k = 0; k < lengthZ; k++) {
+                    double frechetDistance = frechetDistances[i][j][k];
+                    if (frechetDistance <= number + eps && frechetDistance >= number - eps) {
+                        System.out.println(IntTriple.createIntTriple(i, j, k));
+                    }
+                }
+            }
+        }
     }
     
     double getFrechetDistance() {
@@ -181,8 +195,45 @@ public class FrechetDistanceDPTriplet {
     }
     
     IntTriple getBottleneck() {
-        IntTriple zerobasedBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
-        return IntTriple.createIntTriple(leftEnd.i + zerobasedBottleneck.i, leftEnd.j + zerobasedBottleneck.j, leftEnd.k + zerobasedBottleneck.k);
+        IntTriple anchorBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
+        IntTriple correctBottleneck = followParentsWithSameFrechetValue(anchorBottleneck);
+        return IntTriple.createIntTriple(leftEnd.i + correctBottleneck.i, leftEnd.j + correctBottleneck.j, leftEnd.k + correctBottleneck.k);
+    }
+    
+    IntTriple followParentsWithSameFrechetValue(IntTriple bottleneckIndex) {
+        double frechetBottleneck = getFrechetDistance();
+        IntTriple parentIndex = parentWithSameFrechetValue(bottleneckIndex, frechetBottleneck);
+        while (parentIndex != null) {
+            bottleneckIndex = parentIndex;
+            parentIndex = parentWithSameFrechetValue(bottleneckIndex, frechetBottleneck);
+        }
+        return bottleneckIndex;
+    }
+    
+    IntTriple parentWithSameFrechetValue(IntTriple bottleneckIndex, double frechetValue) {
+        int i = bottleneckIndex.i;
+        int j = bottleneckIndex.j;
+        int k = bottleneckIndex.k;
+        
+        if (frechetDistances[i][j-1][k] ==  frechetValue && j >= 1) {
+            return IntTriple.createIntTriple(i, j-1, k);
+        }
+        if (frechetDistances[i][j-1][k-1] == frechetValue && j >= 1 && k >= 1) {
+            return IntTriple.createIntTriple(i, j-1, k-1);
+        }
+        if (frechetDistances[i-1][j][k] == frechetValue && i >= 1) {
+            return IntTriple.createIntTriple(i-1, j, k);
+        }
+        if (frechetDistances[i-1][j-1][k] == frechetValue && i >= 1 && j >= 1) {
+            return IntTriple.createIntTriple(i-1, j-1, k);
+        }
+        if (frechetDistances[i-1][j][k-1] == frechetValue && i >= 1 && k >= 1) {
+            return IntTriple.createIntTriple(i-1, j, k-1);
+        }
+        if (frechetDistances[i-1][j-1][k-1] == frechetValue && i >= 1 && j >= 1 && k >= 1) {
+            return IntTriple.createIntTriple(i-1, j-1, k-1);
+        }
+        return null;
     }
     
 }
