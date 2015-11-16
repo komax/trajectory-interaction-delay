@@ -67,15 +67,7 @@ public class TripleFrechetMatching {
             return resultingEdges;
         }
         // Recursion end on 2D trajectory computation if one dimension is fixed.
-        if (diff.k == 0) {
-            FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-            List<IntTriple> resultingEdges = frechet2D.computeMatching();
-            return resultingEdges;
-        } else if (diff.i == 0) {
-            FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
-            List<IntTriple> resultingEdges = frechet2D.computeMatching();
-            return resultingEdges;
-        } else if (diff.j == 0) {
+        if (diff.i == 0 || diff.j == 0 || diff.k == 0) {
             FrechetDistance2DTriplet frechet2D = new FrechetDistance2DTriplet(leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
             List<IntTriple> resultingEdges = frechet2D.computeMatching();
             return resultingEdges;
@@ -84,7 +76,7 @@ public class TripleFrechetMatching {
                 leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
         frechetDP.computeFrechetDistance();
         IntTriple bottleneck = frechetDP.getBottleneck();
-//        System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd);
+        System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd+ " d_bottleneck = " + frechetDP.getFrechetDistance());
   
         // Recurse if the boundries are distinct from the bottleneck.
         List<IntTriple> leftEdges;
