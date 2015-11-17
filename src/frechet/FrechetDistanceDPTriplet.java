@@ -215,22 +215,25 @@ public class FrechetDistanceDPTriplet {
         int j = bottleneckIndex.j;
         int k = bottleneckIndex.k;
         
-        if (frechetDistances[i][j-1][k] ==  frechetValue && j >= 1) {
+        if (k >= 1 && frechetDistances[i][j][k-1] ==  frechetValue) {
+            return IntTriple.createIntTriple(i, j, k-1);
+        }
+        if (j >= 1 && frechetDistances[i][j-1][k] ==  frechetValue) {
             return IntTriple.createIntTriple(i, j-1, k);
         }
-        if (frechetDistances[i][j-1][k-1] == frechetValue && j >= 1 && k >= 1) {
+        if (j >= 1 && k >= 1 && frechetDistances[i][j-1][k-1] == frechetValue) {
             return IntTriple.createIntTriple(i, j-1, k-1);
         }
-        if (frechetDistances[i-1][j][k] == frechetValue && i >= 1) {
+        if (i >= 1 && frechetDistances[i-1][j][k] == frechetValue) {
             return IntTriple.createIntTriple(i-1, j, k);
         }
-        if (frechetDistances[i-1][j-1][k] == frechetValue && i >= 1 && j >= 1) {
+        if (i >= 1 && j >= 1 && frechetDistances[i-1][j-1][k] == frechetValue) {
             return IntTriple.createIntTriple(i-1, j-1, k);
         }
-        if (frechetDistances[i-1][j][k-1] == frechetValue && i >= 1 && k >= 1) {
+        if (i >= 1 && k >= 1 && frechetDistances[i-1][j][k-1] == frechetValue) {
             return IntTriple.createIntTriple(i-1, j, k-1);
         }
-        if (frechetDistances[i-1][j-1][k-1] == frechetValue && i >= 1 && j >= 1 && k >= 1) {
+        if (i >= 1 && j >= 1 && k >= 1 && frechetDistances[i-1][j-1][k-1] == frechetValue) {
             return IntTriple.createIntTriple(i-1, j-1, k-1);
         }
         return null;
