@@ -25,7 +25,6 @@ import static utils.Utils.roundDouble;
  * @author max
  */
 public final class DistancePlotPanel extends GenericPlottingPanel {
-    private double[] normalizedDistances;
     private EdgeCursor selectedEdge;
     private double maxDistanceNormalized;
     private double[] distancesOnMatching;
@@ -43,7 +42,6 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
         
         this.distancesOnMatching = Utils.distancesOnMatching(matching, delaySpace);
-        this.normalizedDistances = Utils.normalizeValues(distancesOnMatching);
 
         this.maxDistance = delaySpace.getMaxValue();
         this.minDistance = delaySpace.getMinValue();
@@ -84,7 +82,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
 
     @Override
     public double maxX() {
-        return normalizedDistances.length;
+        return distancesOnMatching.length;
     }
 
     @Override
@@ -98,11 +96,11 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
         
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(1));
-        DoublePoint2D previousPoint = new DoublePoint2D(0, normalizedDistances[0]);
+        DoublePoint2D previousPoint = new DoublePoint2D(0, distancesOnMatching[0] / maxDistance);
         IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
         for (int i=1; i<maxX(); i++) {
             // TODO Compress the code below a bit.
-            DoublePoint2D currentPoint = new DoublePoint2D(i, normalizedDistances[i]);
+            DoublePoint2D currentPoint = new DoublePoint2D(i, distancesOnMatching[i] / maxDistance);
             IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
             int fromX = transformedPreviousPoint.x;
             int fromY = transformedPreviousPoint.y;
@@ -163,7 +161,7 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
             g2.setStroke(new BasicStroke(1));
             g.setColor(Color.black);
             int selectedIndex = selectedEdge.getPosition();
-            DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, normalizedDistances[selectedIndex]);
+            DoublePoint2D selectedPoint = new DoublePoint2D(selectedIndex, distancesOnMatching[selectedIndex] / maxDistance);
             IntPoint2D drawablePoint = cartesianToPanelPoint(selectedPoint);
             int xCoord = drawablePoint.x;
             int yCoord = drawablePoint.y;
