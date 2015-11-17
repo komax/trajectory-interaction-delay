@@ -76,6 +76,8 @@ public class TripleFrechetMatching {
                 leftEnd, rightEnd, trajectory1, trajectory2, trajectory3);
         frechetDP.computeFrechetDistance();
         IntTriple bottleneck = frechetDP.getBottleneck();
+        IntTriple leftBottleneck = frechetDP.getLeftBottleneck();
+        IntTriple rightBottleneck = frechetDP.getRightBottleneck();
         System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd+ " d_bottleneck = " + frechetDP.getFrechetDistance());
   
         // Recurse if the boundries are distinct from the bottleneck.
@@ -83,17 +85,18 @@ public class TripleFrechetMatching {
         if (leftEnd.equals(bottleneck)) {
             leftEdges = Collections.EMPTY_LIST;
         } else {
-            leftEdges = computeMatchingRecursively(leftEnd, bottleneck);
+            leftEdges = computeMatchingRecursively(leftEnd, leftBottleneck);
         }
         List<IntTriple> rightEdges;
         if (rightEnd.equals(bottleneck)) {
             rightEdges = Collections.EMPTY_LIST;
         } else {
-            rightEdges = computeMatchingRecursively(bottleneck, rightEnd);
+            rightEdges = computeMatchingRecursively(rightBottleneck, rightEnd);
         }
         List<IntTriple> resultingEdges = new ArrayList<>();
-        int lastIndex = leftEdges.indexOf(bottleneck);
-        resultingEdges.addAll(leftEdges.subList(0, lastIndex));
+       // int lastIndex = leftEdges.indexOf(bottleneck);
+        resultingEdges.addAll(leftEdges);
+        resultingEdges.add(bottleneck);
         resultingEdges.addAll(rightEdges);
         return resultingEdges;
     }
