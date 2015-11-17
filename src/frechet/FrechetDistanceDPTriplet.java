@@ -32,7 +32,6 @@ public class FrechetDistanceDPTriplet {
         maxVal = Math.max(maxVal, val3);
         return maxVal;
     }
-    private double maxVal = Double.MIN_VALUE;
     
     public FrechetDistanceDPTriplet(IntTriple leftEnd, IntTriple rightEnd, Trajectory traject1, Trajectory traject2, Trajectory traject3) {
         this.traject1 = traject1;
@@ -71,8 +70,8 @@ public class FrechetDistanceDPTriplet {
         double distance12 = euclideanDistanceTraject12(i, j);
         double distance23 = euclideanDistanceTraject23(j, k);
         double distance13 = euclideanDistanceTraject13(i, k);
-       // return maxTriplet(distance12, distance23, distance13);
-        return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
+        return maxTriplet(distance12, distance23, distance13);
+      //  return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
     }
     
     @Deprecated
@@ -199,29 +198,6 @@ public class FrechetDistanceDPTriplet {
                 }
             }
         }
-        
-        
-        for (int i = 0; i < lengthX; i++) {
-            for (int j = 0; j < lengthY; j++) {
-                for (int k = 0; k < lengthZ; k++) {
-                    this.maxVal = Math.max(maxVal, frechetDistances[i][j][k]);
-                }
-            }
-        }
-        System.out.println("Max val of delay space = " + this.maxVal);
-        
-        double number = 30077.522648424725;
-        double eps = 0.00001;
-        for (int i = 0; i < lengthX; i++) {
-            for (int j = 0; j < lengthY; j++) {
-                for (int k = 0; k < lengthZ; k++) {
-                    double frechetDistance = frechetDistances[i][j][k];
-                    if (frechetDistance <= number + eps && frechetDistance >= number - eps) {
-                        System.out.println(IntTriple.createIntTriple(i, j, k));
-                    }
-                }
-            }
-        }
     }
     
     double getFrechetDistance() {
@@ -236,15 +212,17 @@ public class FrechetDistanceDPTriplet {
     }
     
     public IntTriple getLeftBottleneck() {
-        IntTriple bottleneck = getBottleneck();
+        IntTriple anchorBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
+        IntTriple bottleneck = followParentsWithSameFrechetValue(anchorBottleneck);
         IntTriple leftBottleneck = minPreviousIndices(bottleneck.i, bottleneck.j, bottleneck.k);
-        return leftBottleneck;
+        return IntTriple.createIntTriple(leftEnd.i + leftBottleneck.i, leftEnd.j + leftBottleneck.j, leftEnd.k + leftBottleneck.k);
     }
     
     public IntTriple getRightBottleneck() {
-        IntTriple bottleneck = getBottleneck();
+        IntTriple anchorBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
+        IntTriple bottleneck = followParentsWithSameFrechetValue(anchorBottleneck);
         IntTriple rightBottleneck = minNextIndices(bottleneck.i, bottleneck.j, bottleneck.k);
-        return rightBottleneck;
+        return IntTriple.createIntTriple(leftEnd.i + rightBottleneck.i, leftEnd.j + rightBottleneck.j, leftEnd.k + rightBottleneck.k);
     }
     
     private IntTriple followParentsWithSameFrechetValue(IntTriple bottleneckIndex) {
