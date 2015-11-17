@@ -194,13 +194,15 @@ public class FrechetDistanceDPTriplet {
         return frechetDistances[lengthX - 1][lengthY - 1][lengthZ - 1];
     }
     
-    IntTriple getBottleneck() {
+    public IntTriple getBottleneck() {
         IntTriple anchorBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
         IntTriple correctBottleneck = followParentsWithSameFrechetValue(anchorBottleneck);
         return IntTriple.createIntTriple(leftEnd.i + correctBottleneck.i, leftEnd.j + correctBottleneck.j, leftEnd.k + correctBottleneck.k);
     }
     
-    IntTriple followParentsWithSameFrechetValue(IntTriple bottleneckIndex) {
+    
+    
+    private IntTriple followParentsWithSameFrechetValue(IntTriple bottleneckIndex) {
         double frechetBottleneck = getFrechetDistance();
         IntTriple parentIndex = parentWithSameFrechetValue(bottleneckIndex, frechetBottleneck);
         while (parentIndex != null) {
@@ -210,7 +212,7 @@ public class FrechetDistanceDPTriplet {
         return bottleneckIndex;
     }
     
-    IntTriple parentWithSameFrechetValue(IntTriple bottleneckIndex, double frechetValue) {
+    private IntTriple parentWithSameFrechetValue(IntTriple bottleneckIndex, double frechetValue) {
         int i = bottleneckIndex.i;
         int j = bottleneckIndex.j;
         int k = bottleneckIndex.k;
