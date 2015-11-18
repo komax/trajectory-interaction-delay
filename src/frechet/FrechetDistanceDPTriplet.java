@@ -88,31 +88,31 @@ public class FrechetDistanceDPTriplet {
     private IntTriple minPreviousIndices(int i, int j, int k) {
         IntTriple bestParentIndices = IntTriple.NULL_TRIPLE;
         double bestMinValue = Double.MAX_VALUE;
-        if (k >= 1 && frechetDistances[i][j][k-1] < bestMinValue) {
+        if (k >= 1 && frechetDistances[i][j][k-1] < bestMinValue && frechetDistances[i][j][k-1] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i][j][k-1];
             bestParentIndices = IntTriple.createIntTriple(i, j, k-1);
         }
-        if (j >= 1 && frechetDistances[i][j-1][k] < bestMinValue) {
+        if (j >= 1 && frechetDistances[i][j-1][k] < bestMinValue && frechetDistances[i][j-1][k] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i][j-1][k];
             bestParentIndices = IntTriple.createIntTriple(i, j-1, k);
         }
-        if (j >= 1 && k >= 1 && frechetDistances[i][j-1][k-1] < bestMinValue) {
+        if (j >= 1 && k >= 1 && frechetDistances[i][j-1][k-1] < bestMinValue && frechetDistances[i][j-1][k-1] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i][j-1][k-1];
             bestParentIndices = IntTriple.createIntTriple(i, j-1, k-1);
         }
-        if (i >= 1 && frechetDistances[i-1][j][k] < bestMinValue) {
+        if (i >= 1 && frechetDistances[i-1][j][k] < bestMinValue && frechetDistances[i-1][j][k] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i-1][j][k];
             bestParentIndices = IntTriple.createIntTriple(i-1, j, k);
         }
-        if (i >= 1 && j >= 1 && frechetDistances[i-1][j-1][k] < bestMinValue) {
+        if (i >= 1 && j >= 1 && frechetDistances[i-1][j-1][k] < bestMinValue && frechetDistances[i-1][j-1][k] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i-1][j-1][k];
             bestParentIndices = IntTriple.createIntTriple(i-1, j-1, k);
         }
-        if (i >= 1 && k >= 1 && frechetDistances[i-1][j][k-1] < bestMinValue) {
+        if (i >= 1 && k >= 1 && frechetDistances[i-1][j][k-1] < bestMinValue && frechetDistances[i-1][j][k-1] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i-1][j][k-1];
             bestParentIndices = IntTriple.createIntTriple(i-1, j, k-1);
         }
-        if (i >= 1 && j >= 1 && k >= 1 && frechetDistances[i-1][j-1][k-1] < bestMinValue) {
+        if (i >= 1 && j >= 1 && k >= 1 && frechetDistances[i-1][j-1][k-1] < bestMinValue && frechetDistances[i-1][j-1][k-1] != Double.MIN_VALUE) {
             bestMinValue = frechetDistances[i-1][j-1][k-1];
             bestParentIndices = IntTriple.createIntTriple(i-1, j-1, k-1);
         }
