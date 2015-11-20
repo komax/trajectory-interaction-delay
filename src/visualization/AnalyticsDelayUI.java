@@ -32,7 +32,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
-   //public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_3_sample.txt";
+  //public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_3_sample.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_4_sample.txt";
     public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4_sample.txt";
    // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
@@ -78,7 +78,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.translucentFocus = 50;
         this.epsilon = 1.7;
         this.isTriplet = false;
-        this.pairInTriple = PairInTriple.TRAJ_12;
+        this.pairInTriple = PairInTriple.TRAJ_23;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
