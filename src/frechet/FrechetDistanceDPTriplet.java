@@ -70,19 +70,8 @@ public class FrechetDistanceDPTriplet {
         double distance12 = euclideanDistanceTraject12(i, j);
         double distance23 = euclideanDistanceTraject23(j, k);
         double distance13 = euclideanDistanceTraject13(i, k);
-    //    return maxTriplet(distance12, distance23, distance13);
-        return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
-    }
-    
-    @Deprecated
-    private double minPreviousValues(int i, int j, int k) {
-        double bestMinValue = Math.min(frechetDistances[i][j][k-1], frechetDistances[i][j-1][k]);
-        bestMinValue = Math.min(bestMinValue, frechetDistances[i][j-1][k-1]);
-        bestMinValue = Math.min(bestMinValue, frechetDistances[i-1][j][k]);
-        bestMinValue = Math.min(bestMinValue, frechetDistances[i-1][j-1][k]);
-        bestMinValue = Math.min(bestMinValue, frechetDistances[i-1][j][k-1]);
-        bestMinValue = Math.min(bestMinValue, frechetDistances[i-1][j-1][k-1]);
-        return bestMinValue;
+        return maxTriplet(distance12, distance23, distance13);
+    //    return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
     }
     
     private IntTriple minPreviousIndices(int i, int j, int k) {
@@ -118,38 +107,7 @@ public class FrechetDistanceDPTriplet {
         }
         //System.out.println("current index = ("+ i +", " + j + ", " + k + ") best parent = " + bestParentIndices + " with value = " + bestMinValue);
         return bestParentIndices;
-    }
-    
-//    private IntTriple minNextIndices(int i, int j, int k) {
-//        IntTriple bestParentIndices = IntTriple.createIntTriple(i, j, k+1);
-//        double bestMinValue = frechetDistances[i][j][k+1];
-//        if (frechetDistances[i][j+1][k] < bestMinValue) {
-//            bestMinValue = frechetDistances[i][j+1][k];
-//            bestParentIndices = IntTriple.createIntTriple(i, j+1, k);
-//        }
-//        if (frechetDistances[i][j+1][k+1]  < bestMinValue) {
-//            bestMinValue = frechetDistances[i][j+1][k+1];
-//            bestParentIndices = IntTriple.createIntTriple(i, j+1, k+1);
-//        }
-//        if (frechetDistances[i+1][j][k]  < bestMinValue) {
-//            bestMinValue = frechetDistances[i+1][j][k];
-//            bestParentIndices = IntTriple.createIntTriple(i+1, j, k);
-//        }
-//        if (frechetDistances[i+1][j+1][k]  < bestMinValue) {
-//            bestMinValue = frechetDistances[i+1][j+1][k];
-//            bestParentIndices = IntTriple.createIntTriple(i+1, j+1, k);
-//        }
-//        if (frechetDistances[i+1][j][k+1]  < bestMinValue) {
-//            bestMinValue = frechetDistances[i+1][j][k+1];
-//            bestParentIndices = IntTriple.createIntTriple(i+1, j, k+1);
-//        }
-//        if (frechetDistances[i+1][j+1][k+1]  < bestMinValue) {
-//            bestMinValue = frechetDistances[i+1][j+1][k+1];
-//            bestParentIndices = IntTriple.createIntTriple(i+1, j+1, k+1);
-//        }
-//        //System.out.println("current index = ("+ i +", " + j + ", " + k + ") best parent = " + bestParentIndices + " with value = " + bestMinValue);
-//        return bestParentIndices;
-//    }
+    }    
     
     public void computeFrechetDistance() {
         // Initialization
@@ -201,6 +159,7 @@ public class FrechetDistanceDPTriplet {
                         // Skip longest leash value from (n-1, n-1, n-1)
                         frechetEntry = Double.MIN_VALUE;
                     } else {
+                        // Otherwise use the longest leash on the triple.
                         frechetEntry = longestLeashOnTriplet(i, j, k);
                     }
                     IntTriple bestParentIndices = minPreviousIndices(i, j, k);
@@ -237,13 +196,6 @@ public class FrechetDistanceDPTriplet {
         }
         return IntTriple.createIntTriple(leftEnd.i + leftBottleneck.i, leftEnd.j + leftBottleneck.j, leftEnd.k + leftBottleneck.k);
     }
-    
-//    public IntTriple getRightBottleneck() {
-//        IntTriple anchorBottleneck = bottleneckIndices[lengthX - 1][lengthY - 1][lengthZ-1];
-//        IntTriple bottleneck = followParentsWithSameFrechetValue(anchorBottleneck);
-//        IntTriple rightBottleneck = minNextIndices(bottleneck.i, bottleneck.j, bottleneck.k);
-//        return IntTriple.createIntTriple(leftEnd.i + rightBottleneck.i, leftEnd.j + rightBottleneck.j, leftEnd.k + rightBottleneck.k);
-//    }
     
     private IntTriple followParentsWithSameFrechetValue(IntTriple bottleneckIndex) {
         double frechetBottleneck = getFrechetDistance();
