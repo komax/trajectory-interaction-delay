@@ -56,7 +56,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Trajectory trajectory2;
     private DelaySpace delaySpace;
     private Matching matching = null;
+    private Matching matching2 = null;
     private double epsilon;
+    
+    private final boolean isComparisonToFrechetMatchingSet = true;
     
     private final boolean isTriplet;
     private final PairInTriple pairInTriple;
@@ -125,7 +128,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     private void initDelaySpace() {
-        this.delaySpacePlot = new DelaySpacePanel(delaySpace, matching, threshold, samplingRate, logScaled);
+        this.delaySpacePlot = new DelaySpacePanel(delaySpace, matching, matching2, threshold, samplingRate, logScaled);
         this.delaySpacePanel.add(this.delaySpacePlot);
     }
 
@@ -178,6 +181,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             Experiment experiment = new Experiment(delaySpace);
             MatchingType matchingType = getMatchingType();
             this.matching = experiment.run(matchingType, epsilon);
+        }
+        computeMatchingToCompare();
+    }
+    
+    private void computeMatchingToCompare() {
+        if (isComparisonToFrechetMatchingSet) {
+            Experiment experiment = new Experiment(delaySpace);
+            this.matching2 = experiment.run(MatchingType.FRECHET, epsilon);
         }
     }
     
@@ -249,7 +260,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             delayPlot.repaint();
         }
         if (distancePlot != null) {
-            // FIXME this plot works the other not. Why?
             distancePlot.update(matching, delaySpace);
             distancePlot.repaint();
         }
@@ -260,8 +270,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (delaySpacePlot != null) {
             delaySpacePlot.updateDelaySpace(delaySpace);
             delaySpacePlot.updateMatching(matching);
-//            delaySpacePlot.updateMatching(matching);
-//            delayPanel.repaint();
             delaySpacePlot.repaint();
         }
     }

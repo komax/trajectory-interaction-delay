@@ -26,20 +26,24 @@ import static utils.Utils.roundDouble;
 public final class DelaySpacePanel extends GenericPlottingPanel {
     public static final Color TRAJECT_BLUE_COLOR = new Color(0x0000FF);
     public static final Color TRAJECT_RED_COLOR = new Color(0xFF0000);
-    public static final Color MATCHING_COLOR = Color.GREEN;
+    public static final Color MATCHING1_COLOR = Color.GREEN;
+    public static final Color MATCHING2_COLOR = Color.BLUE;
     
     private EdgeCursor selectedEdge;
     private final int delayThreshold;
     private double samplingRate;
-    private Matching matching;
+    private Matching matching1;
+    private Matching matching2;
     private DelaySpace delaySpace;
     private boolean logScaled;
     private ColorMap heatedBodyColorMap;
+ 
     
-    public DelaySpacePanel(DelaySpace delaySpace, Matching matching, int delayThreshold, double samplingRate, boolean logScaled) {
+    public DelaySpacePanel(DelaySpace delaySpace, Matching matching1, Matching matching2, int delayThreshold, double samplingRate, boolean logScaled) {
         this.delaySpace = delaySpace;
         this.selectedEdge = EdgeCursor.INVALID_CURSOR;
-        this.matching = matching;
+        this.matching1 = matching1;
+        this.matching2 = matching2;
         this.delayThreshold = delayThreshold;
         this.samplingRate = samplingRate;
         this.logScaled = logScaled;
@@ -49,7 +53,6 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     public void updateDelaySpace(DelaySpace newDelaySpace) {
         this.delaySpace = newDelaySpace;
         this.heatedBodyColorMap = computeHeatMap();
-        // TODO repaint?
     }
     
     public ColorMap computeHeatMap() {
@@ -115,7 +118,10 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         int height = plotHeight();
         
         drawDelaySpace(g, width, height);
-        drawMatching(g, width, height);
+        if (matching2 != null) {
+            drawMatching2(g, width, height);    
+        }
+        drawMatching1(g, width, height);
         drawLegends(g, height, width);
         drawCursorAndGlyph(g, width, height);
     }
@@ -141,11 +147,23 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         }
     }
     
-    private void drawMatching(Graphics g, int width, int height) {
-        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[0], matching.j[0]));
-        for (int k = 1; k < matching.getLength(); k++) {
-            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching.i[k] + 0.5, matching.j[k] - 0.5));
-            g.setColor(MATCHING_COLOR);
+    private void drawMatching1(Graphics g, int width, int height) {
+        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[0], matching1.j[0]));
+        for (int k = 1; k < matching1.getLength(); k++) {
+            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[k] + 0.5, matching1.j[k] - 0.5));
+            g.setColor(MATCHING1_COLOR);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3.5f));
+            g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
+            previousPoint = currentPoint;
+        }
+    }
+    
+    private void drawMatching2(Graphics g, int width, int height) {
+        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[0], matching2.j[0]));
+        for (int k = 1; k < matching2.getLength(); k++) {
+            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[k] + 0.5, matching2.j[k] - 0.5));
+            g.setColor(MATCHING2_COLOR);
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(3.5f));
             g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
@@ -247,7 +265,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
 
     void updateMatching(Matching matching) {
-        this.matching = matching;
+        this.matching1 = matching;
     }
     
 }
