@@ -76,7 +76,7 @@ public class FrechetDistance2DTriplet {
             default:
                 throw new RuntimeException("Invalid pairtype = " + pairType);
         }
-        DelaySpace delaySpace = DelaySpace.createDelaySpace(traject1, traject2, DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
+        DelaySpace delaySpace = DelaySpace.createDelaySpace(trajectA, trajectB, DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         return LocallyCorrectFrechet.compute(delaySpace, trajectA, trajectB);
     }
     
