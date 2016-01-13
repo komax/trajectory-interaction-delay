@@ -21,7 +21,7 @@ import utils.TripletTrajectoryReader;
  */
 public class TripletMatchingMain {
     
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/flight_2_pigeons_RTN_sample.txt";
     private Trajectory trajectory1;
     private Trajectory trajectory2;
     private Trajectory trajectory3;
@@ -59,7 +59,7 @@ public class TripletMatchingMain {
     
     private static void writeCSVfile(List<IntTriple> matching, String filename) throws IOException { 
         FileWriter csvWriter = new FileWriter(filename);
-        csvWriter.append("i,j,k\n");
+  //      csvWriter.append("i,j,k\n");
         
         for (IntTriple triple : matching) {
             csvWriter.append(Integer.toString(triple.i));
