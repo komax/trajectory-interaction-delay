@@ -12,6 +12,8 @@ import utils.PairInTriple;
 import utils.Trajectory;
 
 public class Matching implements Serializable {
+    
+    public static final Matching EMPTY_MATCHING = new Matching(null, null, 0);
 
     public final int[] i;
     public final int[] j;
