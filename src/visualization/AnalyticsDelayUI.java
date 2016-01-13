@@ -38,7 +38,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DelayPlotPanel delayPlot;
     
     // File chooser to select trajectory data
-    private JFileChooser fileChooser;
+    private final JFileChooser fileChooser;
     
     // Settings from the UI
     private int threshold;
@@ -166,6 +166,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         TrajectoryReader reader = TrajectoryReader.createTrajectoryReader(filename, true);
         this.trajectory1 = reader.getTrajectory1();
         this.trajectory2 = reader.getTrajectory2();
+        this.trajectory3 = Trajectory.EMPTY_TRAJECTORY;
     }
     
     private void readTripleTrajectories(String filename) throws Exception {
