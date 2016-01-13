@@ -287,7 +287,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
         if (delaySpacePlot != null) {
             delaySpacePlot.updateDelaySpace(delaySpace);
-            delaySpacePlot.updateMatching(matching);
+            delaySpacePlot.updateMatching(matching, matching2);
             delaySpacePlot.repaint();
         }
     }

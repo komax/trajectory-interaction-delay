@@ -268,8 +268,9 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         return -20;
     }
 
-    void updateMatching(Matching matching) {
-        this.matching1 = matching;
+    void updateMatching(Matching matching1, Matching matching2) {
+        this.matching1 = matching1;
+        this.matching2 = matching2;
     }
     
 }
