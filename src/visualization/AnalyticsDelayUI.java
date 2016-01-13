@@ -30,13 +30,6 @@ import utils.distance.DistanceNormFactory;
  * @author max
  */
 public class AnalyticsDelayUI extends javax.swing.JFrame {
- //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
-  //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
-  //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
-    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/flight_5_pigeons_MSU_sample.txt";
-   // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
-    // TODO Add an interface to load data at first.
-  //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
 
     // Plots in the GUI
     private MatchingPlot matchingPlot;
@@ -61,10 +54,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private Matching matching2 = null;
     private double epsilon;
     
-    private final boolean isComparisonToFrechetMatchingSet = true;
+    private boolean isComparisonToFrechetMatchingSet = true;
     
-    private final boolean isTriplet;
-    private final PairInTriple pairInTriple;
+    private boolean isTriplet;
+    private PairInTriple pairInTriple;
     // is null when only 2 trajectories have been used.
     private Trajectory trajectory3 = null;
     
@@ -85,8 +78,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.samplingRate = 0.2;
         this.translucentFocus = 50;
         this.epsilon = 1.7;
-        this.isTriplet = true;
-        this.pairInTriple = PairInTriple.TRAJ_23;
+        this.isTriplet = false;
+        this.pairInTriple = PairInTriple.TRAJ_12;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
@@ -97,39 +90,56 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         initDelayPlot();
         initFollowingPlot();
     }
-
-    private void initTrajectories() {
+    
+    private void openPairwiseTrajectoryData(String pathToTrajectoryData) {
         try {
-            if (isTriplet) {
-                readTripleTrajectories(PATH_TO_TRAJ_DATA);
-                switch(pairInTriple) {
-                    case TRAJ_12:
-                        trajectA = trajectory1;
-                        trajectB = trajectory2;
-                        break;
-                    case TRAJ_13:
-                        trajectA = trajectory1;
-                        trajectB = trajectory3;
-                        break;
-                    case TRAJ_23:
-                        trajectA = trajectory2;
-                        trajectB = trajectory3;
-                        break;
-                }
-            } else {
-                readTrajectories(PATH_TO_TRAJ_DATA);
-                trajectA = trajectory1;
-                trajectB = trajectory2;
-            }
-
+            readTrajectories(pathToTrajectoryData);
         } catch (Exception ex) {
             Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        trajectA = trajectory1;
+        trajectB = trajectory2;
+        updateDelaySpace();
+        computeMatching();
+        updateAndRepaintPlots();
+    }
+    
+    private void openTripletTrajectoryData(String pathToTrajectoryData) {
+        try {
+            readTripleTrajectories(pathToTrajectoryData);
+        } catch (Exception ex) {
+            Logger.getLogger(AnalyticsDelayUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        switch (pairInTriple) {
+            case TRAJ_12:
+                trajectA = trajectory1;
+                trajectB = trajectory2;
+                break;
+            case TRAJ_13:
+                trajectA = trajectory1;
+                trajectB = trajectory3;
+                break;
+            case TRAJ_23:
+                trajectA = trajectory2;
+                trajectB = trajectory3;
+                break;
+        }
+        updateDelaySpace();
+        computeMatching();
+        updateAndRepaintPlots();
+    }
+
+    private void initTrajectories() {
+        trajectA = trajectB = trajectory1 = trajectory2 = trajectory3 = Trajectory.EMPTY_TRAJECTORY;
     }
 
     private void initSlider() {
         this.matchingSlider.setMinimum(0);
-        this.matchingSlider.setMaximum(this.matching.i.length - 1);
+        if (this.matching.i == null) {
+            this.matchingSlider.setMaximum(0);
+        } else {
+            this.matchingSlider.setMaximum(this.matching.i.length - 1);
+        }
     }
 
     private void initDelaySpace() {
@@ -639,25 +649,27 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (!matchingSlider.getValueIsAdjusting()) {
             // TODO updates the slider all plots correctly?
             int newValue = matchingSlider.getValue();
-            int indexTrajA = matching.i[newValue];
-            int indexTrajB = matching.j[newValue];
-            EdgeCursor selection = new EdgeCursor(indexTrajA, indexTrajB, newValue);
-            matchingSlider.setToolTipText(Integer.toString(newValue));
-            if (distancePlot != null) {
-                distancePlot.updateSelection(selection);
-                distancePanel.repaint();
-            }
-            if (matchingPlot != null) {
-                matchingPlot.updateSelection(selection);
-                trajectoryPlotPanel.repaint();
-            }
-            if (delayPlot != null) {
-                delayPlot.updateSelection(selection);
-                delayPanel.repaint();
-            }
-            if (delaySpacePlot != null) {
-                delaySpacePlot.updateSelection(selection);
-                delaySpacePanel.repaint();
+            if (matching.i != null && matching.j != null) {
+                int indexTrajA = matching.i[newValue];
+                int indexTrajB = matching.j[newValue];
+                EdgeCursor selection = new EdgeCursor(indexTrajA, indexTrajB, newValue);
+                matchingSlider.setToolTipText(Integer.toString(newValue));
+                if (distancePlot != null) {
+                    distancePlot.updateSelection(selection);
+                    distancePanel.repaint();
+                }
+                if (matchingPlot != null) {
+                    matchingPlot.updateSelection(selection);
+                    trajectoryPlotPanel.repaint();
+                }
+                if (delayPlot != null) {
+                    delayPlot.updateSelection(selection);
+                    delayPanel.repaint();
+                }
+                if (delaySpacePlot != null) {
+                    delaySpacePlot.updateSelection(selection);
+                    delaySpacePanel.repaint();
+                }
             }
         }
     }//GEN-LAST:event_matchingSliderStateChanged
@@ -759,6 +771,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
             System.out.println(filePath);
+            openPairwiseTrajectoryData(filePath);
         }
     }//GEN-LAST:event_openTrajectDataPairwiseActionPerformed
 
