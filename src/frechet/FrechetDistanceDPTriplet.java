@@ -70,9 +70,9 @@ public class FrechetDistanceDPTriplet {
         double distance12 = euclideanDistanceTraject12(i, j);
         double distance23 = euclideanDistanceTraject23(j, k);
         double distance13 = euclideanDistanceTraject13(i, k);
-    //    return maxTriplet(distance12, distance23, distance13);
+        return maxTriplet(distance12, distance23, distance13);
         // Usage of the sum of distances.
-        return distance12  + distance13  + distance23;
+    //    return distance12  + distance13  + distance23;
     //    return distance12 * distance12 + distance13 * distance13 + distance23 * distance23;
     }
     
