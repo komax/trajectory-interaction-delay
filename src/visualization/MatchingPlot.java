@@ -39,10 +39,14 @@ public final class MatchingPlot extends GenericPlottingPanel {
     private int endFocusTraject2;
 
     public MatchingPlot(Matching matching, Trajectory trajectory1, Trajectory trajectory2, int thresholdDelay, int translucentFocus) {
+        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
+        updateMatching(matching, thresholdDelay, translucentFocus, trajectory1, trajectory2);
+    }
+    
+    public void updateMatching(Matching matching, int thresholdDelay, int translucentFocus, Trajectory trajectory1, Trajectory trajectory2) {
         // Store data to plot
         this.trajectory1 = trajectory1;
         this.trajectory2 = trajectory2;
-        
         DoublePoint2D minValuesTraject1 = minTraject1();
         DoublePoint2D minValuesTraject2 = minTraject2();
         this.minX = Math.min(minValuesTraject1.x, minValuesTraject2.x);
@@ -56,12 +60,7 @@ public final class MatchingPlot extends GenericPlottingPanel {
         DoublePoint2D maxValuesTraject2 = maxTraject2();
         this.maxX = Math.max(maxValuesTraject1.x, maxValuesTraject2.x);
         this.maxY = Math.max(maxValuesTraject1.y, maxValuesTraject2.y);
-                
-        this.selectedEdge = EdgeCursor.INVALID_CURSOR;
-        updateMatching(matching, thresholdDelay, translucentFocus);
-    }
-    
-    public void updateMatching(Matching matching, int thresholdDelay, int translucentFocus) {
+        
         this.matching = matching;
         this.thresholdDelay = thresholdDelay;
         this.translucentFocus = translucentFocus;
@@ -155,26 +154,28 @@ public final class MatchingPlot extends GenericPlottingPanel {
     }
     
     public void updateSelection(EdgeCursor selection) {
-        this.selectedEdge = selection;
-        int newIndex = selection.getPosition();
-        int halfRange = translucentFocus / 2;
-        int startIndex;
-        if (newIndex < halfRange) {
-            startIndex = 0;
-        } else {
-            startIndex = newIndex - halfRange;
+        if (matching.getLength() > 0) {
+            this.selectedEdge = selection;
+            int newIndex = selection.getPosition();
+            int halfRange = translucentFocus / 2;
+            int startIndex;
+            if (newIndex < halfRange) {
+                startIndex = 0;
+            } else {
+                startIndex = newIndex - halfRange;
+            }
+
+            int endIndex;
+            if (newIndex + halfRange < matching.i.length) {
+                endIndex = newIndex + halfRange;
+            } else {
+                endIndex = matching.i.length - 1;
+            }
+            this.startFocusTraject1 = matching.i[startIndex];
+            this.endFocusTraject1 = matching.i[endIndex];
+            this.startFocusTraject2 = matching.j[startIndex];
+            this.endFocusTraject2 = matching.j[endIndex];
         }
-        
-        int endIndex;
-        if (newIndex + halfRange < matching.i.length) {
-            endIndex = newIndex + halfRange;
-        } else {
-            endIndex = matching.i.length - 1;
-        }
-        this.startFocusTraject1 = matching.i[startIndex];
-        this.endFocusTraject1 = matching.i[endIndex];
-        this.startFocusTraject2 = matching.j[startIndex];
-        this.endFocusTraject2 = matching.j[endIndex];
     }
 
     @Override
