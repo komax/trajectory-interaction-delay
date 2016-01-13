@@ -31,10 +31,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
  //   public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/pigeon_trajectory_data/pigeon_trajectory.txt";
   //  public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/ultimate_frisbee_interpolated.txt";
   //    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/ultimate_frisbee_data/uf_loop_interpolated.txt";
-      public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2-4_sample.txt";
-  //public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_3_sample.txt";
-   // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_2_4_sample.txt";
-   // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/homing_pigeons_3_4_sample.txt";
+    public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/flock_pigeon_data/flight_5_pigeons_MSU_sample.txt";
    // public static final String PATH_TO_TRAJ_DATA = "/home/max/Documents/phd/caribou_data/caribou_g22_g24.txt";
     // TODO Add an interface to load data at first.
   //  public static final String PATH_TO_TRAJ_DATA = "data/zig_zac_data.txt";
@@ -81,7 +78,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         this.translucentFocus = 50;
         this.epsilon = 1.7;
         this.isTriplet = true;
-        this.pairInTriple = PairInTriple.TRAJ_13;
+        this.pairInTriple = PairInTriple.TRAJ_23;
         initTrajectories();
         setDelaySpace(DelaySpaceType.USUAL, DistanceNormFactory.EuclideanDistance);
         computeMatching();
@@ -311,6 +308,14 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         jSplitPane6 = new javax.swing.JSplitPane();
         distancePanel = new javax.swing.JPanel();
         delayPanel = new javax.swing.JPanel();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        openPairwise = new javax.swing.JMenuItem();
+        openTriplet12 = new javax.swing.JMenuItem();
+        openTriplet13 = new javax.swing.JMenuItem();
+        openTriplet23 = new javax.swing.JMenuItem();
+        fileMenu1 = new javax.swing.JMenu();
+        compareToFrechetCheckBox = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Visualization of Delays in Trajectories");
@@ -557,15 +562,66 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         jSplitPane1.setRightComponent(jSplitPane3);
 
+        fileMenu.setText("File");
+
+        openPairwise.setText("Open Trajectory Data (Pairwise)");
+        openPairwise.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openPairwiseActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openPairwise);
+
+        openTriplet12.setText("Open Triplet Trajectory Data (Pair 1 2)");
+        openTriplet12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openTriplet12ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openTriplet12);
+
+        openTriplet13.setText("Open Triplet Trajectory Data (Pair 1 3)");
+        openTriplet13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openTriplet13ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openTriplet13);
+
+        openTriplet23.setText("Open Triplet Trajectory Data (Pair 2 3)");
+        openTriplet23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openTriplet23ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openTriplet23);
+
+        menuBar.add(fileMenu);
+
+        fileMenu1.setText("Edit");
+
+        compareToFrechetCheckBox.setSelected(true);
+        compareToFrechetCheckBox.setText("Compare To Frechet Matching");
+        compareToFrechetCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compareToFrechetCheckBoxActionPerformed(evt);
+            }
+        });
+        fileMenu1.add(compareToFrechetCheckBox);
+
+        menuBar.add(fileMenu1);
+
+        setJMenuBar(menuBar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
         );
 
         pack();
@@ -688,6 +744,26 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_epsFieldCaretUpdate
 
+    private void openPairwiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openPairwiseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_openPairwiseActionPerformed
+
+    private void openTriplet12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_openTriplet12ActionPerformed
+
+    private void openTriplet13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_openTriplet13ActionPerformed
+
+    private void openTriplet23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_openTriplet23ActionPerformed
+
+    private void compareToFrechetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareToFrechetCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compareToFrechetCheckBoxActionPerformed
+
     
     private void setSamplingRate() {
         int selectedIndex = samplingRateComboBox.getSelectedIndex();
@@ -742,6 +818,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBoxMenuItem compareToFrechetCheckBox;
     private javax.swing.JComboBox computationMethodComboBox;
     private javax.swing.JPanel delayPanel;
     private javax.swing.JComboBox delaySpaceComboBox;
@@ -749,6 +826,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JComboBox distanceNormComboBox;
     private javax.swing.JPanel distancePanel;
     private javax.swing.JTextField epsField;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenu fileMenu1;
     private javax.swing.JSpinner focusSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -763,6 +842,11 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane6;
     private javax.swing.JCheckBox logScalingCheckBox;
     private javax.swing.JSlider matchingSlider;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem openPairwise;
+    private javax.swing.JMenuItem openTriplet12;
+    private javax.swing.JMenuItem openTriplet13;
+    private javax.swing.JMenuItem openTriplet23;
     private javax.swing.JComboBox samplingRateComboBox;
     private javax.swing.JTextField samplingRateField;
     private javax.swing.JPanel settingsPanel;
