@@ -9,36 +9,36 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="openPairwise">
+            <MenuItem class="javax.swing.JMenuItem" name="openTrajectDataPairwise">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Trajectory Data (Pairwise)"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openPairwiseActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTrajectDataPairwiseActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="openTriplet12">
+            <MenuItem class="javax.swing.JMenuItem" name="openTrajectDataTriplet12">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Triplet Trajectory Data (Pair 1 2)"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTriplet12ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTrajectDataTriplet12ActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="openTriplet13">
+            <MenuItem class="javax.swing.JMenuItem" name="openTrajectDataTriplet13">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Triplet Trajectory Data (Pair 1 3)"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTriplet13ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTrajectDataTriplet13ActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="openTriplet23">
+            <MenuItem class="javax.swing.JMenuItem" name="openTrajectDataTriplet23">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Triplet Trajectory Data (Pair 2 3)"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTriplet23ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openTrajectDataTriplet23ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

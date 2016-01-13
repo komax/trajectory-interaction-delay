@@ -9,9 +9,11 @@ import delayspace.DelaySpace;
 import delayspace.DelaySpaceType;
 import frechet.Matching;
 import frechet.TripleFrechetMatching;
+import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import utils.Experiment;
 import utils.IntTriple;
 import utils.MatchingType;
@@ -41,6 +43,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private DistancePlotPanel distancePlot;
     private DelaySpacePanel delaySpacePlot;
     private DelayPlotPanel delayPlot;
+    
+    // File chooser to select trajectory data
+    private JFileChooser fileChooser;
     
     // Settings from the UI
     private int threshold;
@@ -72,6 +77,9 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
      */
     public AnalyticsDelayUI() {
         initComponents();
+        // Init file chooser with the parent directory of this project.
+        this.fileChooser = new JFileChooser("..");
+        
         this.logScaled = false;
         this.threshold = 1;
         this.samplingRate = 0.2;
@@ -310,10 +318,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         delayPanel = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        openPairwise = new javax.swing.JMenuItem();
-        openTriplet12 = new javax.swing.JMenuItem();
-        openTriplet13 = new javax.swing.JMenuItem();
-        openTriplet23 = new javax.swing.JMenuItem();
+        openTrajectDataPairwise = new javax.swing.JMenuItem();
+        openTrajectDataTriplet12 = new javax.swing.JMenuItem();
+        openTrajectDataTriplet13 = new javax.swing.JMenuItem();
+        openTrajectDataTriplet23 = new javax.swing.JMenuItem();
         fileMenu1 = new javax.swing.JMenu();
         compareToFrechetCheckBox = new javax.swing.JCheckBoxMenuItem();
 
@@ -564,37 +572,37 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        openPairwise.setText("Open Trajectory Data (Pairwise)");
-        openPairwise.addActionListener(new java.awt.event.ActionListener() {
+        openTrajectDataPairwise.setText("Open Trajectory Data (Pairwise)");
+        openTrajectDataPairwise.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openPairwiseActionPerformed(evt);
+                openTrajectDataPairwiseActionPerformed(evt);
             }
         });
-        fileMenu.add(openPairwise);
+        fileMenu.add(openTrajectDataPairwise);
 
-        openTriplet12.setText("Open Triplet Trajectory Data (Pair 1 2)");
-        openTriplet12.addActionListener(new java.awt.event.ActionListener() {
+        openTrajectDataTriplet12.setText("Open Triplet Trajectory Data (Pair 1 2)");
+        openTrajectDataTriplet12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openTriplet12ActionPerformed(evt);
+                openTrajectDataTriplet12ActionPerformed(evt);
             }
         });
-        fileMenu.add(openTriplet12);
+        fileMenu.add(openTrajectDataTriplet12);
 
-        openTriplet13.setText("Open Triplet Trajectory Data (Pair 1 3)");
-        openTriplet13.addActionListener(new java.awt.event.ActionListener() {
+        openTrajectDataTriplet13.setText("Open Triplet Trajectory Data (Pair 1 3)");
+        openTrajectDataTriplet13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openTriplet13ActionPerformed(evt);
+                openTrajectDataTriplet13ActionPerformed(evt);
             }
         });
-        fileMenu.add(openTriplet13);
+        fileMenu.add(openTrajectDataTriplet13);
 
-        openTriplet23.setText("Open Triplet Trajectory Data (Pair 2 3)");
-        openTriplet23.addActionListener(new java.awt.event.ActionListener() {
+        openTrajectDataTriplet23.setText("Open Triplet Trajectory Data (Pair 2 3)");
+        openTrajectDataTriplet23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openTriplet23ActionPerformed(evt);
+                openTrajectDataTriplet23ActionPerformed(evt);
             }
         });
-        fileMenu.add(openTriplet23);
+        fileMenu.add(openTrajectDataTriplet23);
 
         menuBar.add(fileMenu);
 
@@ -617,7 +625,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -744,21 +752,27 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_epsFieldCaretUpdate
 
-    private void openPairwiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openPairwiseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_openPairwiseActionPerformed
+    private void openTrajectDataPairwiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataPairwiseActionPerformed
+        int returnVal = fileChooser.showOpenDialog(AnalyticsDelayUI.this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println(filePath);
+        }
+    }//GEN-LAST:event_openTrajectDataPairwiseActionPerformed
 
-    private void openTriplet12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet12ActionPerformed
+    private void openTrajectDataTriplet12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet12ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_openTriplet12ActionPerformed
+    }//GEN-LAST:event_openTrajectDataTriplet12ActionPerformed
 
-    private void openTriplet13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet13ActionPerformed
+    private void openTrajectDataTriplet13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet13ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_openTriplet13ActionPerformed
+    }//GEN-LAST:event_openTrajectDataTriplet13ActionPerformed
 
-    private void openTriplet23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTriplet23ActionPerformed
+    private void openTrajectDataTriplet23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet23ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_openTriplet23ActionPerformed
+    }//GEN-LAST:event_openTrajectDataTriplet23ActionPerformed
 
     private void compareToFrechetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareToFrechetCheckBoxActionPerformed
         // TODO add your handling code here:
@@ -843,10 +857,10 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox logScalingCheckBox;
     private javax.swing.JSlider matchingSlider;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem openPairwise;
-    private javax.swing.JMenuItem openTriplet12;
-    private javax.swing.JMenuItem openTriplet13;
-    private javax.swing.JMenuItem openTriplet23;
+    private javax.swing.JMenuItem openTrajectDataPairwise;
+    private javax.swing.JMenuItem openTrajectDataTriplet12;
+    private javax.swing.JMenuItem openTrajectDataTriplet13;
+    private javax.swing.JMenuItem openTrajectDataTriplet23;
     private javax.swing.JComboBox samplingRateComboBox;
     private javax.swing.JTextField samplingRateField;
     private javax.swing.JPanel settingsPanel;
