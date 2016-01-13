@@ -66,30 +66,32 @@ public final class MatchingPlot extends GenericPlottingPanel {
         this.thresholdDelay = thresholdDelay;
         this.translucentFocus = translucentFocus;
         
-        this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
-        this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, thresholdDelay);
-        this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching, thresholdDelay);
-        this.maxDelay = Integer.MIN_VALUE;
-        for (int delay: delaysInTimestamps) {
-            if (delay > maxDelay) {
-                maxDelay = delay;
+        if (matching.getLength() > 0) {
+            this.delaysInTimestamps = utils.Utils.delayInTimestamps(matching);
+            this.isTraject1Ahead = Utils.trajectroy1IsAhead(matching, thresholdDelay);
+            this.isTraject2Ahead = Utils.trajectroy2IsAhead(matching, thresholdDelay);
+            this.maxDelay = Integer.MIN_VALUE;
+            for (int delay : delaysInTimestamps) {
+                if (delay > maxDelay) {
+                    maxDelay = delay;
+                }
             }
+
+            if (maxDelay > 0) {
+                this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(thresholdDelay, maxDelay);
+                this.negativeColors = ColorMap.createGrayToRedTransparentColormap(thresholdDelay, maxDelay);
+            } else {
+                this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(maxDelay, maxDelay);
+                this.negativeColors = ColorMap.createGrayToRedTransparentColormap(maxDelay, maxDelay);
+
+            }
+            this.positiveColors.halfColorSpectrum();
+            this.positiveColors.halfColorSpectrum();
+            this.negativeColors.halfColorSpectrum();
+            this.negativeColors.halfColorSpectrum();
+
+            this.repaint();
         }
-        
-        if (maxDelay > 0) {
-            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(thresholdDelay, maxDelay);
-            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(thresholdDelay, maxDelay);
-        } else {
-            this.positiveColors = ColorMap.createGrayToBlueTransparentColormap(maxDelay, maxDelay);
-            this.negativeColors = ColorMap.createGrayToRedTransparentColormap(maxDelay, maxDelay);
-            
-        }
-        this.positiveColors.halfColorSpectrum();
-        this.positiveColors.halfColorSpectrum();
-        this.negativeColors.halfColorSpectrum();
-        this.negativeColors.halfColorSpectrum();
-        
-        this.repaint();
     }
 
     private void makeTrajectoriesNullbased() {
@@ -239,231 +241,236 @@ public final class MatchingPlot extends GenericPlottingPanel {
     }
 
     private void drawTrajectory(Trajectory trajectory, Graphics g) {
-        DoublePoint2D previousPoint = trajectory.getPointObject(0);
-        IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
-        for (int i = 1; i < trajectory.length(); i++) {
-            if (trajectory == trajectory1) {
-                g.setColor(getColorTraject1(Color.black, i));
-            } else if (trajectory == trajectory2) {
-                g.setColor(getColorTraject2(Color.black, i));
-            }
-            DoublePoint2D currentPoint = trajectory.getPointObject(i);
-            IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
-            int fromX = transformedPreviousPoint.x;
-            int fromY = transformedPreviousPoint.y;
-            int toX = transformedCurrentPoint.x;
-            int toY = transformedCurrentPoint.y;
-            g.drawLine(fromX, fromY, toX, toY);
+        if (trajectory.length() > 0) {
+            DoublePoint2D previousPoint = trajectory.getPointObject(0);
+            IntPoint2D transformedPreviousPoint = cartesianToPanelPoint(previousPoint);
+            for (int i = 1; i < trajectory.length(); i++) {
+                if (trajectory == trajectory1) {
+                    g.setColor(getColorTraject1(Color.black, i));
+                } else if (trajectory == trajectory2) {
+                    g.setColor(getColorTraject2(Color.black, i));
+                }
+                DoublePoint2D currentPoint = trajectory.getPointObject(i);
+                IntPoint2D transformedCurrentPoint = cartesianToPanelPoint(currentPoint);
+                int fromX = transformedPreviousPoint.x;
+                int fromY = transformedPreviousPoint.y;
+                int toX = transformedCurrentPoint.x;
+                int toY = transformedCurrentPoint.y;
+                g.drawLine(fromX, fromY, toX, toY);
 
-            transformedPreviousPoint = transformedCurrentPoint;
+                transformedPreviousPoint = transformedCurrentPoint;
+            }
         }
     }
 
     private void drawMatching(Graphics g) {
-        int lengthMatching = matching.i.length;
-        int startIndexTraject1 = matching.i[0];
-        int startIndexTraject2 = matching.j[0];
-        int endIndexTraject1 = startIndexTraject1;
-        int endIndexTraject2 = startIndexTraject2;
+        if (matching.getLength() > 0) {
+            int lengthMatching = matching.i.length;
+            int startIndexTraject1 = matching.i[0];
+            int startIndexTraject2 = matching.j[0];
+            int endIndexTraject1 = startIndexTraject1;
+            int endIndexTraject2 = startIndexTraject2;
 
-        for (int k = 1; k <= lengthMatching; k++) {
-            int currentIndexTraject1;
-            int currentIndexTraject2;
-            if (k == lengthMatching) {
-                currentIndexTraject1 = -1;
-                currentIndexTraject2 = -1;
-            } else {
-                currentIndexTraject1 = matching.i[k];
-                currentIndexTraject2 = matching.j[k];
-            }
-            final boolean singleIndexTraject1 = startIndexTraject1 == endIndexTraject1;
-            final boolean singleIndexTraject2 = startIndexTraject2 == endIndexTraject2;
-            // TODO Patching drawing in an separate method?
-            if (singleIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
-                // 1. ribbon case
-                endIndexTraject2 = currentIndexTraject2;
-            } else if (singleIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
-                // 2. the other way round
-                endIndexTraject1 = currentIndexTraject1;
-            } else {
-                // 3. Drawing part.
-                g.setColor(Color.blue);
-                if (singleIndexTraject1 && singleIndexTraject2) {
-                    // Choose correct color from the colormaps.
-                    Color chosenColor;
-                    int delay = delaysInTimestamps[k-1];
-                    if (isTraject1Ahead[k-1]) {
-                        chosenColor = positiveColors.getColor(delay);
-                    } else if (isTraject2Ahead[k-1]) {
-                        chosenColor = negativeColors.getColor(delay);
-                    } else {
-                        chosenColor = positiveColors.getMinColor();
-                    }
-                    if (currentIndexTraject1 < startFocusTraject1 || currentIndexTraject1 > endFocusTraject1) {
-                        g.setColor(getColorTraject1(chosenColor, currentIndexTraject1));
-                    } else if (currentIndexTraject2 < startFocusTraject2 || currentIndexTraject2 > endFocusTraject2) {
-                        g.setColor(getColorTraject2(chosenColor, currentIndexTraject2));
-                    } else {
-                        g.setColor(chosenColor);
-                    }
-                    // 3a. Draw a simple line.
-                    DoublePoint2D pointTraj1 = trajectory1.getPointObject(startIndexTraject1);
-                    IntPoint2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
-                    DoublePoint2D pointTraj2 = trajectory2.getPointObject(startIndexTraject2);
-                    IntPoint2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
-                    g.drawLine(convPointTraj1.x, convPointTraj1.y, convPointTraj2.x, convPointTraj2.y);
+            for (int k = 1; k <= lengthMatching; k++) {
+                int currentIndexTraject1;
+                int currentIndexTraject2;
+                if (k == lengthMatching) {
+                    currentIndexTraject1 = -1;
+                    currentIndexTraject2 = -1;
                 } else {
-                    // Compute the color interpolation of the patch.
-                    if (singleIndexTraject1) {
-                        IntPoint2D startTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(startIndexTraject2));
-                        int startTraject2X = startTraject2.x;
-                        int startTraject2Y = startTraject2.y;
-                        int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
-                        int startDelay = delaysInTimestamps[startIndex];
-                        Color beginColor;
-                        if (startDelay < thresholdDelay) {
-                            beginColor = negativeColors.getMinColor();
-                        } else {
-                            beginColor = negativeColors.getColor(startDelay);
-                        }
-                        
-                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            beginColor = getColorTraject1(beginColor, startIndexTraject1);
-                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            beginColor = getColorTraject2(beginColor, startIndexTraject2);
-                        }
-                        
-                        IntPoint2D endTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(endIndexTraject2));
-                        int endTraject2X = endTraject2.x;
-                        int endTraject2Y = endTraject2.y;
-                        int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
-                        int endDelay = delaysInTimestamps[endIndex];
-                        Color endColor;
-                        if (endDelay < thresholdDelay) {
-                            endColor = negativeColors.getMinColor();
-                        } else {
-                            endColor = negativeColors.getColor(endDelay);
-                        }
-                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            endColor = getColorTraject1(endColor, endIndexTraject1);
-                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            endColor = getColorTraject2(endColor, endIndexTraject2);
-                        }
-                        
-                        GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
-                        Graphics2D g2 = (Graphics2D) g;
-                        g2.setPaint(gradientPaint);
-                    } else {
-           
-                        IntPoint2D startTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(startIndexTraject1));
-                        int startTraject1X = startTraject1.x;
-                        int startTraject1Y = startTraject1.y;
-                        int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
-                        int startDelay = delaysInTimestamps[startIndex];
-                        Color beginColor;
-                        if (startDelay < thresholdDelay) {
-                            beginColor = positiveColors.getMinColor();
-                        } else {
-                            beginColor = positiveColors.getColor(startDelay);
-                        }
-                        
-                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            beginColor = getColorTraject1(beginColor, startIndexTraject1);
-                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            beginColor = getColorTraject2(beginColor, startIndexTraject2);
-                        }
-                        
-                        IntPoint2D endTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(endIndexTraject1));
-                        int endTraject1X = endTraject1.x;
-                        int endTraject1Y = endTraject1.y;
-                        int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
-                        int endDelay = delaysInTimestamps[endIndex];
-                        Color endColor;
-                        if (endDelay < thresholdDelay) {
-                            endColor = positiveColors.getMinColor();
-                        } else {
-                            endColor = positiveColors.getColor(endDelay);
-                        }
-                        if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
-                            endColor = getColorTraject1(endColor, endIndexTraject1);
-                        } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
-                            endColor = getColorTraject2(endColor, endIndexTraject2);
-                        }
-                        
-                        GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
-                        Graphics2D g2 = (Graphics2D) g;
-                        g2.setPaint(gradientPaint);
-                    }
-                    // 3b. Build the polygon.
-                    Polygon patch = new Polygon();
-                    for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
-                        DoublePoint2D point = trajectory1.getPointObject(l);
-                        IntPoint2D convertedPoint = cartesianToPanelPoint(point);
-                        patch.addPoint(convertedPoint.x, convertedPoint.y);
-                    }
-                    for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
-                        DoublePoint2D point = trajectory2.getPointObject(l);
-                        IntPoint2D convertedPoint = cartesianToPanelPoint(point);
-                        patch.addPoint(convertedPoint.x, convertedPoint.y);
-                    }
-                    // Draw the polygon.
-                    g.fillPolygon(patch);
+                    currentIndexTraject1 = matching.i[k];
+                    currentIndexTraject2 = matching.j[k];
                 }
-                // Reset the indices.
-                startIndexTraject1 = endIndexTraject1 = currentIndexTraject1;
-                startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
+                final boolean singleIndexTraject1 = startIndexTraject1 == endIndexTraject1;
+                final boolean singleIndexTraject2 = startIndexTraject2 == endIndexTraject2;
+                // TODO Patching drawing in an separate method?
+                if (singleIndexTraject1 && startIndexTraject1 == currentIndexTraject1) {
+                    // 1. ribbon case
+                    endIndexTraject2 = currentIndexTraject2;
+                } else if (singleIndexTraject2 && startIndexTraject2 == currentIndexTraject2) {
+                    // 2. the other way round
+                    endIndexTraject1 = currentIndexTraject1;
+                } else {
+                    // 3. Drawing part.
+                    g.setColor(Color.blue);
+                    if (singleIndexTraject1 && singleIndexTraject2) {
+                        // Choose correct color from the colormaps.
+                        Color chosenColor;
+                        int delay = delaysInTimestamps[k - 1];
+                        if (isTraject1Ahead[k - 1]) {
+                            chosenColor = positiveColors.getColor(delay);
+                        } else if (isTraject2Ahead[k - 1]) {
+                            chosenColor = negativeColors.getColor(delay);
+                        } else {
+                            chosenColor = positiveColors.getMinColor();
+                        }
+                        if (currentIndexTraject1 < startFocusTraject1 || currentIndexTraject1 > endFocusTraject1) {
+                            g.setColor(getColorTraject1(chosenColor, currentIndexTraject1));
+                        } else if (currentIndexTraject2 < startFocusTraject2 || currentIndexTraject2 > endFocusTraject2) {
+                            g.setColor(getColorTraject2(chosenColor, currentIndexTraject2));
+                        } else {
+                            g.setColor(chosenColor);
+                        }
+                        // 3a. Draw a simple line.
+                        DoublePoint2D pointTraj1 = trajectory1.getPointObject(startIndexTraject1);
+                        IntPoint2D convPointTraj1 = cartesianToPanelPoint(pointTraj1);
+                        DoublePoint2D pointTraj2 = trajectory2.getPointObject(startIndexTraject2);
+                        IntPoint2D convPointTraj2 = cartesianToPanelPoint(pointTraj2);
+                        g.drawLine(convPointTraj1.x, convPointTraj1.y, convPointTraj2.x, convPointTraj2.y);
+                    } else {
+                        // Compute the color interpolation of the patch.
+                        if (singleIndexTraject1) {
+                            IntPoint2D startTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(startIndexTraject2));
+                            int startTraject2X = startTraject2.x;
+                            int startTraject2Y = startTraject2.y;
+                            int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
+                            int startDelay = delaysInTimestamps[startIndex];
+                            Color beginColor;
+                            if (startDelay < thresholdDelay) {
+                                beginColor = negativeColors.getMinColor();
+                            } else {
+                                beginColor = negativeColors.getColor(startDelay);
+                            }
+
+                            if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                                beginColor = getColorTraject1(beginColor, startIndexTraject1);
+                            } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                                beginColor = getColorTraject2(beginColor, startIndexTraject2);
+                            }
+
+                            IntPoint2D endTraject2 = cartesianToPanelPoint(trajectory2.getPointObject(endIndexTraject2));
+                            int endTraject2X = endTraject2.x;
+                            int endTraject2Y = endTraject2.y;
+                            int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
+                            int endDelay = delaysInTimestamps[endIndex];
+                            Color endColor;
+                            if (endDelay < thresholdDelay) {
+                                endColor = negativeColors.getMinColor();
+                            } else {
+                                endColor = negativeColors.getColor(endDelay);
+                            }
+                            if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                                endColor = getColorTraject1(endColor, endIndexTraject1);
+                            } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                                endColor = getColorTraject2(endColor, endIndexTraject2);
+                            }
+
+                            GradientPaint gradientPaint = new GradientPaint(startTraject2X, startTraject2Y, beginColor, endTraject2X, endTraject2Y, endColor);
+                            Graphics2D g2 = (Graphics2D) g;
+                            g2.setPaint(gradientPaint);
+                        } else {
+
+                            IntPoint2D startTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(startIndexTraject1));
+                            int startTraject1X = startTraject1.x;
+                            int startTraject1Y = startTraject1.y;
+                            int startIndex = Utils.findMatchingIndex(matching, startIndexTraject1, startIndexTraject2);
+                            int startDelay = delaysInTimestamps[startIndex];
+                            Color beginColor;
+                            if (startDelay < thresholdDelay) {
+                                beginColor = positiveColors.getMinColor();
+                            } else {
+                                beginColor = positiveColors.getColor(startDelay);
+                            }
+
+                            if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                                beginColor = getColorTraject1(beginColor, startIndexTraject1);
+                            } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                                beginColor = getColorTraject2(beginColor, startIndexTraject2);
+                            }
+
+                            IntPoint2D endTraject1 = cartesianToPanelPoint(trajectory1.getPointObject(endIndexTraject1));
+                            int endTraject1X = endTraject1.x;
+                            int endTraject1Y = endTraject1.y;
+                            int endIndex = Utils.findMatchingIndex(matching, endIndexTraject1, endIndexTraject2);
+                            int endDelay = delaysInTimestamps[endIndex];
+                            Color endColor;
+                            if (endDelay < thresholdDelay) {
+                                endColor = positiveColors.getMinColor();
+                            } else {
+                                endColor = positiveColors.getColor(endDelay);
+                            }
+                            if (startIndexTraject1 < startFocusTraject1 || endIndexTraject1 > endFocusTraject1) {
+                                endColor = getColorTraject1(endColor, endIndexTraject1);
+                            } else if (startIndexTraject2 < startFocusTraject2 || endIndexTraject2 > endFocusTraject2) {
+                                endColor = getColorTraject2(endColor, endIndexTraject2);
+                            }
+
+                            GradientPaint gradientPaint = new GradientPaint(startTraject1X, startTraject1Y, beginColor, endTraject1X, endTraject1Y, endColor);
+                            Graphics2D g2 = (Graphics2D) g;
+                            g2.setPaint(gradientPaint);
+                        }
+                        // 3b. Build the polygon.
+                        Polygon patch = new Polygon();
+                        for (int l = startIndexTraject1; l <= endIndexTraject1; l++) {
+                            DoublePoint2D point = trajectory1.getPointObject(l);
+                            IntPoint2D convertedPoint = cartesianToPanelPoint(point);
+                            patch.addPoint(convertedPoint.x, convertedPoint.y);
+                        }
+                        for (int l = startIndexTraject2; l <= endIndexTraject2; l++) {
+                            DoublePoint2D point = trajectory2.getPointObject(l);
+                            IntPoint2D convertedPoint = cartesianToPanelPoint(point);
+                            patch.addPoint(convertedPoint.x, convertedPoint.y);
+                        }
+                        // Draw the polygon.
+                        g.fillPolygon(patch);
+                    }
+                    // Reset the indices.
+                    startIndexTraject1 = endIndexTraject1 = currentIndexTraject1;
+                    startIndexTraject2 = endIndexTraject2 = currentIndexTraject2;
+                }
             }
-        }
-        if (selectedEdge.isValid()) {
-            int selectedIndex = selectedEdge.getPosition();
-            drawPoints(g, selectedIndex);
+            if (selectedEdge.isValid()) {
+                int selectedIndex = selectedEdge.getPosition();
+                drawPoints(g, selectedIndex);
+            }
         }
     }
     
     private void drawPoints(Graphics g, int index) {
-        Graphics2D g2 = (Graphics2D) g;
-        int diameter = 6;
-        int offset = diameter / 2;
-        
-        DoublePoint2D pointTraject1 = trajectory1.getPointObject(matching.i[index]);
-        IntPoint2D panelPoint = cartesianToPanelPoint(pointTraject1);
-        int panelX = panelPoint.x;
-        int panelY = panelPoint.y;
-        if (isTraject1Ahead[index]) {
-            Color maxColor = positiveColors.getMaxColor();
-            g2.setStroke(new BasicStroke(5));
-            g.setColor(maxColor);
-            Polygon triangle = new Polygon();
-            triangle.addPoint(panelX, panelY + offset);
-            triangle.addPoint(panelX - offset, panelY - offset);
-            triangle.addPoint(panelX + offset, panelY - offset);
-            g.drawPolygon(triangle);
-        } else {
-            g2.setStroke(new BasicStroke(5));
-            g.setColor(Color.lightGray);
-            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
-            g2.setStroke(new BasicStroke(3));
-            g.setColor(Color.white);
-            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
-        }
-        
-        
-        DoublePoint2D pointTraject2 = trajectory2.getPointObject(matching.j[index]);
-        panelPoint = cartesianToPanelPoint(pointTraject2);
-        panelX = panelPoint.x;
-        panelY = panelPoint.y;
-        if (isTraject2Ahead[index]) {
-            Color maxColor = negativeColors.getMaxColor();
-            g2.setStroke(new BasicStroke(5));
-            g.setColor(maxColor);
-            g.drawRect(panelX - offset, panelY - offset, diameter, diameter);
-        } else {
-            g2.setStroke(new BasicStroke(5));
-            g.setColor(Color.lightGray);
-            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
-            g2.setStroke(new BasicStroke(3));
-            g.setColor(Color.white);
-            g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+        if (matching.getLength() > 0) {
+            Graphics2D g2 = (Graphics2D) g;
+            int diameter = 6;
+            int offset = diameter / 2;
+
+            DoublePoint2D pointTraject1 = trajectory1.getPointObject(matching.i[index]);
+            IntPoint2D panelPoint = cartesianToPanelPoint(pointTraject1);
+            int panelX = panelPoint.x;
+            int panelY = panelPoint.y;
+            if (isTraject1Ahead[index]) {
+                Color maxColor = positiveColors.getMaxColor();
+                g2.setStroke(new BasicStroke(5));
+                g.setColor(maxColor);
+                Polygon triangle = new Polygon();
+                triangle.addPoint(panelX, panelY + offset);
+                triangle.addPoint(panelX - offset, panelY - offset);
+                triangle.addPoint(panelX + offset, panelY - offset);
+                g.drawPolygon(triangle);
+            } else {
+                g2.setStroke(new BasicStroke(5));
+                g.setColor(Color.lightGray);
+                g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+                g2.setStroke(new BasicStroke(3));
+                g.setColor(Color.white);
+                g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+            }
+
+            DoublePoint2D pointTraject2 = trajectory2.getPointObject(matching.j[index]);
+            panelPoint = cartesianToPanelPoint(pointTraject2);
+            panelX = panelPoint.x;
+            panelY = panelPoint.y;
+            if (isTraject2Ahead[index]) {
+                Color maxColor = negativeColors.getMaxColor();
+                g2.setStroke(new BasicStroke(5));
+                g.setColor(maxColor);
+                g.drawRect(panelX - offset, panelY - offset, diameter, diameter);
+            } else {
+                g2.setStroke(new BasicStroke(5));
+                g.setColor(Color.lightGray);
+                g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+                g2.setStroke(new BasicStroke(3));
+                g.setColor(Color.white);
+                g.drawOval(panelX - offset, panelY - offset, diameter, diameter);
+            }
         }
     }
 
