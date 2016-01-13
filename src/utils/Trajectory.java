@@ -14,6 +14,8 @@ import java.util.List;
  * @author max
  */
 public class Trajectory implements Iterable<double[]> {
+    public static final Trajectory EMPTY_TRAJECTORY = new Trajectory();
+    
     private final List<double[]> entries;
     
     public Trajectory() {

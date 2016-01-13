@@ -81,7 +81,11 @@ public abstract class DelaySpace {
     }
     
     public int numberColumns() {
-        return delaySpace[0].length;
+        if (numberRows() == 0) {
+            return 0;
+        } else {
+            return delaySpace[0].length;
+        }
     }
     
     public void setDistanceNorm(DistanceNorm distanceNorm) {
