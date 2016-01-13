@@ -118,7 +118,7 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
         int height = plotHeight();
         
         drawDelaySpace(g, width, height);
-        if (matching2 != null) {
+        if (matching2 != null || matching2.getLength() > 0) {
             drawMatching2(g, width, height);    
         }
         drawMatching1(g, width, height);
@@ -148,26 +148,30 @@ public final class DelaySpacePanel extends GenericPlottingPanel {
     }
     
     private void drawMatching1(Graphics g, int width, int height) {
-        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[0], matching1.j[0]));
-        for (int k = 1; k < matching1.getLength(); k++) {
-            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[k] + 0.5, matching1.j[k] - 0.5));
-            g.setColor(MATCHING1_COLOR);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(3.5f));
-            g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
-            previousPoint = currentPoint;
+        if (matching1.getLength() > 0) {
+            IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[0], matching1.j[0]));
+            for (int k = 1; k < matching1.getLength(); k++) {
+                IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching1.i[k] + 0.5, matching1.j[k] - 0.5));
+                g.setColor(MATCHING1_COLOR);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setStroke(new BasicStroke(3.5f));
+                g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
+                previousPoint = currentPoint;
+            }
         }
     }
     
     private void drawMatching2(Graphics g, int width, int height) {
-        IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[0], matching2.j[0]));
-        for (int k = 1; k < matching2.getLength(); k++) {
-            IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[k] + 0.5, matching2.j[k] - 0.5));
-            g.setColor(MATCHING2_COLOR);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(3.5f));
-            g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
-            previousPoint = currentPoint;
+        if (matching2.getLength() > 0) {
+            IntPoint2D previousPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[0], matching2.j[0]));
+            for (int k = 1; k < matching2.getLength(); k++) {
+                IntPoint2D currentPoint = cartesianToPanelPoint(new DoublePoint2D(matching2.i[k] + 0.5, matching2.j[k] - 0.5));
+                g.setColor(MATCHING2_COLOR);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setStroke(new BasicStroke(3.5f));
+                g.drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y);
+                previousPoint = currentPoint;
+            }
         }
     }
 
