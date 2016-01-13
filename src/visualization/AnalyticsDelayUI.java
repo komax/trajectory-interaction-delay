@@ -279,7 +279,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
             distancePlot.repaint();
         }
         if (matchingPlot != null) {
-            matchingPlot.updateMatching(matching, threshold, translucentFocus);
+            matchingPlot.updateMatching(matching, threshold, translucentFocus, trajectA, trajectB);
             matchingPlot.repaint();
         }
         if (delaySpacePlot != null) {
