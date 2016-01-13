@@ -207,6 +207,8 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (isComparisonToFrechetMatchingSet) {
             Experiment experiment = new Experiment(delaySpace);
             this.matching2 = experiment.run(MatchingType.FRECHET, epsilon);
+        } else {
+            this.matching2 = Matching.EMPTY_MATCHING;
         }
     }
     
@@ -815,7 +817,13 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openTrajectDataTriplet23ActionPerformed
 
     private void compareToFrechetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareToFrechetCheckBoxActionPerformed
-        // TODO add your handling code here:
+        if (compareToFrechetCheckBox.isSelected()) {
+            this.isComparisonToFrechetMatchingSet = true;
+        } else {
+            this.isComparisonToFrechetMatchingSet = false;
+        }
+        computeMatchingToCompare();
+        updateAndRepaintPlots();
     }//GEN-LAST:event_compareToFrechetCheckBoxActionPerformed
 
     
