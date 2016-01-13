@@ -92,6 +92,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void openPairwiseTrajectoryData(String pathToTrajectoryData) {
+        isTriplet = false;
         try {
             readTrajectories(pathToTrajectoryData);
         } catch (Exception ex) {
@@ -105,6 +106,7 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }
     
     private void openTripletTrajectoryData(String pathToTrajectoryData) {
+        isTriplet = true;
         try {
             readTripleTrajectories(pathToTrajectoryData);
         } catch (Exception ex) {
@@ -777,15 +779,39 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
     }//GEN-LAST:event_openTrajectDataPairwiseActionPerformed
 
     private void openTrajectDataTriplet12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet12ActionPerformed
-        // TODO add your handling code here:
+        int returnVal = fileChooser.showOpenDialog(AnalyticsDelayUI.this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println(filePath);
+            pairInTriple = PairInTriple.TRAJ_12;
+            openTripletTrajectoryData(filePath);
+        }
     }//GEN-LAST:event_openTrajectDataTriplet12ActionPerformed
 
     private void openTrajectDataTriplet13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet13ActionPerformed
-        // TODO add your handling code here:
+        int returnVal = fileChooser.showOpenDialog(AnalyticsDelayUI.this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println(filePath);
+            pairInTriple = PairInTriple.TRAJ_13;
+            openTripletTrajectoryData(filePath);
+        }
     }//GEN-LAST:event_openTrajectDataTriplet13ActionPerformed
 
     private void openTrajectDataTriplet23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTrajectDataTriplet23ActionPerformed
-        // TODO add your handling code here:
+        int returnVal = fileChooser.showOpenDialog(AnalyticsDelayUI.this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println(filePath);
+            pairInTriple = PairInTriple.TRAJ_23;
+            openTripletTrajectoryData(filePath);
+        }
     }//GEN-LAST:event_openTrajectDataTriplet23ActionPerformed
 
     private void compareToFrechetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compareToFrechetCheckBoxActionPerformed
