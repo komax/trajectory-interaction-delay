@@ -94,6 +94,10 @@ public final class DistancePlotPanel extends GenericPlottingPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
+        if (distancesOnMatching.length == 0) {
+            return;
+        }
+        
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(1));
         DoublePoint2D previousPoint = new DoublePoint2D(0, distancesOnMatching[0] / maxDistance);
