@@ -16,6 +16,7 @@ $ ant
 (Or compile and build the project within the IDE Netbeans)
 
 # Data Format
+You can find example files in `data` folder
 ## A Pair of Trajectories
 ```
          t     bx     by     ax     ay
