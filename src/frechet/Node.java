@@ -286,10 +286,10 @@ public class Node {
                         // Do not follow the shortcut if the parent is already the root.
                         thisNode = thisNode.parent;
                     } else {
-                        if (thisNode.parent.shortcutRight == null) {
-                            System.out.println(thisNode);
-                            System.out.println(thisNode.parent);
-                        }
+                        //if (thisNode.parent.shortcutRight == null) {
+                        //    System.out.println(thisNode);
+                        //    System.out.println(thisNode.parent);
+                        //}
                         // Check whether the value of the parent's shortcut has a larger value.
                         thisMaxValue = Math.max(thisMaxValue, thisNode.parent.shortcutRight.getMaxValue());
                         // Follow the shorctut of the parent.

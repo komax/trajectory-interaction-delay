@@ -77,7 +77,7 @@ public class TripleFrechetMatching {
         frechetDP.computeFrechetDistance();
         IntTriple bottleneck = frechetDP.getBottleneck();
         IntTriple leftBottleneck = frechetDP.getLeftBottleneck();
-        System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd+ " d_bottleneck = " + frechetDP.getFrechetDistance());
+        //System.out.println("leftEnd = "+leftEnd+" bottleneck = "+bottleneck+ " rightEnd="+rightEnd+ " d_bottleneck = " + frechetDP.getFrechetDistance());
   
         // Recurse if the boundries are distinct from the bottleneck.
         List<IntTriple> leftEdges;

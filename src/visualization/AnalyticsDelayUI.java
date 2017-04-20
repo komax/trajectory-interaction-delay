@@ -775,7 +775,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
-            System.out.println(filePath);
             openPairwiseTrajectoryData(filePath);
         }
     }//GEN-LAST:event_openTrajectDataPairwiseActionPerformed
@@ -786,7 +785,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
-            System.out.println(filePath);
             pairInTriple = PairInTriple.TRAJ_12;
             openTripletTrajectoryData(filePath);
         }
@@ -798,7 +796,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
-            System.out.println(filePath);
             pairInTriple = PairInTriple.TRAJ_13;
             openTripletTrajectoryData(filePath);
         }
@@ -810,7 +807,6 @@ public class AnalyticsDelayUI extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String filePath = selectedFile.getAbsolutePath();
-            System.out.println(filePath);
             pairInTriple = PairInTriple.TRAJ_23;
             openTripletTrajectoryData(filePath);
         }
